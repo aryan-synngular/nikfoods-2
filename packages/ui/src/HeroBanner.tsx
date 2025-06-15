@@ -14,9 +14,9 @@ export const HeroBanner = () => {
       style={{
         position: 'relative',
         width: '100%',
-        height: 500,
+        height: 400,
         overflow: 'hidden',
-        
+
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -32,7 +32,7 @@ export const HeroBanner = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          opacity: .8,
+          opacity: 0.8,
           backgroundImage: 'url(/images/pattern-bg.png)',
           backgroundSize: 'cover',
           zIndex: 1,
@@ -48,7 +48,7 @@ export const HeroBanner = () => {
           zIndex: 2,
         }}
       >
-                <Image
+        <Image
           source={{ uri: '/images/banner-text.png' }}
           style={{
             width: 400,
@@ -56,7 +56,7 @@ export const HeroBanner = () => {
             resizeMode: 'contain',
           }}
         />
-        
+
         <Text
           style={{
             fontSize: 18,
@@ -66,7 +66,8 @@ export const HeroBanner = () => {
             fontFamily: 'Nunito',
           }}
         >
-          Order your favorite curries, biryanis, and more for convenient delivery across United States and{' '}
+          Order your favorite curries, biryanis, and more for convenient delivery across United
+          States and{' '}
           <Text style={{ color: primary, fontFamily: 'Nunito' }}>we do free deliveries too!</Text>
         </Text>
         <Button
@@ -83,7 +84,9 @@ export const HeroBanner = () => {
             marginTop: 10,
           }}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold', marginRight: 8, fontFamily: 'Nunito' }}>
+          <Text
+            style={{ color: 'white', fontWeight: 'bold', marginRight: 8, fontFamily: 'Nunito' }}
+          >
             Schedule your weekly meal
           </Text>
           <ArrowRight color="white" size={18} />

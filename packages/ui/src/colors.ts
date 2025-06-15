@@ -8,24 +8,25 @@ export const colors = {
   primary: '#f89c35',
   primaryLight: '#fbb76a',
   primaryDark: '#d47b1a',
-  
+
   // UI colors
   background: '#ffffff',
   backgroundDark: '#f5f5f5',
   text: '#333333',
   textLight: '#666666',
   textDark: '#111111',
-  
+  categoryCardBg: '#FFF4E4',
+
   // Feedback colors
   success: '#4caf50',
   error: '#f44336',
   warning: '#ff9800',
   info: '#2196f3',
-  
+
   // Border and shadow
   border: '#e0e0e0',
   shadow: 'rgba(0, 0, 0, 0.1)',
-  
+
   // Misc
   divider: '#eeeeee',
   overlay: 'rgba(0, 0, 0, 0.5)',
@@ -54,5 +55,5 @@ export const {
   border,
   shadow,
   divider,
-  overlay
+  overlay,
 } = colors

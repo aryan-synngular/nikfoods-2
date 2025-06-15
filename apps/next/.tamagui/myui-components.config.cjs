@@ -1535,13 +1535,13 @@ var require_hook2 = __commonJS({
     var singleton_1 = require_singleton();
     var styleHookSingleton = /* @__PURE__ */ __name(function() {
       var sheet = (0, singleton_1.stylesheetSingleton)();
-      return function(styles, isDynamic) {
+      return function(styles2, isDynamic) {
         React86.useEffect(function() {
-          sheet.add(styles);
+          sheet.add(styles2);
           return function() {
             sheet.remove();
           };
-        }, [styles && isDynamic]);
+        }, [styles2 && isDynamic]);
       };
     }, "styleHookSingleton");
     exports2.styleHookSingleton = styleHookSingleton;
@@ -1558,8 +1558,8 @@ var require_component = __commonJS({
     var styleSingleton = /* @__PURE__ */ __name(function() {
       var useStyle2 = (0, hook_1.styleHookSingleton)();
       var Sheet2 = /* @__PURE__ */ __name(function(_a) {
-        var styles = _a.styles, dynamic = _a.dynamic;
-        useStyle2(styles, dynamic);
+        var styles2 = _a.styles, dynamic = _a.dynamic;
+        useStyle2(styles2, dynamic);
         return null;
       }, "Sheet");
       return Sheet2;
@@ -1755,11 +1755,11 @@ var require_handleScroll = __commonJS({
       if (!(node instanceof Element)) {
         return false;
       }
-      var styles = window.getComputedStyle(node);
+      var styles2 = window.getComputedStyle(node);
       return (
         // not-not-scrollable
-        styles[overflow] !== "hidden" && // contains scroll inside self
-        !(styles.overflowY === styles.overflowX && !alwaysContainsScroll(node) && styles[overflow] === "visible")
+        styles2[overflow] !== "hidden" && // contains scroll inside self
+        !(styles2.overflowY === styles2.overflowX && !alwaysContainsScroll(node) && styles2[overflow] === "visible")
       );
     }, "elementCanBeScrolled");
     var elementCouldBeVScrolled = /* @__PURE__ */ __name(function(node) {
@@ -5141,18 +5141,18 @@ var require_styleq = __commonJS({
         var className = "";
         var inlineStyle = null;
         var nextCache = disableCache ? null : cache3;
-        var styles = new Array(arguments.length);
+        var styles2 = new Array(arguments.length);
         for (var i = 0; i < arguments.length; i++) {
-          styles[i] = arguments[i];
+          styles2[i] = arguments[i];
         }
-        while (styles.length > 0) {
-          var possibleStyle = styles.pop();
+        while (styles2.length > 0) {
+          var possibleStyle = styles2.pop();
           if (possibleStyle == null || possibleStyle === false) {
             continue;
           }
           if (Array.isArray(possibleStyle)) {
             for (var _i = 0; _i < possibleStyle.length; _i++) {
-              styles.push(possibleStyle[_i]);
+              styles2.push(possibleStyle[_i]);
             }
             continue;
           }
@@ -5786,7 +5786,7 @@ var require_StyleSheet = __commonJS({
       shadow: true,
       textShadow: true
     };
-    function customStyleq(styles, options) {
+    function customStyleq(styles2, options) {
       if (options === void 0) {
         options = {};
       }
@@ -5800,7 +5800,7 @@ var require_StyleSheet = __commonJS({
           }
           return (0, _preprocess.preprocess)(style, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, defaultPreprocessOptions), preprocessOptions));
         }
-      })(styles);
+      })(styles2);
     }
     __name(customStyleq, "customStyleq");
     function insertRules(compiledOrderedRules) {
@@ -5836,9 +5836,9 @@ var require_StyleSheet = __commonJS({
     var absoluteFill = create({
       x: (0, _objectSpread2.default)({}, absoluteFillObject)
     }).x;
-    function create(styles) {
-      Object.keys(styles).forEach((key) => {
-        var styleObj = styles[key];
+    function create(styles2) {
+      Object.keys(styles2).forEach((key) => {
+        var styleObj = styles2[key];
         if (styleObj != null && styleObj.$$css !== true) {
           var compiledStyles;
           if (key.indexOf("$raw") > -1) {
@@ -5846,14 +5846,14 @@ var require_StyleSheet = __commonJS({
           } else {
             if (process.env.NODE_ENV !== "production") {
               (0, _validate.validate)(styleObj);
-              styles[key] = Object.freeze(styleObj);
+              styles2[key] = Object.freeze(styleObj);
             }
             compiledStyles = compileAndInsertAtomic(styleObj);
           }
           staticStyleMap.set(styleObj, compiledStyles);
         }
       });
-      return styles;
+      return styles2;
     }
     __name(create, "create");
     function compose(style1, style2) {
@@ -5868,10 +5868,10 @@ var require_StyleSheet = __commonJS({
     }
     __name(compose, "compose");
     function flatten() {
-      for (var _len = arguments.length, styles = new Array(_len), _key = 0; _key < _len; _key++) {
-        styles[_key] = arguments[_key];
+      for (var _len = arguments.length, styles2 = new Array(_len), _key = 0; _key < _len; _key++) {
+        styles2[_key] = arguments[_key];
       }
-      var flatArray = styles.flat(Infinity);
+      var flatArray = styles2.flat(Infinity);
       var result = {};
       for (var i = 0; i < flatArray.length; i++) {
         var style = flatArray[i];
@@ -5889,29 +5889,29 @@ var require_StyleSheet = __commonJS({
       };
     }
     __name(getSheet, "getSheet");
-    function StyleSheet(styles, options) {
+    function StyleSheet2(styles2, options) {
       if (options === void 0) {
         options = {};
       }
       var isRTL2 = options.writingDirection === "rtl";
-      var styleProps = customStyleq(styles, options);
+      var styleProps = customStyleq(styles2, options);
       if (Array.isArray(styleProps) && styleProps[1] != null) {
         styleProps[1] = (0, _compiler.inline)(styleProps[1], isRTL2);
       }
       return styleProps;
     }
-    __name(StyleSheet, "StyleSheet");
-    StyleSheet.absoluteFill = absoluteFill;
-    StyleSheet.absoluteFillObject = absoluteFillObject;
-    StyleSheet.create = create;
-    StyleSheet.compose = compose;
-    StyleSheet.flatten = flatten;
-    StyleSheet.getSheet = getSheet;
-    StyleSheet.hairlineWidth = 1;
+    __name(StyleSheet2, "StyleSheet");
+    StyleSheet2.absoluteFill = absoluteFill;
+    StyleSheet2.absoluteFillObject = absoluteFillObject;
+    StyleSheet2.create = create;
+    StyleSheet2.compose = compose;
+    StyleSheet2.flatten = flatten;
+    StyleSheet2.getSheet = getSheet;
+    StyleSheet2.hairlineWidth = 1;
     if (_canUseDom.default && window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__.resolveRNStyle = StyleSheet.flatten;
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__.resolveRNStyle = StyleSheet2.flatten;
     }
-    var stylesheet = StyleSheet;
+    var stylesheet = StyleSheet2;
     var _default = exports2.default = stylesheet;
     module2.exports = exports2.default;
   }
@@ -6610,14 +6610,14 @@ var require_setValueForStyles = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _dangerousStyleValue = _interopRequireDefault(require_dangerousStyleValue());
-    function setValueForStyles(node, styles) {
+    function setValueForStyles(node, styles2) {
       var style = node.style;
-      for (var styleName in styles) {
-        if (!styles.hasOwnProperty(styleName)) {
+      for (var styleName in styles2) {
+        if (!styles2.hasOwnProperty(styleName)) {
           continue;
         }
         var isCustomProperty = styleName.indexOf("--") === 0;
-        var styleValue = (0, _dangerousStyleValue.default)(styleName, styles[styleName], isCustomProperty);
+        var styleValue = (0, _dangerousStyleValue.default)(styleName, styles2[styleName], isCustomProperty);
         if (styleName === "float") {
           styleName = "cssFloat";
         }
@@ -6893,7 +6893,7 @@ var require_Platform = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.default = void 0;
-    var Platform8 = {
+    var Platform9 = {
       OS: "web",
       select: /* @__PURE__ */ __name((obj) => "web" in obj ? obj.web : obj.default, "select"),
       get isTesting() {
@@ -6903,7 +6903,7 @@ var require_Platform = __commonJS({
         return false;
       }
     };
-    var _default = exports2.default = Platform8;
+    var _default = exports2.default = Platform9;
     module2.exports = exports2.default;
   }
 });
@@ -8285,7 +8285,7 @@ var require_View = __commonJS({
       pointerEvents: true
     });
     var pickProps = /* @__PURE__ */ __name((props) => (0, _pick.default)(props, forwardPropsList), "pickProps");
-    var View13 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
+    var View14 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
       var hrefAttrs = props.hrefAttrs, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       if (process.env.NODE_ENV !== "production") {
         React86.Children.toArray(props.children).forEach((item) => {
@@ -8322,7 +8322,7 @@ var require_View = __commonJS({
       var writingDirection = componentDirection || contextDirection;
       var supportedProps = pickProps(rest);
       supportedProps.dir = componentDirection;
-      supportedProps.style = [styles.view$raw, hasTextAncestor && styles.inline, props.style];
+      supportedProps.style = [styles2.view$raw, hasTextAncestor && styles2.inline, props.style];
       if (props.href != null) {
         component = "a";
         if (hrefAttrs != null) {
@@ -8345,8 +8345,8 @@ var require_View = __commonJS({
         writingDirection
       });
     });
-    View13.displayName = "View";
-    var styles = _StyleSheet.default.create({
+    View14.displayName = "View";
+    var styles2 = _StyleSheet.default.create({
       view$raw: {
         alignItems: "stretch",
         backgroundColor: "transparent",
@@ -8369,7 +8369,7 @@ var require_View = __commonJS({
         display: "inline-flex"
       }
     });
-    var _default = exports2.default = View13;
+    var _default = exports2.default = View14;
     module2.exports = exports2.default;
   }
 });
@@ -8844,10 +8844,10 @@ var require_ScrollViewBase = __commonJS({
         onTouchMove: createPreventableScrollHandler(onTouchMove),
         onWheel: createPreventableScrollHandler(onWheel),
         ref: (0, _useMergeRefs.default)(scrollRef, forwardedRef),
-        style: [style, !scrollEnabled && styles.scrollDisabled, hideScrollbar && styles.hideScrollbar]
+        style: [style, !scrollEnabled && styles2.scrollDisabled, hideScrollbar && styles2.hideScrollbar]
       }));
     });
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       scrollDisabled: {
         overflowX: "hidden",
         overflowY: "hidden",
@@ -9427,7 +9427,7 @@ var require_ScrollView = __commonJS({
           var isSticky = hasStickyHeaderIndices && stickyHeaderIndices.indexOf(i) > -1;
           if (child != null && (isSticky || pagingEnabled)) {
             return /* @__PURE__ */ _react.default.createElement(_View.default, {
-              style: [isSticky && styles.stickyHeader, pagingEnabled && styles.pagingEnabledChild]
+              style: [isSticky && styles2.stickyHeader, pagingEnabled && styles2.pagingEnabledChild]
             }, child);
           } else {
             return child;
@@ -9437,10 +9437,10 @@ var require_ScrollView = __commonJS({
           children,
           collapsable: false,
           ref: this._setInnerViewRef,
-          style: [horizontal && styles.contentContainerHorizontal, centerContent && styles.contentContainerCenterContent, contentContainerStyle]
+          style: [horizontal && styles2.contentContainerHorizontal, centerContent && styles2.contentContainerCenterContent, contentContainerStyle]
         }));
-        var baseStyle = horizontal ? styles.baseHorizontal : styles.baseVertical;
-        var pagingEnabledStyle = horizontal ? styles.pagingEnabledHorizontal : styles.pagingEnabledVertical;
+        var baseStyle = horizontal ? styles2.baseHorizontal : styles2.baseVertical;
+        var pagingEnabledStyle = horizontal ? styles2.pagingEnabledHorizontal : styles2.pagingEnabledVertical;
         var props = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, other), {}, {
           style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
           onTouchStart: this.scrollResponderHandleTouchStart,
@@ -9483,7 +9483,7 @@ var require_ScrollView = __commonJS({
       // iOS native scrolling
       WebkitOverflowScrolling: "touch"
     };
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       baseVertical: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, commonStyle), {}, {
         flexDirection: "column",
         overflowX: "hidden",
@@ -10666,7 +10666,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
           // $FlowFixMe[incompatible-type]
           ItemSeparatorComponent && /* @__PURE__ */ React86.createElement(ItemSeparatorComponent, this.state.separatorProps)
         );
-        var cellStyle = inversionStyle ? horizontal ? [styles.rowReverse, inversionStyle] : [styles.columnReverse, inversionStyle] : horizontal ? [styles.row, inversionStyle] : inversionStyle;
+        var cellStyle = inversionStyle ? horizontal ? [styles2.rowReverse, inversionStyle] : [styles2.columnReverse, inversionStyle] : horizontal ? [styles2.row, inversionStyle] : inversionStyle;
         var result = !CellRendererComponent ? /* @__PURE__ */ React86.createElement(_View.default, (0, _extends2.default)({
           style: cellStyle,
           onFocusCapture: onCellFocusCapture
@@ -10687,7 +10687,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
       }
     };
     exports2.default = CellRenderer;
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       row: {
         flexDirection: "row"
       },
@@ -11703,7 +11703,7 @@ var require_VirtualizedList = __commonJS({
         this._checkProps(this.props);
         var _this$props5 = this.props, ListEmptyComponent = _this$props5.ListEmptyComponent, ListFooterComponent = _this$props5.ListFooterComponent, ListHeaderComponent = _this$props5.ListHeaderComponent;
         var _this$props6 = this.props, data = _this$props6.data, horizontal = _this$props6.horizontal;
-        var inversionStyle = this.props.inverted ? horizontalOrDefault(this.props.horizontal) ? styles.horizontallyInverted : styles.verticallyInverted : null;
+        var inversionStyle = this.props.inverted ? horizontalOrDefault(this.props.horizontal) ? styles2.horizontallyInverted : styles2.verticallyInverted : null;
         var cells = [];
         var stickyIndicesFromProps = new Set(this.props.stickyHeaderIndices);
         var stickyHeaderIndices = [];
@@ -11831,7 +11831,7 @@ var require_VirtualizedList = __commonJS({
         var ret = innerRet;
         if (this.props.debug) {
           return /* @__PURE__ */ React86.createElement(_View.default, {
-            style: styles.debug
+            style: styles2.debug
           }, ret, this._renderDebugOverlay());
         } else {
           return ret;
@@ -11919,20 +11919,20 @@ var require_VirtualizedList = __commonJS({
         var visTop = this._scrollMetrics.offset;
         var visLen = this._scrollMetrics.visibleLength;
         return /* @__PURE__ */ React86.createElement(_View.default, {
-          style: [styles.debugOverlayBase, styles.debugOverlay]
+          style: [styles2.debugOverlayBase, styles2.debugOverlay]
         }, framesInLayout.map((f, ii2) => /* @__PURE__ */ React86.createElement(_View.default, {
           key: "f" + ii2,
-          style: [styles.debugOverlayBase, styles.debugOverlayFrame, {
+          style: [styles2.debugOverlayBase, styles2.debugOverlayFrame, {
             top: f.offset * normalize,
             height: f.length * normalize
           }]
         })), /* @__PURE__ */ React86.createElement(_View.default, {
-          style: [styles.debugOverlayBase, styles.debugOverlayFrameLast, {
+          style: [styles2.debugOverlayBase, styles2.debugOverlayFrameLast, {
             top: windowTop * normalize,
             height: windowLen * normalize
           }]
         }), /* @__PURE__ */ React86.createElement(_View.default, {
-          style: [styles.debugOverlayBase, styles.debugOverlayFrameVis, {
+          style: [styles2.debugOverlayBase, styles2.debugOverlayFrameVis, {
             top: visTop * normalize,
             height: visLen * normalize
           }]
@@ -12017,7 +12017,7 @@ var require_VirtualizedList = __commonJS({
       }
     };
     VirtualizedList.contextType = _VirtualizedListContext.VirtualizedListContext;
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       verticallyInverted: {
         transform: "scaleY(-1)"
       },
@@ -12295,7 +12295,7 @@ var require_FlatList = __commonJS({
               var _item2 = info2.item, _index = info2.index;
               (0, _invariant.default)(Array.isArray(_item2), "Expected array of items with numColumns > 1");
               return /* @__PURE__ */ React86.createElement(_View.default, {
-                style: [styles.row, columnWrapperStyle]
+                style: [styles2.row, columnWrapperStyle]
               }, _item2.map((it, kk) => {
                 var element = render({
                   // $FlowFixMe[incompatible-call]
@@ -12404,7 +12404,7 @@ var require_FlatList = __commonJS({
         );
       }
     };
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       row: {
         flexDirection: "row"
       }
@@ -12901,8 +12901,8 @@ var require_NativeAnimatedHelper = __commonJS({
       });
     }
     __name(validateTransform, "validateTransform");
-    function validateStyles(styles) {
-      for (var _key2 in styles) {
+    function validateStyles(styles2) {
+      for (var _key2 in styles2) {
         if (!isSupportedStyleProp(_key2)) {
           throw new Error("Style property '" + _key2 + "' is not supported by native animated module");
         }
@@ -14784,7 +14784,7 @@ var require_Image = __commonJS({
       var backgroundSize = getBackgroundSize();
       var hiddenImage = displayImageUri ? (0, _createElement.default)("img", {
         alt: ariaLabel || "",
-        style: styles.accessibilityImage$raw,
+        style: styles2.accessibilityImage$raw,
         draggable: draggable || false,
         ref: hiddenImageRef,
         src: displayImageUri
@@ -14855,11 +14855,11 @@ var require_Image = __commonJS({
         pointerEvents,
         ref,
         style: [
-          styles.root,
-          hasTextAncestor && styles.inline,
+          styles2.root,
+          hasTextAncestor && styles2.inline,
           imageSizeStyle,
           style,
-          styles.undo,
+          styles2.undo,
           // TEMP: avoid deprecated shadow props regression
           // until Image refactored to use createElement.
           {
@@ -14867,7 +14867,7 @@ var require_Image = __commonJS({
           }
         ]
       }), /* @__PURE__ */ React86.createElement(_View.default, {
-        style: [styles.image, resizeModeStyles[resizeMode], {
+        style: [styles2.image, resizeModeStyles[resizeMode], {
           backgroundImage,
           filter
         }, backgroundSize != null && {
@@ -14887,7 +14887,7 @@ var require_Image = __commonJS({
     ImageWithStatics.queryCache = function(uris) {
       return _ImageLoader.default.queryCache(uris);
     };
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       root: {
         flexBasis: "auto",
         overflow: "hidden",
@@ -15522,7 +15522,7 @@ var require_Text = __commonJS({
       }
       supportedProps.style = [numberOfLines != null && numberOfLines > 1 && {
         WebkitLineClamp: numberOfLines
-      }, hasTextAncestor === true ? styles.textHasAncestor$raw : styles.text$raw, numberOfLines === 1 && styles.textOneLine, numberOfLines != null && numberOfLines > 1 && styles.textMultiLine, props.style, selectable === true && styles.selectable, selectable === false && styles.notSelectable, onPress && styles.pressable];
+      }, hasTextAncestor === true ? styles2.textHasAncestor$raw : styles2.text$raw, numberOfLines === 1 && styles2.textOneLine, numberOfLines != null && numberOfLines > 1 && styles2.textMultiLine, props.style, selectable === true && styles2.selectable, selectable === false && styles2.notSelectable, onPress && styles2.pressable];
       if (props.href != null) {
         component = "a";
         if (hrefAttrs != null) {
@@ -15565,7 +15565,7 @@ var require_Text = __commonJS({
       whiteSpace: "pre-wrap",
       wordWrap: "break-word"
     };
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       text$raw: textStyle,
       textHasAncestor$raw: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, textStyle), {}, {
         color: "inherit",
@@ -18095,7 +18095,7 @@ var require_AppContainer = __commonJS({
       var innerView = /* @__PURE__ */ React86.createElement(_View.default, {
         children,
         key: 1,
-        style: styles.appContainer
+        style: styles2.appContainer
       });
       if (WrapperComponent) {
         innerView = /* @__PURE__ */ React86.createElement(WrapperComponent, null, innerView);
@@ -18104,12 +18104,12 @@ var require_AppContainer = __commonJS({
         value: props.rootTag
       }, /* @__PURE__ */ React86.createElement(_View.default, {
         ref: forwardedRef,
-        style: styles.appContainer
+        style: styles2.appContainer
       }, innerView));
     });
     AppContainer.displayName = "AppContainer";
     var _default = exports2.default = AppContainer;
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       appContainer: {
         flex: 1,
         pointerEvents: "box-none"
@@ -19237,17 +19237,17 @@ var require_ActivityIndicator = __commonJS({
         "aria-valuemin": 0,
         ref: forwardedRef,
         role: "progressbar",
-        style: [styles.container, style]
+        style: [styles2.container, style]
       }), /* @__PURE__ */ React86.createElement(_View.default, {
         children: svg,
         style: [typeof size5 === "number" ? {
           height: size5,
           width: size5
-        } : indicatorSizes[size5], styles.animation, !animating && styles.animationPause, !animating && hidesWhenStopped && styles.hidesWhenStopped]
+        } : indicatorSizes[size5], styles2.animation, !animating && styles2.animationPause, !animating && hidesWhenStopped && styles2.hidesWhenStopped]
       }));
     });
     ActivityIndicator2.displayName = "ActivityIndicator";
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       container: {
         alignItems: "center",
         justifyContent: "center"
@@ -19767,7 +19767,7 @@ var require_TouchableOpacity = __commonJS({
         focusable: !disabled && focusable !== false,
         pointerEvents: disabled ? "box-none" : void 0,
         ref: setRef2,
-        style: [styles.root, !disabled && styles.actionable, style, opacityOverride != null && {
+        style: [styles2.root, !disabled && styles2.actionable, style, opacityOverride != null && {
           opacity: opacityOverride
         }, {
           transitionDuration: duration
@@ -19775,7 +19775,7 @@ var require_TouchableOpacity = __commonJS({
       }));
     }
     __name(TouchableOpacity, "TouchableOpacity");
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       root: {
         transitionProperty: "opacity",
         transitionDuration: "0.15s",
@@ -19814,16 +19814,16 @@ var require_Button = __commonJS({
         focusable: !disabled,
         onPress,
         ref: forwardedRef,
-        style: [styles.button, color && {
+        style: [styles2.button, color && {
           backgroundColor: color
-        }, disabled && styles.buttonDisabled],
+        }, disabled && styles2.buttonDisabled],
         testID
       }, /* @__PURE__ */ React86.createElement(_Text.default, {
-        style: [styles.text, disabled && styles.textDisabled]
+        style: [styles2.text, disabled && styles2.textDisabled]
       }, title));
     });
     Button.displayName = "Button";
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       button: {
         backgroundColor: "#2196F3",
         borderRadius: 2
@@ -19875,15 +19875,15 @@ var require_CheckBox = __commonJS({
       __name(handleChange, "handleChange");
       var fakeControl = /* @__PURE__ */ React86.createElement(_View.default, {
         style: [
-          styles.fakeControl,
-          value && styles.fakeControlChecked,
+          styles2.fakeControl,
+          value && styles2.fakeControlChecked,
           // custom color
           value && color && {
             backgroundColor: color,
             borderColor: color
           },
-          disabled && styles.fakeControlDisabled,
-          value && disabled && styles.fakeControlCheckedAndDisabled
+          disabled && styles2.fakeControlDisabled,
+          value && disabled && styles2.fakeControlCheckedAndDisabled
         ]
       });
       var nativeControl = (0, _createElement.default)("input", {
@@ -19892,17 +19892,17 @@ var require_CheckBox = __commonJS({
         onChange: handleChange,
         readOnly: readOnly === true || ariaReadOnly === true || other.accessibilityReadOnly === true,
         ref: forwardedRef,
-        style: [styles.nativeControl, styles.cursorInherit],
+        style: [styles2.nativeControl, styles2.cursorInherit],
         type: "checkbox"
       });
       return /* @__PURE__ */ React86.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-disabled": disabled,
         "aria-readonly": ariaReadOnly,
-        style: [styles.root, style, disabled && styles.cursorDefault]
+        style: [styles2.root, style, disabled && styles2.cursorDefault]
       }), fakeControl, nativeControl);
     });
     CheckBox.displayName = "CheckBox";
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       root: {
         cursor: "pointer",
         height: 16,
@@ -20102,7 +20102,7 @@ var require_ModalAnimation = __commonJS({
       if (animationType === "fade") {
         return visible ? animatedFadeInStyles : animatedFadeOutStyles;
       }
-      return visible ? styles.container : styles.hidden;
+      return visible ? styles2.container : styles2.hidden;
     }
     __name(getAnimationStyle, "getAnimationStyle");
     function ModalAnimation(props) {
@@ -20139,13 +20139,13 @@ var require_ModalAnimation = __commonJS({
         wasVisible.current = visible;
       }, [isAnimated, visible, animationEndCallback]);
       return isRendering || visible ? (0, _createElement.default)("div", {
-        style: isRendering ? getAnimationStyle(animationType, visible) : styles.hidden,
+        style: isRendering ? getAnimationStyle(animationType, visible) : styles2.hidden,
         onAnimationEnd: animationEndCallback,
         children
       }) : null;
     }
     __name(ModalAnimation, "ModalAnimation");
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       container: {
         position: "fixed",
         top: 0,
@@ -20211,10 +20211,10 @@ var require_ModalAnimation = __commonJS({
         opacity: 0
       }
     });
-    var animatedSlideInStyles = [styles.container, styles.animatedIn, styles.slideIn];
-    var animatedSlideOutStyles = [styles.container, styles.animatedOut, styles.slideOut];
-    var animatedFadeInStyles = [styles.container, styles.animatedIn, styles.fadeIn];
-    var animatedFadeOutStyles = [styles.container, styles.animatedOut, styles.fadeOut];
+    var animatedSlideInStyles = [styles2.container, styles2.animatedIn, styles2.slideIn];
+    var animatedSlideOutStyles = [styles2.container, styles2.animatedOut, styles2.slideOut];
+    var animatedFadeInStyles = [styles2.container, styles2.animatedIn, styles2.fadeIn];
+    var animatedFadeOutStyles = [styles2.container, styles2.animatedOut, styles2.fadeOut];
     var _default = exports2.default = ModalAnimation;
     module2.exports = exports2.default;
   }
@@ -20252,7 +20252,7 @@ var require_ModalContent = __commonJS({
         }
       }, [active, onRequestClose]);
       var style = React86.useMemo(() => {
-        return [styles.modal, transparent ? styles.modalTransparent : styles.modalOpaque];
+        return [styles2.modal, transparent ? styles2.modalTransparent : styles2.modalOpaque];
       }, [transparent]);
       return /* @__PURE__ */ React86.createElement(_View.default, (0, _extends2.default)({}, rest, {
         "aria-modal": true,
@@ -20260,10 +20260,10 @@ var require_ModalContent = __commonJS({
         role: active ? "dialog" : null,
         style
       }), /* @__PURE__ */ React86.createElement(_View.default, {
-        style: styles.container
+        style: styles2.container
       }, children));
     });
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       modal: {
         position: "fixed",
         top: 0,
@@ -20305,7 +20305,7 @@ var require_ModalFocusTrap = __commonJS({
       return (0, _createElement.default)("div", {
         role: "none",
         tabIndex: 0,
-        style: styles.focusBracket
+        style: styles2.focusBracket
       });
     }, "FocusBracket");
     function attemptFocus(element) {
@@ -20388,7 +20388,7 @@ var require_ModalFocusTrap = __commonJS({
       }, children), /* @__PURE__ */ React86.createElement(FocusBracket, null));
     }, "ModalFocusTrap");
     var _default = exports2.default = ModalFocusTrap;
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       focusBracket: {
         outlineStyle: "none"
       }
@@ -20543,7 +20543,7 @@ var require_Picker = __commonJS({
         children,
         disabled: enabled === false ? true : void 0,
         onChange: handleChange,
-        style: [styles.initial, style],
+        style: [styles2.initial, style],
         testID,
         value: selectedValue
       }, other);
@@ -20553,7 +20553,7 @@ var require_Picker = __commonJS({
       return (0, _createElement.default)("select", supportedProps);
     });
     Picker.Item = _PickerItem.default;
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       initial: {
         fontFamily: "System",
         fontSize: "inherit",
@@ -21077,7 +21077,7 @@ var require_Pressable = __commonJS({
         onFocus: focusHandler,
         onKeyDown: keyDownHandler,
         ref: setRef2,
-        style: [disabled ? styles.disabled : styles.active, typeof style === "function" ? style(interactionState) : style],
+        style: [disabled ? styles2.disabled : styles2.active, typeof style === "function" ? style(interactionState) : style],
         tabIndex: _tabIndex
       }), typeof children === "function" ? children(interactionState) : children);
     }
@@ -21087,7 +21087,7 @@ var require_Pressable = __commonJS({
       return [bool || forced, setBool];
     }
     __name(useForceableState, "useForceableState");
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       active: {
         cursor: "pointer",
         touchAction: "manipulation"
@@ -21128,18 +21128,18 @@ var require_ProgressBar = __commonJS({
         "aria-valuenow": indeterminate ? null : percentageProgress,
         ref,
         role: "progressbar",
-        style: [styles.track, style, {
+        style: [styles2.track, style, {
           backgroundColor: trackColor
         }]
       }), /* @__PURE__ */ React86.createElement(_View.default, {
         style: [{
           backgroundColor: color,
           width
-        }, styles.progress, indeterminate && styles.animation]
+        }, styles2.progress, indeterminate && styles2.animation]
       }));
     });
     ProgressBar.displayName = "ProgressBar";
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       track: {
         forcedColorAdjust: "none",
         height: 5,
@@ -21196,11 +21196,11 @@ var require_SafeAreaView = __commonJS({
       var style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       return /* @__PURE__ */ React86.createElement(_View.default, (0, _extends2.default)({}, rest, {
         ref,
-        style: [styles.root, style]
+        style: [styles2.root, style]
       }));
     });
     SafeAreaView.displayName = "SafeAreaView";
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       root: {
         paddingTop: cssFunction + "(safe-area-inset-top)",
         paddingRight: cssFunction + "(safe-area-inset-right)",
@@ -21287,7 +21287,7 @@ var require_Switch = __commonJS({
     var defaultActiveThumbColor = "#009688";
     var defaultThumbColor = "#FAFAFA";
     var defaultDisabledThumbColor = "#BDBDBD";
-    var Switch2 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
+    var Switch3 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
       var ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, activeThumbColor = props.activeThumbColor, activeTrackColor = props.activeTrackColor, _props$disabled = props.disabled, disabled = _props$disabled === void 0 ? false : _props$disabled, onValueChange = props.onValueChange, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, thumbColor = props.thumbColor, trackColor = props.trackColor, _props$value = props.value, value = _props$value === void 0 ? false : _props$value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var thumbRef = React86.useRef(null);
       function handleChange(event) {
@@ -21327,7 +21327,7 @@ var require_Switch = __commonJS({
       var thumbCurrentColor = value ? activeThumbColor !== null && activeThumbColor !== void 0 ? activeThumbColor : defaultActiveThumbColor : thumbColor !== null && thumbColor !== void 0 ? thumbColor : defaultThumbColor;
       var thumbHeight = height;
       var thumbWidth = thumbHeight;
-      var rootStyle = [styles.root, style, disabled && styles.cursorDefault, {
+      var rootStyle = [styles2.root, style, disabled && styles2.cursorDefault, {
         height,
         width
       }];
@@ -21361,11 +21361,11 @@ var require_Switch = __commonJS({
           }
         }
       }();
-      var trackStyle = [styles.track, {
+      var trackStyle = [styles2.track, {
         backgroundColor: disabled ? disabledTrackColor : trackCurrentColor,
         borderRadius: trackBorderRadius
       }];
-      var thumbStyle = [styles.thumb, value && styles.thumbActive, {
+      var thumbStyle = [styles2.thumb, value && styles2.thumbActive, {
         backgroundColor: disabled ? disabledThumbColor : thumbCurrentColor,
         height: thumbHeight,
         marginStart: value ? (0, _multiplyStyleLengthValue.default)(thumbWidth, -1) : 0,
@@ -21379,7 +21379,7 @@ var require_Switch = __commonJS({
         onChange: handleChange,
         onFocus: handleFocusState,
         ref: forwardedRef,
-        style: [styles.nativeControl, styles.cursorInherit],
+        style: [styles2.nativeControl, styles2.cursorInherit],
         type: "checkbox",
         role: "switch"
       });
@@ -21392,8 +21392,8 @@ var require_Switch = __commonJS({
         style: thumbStyle
       }), nativeControl);
     });
-    Switch2.displayName = "Switch";
-    var styles = _StyleSheet.default.create({
+    Switch3.displayName = "Switch";
+    var styles2 = _StyleSheet.default.create({
       root: {
         cursor: "pointer",
         userSelect: "none"
@@ -21432,7 +21432,7 @@ var require_Switch = __commonJS({
         width: "100%"
       })
     });
-    var _default = exports2.default = Switch2;
+    var _default = exports2.default = Switch3;
     module2.exports = exports2.default;
   }
 });
@@ -21497,7 +21497,7 @@ var require_TextInput = __commonJS({
     }
     __name(isEventComposing, "isEventComposing");
     var focusTimeout = null;
-    var TextInput2 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
+    var TextInput3 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
       var _props$autoCapitalize = props.autoCapitalize, autoCapitalize = _props$autoCapitalize === void 0 ? "sentences" : _props$autoCapitalize, autoComplete = props.autoComplete, autoCompleteType = props.autoCompleteType, _props$autoCorrect = props.autoCorrect, autoCorrect = _props$autoCorrect === void 0 ? true : _props$autoCorrect, blurOnSubmit = props.blurOnSubmit, caretHidden = props.caretHidden, clearTextOnFocus = props.clearTextOnFocus, dir = props.dir, editable = props.editable, enterKeyHint = props.enterKeyHint, inputMode = props.inputMode, keyboardType = props.keyboardType, _props$multiline = props.multiline, multiline = _props$multiline === void 0 ? false : _props$multiline, numberOfLines = props.numberOfLines, onBlur = props.onBlur, onChange = props.onChange, onChangeText = props.onChangeText, onContentSizeChange = props.onContentSizeChange, onFocus = props.onFocus, onKeyPress = props.onKeyPress, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChange = props.onSelectionChange, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, onSubmitEditing = props.onSubmitEditing, placeholderTextColor = props.placeholderTextColor, _props$readOnly = props.readOnly, readOnly = _props$readOnly === void 0 ? false : _props$readOnly, returnKeyType = props.returnKeyType, rows = props.rows, _props$secureTextEntr = props.secureTextEntry, secureTextEntry = _props$secureTextEntr === void 0 ? false : _props$secureTextEntr, selection = props.selection, selectTextOnFocus = props.selectTextOnFocus, showSoftInputOnFocus = props.showSoftInputOnFocus, spellCheck = props.spellCheck;
       var type;
       var _inputMode;
@@ -21721,7 +21721,7 @@ var require_TextInput = __commonJS({
       supportedProps.spellCheck = spellCheck != null ? spellCheck : autoCorrect;
       supportedProps.style = [{
         "--placeholderTextColor": placeholderTextColor
-      }, styles.textinput$raw, styles.placeholder, props.style, caretHidden && styles.caretHidden];
+      }, styles2.textinput$raw, styles2.placeholder, props.style, caretHidden && styles2.caretHidden];
       supportedProps.type = multiline ? void 0 : type;
       supportedProps.virtualkeyboardpolicy = showSoftInputOnFocus === false ? "manual" : "auto";
       var platformMethodsRef = (0, _usePlatformMethods.default)(supportedProps);
@@ -21735,9 +21735,9 @@ var require_TextInput = __commonJS({
       });
       return element;
     });
-    TextInput2.displayName = "TextInput";
-    TextInput2.State = _TextInputState.default;
-    var styles = _StyleSheet.default.create({
+    TextInput3.displayName = "TextInput";
+    TextInput3.State = _TextInputState.default;
+    var styles2 = _StyleSheet.default.create({
       textinput$raw: {
         MozAppearance: "textfield",
         WebkitAppearance: "none",
@@ -21757,7 +21757,7 @@ var require_TextInput = __commonJS({
         caretColor: "transparent"
       }
     });
-    var _default = exports2.default = TextInput2;
+    var _default = exports2.default = TextInput3;
     module2.exports = exports2.default;
   }
 });
@@ -22565,13 +22565,13 @@ var require_TouchableHighlight = __commonJS({
         focusable: !disabled && focusable !== false,
         pointerEvents: disabled ? "box-none" : void 0,
         ref: setRef2,
-        style: [styles.root, style, !disabled && styles.actionable, extraStyles && extraStyles.underlay]
+        style: [styles2.root, style, !disabled && styles2.actionable, extraStyles && extraStyles.underlay]
       }), /* @__PURE__ */ React86.cloneElement(child, {
         style: [child.props.style, extraStyles && extraStyles.child]
       }));
     }
     __name(TouchableHighlight, "TouchableHighlight");
-    var styles = _StyleSheet.default.create({
+    var styles2 = _StyleSheet.default.create({
       root: {
         userSelect: "none"
       },
@@ -22810,10 +22810,10 @@ var require_useWindowDimensions = __commonJS({
     "use client";
     var _interopRequireDefault = require_interopRequireDefault().default;
     exports2.__esModule = true;
-    exports2.default = useWindowDimensions2;
+    exports2.default = useWindowDimensions3;
     var _Dimensions = _interopRequireDefault(require_Dimensions());
     var _react = require("react");
-    function useWindowDimensions2() {
+    function useWindowDimensions3() {
       var _useState = (0, _react.useState)(() => _Dimensions.default.get("window")), dims = _useState[0], setDims = _useState[1];
       (0, _react.useEffect)(() => {
         function handleChange(_ref) {
@@ -22831,7 +22831,7 @@ var require_useWindowDimensions = __commonJS({
       }, []);
       return dims;
     }
-    __name(useWindowDimensions2, "useWindowDimensions");
+    __name(useWindowDimensions3, "useWindowDimensions");
     module2.exports = exports2.default;
   }
 });
@@ -23348,12 +23348,12 @@ var require_constants2 = __commonJS({
       useIsomorphicLayoutEffect: /* @__PURE__ */ __name(() => useIsomorphicLayoutEffect3, "useIsomorphicLayoutEffect")
     });
     module2.exports = __toCommonJS2(constants_exports);
-    var import_react60 = require("react");
+    var import_react62 = require("react");
     var isWeb9 = true;
     var isWindowDefined2 = typeof window < "u";
     var isServer3 = isWeb9 && !isWindowDefined2;
     var isClient4 = isWeb9 && isWindowDefined2;
-    var useIsomorphicLayoutEffect3 = isServer3 ? import_react60.useEffect : import_react60.useLayoutEffect;
+    var useIsomorphicLayoutEffect3 = isServer3 ? import_react62.useEffect : import_react62.useLayoutEffect;
     var isChrome3 = typeof navigator < "u" && /Chrome/.test(navigator.userAgent || "");
     var isWebTouchable3 = isClient4 && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
     var isTouchable3 = !isWeb9 || isWebTouchable3;
@@ -24007,8 +24007,8 @@ var require_ThemeSettingContext = __commonJS({
       ThemeSettingContext: /* @__PURE__ */ __name(() => ThemeSettingContext, "ThemeSettingContext")
     });
     module2.exports = __toCommonJS2(ThemeSettingContext_exports);
-    var import_react60 = __toESM2(require("react"));
-    var ThemeSettingContext = import_react60.default.createContext({
+    var import_react62 = __toESM2(require("react"));
+    var ThemeSettingContext = import_react62.default.createContext({
       toggle: /* @__PURE__ */ __name(() => {
       }, "toggle"),
       set: /* @__PURE__ */ __name((_) => {
@@ -24055,12 +24055,12 @@ var require_NextThemeProvider = __commonJS({
     var import_use_event4 = require_cjs3();
     var import_head = __toESM2(require_head2());
     var React86 = __toESM2(require("react"));
-    var import_react60 = require("react");
+    var import_react62 = require("react");
     var import_constants210 = require_constants3();
     var import_helpers37 = require_helpers();
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var import_jsx_runtime84 = require("react/jsx-runtime");
-    var NextThemeProvider = (0, import_react60.memo)(
+    var import_jsx_runtime86 = require("react/jsx-runtime");
+    var NextThemeProvider = (0, import_react62.memo)(
       ({
         forcedTheme,
         disableTransitionOnChange = false,
@@ -24078,7 +24078,7 @@ var require_NextThemeProvider = __commonJS({
         },
         children
       }) => {
-        const [theme, setThemeState] = (0, import_react60.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react60.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
+        const [theme, setThemeState] = (0, import_react62.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react62.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
           const _ = (0, import_helpers37.getSystemTheme)(e), update = /* @__PURE__ */ __name(() => setResolvedTheme(_), "update");
           disableTransitionOnChange ? update() : React86.startTransition(() => update()), theme === "system" && !forcedTheme && handleChangeTheme(_, false);
         }), handleChangeTheme = (0, import_use_event4.useEvent)(
@@ -24108,7 +24108,7 @@ var require_NextThemeProvider = __commonJS({
         const set = (0, import_use_event4.useEvent)((newTheme) => {
           forcedTheme ? handleChangeTheme(newTheme, true, false) : handleChangeTheme(newTheme), setThemeState(newTheme);
         });
-        (0, import_react60.useEffect)(() => {
+        (0, import_react62.useEffect)(() => {
           const handleStorage = /* @__PURE__ */ __name((e) => {
             if (e.key !== storageKey)
               return;
@@ -24135,7 +24135,7 @@ var require_NextThemeProvider = __commonJS({
         const toggle = (0, import_use_event4.useEvent)(() => {
           const order = resolvedTheme === "dark" ? ["system", "light", "dark"] : ["system", "dark", "light"], next = order[(order.indexOf(theme) + 1) % order.length];
           set(next);
-        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react60.useMemo)(() => ({
+        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react62.useMemo)(() => ({
           theme,
           current: theme,
           set,
@@ -24154,8 +24154,8 @@ var require_NextThemeProvider = __commonJS({
           themes2,
           systemTheme
         ]);
-        return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
             ThemeScript,
             {
               forcedTheme,
@@ -24169,11 +24169,11 @@ var require_NextThemeProvider = __commonJS({
               skipNextHead
             }
           ),
-          (0, import_react60.useMemo)(() => children, [children])
+          (0, import_react62.useMemo)(() => children, [children])
         ] });
       }
     );
-    var ThemeScript = (0, import_react60.memo)(
+    var ThemeScript = (0, import_react62.memo)(
       ({
         forcedTheme,
         storageKey,
@@ -24188,7 +24188,7 @@ var require_NextThemeProvider = __commonJS({
           name2 = value?.[name2] || name2;
           const val = literal ? name2 : `'${name2}'`;
           return attribute === "class" ? `d.add(${val})` : `d.setAttribute('${attribute}', ${val})`;
-        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_jsx_runtime84.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_jsx_runtime86.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24197,7 +24197,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24207,7 +24207,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        ) : /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24218,7 +24218,7 @@ var require_NextThemeProvider = __commonJS({
           },
           "next-themes-script"
         ) });
-        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_head.default, { children: contents });
+        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_head.default, { children: contents });
       },
       (prevProps, nextProps) => prevProps.forcedTheme === nextProps.forcedTheme
     );
@@ -24278,10 +24278,10 @@ var require_useTheme = __commonJS({
       useThemeSetting: /* @__PURE__ */ __name(() => useThemeSetting2, "useThemeSetting")
     });
     module2.exports = __toCommonJS2(useTheme_exports);
-    var import_react60 = __toESM2(require("react"));
+    var import_react62 = __toESM2(require("react"));
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var useTheme7 = /* @__PURE__ */ __name(() => import_react60.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
-    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react60.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
+    var useTheme7 = /* @__PURE__ */ __name(() => import_react62.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
+    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react62.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
   }
 });
 
@@ -24337,7 +24337,7 @@ var require_useRootTheme = __commonJS({
       useRootTheme: /* @__PURE__ */ __name(() => useRootTheme2, "useRootTheme")
     });
     module2.exports = __toCommonJS2(useRootTheme_exports);
-    var import_react60 = __toESM2(require("react"));
+    var import_react62 = __toESM2(require("react"));
     var import_constants57 = require_cjs2();
     var useRootTheme2 = /* @__PURE__ */ __name(({
       fallback = "light"
@@ -24347,7 +24347,7 @@ var require_useRootTheme = __commonJS({
         const classes = [...document.documentElement.classList];
         initialVal = classes.includes("t_dark") ? "dark" : classes.includes("t_light") ? "light" : fallback;
       }
-      return import_react60.default.useState(initialVal);
+      return import_react62.default.useState(initialVal);
     }, "useRootTheme");
   }
 });
@@ -24542,6 +24542,7 @@ __export(src_exports, {
   Range: () => Range,
   ResetPresence: () => ResetPresence,
   ScrollView: () => ScrollView,
+  SearchFood: () => SearchFood,
   Section: () => Section,
   Select: () => Select,
   SelectGroupFrame: () => SelectGroupFrame,
@@ -43930,11 +43931,11 @@ var Bell = themed((0, import_react58.memo)(function(props) {
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Search.mjs
 var import_react59 = require("react");
 var import_react_native_svg3 = require("react-native-svg");
 var import_jsx_runtime81 = require("react/jsx-runtime");
-var ShoppingCart = themed((0, import_react59.memo)(function(props) {
+var Search = themed((0, import_react59.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
@@ -43950,17 +43951,49 @@ var ShoppingCart = themed((0, import_react59.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Circle, {
+    children: [/* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Path, {
+      d: "m21 21-4.34-4.34",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Circle, {
+      cx: "11",
+      cy: "11",
+      r: "8",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
+var import_react60 = require("react");
+var import_react_native_svg4 = require("react-native-svg");
+var import_jsx_runtime82 = require("react/jsx-runtime");
+var ShoppingCart = themed((0, import_react60.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_react_native_svg4.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Circle, {
       cx: "8",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Circle, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Circle, {
       cx: "19",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Path, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
       d: "M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12",
       stroke: color
     })]
@@ -44015,7 +44048,7 @@ var {
 } = colors2;
 
 // ../../packages/ui/src/Header.tsx
-var import_jsx_runtime82 = (
+var import_jsx_runtime83 = (
   // Web version uses absolute URL from public directory
   require("react/jsx-runtime")
 );
@@ -44039,8 +44072,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     fontFamily: "Nunito"
     // Apply Nunito font to the header
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(XStack, { style: headerStyle, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native2.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(XStack, { style: headerStyle, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native2.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
       Image,
       {
         source: { uri: "/images/logo.png" },
@@ -44051,7 +44084,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       }
     ) : (
       // Native version uses require statement for bundled assets
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
         Image,
         {
           source: require_logo(),
@@ -44062,22 +44095,22 @@ var AppHeader = /* @__PURE__ */ __name(() => {
         }
       )
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(ShoppingCart, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Button2, { size: "$3", style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" }, children: "Login" })
+    /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
+      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(ShoppingCart, { size: "$1" }), style: { backgroundColor: "transparent" } }),
+      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" }, children: "Login" })
     ] })
   ] });
 }, "AppHeader");
 
 // ../../packages/ui/src/HeroBanner.tsx
 var import_react_native3 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime83 = require("react/jsx-runtime");
+var import_jsx_runtime84 = require("react/jsx-runtime");
 var HeroBanner = /* @__PURE__ */ __name(() => {
   if (import_react_native3.Platform.OS !== "web") {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
     XStack,
     {
       style: {
@@ -44092,7 +44125,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
         marginTop: 0
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44108,7 +44141,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
           YStack,
           {
             style: {
@@ -44118,33 +44151,18 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               zIndex: 2
             },
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-                Text4,
+              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+                import_react_native3.Image,
                 {
+                  source: { uri: "/images/banner-text.png" },
                   style: {
-                    fontSize: 42,
-                    fontWeight: "bold",
-                    color: "#333",
-                    marginBottom: 10,
-                    fontFamily: "Nunito"
-                  },
-                  children: "Your American Source for"
+                    width: 400,
+                    height: 100,
+                    resizeMode: "contain"
+                  }
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-                Text4,
-                {
-                  style: {
-                    fontSize: 48,
-                    fontWeight: "bold",
-                    color: primary,
-                    marginBottom: 20,
-                    fontFamily: "Nunito"
-                  },
-                  children: "Delicious Indian Food."
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
                 Text4,
                 {
                   style: {
@@ -44157,11 +44175,11 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                   children: [
                     "Order your favorite curries, biryanis, and more for convenient delivery across United States and",
                     " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
+                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
                   ]
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
                 Button2,
                 {
                   style: {
@@ -44177,15 +44195,15 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                     marginTop: 10
                   },
                   children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Text4, { style: { color: "white", fontWeight: "bold", marginRight: 8, fontFamily: "Nunito" }, children: "Schedule your weekly meal" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(ArrowRight, { color: "white", size: 18 })
+                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(Text4, { style: { color: "white", fontWeight: "bold", marginRight: 8, fontFamily: "Nunito" }, children: "Schedule your weekly meal" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(ArrowRight, { color: "white", size: 18 })
                   ]
                 }
               )
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
           XStack,
           {
             style: {
@@ -44193,7 +44211,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               justifyContent: "flex-end",
               zIndex: 2
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
               import_react_native3.Image,
               {
                 source: { uri: "/images/thali-plate.png" },
@@ -44206,7 +44224,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             )
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44222,7 +44240,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44242,6 +44260,125 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
     }
   );
 }, "HeroBanner");
+
+// ../../packages/ui/src/SearchFood.tsx
+var import_react61 = require("react");
+var import_react_native4 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime85 = require("react/jsx-runtime");
+var textLight2 = "#9CA3AF";
+var styles = import_react_native4.StyleSheet.create({
+  container: {
+    paddingTop: 80,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 20
+  },
+  row: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    gap: 12
+  },
+  searchContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 30,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    elevation: 2,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderWidth: 0,
+    backgroundColor: "transparent"
+  },
+  vegToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 30,
+    gap: 4
+  },
+  vegText: {
+    fontSize: 14,
+    fontWeight: "500"
+  }
+});
+function SearchFood({
+  onSearch,
+  onVegToggle,
+  initialQuery = "",
+  initialVegOnly = false
+}) {
+  const [searchQuery, setSearchQuery] = (0, import_react61.useState)(initialQuery);
+  const [vegOnly, setVegOnly] = (0, import_react61.useState)(initialVegOnly);
+  const { width } = (0, import_react_native4.useWindowDimensions)();
+  const getResponsiveWidth = /* @__PURE__ */ __name(() => {
+    if (width < 768) {
+      return "90%";
+    } else if (width >= 768 && width < 1024) {
+      return "75%";
+    } else {
+      return "40%";
+    }
+  }, "getResponsiveWidth");
+  const handleSearch = /* @__PURE__ */ __name((text2) => {
+    setSearchQuery(text2);
+    onSearch?.(text2);
+  }, "handleSearch");
+  const handleVegToggle = /* @__PURE__ */ __name((checked) => {
+    setVegOnly(checked);
+    onVegToggle?.(checked);
+  }, "handleVegToggle");
+  return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth() }], children: [
+    /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Text4, { style: styles.title, children: "Search Your Favorite Food" }),
+    /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: styles.row, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: styles.searchContainer, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Search, { size: 18, color: textLight2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+          import_react_native4.TextInput,
+          {
+            style: styles.searchInput,
+            placeholder: "Search food items",
+            value: searchQuery,
+            onChangeText: handleSearch,
+            placeholderTextColor: textLight2
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: [styles.vegToggle, { backgroundColor: vegOnly ? "#22C55E" : "#F3F4F6" }], children: [
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Text4, { style: [styles.vegText, { color: vegOnly ? "white" : "#4B5563" }], children: "Only Veg" }),
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+          import_react_native4.Switch,
+          {
+            trackColor: { false: "#F3F4F6", true: "#22C55E" },
+            thumbColor: "white",
+            ios_backgroundColor: "#3e3e3e",
+            onValueChange: handleVegToggle,
+            value: vegOnly
+          }
+        )
+      ] })
+    ] })
+  ] });
+}
+__name(SearchFood, "SearchFood");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ACTIONS,
@@ -44374,6 +44511,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
   Range,
   ResetPresence,
   ScrollView,
+  SearchFood,
   Section,
   Select,
   SelectGroupFrame,

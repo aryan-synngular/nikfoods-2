@@ -13,7 +13,7 @@ import {
   useToastController,
   XStack,
   YStack,
-
+  CategoryRail,
 } from '@my/ui'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import { useState } from 'react'
@@ -27,14 +27,14 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   })
   const [searchQuery, setSearchQuery] = useState('')
   const [vegOnly, setVegOnly] = useState(false)
-  
+
   // Handle search and filter actions
   const handleSearch = (query: string) => {
     setSearchQuery(query)
     console.log('Searching for:', query)
     // Here you would typically fetch or filter data based on the query
   }
-  
+
   const handleVegToggle = (isVegOnly: boolean) => {
     setVegOnly(isVegOnly)
     console.log('Veg only:', isVegOnly)
@@ -45,29 +45,30 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
     <YStack flex={1} bg="$background">
       {/* Add AppHeader at the top */}
       <AppHeader />
-      
+
       {/* On mobile, SearchFood appears at the top */}
       {Platform.OS !== 'web' && (
-        <SearchFood 
-          onSearch={handleSearch} 
-          onVegToggle={handleVegToggle} 
-          initialQuery={searchQuery} 
-          initialVegOnly={vegOnly} 
+        <SearchFood
+          onSearch={handleSearch}
+          onVegToggle={handleVegToggle}
+          initialQuery={searchQuery}
+          initialVegOnly={vegOnly}
         />
       )}
-      
+
       {/* HeroBanner only shows on web */}
       <HeroBanner />
-      
+
       {/* On web, SearchFood appears below the HeroBanner */}
       {Platform.OS === 'web' && (
-        <SearchFood 
-          onSearch={handleSearch} 
-          onVegToggle={handleVegToggle} 
-          initialQuery={searchQuery} 
-          initialVegOnly={vegOnly} 
+        <SearchFood
+          onSearch={handleSearch}
+          onVegToggle={handleVegToggle}
+          initialQuery={searchQuery}
+          initialVegOnly={vegOnly}
         />
       )}
+      <CategoryRail />
       <YStack flex={1} justify="center" items="center" gap="$8" p="$4">
         <XStack
           position="absolute"

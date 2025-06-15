@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Text, YStack } from 'tamagui'
-import { Platform, useWindowDimensions, StyleSheet, View, TextInput, Switch } from 'react-native'
+import { Text, YStack, XStack, Switch } from 'tamagui'
+import { Platform, useWindowDimensions, StyleSheet, View, TextInput } from 'react-native'
 import { Search } from '@tamagui/lucide-icons'
+import { success } from './colors'
 
 // Light text color for placeholders and icons
 const textLight = '#9CA3AF'
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 28,
@@ -29,8 +31,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 30,
-    paddingHorizontal: 12,
+    borderRadius: 6,
+    paddingHorizontal: 18,
     paddingVertical: 8,
     borderWidth: 1,
     borderColor: '#E5E7EB',
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   vegText: {
     fontSize: 14,
     fontWeight: '500',
-  }
+  },
 })
 
 export interface SearchFoodProps {
@@ -108,38 +110,50 @@ export function SearchFood({
   }
 
   return (
-    <YStack style={[styles.container, { width: getResponsiveWidth() }]}>
-      <Text style={styles.title}>
-        Search Your Favorite Food
-      </Text>
-      
-      <View style={styles.row}>
-        {/* Search input with rounded corners */}
-        <View style={styles.searchContainer}>
-          <Search size={18} color={textLight} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search food items"
-            value={searchQuery}
-            onChangeText={handleSearch}
-            placeholderTextColor={textLight}
-          />
-        </View>
-        
-        {/* Veg Only toggle with green background */}
-        <View style={[styles.vegToggle, { backgroundColor: vegOnly ? "#22C55E" : "#F3F4F6" }]}>
-          <Text style={[styles.vegText, { color: vegOnly ? "white" : "#4B5563" }]}>
-            Only Veg
+    <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600 }]}>
+      <Text style={styles.title}>Search Your Favorite Food</Text>
+
+      <XStack
+        style={{
+          alignItems: 'center',
+          padding: 12,
+          borderWidth: 1,
+          borderColor: '#E5E7EB',
+          borderRadius: 6,
+          width: '100%',
+          gap: 8,
+          boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.05)',
+        }}
+      >
+        <Search size={18} color={textLight} />
+        <TextInput
+          style={{
+            flex: 1,
+            fontSize: 16,
+            color: '#333',
+            paddingVertical: 0,
+            includeFontPadding: false,
+            textAlignVertical: 'center',
+          }}
+          placeholder="Search food items"
+          value={searchQuery}
+          onChangeText={handleSearch}
+          placeholderTextColor={textLight}
+        />
+        <XStack style={{ alignItems: 'center', gap: 8 }}>
+          <Text fontSize={12} color={vegOnly ? '#4caf50' : textLight}>
+            Veg Only
           </Text>
           <Switch
-            trackColor={{ false: "#F3F4F6", true: "#22C55E" }}
-            thumbColor="white"
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={handleVegToggle}
-            value={vegOnly}
-          />
-        </View>
-      </View>
+            size="$2"
+            checked={vegOnly}
+            onCheckedChange={handleVegToggle}
+            bg={vegOnly ? '#4caf50' : undefined}
+          >
+            <Switch.Thumb animation="bouncy" bg={vegOnly ? 'white' : '#f5f5f5'} />
+          </Switch>
+        </XStack>
+      </XStack>
     </YStack>
   )
 }
