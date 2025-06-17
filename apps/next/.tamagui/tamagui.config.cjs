@@ -32949,85 +32949,6 @@ Expected a subset of: ${expected.join(", ")}
 // ../../node_modules/tamagui/dist/esm/index.mjs
 var import_core22 = require("@tamagui/core");
 
-// ../../packages/config/src/fonts.ts
-var headingFont = (0, import_core22.createFont)({
-  size: {
-    6: 15
-  },
-  transform: {
-    6: "uppercase",
-    7: "none"
-  },
-  weight: {
-    6: "400",
-    7: "700"
-  },
-  color: {
-    6: "$colorFocus",
-    7: "$color"
-  },
-  letterSpacing: {
-    5: 2,
-    6: 1,
-    7: 0,
-    8: -1,
-    9: -2,
-    10: -3,
-    12: -4,
-    14: -5,
-    15: -6
-  },
-  face: {
-    400: { normal: "Nunito_400Regular" },
-    500: { normal: "Nunito_500Medium" },
-    600: { normal: "Nunito_600SemiBold" },
-    700: { normal: "Nunito_700Bold" },
-    800: { normal: "Nunito_800ExtraBold" },
-    900: { normal: "Nunito_900Black" }
-  }
-});
-var bodyFont = (0, import_core22.createFont)({
-  family: "Nunito",
-  face: {
-    400: { normal: "Nunito_400Regular" },
-    500: { normal: "Nunito_500Medium" },
-    600: { normal: "Nunito_600SemiBold" },
-    700: { normal: "Nunito_700Bold" },
-    800: { normal: "Nunito_800ExtraBold" },
-    900: { normal: "Nunito_900Black" }
-  },
-  // Define size and line height directly in the size object
-  size: {
-    // Define specific sizes
-    1: 11,
-    2: 12,
-    3: 13,
-    4: 14,
-    5: 16,
-    6: 18,
-    7: 20,
-    8: 22,
-    9: 30,
-    10: 42,
-    11: 52,
-    12: 62
-  },
-  lineHeight: {
-    1: 15,
-    2: 17,
-    3: 19,
-    4: 21,
-    5: 24,
-    6: 28,
-    7: 32,
-    8: 36,
-    9: 45,
-    10: 55,
-    11: 65,
-    12: 75
-  }
-});
-
 // ../../node_modules/@tamagui/animations-react-native/dist/esm/createAnimations.mjs
 var import_web9 = require("@tamagui/core");
 var import_react33 = __toESM(require("react"), 1);
@@ -33334,12 +33255,48 @@ var animations = createAnimations2({
 });
 
 // ../../packages/config/src/tamagui.config.ts
+var interFont = (0, import_core22.createFont)({
+  family: "var(--font-inter)",
+  size: {
+    1: 12,
+    2: 14,
+    3: 16,
+    4: 18,
+    5: 20,
+    6: 24,
+    7: 30,
+    8: 36,
+    9: 48,
+    10: 60
+  },
+  weight: {
+    4: "400",
+    5: "500",
+    7: "700"
+  },
+  letterSpacing: {
+    4: 0
+  },
+  lineHeight: {
+    1: 16,
+    2: 20,
+    3: 24,
+    4: 28,
+    5: 32,
+    6: 36,
+    7: 42,
+    8: 52,
+    9: 64,
+    10: 76
+  }
+});
 var config = createTamagui({
   ...defaultConfig,
   animations,
   fonts: {
-    body: bodyFont,
-    heading: headingFont
+    body: interFont,
+    heading: interFont,
+    mono: interFont
   }
 });
 // Annotate the CommonJS export names for ESM import in node:

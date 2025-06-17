@@ -1,0 +1,83 @@
+import { Image } from 'react-native'
+import { Text, YStack, XStack, Circle, ZStack } from 'tamagui'
+import { QuantitySelector } from '../buttons/QuantitySelector'
+
+interface FoodCardProps {
+  imageUrl: string
+  name: string
+  price: number
+  onAdd?: () => void
+  onIncrement?: () => void
+  onDecrement?: () => void
+  quantity?: number
+}
+
+export function FoodCard({ 
+  imageUrl, 
+  name, 
+  price, 
+  onAdd, 
+  onIncrement, 
+  onDecrement,
+  quantity = 0 
+}: FoodCardProps) {
+  
+  // Format price with dollar sign and two decimal places
+  const formattedPrice = `$${price.toFixed(2)}`
+  
+  return (
+    <YStack width={200} style={{ alignItems: 'center' }}>
+      {/* Main container with relative positioning */}
+      <YStack width={180} style={{ alignItems: 'center' }}>
+        {/* Circle image that overlaps the card */}
+        <Circle 
+          size={100} 
+          overflow="hidden"
+          style={{
+            elevation: 4,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
+            zIndex: 2,
+            marginBottom: -70 // Creates overlap effect
+          }}
+        >
+          <Image 
+            source={{ uri: imageUrl }} 
+            style={{ width: '100%', height: '100%' }} 
+            resizeMode="cover" 
+          />
+        </Circle>
+        
+        {/* Card content */}
+        <YStack
+          width={180}
+          style={{borderRadius: 24, overflow: 'hidden', backgroundColor: 'white'}}
+          boxShadow="10px 10px 20px rgba(0, 0, 0, 0.1)"
+        >
+          {/* Empty space for the circle image */}
+          <YStack height={70} />
+          
+          <YStack style={{padding: 16, gap: 12}}>
+            <Text fontSize={16} fontWeight="600" color="#2A1A0C">
+              {name}
+            </Text>
+            <XStack style={{justifyContent: 'space-between', alignItems: 'center'}}>
+              <Text fontSize={16}  color="#FF9F0D">
+                {formattedPrice}
+              </Text>
+              <QuantitySelector
+                quantity={quantity}
+                onAdd={onAdd}
+                onIncrement={onIncrement}
+                onDecrement={onDecrement}
+              />
+            </XStack>
+          </YStack>
+        </YStack>
+      </YStack>
+    </YStack>
+  )
+}

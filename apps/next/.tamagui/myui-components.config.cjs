@@ -14750,7 +14750,7 @@ var require_Image = __commonJS({
       return uri;
     }
     __name(resolveAssetUri, "resolveAssetUri");
-    var Image3 = /* @__PURE__ */ React86.forwardRef((props, ref) => {
+    var Image4 = /* @__PURE__ */ React86.forwardRef((props, ref) => {
       var _ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, blurRadius = props.blurRadius, defaultSource = props.defaultSource, draggable = props.draggable, onError = props.onError, onLayout = props.onLayout, onLoad = props.onLoad, onLoadEnd = props.onLoadEnd, onLoadStart = props.onLoadStart, pointerEvents = props.pointerEvents, source = props.source, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var ariaLabel = _ariaLabel || accessibilityLabel;
       if (process.env.NODE_ENV !== "production") {
@@ -14876,8 +14876,8 @@ var require_Image = __commonJS({
         suppressHydrationWarning: true
       }), hiddenImage, createTintColorSVG(tintColor, filterRef.current));
     });
-    Image3.displayName = "Image";
-    var ImageWithStatics = Image3;
+    Image4.displayName = "Image";
+    var ImageWithStatics = Image4;
     ImageWithStatics.getSize = function(uri, success2, failure) {
       _ImageLoader.default.getSize(uri, success2, failure);
     };
@@ -21287,7 +21287,7 @@ var require_Switch = __commonJS({
     var defaultActiveThumbColor = "#009688";
     var defaultThumbColor = "#FAFAFA";
     var defaultDisabledThumbColor = "#BDBDBD";
-    var Switch3 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
+    var Switch2 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
       var ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, activeThumbColor = props.activeThumbColor, activeTrackColor = props.activeTrackColor, _props$disabled = props.disabled, disabled = _props$disabled === void 0 ? false : _props$disabled, onValueChange = props.onValueChange, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, thumbColor = props.thumbColor, trackColor = props.trackColor, _props$value = props.value, value = _props$value === void 0 ? false : _props$value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var thumbRef = React86.useRef(null);
       function handleChange(event) {
@@ -21392,7 +21392,7 @@ var require_Switch = __commonJS({
         style: thumbStyle
       }), nativeControl);
     });
-    Switch3.displayName = "Switch";
+    Switch2.displayName = "Switch";
     var styles2 = _StyleSheet.default.create({
       root: {
         cursor: "pointer",
@@ -21432,7 +21432,7 @@ var require_Switch = __commonJS({
         width: "100%"
       })
     });
-    var _default = exports2.default = Switch3;
+    var _default = exports2.default = Switch2;
     module2.exports = exports2.default;
   }
 });
@@ -23348,12 +23348,12 @@ var require_constants2 = __commonJS({
       useIsomorphicLayoutEffect: /* @__PURE__ */ __name(() => useIsomorphicLayoutEffect3, "useIsomorphicLayoutEffect")
     });
     module2.exports = __toCommonJS2(constants_exports);
-    var import_react62 = require("react");
+    var import_react67 = require("react");
     var isWeb9 = true;
     var isWindowDefined2 = typeof window < "u";
     var isServer3 = isWeb9 && !isWindowDefined2;
     var isClient4 = isWeb9 && isWindowDefined2;
-    var useIsomorphicLayoutEffect3 = isServer3 ? import_react62.useEffect : import_react62.useLayoutEffect;
+    var useIsomorphicLayoutEffect3 = isServer3 ? import_react67.useEffect : import_react67.useLayoutEffect;
     var isChrome3 = typeof navigator < "u" && /Chrome/.test(navigator.userAgent || "");
     var isWebTouchable3 = isClient4 && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
     var isTouchable3 = !isWeb9 || isWebTouchable3;
@@ -23827,12 +23827,12 @@ var require_head = __commonJS({
                 }
               } else {
                 const category = h.props[metatype];
-                const categories = metaCategories[metatype] || /* @__PURE__ */ new Set();
-                if ((metatype !== "name" || !hasKey) && categories.has(category)) {
+                const categories2 = metaCategories[metatype] || /* @__PURE__ */ new Set();
+                if ((metatype !== "name" || !hasKey) && categories2.has(category)) {
                   isUnique = false;
                 } else {
-                  categories.add(category);
-                  metaCategories[metatype] = categories;
+                  categories2.add(category);
+                  metaCategories[metatype] = categories2;
                 }
               }
             }
@@ -24007,8 +24007,8 @@ var require_ThemeSettingContext = __commonJS({
       ThemeSettingContext: /* @__PURE__ */ __name(() => ThemeSettingContext, "ThemeSettingContext")
     });
     module2.exports = __toCommonJS2(ThemeSettingContext_exports);
-    var import_react62 = __toESM2(require("react"));
-    var ThemeSettingContext = import_react62.default.createContext({
+    var import_react67 = __toESM2(require("react"));
+    var ThemeSettingContext = import_react67.default.createContext({
       toggle: /* @__PURE__ */ __name(() => {
       }, "toggle"),
       set: /* @__PURE__ */ __name((_) => {
@@ -24055,12 +24055,12 @@ var require_NextThemeProvider = __commonJS({
     var import_use_event4 = require_cjs3();
     var import_head = __toESM2(require_head2());
     var React86 = __toESM2(require("react"));
-    var import_react62 = require("react");
+    var import_react67 = require("react");
     var import_constants210 = require_constants3();
     var import_helpers37 = require_helpers();
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var import_jsx_runtime86 = require("react/jsx-runtime");
-    var NextThemeProvider = (0, import_react62.memo)(
+    var import_jsx_runtime94 = require("react/jsx-runtime");
+    var NextThemeProvider = (0, import_react67.memo)(
       ({
         forcedTheme,
         disableTransitionOnChange = false,
@@ -24078,7 +24078,7 @@ var require_NextThemeProvider = __commonJS({
         },
         children
       }) => {
-        const [theme, setThemeState] = (0, import_react62.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react62.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
+        const [theme, setThemeState] = (0, import_react67.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react67.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
           const _ = (0, import_helpers37.getSystemTheme)(e), update = /* @__PURE__ */ __name(() => setResolvedTheme(_), "update");
           disableTransitionOnChange ? update() : React86.startTransition(() => update()), theme === "system" && !forcedTheme && handleChangeTheme(_, false);
         }), handleChangeTheme = (0, import_use_event4.useEvent)(
@@ -24108,7 +24108,7 @@ var require_NextThemeProvider = __commonJS({
         const set = (0, import_use_event4.useEvent)((newTheme) => {
           forcedTheme ? handleChangeTheme(newTheme, true, false) : handleChangeTheme(newTheme), setThemeState(newTheme);
         });
-        (0, import_react62.useEffect)(() => {
+        (0, import_react67.useEffect)(() => {
           const handleStorage = /* @__PURE__ */ __name((e) => {
             if (e.key !== storageKey)
               return;
@@ -24135,7 +24135,7 @@ var require_NextThemeProvider = __commonJS({
         const toggle = (0, import_use_event4.useEvent)(() => {
           const order = resolvedTheme === "dark" ? ["system", "light", "dark"] : ["system", "dark", "light"], next = order[(order.indexOf(theme) + 1) % order.length];
           set(next);
-        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react62.useMemo)(() => ({
+        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react67.useMemo)(() => ({
           theme,
           current: theme,
           set,
@@ -24154,8 +24154,8 @@ var require_NextThemeProvider = __commonJS({
           themes2,
           systemTheme
         ]);
-        return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
             ThemeScript,
             {
               forcedTheme,
@@ -24169,11 +24169,11 @@ var require_NextThemeProvider = __commonJS({
               skipNextHead
             }
           ),
-          (0, import_react62.useMemo)(() => children, [children])
+          (0, import_react67.useMemo)(() => children, [children])
         ] });
       }
     );
-    var ThemeScript = (0, import_react62.memo)(
+    var ThemeScript = (0, import_react67.memo)(
       ({
         forcedTheme,
         storageKey,
@@ -24188,7 +24188,7 @@ var require_NextThemeProvider = __commonJS({
           name2 = value?.[name2] || name2;
           const val = literal ? name2 : `'${name2}'`;
           return attribute === "class" ? `d.add(${val})` : `d.setAttribute('${attribute}', ${val})`;
-        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_jsx_runtime86.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_jsx_runtime94.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24197,7 +24197,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24207,7 +24207,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        ) : /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24218,7 +24218,7 @@ var require_NextThemeProvider = __commonJS({
           },
           "next-themes-script"
         ) });
-        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_head.default, { children: contents });
+        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_head.default, { children: contents });
       },
       (prevProps, nextProps) => prevProps.forcedTheme === nextProps.forcedTheme
     );
@@ -24278,10 +24278,10 @@ var require_useTheme = __commonJS({
       useThemeSetting: /* @__PURE__ */ __name(() => useThemeSetting2, "useThemeSetting")
     });
     module2.exports = __toCommonJS2(useTheme_exports);
-    var import_react62 = __toESM2(require("react"));
+    var import_react67 = __toESM2(require("react"));
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var useTheme7 = /* @__PURE__ */ __name(() => import_react62.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
-    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react62.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
+    var useTheme7 = /* @__PURE__ */ __name(() => import_react67.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
+    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react67.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
   }
 });
 
@@ -24337,7 +24337,7 @@ var require_useRootTheme = __commonJS({
       useRootTheme: /* @__PURE__ */ __name(() => useRootTheme2, "useRootTheme")
     });
     module2.exports = __toCommonJS2(useRootTheme_exports);
-    var import_react62 = __toESM2(require("react"));
+    var import_react67 = __toESM2(require("react"));
     var import_constants57 = require_cjs2();
     var useRootTheme2 = /* @__PURE__ */ __name(({
       fallback = "light"
@@ -24347,7 +24347,7 @@ var require_useRootTheme = __commonJS({
         const classes = [...document.documentElement.classList];
         initialVal = classes.includes("t_dark") ? "dark" : classes.includes("t_light") ? "light" : fallback;
       }
-      return import_react62.default.useState(initialVal);
+      return import_react67.default.useState(initialVal);
     }, "useRootTheme");
   }
 });
@@ -24419,6 +24419,7 @@ __export(src_exports, {
   AdaptContext: () => AdaptContext,
   AdaptParent: () => AdaptParent,
   AdaptPortalContents: () => AdaptPortalContents,
+  AddButton: () => AddButton,
   AlertDialog: () => AlertDialog,
   AlertDialogAction: () => AlertDialogAction,
   AlertDialogCancel: () => AlertDialogCancel,
@@ -24449,6 +24450,7 @@ __export(src_exports, {
   CardFooter: () => CardFooter,
   CardFrame: () => CardFrame,
   CardHeader: () => CardHeader,
+  CategoryRail: () => CategoryRail,
   Checkbox: () => Checkbox,
   CheckboxContext: () => CheckboxContext,
   CheckboxFrame: () => CheckboxFrame,
@@ -24472,6 +24474,8 @@ __export(src_exports, {
   EnsureFlexed: () => EnsureFlexed,
   Fieldset: () => Fieldset,
   FontLanguage: () => import_core58.FontLanguage,
+  FoodCard: () => FoodCard,
+  FoodListingRail: () => FoodListingRail,
   Footer: () => Footer,
   Form: () => Form2,
   FormFrame: () => FormFrame,
@@ -24534,6 +24538,7 @@ __export(src_exports, {
   ProgressIndicator: () => ProgressIndicator,
   ProgressIndicatorFrame: () => ProgressIndicatorFrame,
   ProvideAdaptContext: () => ProvideAdaptContext,
+  QuantitySelector: () => QuantitySelector,
   RadioGroup: () => RadioGroup,
   RadioGroupFrame: () => RadioGroupFrame,
   RadioGroupIndicatorFrame: () => RadioGroupIndicatorFrame,
@@ -43073,85 +43078,6 @@ var defaultConfig = {
   settings
 };
 
-// ../../packages/config/src/fonts.ts
-var headingFont = (0, import_core58.createFont)({
-  size: {
-    6: 15
-  },
-  transform: {
-    6: "uppercase",
-    7: "none"
-  },
-  weight: {
-    6: "400",
-    7: "700"
-  },
-  color: {
-    6: "$colorFocus",
-    7: "$color"
-  },
-  letterSpacing: {
-    5: 2,
-    6: 1,
-    7: 0,
-    8: -1,
-    9: -2,
-    10: -3,
-    12: -4,
-    14: -5,
-    15: -6
-  },
-  face: {
-    400: { normal: "Nunito_400Regular" },
-    500: { normal: "Nunito_500Medium" },
-    600: { normal: "Nunito_600SemiBold" },
-    700: { normal: "Nunito_700Bold" },
-    800: { normal: "Nunito_800ExtraBold" },
-    900: { normal: "Nunito_900Black" }
-  }
-});
-var bodyFont = (0, import_core58.createFont)({
-  family: "Nunito",
-  face: {
-    400: { normal: "Nunito_400Regular" },
-    500: { normal: "Nunito_500Medium" },
-    600: { normal: "Nunito_600SemiBold" },
-    700: { normal: "Nunito_700Bold" },
-    800: { normal: "Nunito_800ExtraBold" },
-    900: { normal: "Nunito_900Black" }
-  },
-  // Define size and line height directly in the size object
-  size: {
-    // Define specific sizes
-    1: 11,
-    2: 12,
-    3: 13,
-    4: 14,
-    5: 16,
-    6: 18,
-    7: 20,
-    8: 22,
-    9: 30,
-    10: 42,
-    11: 52,
-    12: 62
-  },
-  lineHeight: {
-    1: 15,
-    2: 17,
-    3: 19,
-    4: 21,
-    5: 24,
-    6: 28,
-    7: 32,
-    8: 36,
-    9: 45,
-    10: 55,
-    11: 65,
-    12: 75
-  }
-});
-
 // ../../node_modules/@tamagui/animations-react-native/dist/esm/createAnimations.mjs
 var import_web24 = require("@tamagui/core");
 var import_react54 = __toESM(require("react"), 1);
@@ -43458,12 +43384,48 @@ var animations = createAnimations2({
 });
 
 // ../../packages/config/src/tamagui.config.ts
+var interFont = (0, import_core58.createFont)({
+  family: "var(--font-inter)",
+  size: {
+    1: 12,
+    2: 14,
+    3: 16,
+    4: 18,
+    5: 20,
+    6: 24,
+    7: 30,
+    8: 36,
+    9: 48,
+    10: 60
+  },
+  weight: {
+    4: "400",
+    5: "500",
+    7: "700"
+  },
+  letterSpacing: {
+    4: 0
+  },
+  lineHeight: {
+    1: 16,
+    2: 20,
+    3: 24,
+    4: 28,
+    5: 32,
+    6: 36,
+    7: 42,
+    8: 52,
+    9: 64,
+    10: 76
+  }
+});
 var config = createTamagui({
   ...defaultConfig,
   animations,
   fonts: {
-    body: bodyFont,
-    heading: headingFont
+    body: interFont,
+    heading: interFont,
+    mono: interFont
   }
 });
 
@@ -43931,17 +43893,17 @@ var Bell = themed((0, import_react58.memo)(function(props) {
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Search.mjs
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Minus.mjs
 var import_react59 = require("react");
 var import_react_native_svg3 = require("react-native-svg");
 var import_jsx_runtime81 = require("react/jsx-runtime");
-var Search = themed((0, import_react59.memo)(function(props) {
+var Minus = themed((0, import_react59.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
     ...otherProps
   } = props;
-  return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_react_native_svg3.Svg, {
+  return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Svg, {
     width: size5,
     height: size5,
     viewBox: "0 0 24 24",
@@ -43951,23 +43913,18 @@ var Search = themed((0, import_react59.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Path, {
-      d: "m21 21-4.34-4.34",
+    children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Path, {
+      d: "M5 12h14",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Circle, {
-      cx: "11",
-      cy: "11",
-      r: "8",
-      stroke: color
-    })]
+    })
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Plus.mjs
 var import_react60 = require("react");
 var import_react_native_svg4 = require("react-native-svg");
 var import_jsx_runtime82 = require("react/jsx-runtime");
-var ShoppingCart = themed((0, import_react60.memo)(function(props) {
+var Plus = themed((0, import_react60.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
@@ -43983,17 +43940,79 @@ var ShoppingCart = themed((0, import_react60.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Circle, {
+    children: [/* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+      d: "M5 12h14",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+      d: "M12 5v14",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Search.mjs
+var import_react61 = require("react");
+var import_react_native_svg5 = require("react-native-svg");
+var import_jsx_runtime83 = require("react/jsx-runtime");
+var Search = themed((0, import_react61.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(import_react_native_svg5.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Path, {
+      d: "m21 21-4.34-4.34",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Circle, {
+      cx: "11",
+      cy: "11",
+      r: "8",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
+var import_react62 = require("react");
+var import_react_native_svg6 = require("react-native-svg");
+var import_jsx_runtime84 = require("react/jsx-runtime");
+var ShoppingCart = themed((0, import_react62.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(import_react_native_svg6.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Circle, {
       cx: "8",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Circle, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Circle, {
       cx: "19",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Path, {
       d: "M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12",
       stroke: color
     })]
@@ -44012,6 +44031,7 @@ var colors2 = {
   text: "#333333",
   textLight: "#666666",
   textDark: "#111111",
+  categoryCardBg: "#FFF4E4",
   // Feedback colors
   success: "#4caf50",
   error: "#f44336",
@@ -44048,7 +44068,7 @@ var {
 } = colors2;
 
 // ../../packages/ui/src/Header.tsx
-var import_jsx_runtime83 = (
+var import_jsx_runtime85 = (
   // Web version uses absolute URL from public directory
   require("react/jsx-runtime")
 );
@@ -44072,8 +44092,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     fontFamily: "Nunito"
     // Apply Nunito font to the header
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(XStack, { style: headerStyle, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native2.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(XStack, { style: headerStyle, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native2.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
       Image,
       {
         source: { uri: "/images/logo.png" },
@@ -44084,7 +44104,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       }
     ) : (
       // Native version uses require statement for bundled assets
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
         Image,
         {
           source: require_logo(),
@@ -44095,28 +44115,28 @@ var AppHeader = /* @__PURE__ */ __name(() => {
         }
       )
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(ShoppingCart, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Button2, { size: "$3", style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" }, children: "Login" })
+    /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(ShoppingCart, { size: "$1" }), style: { backgroundColor: "transparent" } }),
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" }, children: "Login" })
     ] })
   ] });
 }, "AppHeader");
 
 // ../../packages/ui/src/HeroBanner.tsx
 var import_react_native3 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime84 = require("react/jsx-runtime");
+var import_jsx_runtime86 = require("react/jsx-runtime");
 var HeroBanner = /* @__PURE__ */ __name(() => {
   if (import_react_native3.Platform.OS !== "web") {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
     XStack,
     {
       style: {
         position: "relative",
         width: "100%",
-        height: 500,
+        height: 400,
         overflow: "hidden",
         display: "flex",
         justifyContent: "space-between",
@@ -44125,7 +44145,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
         marginTop: 0
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44141,7 +44161,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
           YStack,
           {
             style: {
@@ -44151,7 +44171,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               zIndex: 2
             },
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
                 import_react_native3.Image,
                 {
                   source: { uri: "/images/banner-text.png" },
@@ -44162,7 +44182,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                   }
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
                 Text4,
                 {
                   style: {
@@ -44175,11 +44195,11 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                   children: [
                     "Order your favorite curries, biryanis, and more for convenient delivery across United States and",
                     " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
+                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
                   ]
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
                 Button2,
                 {
                   style: {
@@ -44195,15 +44215,21 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                     marginTop: 10
                   },
                   children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(Text4, { style: { color: "white", fontWeight: "bold", marginRight: 8, fontFamily: "Nunito" }, children: "Schedule your weekly meal" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(ArrowRight, { color: "white", size: 18 })
+                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+                      Text4,
+                      {
+                        style: { color: "white", fontWeight: "bold", marginRight: 8, fontFamily: "Nunito" },
+                        children: "Schedule your weekly meal"
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(ArrowRight, { color: "white", size: 18 })
                   ]
                 }
               )
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           XStack,
           {
             style: {
@@ -44211,7 +44237,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               justifyContent: "flex-end",
               zIndex: 2
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
               import_react_native3.Image,
               {
                 source: { uri: "/images/thali-plate.png" },
@@ -44224,7 +44250,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             )
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44240,7 +44266,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44262,15 +44288,16 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
 }, "HeroBanner");
 
 // ../../packages/ui/src/SearchFood.tsx
-var import_react61 = require("react");
+var import_react63 = require("react");
 var import_react_native4 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime85 = require("react/jsx-runtime");
+var import_jsx_runtime87 = require("react/jsx-runtime");
 var textLight2 = "#9CA3AF";
 var styles = import_react_native4.StyleSheet.create({
   container: {
     paddingTop: 80,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    alignSelf: "center"
   },
   title: {
     fontSize: 28,
@@ -44288,8 +44315,8 @@ var styles = import_react_native4.StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    borderRadius: 30,
-    paddingHorizontal: 12,
+    borderRadius: 6,
+    paddingHorizontal: 18,
     paddingVertical: 8,
     borderWidth: 1,
     borderColor: "#E5E7EB",
@@ -44326,8 +44353,8 @@ function SearchFood({
   initialQuery = "",
   initialVegOnly = false
 }) {
-  const [searchQuery, setSearchQuery] = (0, import_react61.useState)(initialQuery);
-  const [vegOnly, setVegOnly] = (0, import_react61.useState)(initialVegOnly);
+  const [searchQuery, setSearchQuery] = (0, import_react63.useState)(initialQuery);
+  const [vegOnly, setVegOnly] = (0, import_react63.useState)(initialVegOnly);
   const { width } = (0, import_react_native4.useWindowDimensions)();
   const getResponsiveWidth = /* @__PURE__ */ __name(() => {
     if (width < 768) {
@@ -44346,39 +44373,423 @@ function SearchFood({
     setVegOnly(checked);
     onVegToggle?.(checked);
   }, "handleVegToggle");
-  return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth() }], children: [
-    /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Text4, { style: styles.title, children: "Search Your Favorite Food" }),
-    /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: styles.row, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: styles.searchContainer, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Search, { size: 18, color: textLight2 }),
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
-          import_react_native4.TextInput,
-          {
-            style: styles.searchInput,
-            placeholder: "Search food items",
-            value: searchQuery,
-            onChangeText: handleSearch,
-            placeholderTextColor: textLight2
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_react_native4.View, { style: [styles.vegToggle, { backgroundColor: vegOnly ? "#22C55E" : "#F3F4F6" }], children: [
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Text4, { style: [styles.vegText, { color: vegOnly ? "white" : "#4B5563" }], children: "Only Veg" }),
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
-          import_react_native4.Switch,
-          {
-            trackColor: { false: "#F3F4F6", true: "#22C55E" },
-            thumbColor: "white",
-            ios_backgroundColor: "#3e3e3e",
-            onValueChange: handleVegToggle,
-            value: vegOnly
-          }
-        )
-      ] })
-    ] })
+  return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth(), maxWidth: 600 }], children: [
+    /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Text4, { style: styles.title, children: "Search Your Favorite Food" }),
+    /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(
+      XStack,
+      {
+        style: {
+          alignItems: "center",
+          padding: 12,
+          borderWidth: 1,
+          borderColor: "#E5E7EB",
+          borderRadius: 6,
+          width: "100%",
+          gap: 8,
+          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.05)"
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Search, { size: 18, color: textLight2 }),
+          /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+            import_react_native4.TextInput,
+            {
+              style: {
+                flex: 1,
+                fontSize: 16,
+                color: "#333",
+                paddingVertical: 0,
+                includeFontPadding: false,
+                textAlignVertical: "center"
+              },
+              placeholder: "Search food items",
+              value: searchQuery,
+              onChangeText: handleSearch,
+              placeholderTextColor: textLight2
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Text4, { fontSize: 12, color: vegOnly ? "#4caf50" : textLight2, children: "Veg Only" }),
+            /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+              Switch,
+              {
+                size: "$2",
+                checked: vegOnly,
+                onCheckedChange: handleVegToggle,
+                bg: vegOnly ? "#4caf50" : void 0,
+                children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Switch.Thumb, { animation: "bouncy", bg: vegOnly ? "white" : "#f5f5f5" })
+              }
+            )
+          ] })
+        ]
+      }
+    )
   ] });
 }
 __name(SearchFood, "SearchFood");
+
+// ../../packages/ui/src/cards/CategoryCard.tsx
+var import_jsx_runtime88 = require("react/jsx-runtime");
+function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(
+    YStack,
+    {
+      bg: selected ? "#FF9F0D" : "#FFF4E4",
+      onPress,
+      pressStyle: { opacity: 0.8 },
+      style: {
+        padding: 16,
+        borderRadius: 12,
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 8,
+        maxHeight: 250,
+        width: 150,
+        // Box shadow for React Native (mobile)
+        shadowColor: "#AEAEC066",
+        shadowOffset: { width: 10, height: 10 },
+        shadowOpacity: 0.4,
+        shadowRadius: 30,
+        elevation: 0,
+        // For Android
+        // Box shadow for web
+        boxShadow: "3px 3px 10px 0px #AEAEC066"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Text4, { fontSize: 14, fontWeight: "600", color: selected ? "white" : "#2A1A0C", children: name2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(XStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 24, bg: selected ? "white" : "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(ArrowRight, { size: 14, color: selected ? "#FF9F0D" : "white" }) }) })
+      ]
+    }
+  );
+}
+__name(CategoryCard, "CategoryCard");
+
+// ../../packages/ui/src/rails/CategoryRail.tsx
+var import_react64 = require("react");
+var import_jsx_runtime89 = require("react/jsx-runtime");
+var categories = [
+  {
+    id: 1,
+    name: "Appetizers",
+    imageUrl: "https://images.unsplash.com/photo-1527751171053-6ac5ec50000b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXBwZXRpemVyc3xlbnwwfHwwfHx8MA%3D%3D"
+  },
+  {
+    id: 2,
+    name: "Main Course",
+    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFpbiUyMGNvdXJzZXxlbnwwfHwwfHx8MA%3D%3D"
+  },
+  {
+    id: 3,
+    name: "Desserts",
+    imageUrl: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVzc2VydHN8ZW58MHx8MHx8fDA%3D"
+  },
+  {
+    id: 4,
+    name: "Beverages",
+    imageUrl: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmV2ZXJhZ2VzfGVufDB8fDB8fHww"
+  },
+  {
+    id: 5,
+    name: "Salads",
+    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2FsYWRzfGVufDB8fDB8fHww"
+  },
+  {
+    id: 6,
+    name: "Soups",
+    imageUrl: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c291cHN8ZW58MHx8MHx8fDA%3D"
+  },
+  {
+    id: 7,
+    name: "Pasta",
+    imageUrl: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGFzdGF8ZW58MHx8MHx8fDA%3D"
+  },
+  {
+    id: 8,
+    name: "Seafood",
+    imageUrl: "https://images.unsplash.com/photo-1579631542720-3a87824fff86?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2VhZm9vZHxlbnwwfHwwfHx8MA%3D%3D"
+  },
+  {
+    id: 9,
+    name: "Pizza",
+    imageUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGl6emF8ZW58MHx8MHx8fDA%3D"
+  },
+  {
+    id: 10,
+    name: "Breakfast",
+    imageUrl: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnJlYWtmYXN0fGVufDB8fDB8fHww"
+  }
+];
+function CategoryRail() {
+  const [selectedId, setSelectedId] = (0, import_react64.useState)(null);
+  const handleCardPress = /* @__PURE__ */ __name((id) => {
+    setSelectedId(selectedId === id ? null : id);
+    console.log("Card pressed:", id);
+  }, "handleCardPress");
+  return /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
+    ScrollView,
+    {
+      horizontal: true,
+      showsHorizontalScrollIndicator: false,
+      bounces: false,
+      style: { maxHeight: 250 },
+      children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(XStack, { gap: "$3", style: { paddingLeft: 20, paddingTop: 20, paddingBottom: 20 }, children: categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
+        CategoryCard,
+        {
+          imageUrl: category.imageUrl,
+          name: category.name,
+          selected: selectedId === category.id,
+          onPress: () => handleCardPress(category.id)
+        },
+        category.id
+      )) })
+    }
+  );
+}
+__name(CategoryRail, "CategoryRail");
+
+// ../../packages/ui/src/rails/FoodListingRail.tsx
+var import_react66 = require("react");
+
+// ../../packages/ui/src/cards/FoodCard.tsx
+var import_react_native5 = require("@tamagui/react-native-web-lite");
+
+// ../../packages/ui/src/buttons/QuantitySelector.tsx
+var import_react65 = require("react");
+
+// ../../packages/ui/src/buttons/AddButton.tsx
+var import_jsx_runtime90 = require("react/jsx-runtime");
+function AddButton({ onPress }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(
+    Button2,
+    {
+      onPress,
+      style: { backgroundColor: "#FF9F0D", borderRadius: 8, height: 32 },
+      color: "white",
+      pressStyle: { opacity: 0.8 },
+      children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(Text4, { color: "white", fontWeight: "600", children: "Add" })
+    }
+  );
+}
+__name(AddButton, "AddButton");
+
+// ../../packages/ui/src/buttons/QuantitySelector.tsx
+var import_jsx_runtime91 = require("react/jsx-runtime");
+function QuantitySelector({
+  initialQuantity = 0,
+  onAdd,
+  onIncrement,
+  onDecrement,
+  quantity: externalQuantity
+}) {
+  const [internalQuantity, setInternalQuantity] = (0, import_react65.useState)(initialQuantity);
+  const isControlled = externalQuantity !== void 0;
+  const currentQuantity = isControlled ? externalQuantity : internalQuantity;
+  const handleAdd = /* @__PURE__ */ __name(() => {
+    if (!isControlled) {
+      setInternalQuantity(1);
+    }
+    if (onAdd) {
+      onAdd();
+    }
+  }, "handleAdd");
+  const handleIncrement = /* @__PURE__ */ __name(() => {
+    if (!isControlled) {
+      setInternalQuantity((prev) => prev + 1);
+    }
+    if (onIncrement) {
+      onIncrement();
+    }
+  }, "handleIncrement");
+  const handleDecrement = /* @__PURE__ */ __name(() => {
+    if (!isControlled) {
+      setInternalQuantity((prev) => prev <= 1 ? 0 : prev - 1);
+    }
+    if (onDecrement) {
+      onDecrement();
+    }
+  }, "handleDecrement");
+  return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(import_jsx_runtime91.Fragment, { children: currentQuantity > 0 ? /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)(XStack, { style: { alignItems: "center", borderRadius: 8, borderWidth: 1, borderColor: "#E0CAB6" }, gap: 8, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+      Button2,
+      {
+        size: "$2",
+        style: {
+          backgroundColor: "#FFF4E4",
+          borderTopLeftRadius: 8,
+          borderBottomLeftRadius: 8,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0
+        },
+        onPress: handleDecrement,
+        icon: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Minus, { size: 16, color: "#FF9F0D" })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Text4, { fontSize: 18, fontWeight: "600", width: 20, style: { textAlign: "center" }, children: currentQuantity }),
+    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+      Button2,
+      {
+        size: "$2",
+        style: {
+          backgroundColor: "#FFF4E4",
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          borderTopRightRadius: 8,
+          borderBottomRightRadius: 8
+        },
+        onPress: handleIncrement,
+        icon: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Plus, { size: 16, color: "#FF9F0D" })
+      }
+    )
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(AddButton, { onPress: handleAdd }) });
+}
+__name(QuantitySelector, "QuantitySelector");
+
+// ../../packages/ui/src/cards/FoodCard.tsx
+var import_jsx_runtime92 = require("react/jsx-runtime");
+function FoodCard({
+  imageUrl,
+  name: name2,
+  price,
+  onAdd,
+  onIncrement,
+  onDecrement,
+  quantity = 0
+}) {
+  const formattedPrice = `$${price.toFixed(2)}`;
+  return /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(
+    YStack,
+    {
+      style: {
+        width: 200,
+        borderRadius: 16,
+        overflow: "hidden",
+        backgroundColor: "white",
+        boxShadow: "3px 3px 10px 0px #AEAEC066",
+        shadowColor: "#AEAEC066",
+        shadowOffset: { width: 3, height: 3 },
+        shadowOpacity: 0.4,
+        shadowRadius: 10
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
+          import_react_native5.Image,
+          {
+            source: { uri: imageUrl },
+            style: {
+              width: "100%",
+              height: 150,
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16
+            },
+            resizeMode: "cover"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 18, fontWeight: "600", color: "#2A1A0C", children: name2 }),
+          /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 18, fontWeight: "600", color: "#FF9F0D", children: formattedPrice }),
+            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
+              QuantitySelector,
+              {
+                quantity,
+                onAdd,
+                onIncrement,
+                onDecrement
+              }
+            )
+          ] })
+        ] })
+      ]
+    }
+  );
+}
+__name(FoodCard, "FoodCard");
+
+// ../../packages/ui/src/rails/FoodListingRail.tsx
+var import_jsx_runtime93 = require("react/jsx-runtime");
+var foodItems = [
+  {
+    id: 1,
+    name: "Aloo Chaat",
+    price: 72.29,
+    imageUrl: "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    id: 2,
+    name: "Dahi Bhalla",
+    price: 7.29,
+    imageUrl: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=2074&auto=format&fit=crop"
+  },
+  {
+    id: 3,
+    name: "Paneer Tikka",
+    price: 12.99,
+    imageUrl: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=2017&auto=format&fit=crop"
+  },
+  {
+    id: 4,
+    name: "Butter Chicken",
+    price: 15.49,
+    imageUrl: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    id: 5,
+    name: "Masala Dosa",
+    price: 9.99,
+    imageUrl: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=2070&auto=format&fit=crop"
+  }
+];
+function FoodListingRail({ displayLabel }) {
+  const [quantities, setQuantities] = (0, import_react66.useState)({});
+  const handleAdd = /* @__PURE__ */ __name((id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: 1
+    }));
+  }, "handleAdd");
+  const handleIncrement = /* @__PURE__ */ __name((id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: (prev[id] || 0) + 1
+    }));
+  }, "handleIncrement");
+  const handleDecrement = /* @__PURE__ */ __name((id) => {
+    setQuantities((prev) => {
+      const newQuantities = { ...prev };
+      if (newQuantities[id] <= 1) {
+        delete newQuantities[id];
+      } else {
+        newQuantities[id] -= 1;
+      }
+      return newQuantities;
+    });
+  }, "handleDecrement");
+  return /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(Text4, { fontSize: 28, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
+    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
+      ScrollView,
+      {
+        horizontal: true,
+        showsHorizontalScrollIndicator: false,
+        bounces: false,
+        children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(XStack, { gap: "$4", style: { paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }, children: foodItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
+          FoodCard,
+          {
+            imageUrl: item.imageUrl,
+            name: item.name,
+            price: item.price,
+            quantity: quantities[item.id] || 0,
+            onAdd: () => handleAdd(item.id),
+            onIncrement: () => handleIncrement(item.id),
+            onDecrement: () => handleDecrement(item.id)
+          },
+          item.id
+        )) })
+      }
+    )
+  ] });
+}
+__name(FoodListingRail, "FoodListingRail");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ACTIONS,
@@ -44388,6 +44799,7 @@ __name(SearchFood, "SearchFood");
   AdaptContext,
   AdaptParent,
   AdaptPortalContents,
+  AddButton,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -44418,6 +44830,7 @@ __name(SearchFood, "SearchFood");
   CardFooter,
   CardFrame,
   CardHeader,
+  CategoryRail,
   Checkbox,
   CheckboxContext,
   CheckboxFrame,
@@ -44441,6 +44854,8 @@ __name(SearchFood, "SearchFood");
   EnsureFlexed,
   Fieldset,
   FontLanguage,
+  FoodCard,
+  FoodListingRail,
   Footer,
   Form,
   FormFrame,
@@ -44503,6 +44918,7 @@ __name(SearchFood, "SearchFood");
   ProgressIndicator,
   ProgressIndicatorFrame,
   ProvideAdaptContext,
+  QuantitySelector,
   RadioGroup,
   RadioGroupFrame,
   RadioGroupIndicatorFrame,

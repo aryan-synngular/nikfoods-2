@@ -11,14 +11,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // You can use `suppressHydrationWarning` to avoid the warning about mismatched content during hydration in dev mode
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <head>
-        {/* Inter font will be loaded via next/font/google */}
-      </head>
-      <body className="font-inter">
-        <NextTamaguiProvider>{children}</NextTamaguiProvider>
-      </body>
-    </html>
+    <html lang="en" className={inter.variable}>
+    <body className="font-inter">
+      <NextTamaguiProvider>{children}</NextTamaguiProvider>
+    </body>
+  </html>
   )
 }

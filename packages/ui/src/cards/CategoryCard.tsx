@@ -11,7 +11,7 @@ interface CategoryCardProps {
 export function CategoryCard({ imageUrl, name, selected = false, onPress }: CategoryCardProps) {
   return (
     <YStack
-      bg={selected ? '#FFF4E4' : '#d47b1a'}
+      bg={selected ? '#FF9F0D' : '#FFF4E4'}
       onPress={onPress}
       pressStyle={{ opacity: 0.8 }}
       style={{
@@ -20,6 +20,17 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
         justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
+        maxHeight: 250,
+
+        width: 150,
+        // Box shadow for React Native (mobile)
+        shadowColor: '#AEAEC066',
+        shadowOffset: { width: 10, height: 10 },
+        shadowOpacity: 0.4,
+        shadowRadius: 30,
+        elevation: 0, // For Android
+        // Box shadow for web
+        boxShadow: '3px 3px 10px 0px #AEAEC066',
       }}
     >
       <YStack>
@@ -28,13 +39,13 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
         </Circle>
       </YStack>
 
-      <Text fontSize={16} fontWeight="600" color={selected ? '#2A1A0C' : 'white'}>
+      <Text fontSize={16} fontWeight="400" color={selected ? 'white' : '#2A1A0C'}>
         {name}
       </Text>
 
       <XStack>
-        <Circle size={24} bg={selected ? '#d47b1a' : 'white'}>
-          <ArrowRight size={14} color={selected ? 'white' : '#d47b1a'} />
+        <Circle size={24} bg={selected ? 'white' : '#FF9F0D'}>
+          <ArrowRight size={14} color={selected ? '#FF9F0D' : 'white'} />
         </Circle>
       </XStack>
     </YStack>

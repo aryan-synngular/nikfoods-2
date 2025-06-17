@@ -44,8 +44,10 @@ module.exports = () => {
     ],
     // Disable React Error Overlay to avoid useReducer hook error with React 19
     reactStrictMode: false,
+    // Configure for app directory
     experimental: {
       scrollRestoration: true,
+      appDir: true,
     },
     // Disable development overlay that's causing React hook errors
     webpackDevMiddleware: config => {
