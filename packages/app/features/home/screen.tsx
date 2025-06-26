@@ -1,24 +1,13 @@
 'use client'
 
 import {
-  Anchor,
   AppHeader,
-  Button,
-  H1,
   HeroBanner,
-  Paragraph,
   SearchFood,
-  Separator,
-  Sheet,
-  SwitchRouterButton,
-  SwitchThemeButton,
-  useToastController,
-  XStack,
   YStack,
   CategoryRail,
   FoodListingRail,
 } from '@my/ui'
-import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Platform, ScrollView } from 'react-native'
 import { useLink } from 'solito/navigation'
