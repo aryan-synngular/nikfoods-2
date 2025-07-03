@@ -14,3 +14,13 @@ export * from './rails/FoodListingRail' // Export the FoodListingRail component
 export * from './cards/FoodCard' // Export the FoodCard component
 export * from './buttons/AddButton' // Export the AddButton component
 export * from './buttons/QuantitySelector' // Export the QuantitySelector component
+export * from './banners/AppDownloadBanner' // Export the AppDownloadBanner component
+export * from './banners/SubscriptionBanner' // Export the SubscriptionBanner component
+export * from './features/WhyChooseUs' // Export the WhyChooseUs component
+export * from './sections/FAQSection' // Export the FAQSection component
+export * from './footer/Footer' // Export the AppFooter component
+export * from './auth/LoginPage' // Export the LoginPage component
+export * from './auth/ForgotPasswordPage' // Export the ForgotPasswordPage component
+export * from './auth/VerifyEmailPage' // Export the VerifyEmailPage component
+export * from './auth/SetNewPasswordPage' // Export the SetNewPasswordPage component
+export * from './auth/PasswordChangedPage' // Export the PasswordChangedPage component

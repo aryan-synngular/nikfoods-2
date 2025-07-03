@@ -5,7 +5,9 @@ import { Bell, ShoppingCart } from '@tamagui/lucide-icons'
 import { primary, shadow, background, border } from './colors'
 
 export const AppHeader = () => {
-  
+  const loginLink = useLink({
+    href: '/login',
+  })
 
   // Use inline styles for web-specific sticky positioning
   const headerStyle = {
@@ -53,7 +55,13 @@ export const AppHeader = () => {
       <XStack style={{ gap: 8, alignItems: 'center', paddingRight: 12 }}>
         <Button size="$3" circular icon={<Bell size="$1" />} style={{ backgroundColor: 'transparent' }} />
         <Button size="$3" circular icon={<ShoppingCart  size="$1" />} style={{ backgroundColor: 'transparent' }} />
-        <Button size="$3" style={{ backgroundColor: primary, color: background, fontFamily: 'Nunito', fontWeight: '600' }}>Login</Button>
+        <Button 
+          size="$3" 
+          style={{ backgroundColor: primary, color: background, fontFamily: 'Nunito', fontWeight: '600' }}
+          {...loginLink}
+        >
+          Login
+        </Button>
       </XStack>
     </XStack>
   )

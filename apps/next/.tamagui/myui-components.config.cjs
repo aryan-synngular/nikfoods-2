@@ -8951,7 +8951,7 @@ var require_ScrollView = __commonJS({
     var _excluded = ["contentContainerStyle", "horizontal", "onContentSizeChange", "refreshControl", "stickyHeaderIndices", "pagingEnabled", "forwardedRef", "keyboardDismissMode", "onScroll", "centerContent"];
     var emptyObject = {};
     var IS_ANIMATING_TOUCH_START_THRESHOLD_MS = 16;
-    var ScrollView4 = class extends _react.default.Component {
+    var ScrollView5 = class extends _react.default.Component {
       static {
         __name(this, "ScrollView");
       }
@@ -9517,7 +9517,7 @@ var require_ScrollView = __commonJS({
       }
     });
     var ForwardedScrollView = /* @__PURE__ */ _react.default.forwardRef((props, forwardedRef) => {
-      return /* @__PURE__ */ _react.default.createElement(ScrollView4, (0, _extends2.default)({}, props, {
+      return /* @__PURE__ */ _react.default.createElement(ScrollView5, (0, _extends2.default)({}, props, {
         forwardedRef
       }));
     });
@@ -44456,7 +44456,7 @@ function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
       },
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Text4, { fontSize: 14, fontWeight: "600", color: selected ? "white" : "#2A1A0C", children: name2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Text4, { fontSize: 16, fontWeight: "400", color: selected ? "white" : "#2A1A0C", children: name2 }),
         /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(XStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 24, bg: selected ? "white" : "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(ArrowRight, { size: 14, color: selected ? "#FF9F0D" : "white" }) }) })
       ]
     }
@@ -44531,7 +44531,7 @@ function CategoryRail() {
       horizontal: true,
       showsHorizontalScrollIndicator: false,
       bounces: false,
-      style: { maxHeight: 250 },
+      style: { height: 250, minHeight: 250 },
       children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(XStack, { gap: "$3", style: { paddingLeft: 20, paddingTop: 20, paddingBottom: 20 }, children: categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
         CategoryCard,
         {
@@ -44563,10 +44563,10 @@ function AddButton({ onPress }) {
     Button2,
     {
       onPress,
-      style: { backgroundColor: "#FF9F0D", borderRadius: 8, height: 32 },
+      style: { backgroundColor: "#FF9F0D", borderRadius: 8, height: 32, alignItems: "center" },
       color: "white",
       pressStyle: { opacity: 0.8 },
-      children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(Text4, { color: "white", fontWeight: "600", children: "Add" })
+      children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(Text4, { color: "white", children: "Add" })
     }
   );
 }
@@ -44624,7 +44624,7 @@ function QuantitySelector({
         icon: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Minus, { size: 16, color: "#FF9F0D" })
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Text4, { fontSize: 18, fontWeight: "600", width: 20, style: { textAlign: "center" }, children: currentQuantity }),
+    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Text4, { fontSize: 14, width: 16, style: { textAlign: "center" }, children: currentQuantity }),
     /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
       Button2,
       {
@@ -44656,52 +44656,60 @@ function FoodCard({
   quantity = 0
 }) {
   const formattedPrice = `$${price.toFixed(2)}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(
-    YStack,
-    {
-      style: {
-        width: 200,
-        borderRadius: 16,
+  return /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(YStack, { width: 200, style: { alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { width: 180, style: { alignItems: "center" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
+      Circle,
+      {
+        size: 100,
         overflow: "hidden",
-        backgroundColor: "white",
-        boxShadow: "3px 3px 10px 0px #AEAEC066",
-        shadowColor: "#AEAEC066",
-        shadowOffset: { width: 3, height: 3 },
-        shadowOpacity: 0.4,
-        shadowRadius: 10
-      },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
+        style: {
+          elevation: 4,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)",
+          zIndex: 2,
+          marginBottom: -70
+          // Creates overlap effect
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
           import_react_native5.Image,
           {
             source: { uri: imageUrl },
-            style: {
-              width: "100%",
-              height: 150,
-              borderTopLeftRadius: 16,
-              borderTopRightRadius: 16
-            },
+            style: { width: "100%", height: "100%" },
             resizeMode: "cover"
           }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 18, fontWeight: "600", color: "#2A1A0C", children: name2 }),
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 18, fontWeight: "600", color: "#FF9F0D", children: formattedPrice }),
-            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
-              QuantitySelector,
-              {
-                quantity,
-                onAdd,
-                onIncrement,
-                onDecrement
-              }
-            )
+        )
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(
+      YStack,
+      {
+        width: 180,
+        style: { borderRadius: 24, overflow: "hidden", backgroundColor: "white" },
+        boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.1)",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(YStack, { height: 70 }),
+          /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 16, fontWeight: "600", color: "#2A1A0C", children: name2 }),
+            /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 16, color: "#FF9F0D", children: formattedPrice }),
+              /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
+                QuantitySelector,
+                {
+                  quantity,
+                  onAdd,
+                  onIncrement,
+                  onDecrement
+                }
+              )
+            ] })
           ] })
-        ] })
-      ]
-    }
-  );
+        ]
+      }
+    )
+  ] }) });
 }
 __name(FoodCard, "FoodCard");
 
@@ -44766,27 +44774,18 @@ function FoodListingRail({ displayLabel }) {
   }, "handleDecrement");
   return /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(Text4, { fontSize: 28, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
-    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
-      ScrollView,
+    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(YStack, { style: { paddingHorizontal: 20, paddingBottom: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(XStack, { flexWrap: "wrap", gap: "$4", style: { justifyContent: "flex-start" }, children: foodItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(YStack, { style: { marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
+      FoodCard,
       {
-        horizontal: true,
-        showsHorizontalScrollIndicator: false,
-        bounces: false,
-        children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(XStack, { gap: "$4", style: { paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }, children: foodItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
-          FoodCard,
-          {
-            imageUrl: item.imageUrl,
-            name: item.name,
-            price: item.price,
-            quantity: quantities[item.id] || 0,
-            onAdd: () => handleAdd(item.id),
-            onIncrement: () => handleIncrement(item.id),
-            onDecrement: () => handleDecrement(item.id)
-          },
-          item.id
-        )) })
+        imageUrl: item.imageUrl,
+        name: item.name,
+        price: item.price,
+        quantity: quantities[item.id] || 0,
+        onAdd: () => handleAdd(item.id),
+        onIncrement: () => handleIncrement(item.id),
+        onDecrement: () => handleDecrement(item.id)
       }
-    )
+    ) }, item.id)) }) })
   ] });
 }
 __name(FoodListingRail, "FoodListingRail");

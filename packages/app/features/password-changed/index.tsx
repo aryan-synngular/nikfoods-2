@@ -1,0 +1,1 @@
+export { PasswordChangedScreen } from './screen'

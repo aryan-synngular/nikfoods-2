@@ -1,6 +1,7 @@
-import { XStack, ScrollView } from 'tamagui'
+import { XStack, ScrollView, YStack, Circle, Button } from 'tamagui'
 import { CategoryCard } from '../cards/CategoryCard'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 
 // Sample categories data
 const categories = [
@@ -58,30 +59,103 @@ const categories = [
 
 export function CategoryRail() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const scrollViewRef = useRef<any>(null);
   
   const handleCardPress = (id: number) => {
     setSelectedId(selectedId === id ? null : id);
     console.log('Card pressed:', id);
   }
 
+  const scrollLeft = () => {
+    if (scrollViewRef.current) {
+      // Scroll left by 300 pixels (approximately 2 cards)
+      scrollViewRef.current.scrollTo({
+        x: Math.max(0, scrollViewRef.current.scrollLeft - 300),
+        animated: true
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollViewRef.current) {
+      // Scroll right by 300 pixels (approximately 2 cards)
+      scrollViewRef.current.scrollTo({
+        x: scrollViewRef.current.scrollLeft + 300,
+        animated: true
+      });
+    }
+  };
+
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      bounces={false}
-      style={{ height:250, minHeight:250 }}
-    >
-      <XStack gap="$3" style={{paddingLeft: 20, paddingTop: 20, paddingBottom: 20}}>
-        {categories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            imageUrl={category.imageUrl}
-            name={category.name}
-            selected={selectedId === category.id}
-            onPress={() => handleCardPress(category.id)}
-          />
-        ))}
-      </XStack>
-    </ScrollView>
+    <YStack position="relative" height={250}>
+      {/* Left scroll button */}
+      <Circle 
+        size={40} 
+        bg="white"
+        style={{
+          position: 'absolute',
+          left: 5,
+          top: '50%',
+          zIndex: 1,
+          opacity: 0.9,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          transform: [{ translateY: -20 }],
+          cursor: 'pointer',
+        }}
+        pressStyle={{ opacity: 0.7 }}
+        onPress={scrollLeft}
+      >
+        <ChevronLeft size={24} color="#FF9F0D" />
+      </Circle>
+
+      {/* Right scroll button */}
+      <Circle 
+        size={40} 
+        bg="white"
+        style={{
+          position: 'absolute',
+          right: 5,
+          top: '50%',
+          zIndex: 1,
+          opacity: 0.9,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          transform: [{ translateY: -20 }],
+          cursor: 'pointer',
+        }}
+        pressStyle={{ opacity: 0.7 }}
+        onPress={scrollRight}
+      >
+        <ChevronRight size={24} color="#FF9F0D" />
+      </Circle>
+
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        style={{ height: 250, minHeight: 250, width: '100%' }}
+        contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 } as any}
+      >
+        <XStack gap="$3" style={{paddingTop: 20, paddingBottom: 20}}>
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.id}
+              imageUrl={category.imageUrl}
+              name={category.name}
+              selected={selectedId === category.id}
+              onPress={() => handleCardPress(category.id)}
+            />
+          ))}
+        </XStack>
+      </ScrollView>
+    </YStack>
   )
 }

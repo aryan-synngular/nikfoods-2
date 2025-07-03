@@ -7,6 +7,11 @@ import {
   YStack,
   CategoryRail,
   FoodListingRail,
+  AppDownloadBanner,
+  SubscriptionBanner,
+  WhyChooseUs,
+  FAQSection,
+  AppFooter,
 } from '@my/ui'
 import { useState } from 'react'
 import { Platform, ScrollView } from 'react-native'
@@ -52,7 +57,14 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
         
         <CategoryRail />
         <FoodListingRail displayLabel="Food" />
+        <AppDownloadBanner />
+        <SubscriptionBanner />
+        <WhyChooseUs />
+        <FAQSection />
       </ScrollView>
+      
+      {/* Footer - outside of ScrollView to be edge-to-edge */}
+      <AppFooter />
     </YStack>
   )
 }

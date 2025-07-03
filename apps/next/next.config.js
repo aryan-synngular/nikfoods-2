@@ -47,15 +47,11 @@ module.exports = () => {
     // Configure for app directory
     experimental: {
       scrollRestoration: true,
-      appDir: true,
     },
-    // Disable development overlay that's causing React hook errors
-    webpackDevMiddleware: config => {
-      config.watchOptions = {
-        poll: 1000,
-        aggregateTimeout: 300,
-      }
-      return config
+    // Watch options can be configured in next.config.js directly
+    watchOptions: {
+      poll: 1000,
+      aggregateTimeout: 300,
     },
     // Add webpack configuration to fix React 19 compatibility issues with react-native-web
     webpack: (config, { isServer }) => {
