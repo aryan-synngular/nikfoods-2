@@ -1,3 +1,5 @@
+"use client"
+
 import { Text, YStack, XStack, Image, Stack } from 'tamagui'
 import { useState, useEffect } from 'react'
 import { Twitter, Facebook, Instagram, Youtube } from '@tamagui/lucide-icons'

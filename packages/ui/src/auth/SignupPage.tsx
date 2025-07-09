@@ -1,23 +1,20 @@
 "use client"
 
 import { useState } from 'react'
-import { Text, YStack, XStack, Input, Button, Checkbox, Image, useMedia } from 'tamagui'
+import { Text, YStack, XStack, Input, Button, Image, useMedia } from 'tamagui'
 import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 
-export function LoginPage() {
+export function SignupPage() {
   const media = useMedia()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   
-  const signupLink = useLink({
-    href: '/signup',
-  })
-  
-  const forgotPasswordLink = useLink({
-    href: '/forgot-password',
+  const loginLink = useLink({
+    href: '/login',
   })
   
   const termsLink = useLink({
@@ -32,13 +29,26 @@ export function LoginPage() {
     href: '/refund',
   })
   
-  const handleLogin = () => {
-    console.log('Login with:', { email, password, rememberMe })
-    // Here you would typically call your authentication service
+  const signupStep2Link = useLink({
+    href: '/signup/step2',
+  })
+
+  const handleSignup = () => {
+    console.log('Signup with:', { email, password })
+    // Validate inputs before proceeding
+    if (email && password && password === confirmPassword) {
+      // Navigate to step 2 using the link
+      if (signupStep2Link.onPress) {
+        signupStep2Link.onPress()
+      }
+    } else {
+      // Show validation error
+      console.log('Please fill all fields correctly')
+    }
   }
   
-  const handleSocialLogin = (provider: string) => {
-    console.log(`Login with ${provider}`)
+  const handleSocialSignup = (provider: string) => {
+    console.log(`Signup with ${provider}`)
     // Here you would typically redirect to OAuth provider
   }
 
@@ -50,7 +60,7 @@ export function LoginPage() {
         paddingTop: media.sm ? 20 : 40,
         paddingBottom: media.sm ? 10 : 20,
         paddingHorizontal: media.sm ? 10 : 20,
-        alignItems: 'center',
+        alignItems: 'center', 
         justifyContent: 'space-between'
       }}
     >
@@ -64,12 +74,11 @@ export function LoginPage() {
         />
       </YStack>
       
-      {/* Login Form */}
+      {/* Signup Form */}
       <YStack 
-        style={{
-          width: '100%',
-          maxWidth: 450,
-          padding: media.sm ? 16 : 24,
+        style={{width: '100%', 
+          maxWidth: 450, 
+          padding: media.sm ? 16 : 24, 
           backgroundColor: 'white',
           borderRadius: 16,
           shadowColor: '#000',
@@ -80,26 +89,21 @@ export function LoginPage() {
           marginVertical: media.sm ? 20 : 40,
           alignSelf: 'center'
         }}
-      >
+       >
+      
         <Text 
           fontSize={media.sm ? 24 : 28} 
           fontWeight="700" 
           color="#2A1A0C"
-          style={{
-            textAlign: 'center',
-            marginBottom: 8
-          }}
+          style={{textAlign: 'center', marginBottom: 8}}
         >
-          Login
+          Create Account
         </Text>
         
         <Text 
           fontSize={14} 
           color="#666"
-          style={{
-            textAlign: 'center',
-            marginBottom: 24
-          }}
+          style={{textAlign: 'center', marginBottom: 24}}
         >
           No more typing your address every time. Pinky promise.
         </Text>
@@ -115,8 +119,8 @@ export function LoginPage() {
           <Input
             value={email}
             onChangeText={setEmail}
-            placeholder="Enter e-mail"
-            style={{paddingLeft: 40, borderRadius: 8}}
+            placeholder="E-mail"
+            style={{paddingLeft: 40, paddingRight: 40, borderRadius: 8}}
             height={48}
             borderWidth={1}
             borderColor="#E0E0E0"
@@ -128,15 +132,14 @@ export function LoginPage() {
         <YStack style={{marginBottom: 16, position: 'relative'}}>
           <XStack 
             position="absolute"
-            style={{left: 12, top: 12, zIndex: 1}}
-            opacity={0.5}
+            style={{left: 12, top: 12, zIndex: 1, opacity: 0.5}}
           >
             <Lock size={20} color="#666" />
           </XStack>
           <Input
             value={password}
             onChangeText={setPassword}
-            placeholder="********"
+            placeholder="Password"
             secureTextEntry={!showPassword}
             style={{paddingLeft: 40, paddingRight: 40, borderRadius: 8}}
             height={48}
@@ -146,8 +149,9 @@ export function LoginPage() {
           />
           <XStack 
             position="absolute"
-            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer'}}
+            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5}}
             onPress={() => setShowPassword(!showPassword)}
+            cursor="pointer"
           >
             {showPassword ? (
               <EyeOff size={20} color="#666" />
@@ -157,142 +161,102 @@ export function LoginPage() {
           </XStack>
         </YStack>
         
-        {/* Remember Me and Forgot Password */}
-        <XStack 
-          style={{justifyContent: 'space-between', alignItems: 'center', marginBottom: 24}}
-        >
-          <XStack style={{alignItems: 'center', gap: 8}}>
-            <Checkbox 
-              checked={rememberMe} 
-              onCheckedChange={(checked) => setRememberMe(!!checked)}
-              backgroundColor={rememberMe ? "#FF9F0D" : undefined}
-              borderColor={rememberMe ? "#FF9F0D" : "#E0E0E0"}
-            />
-            <Text fontSize={14} color="#666">
-              Remember me
-            </Text>
-          </XStack>
-          
-          <Text 
-            fontSize={14} 
-            color="#666"
-            {...forgotPasswordLink}
-            hoverStyle={{ color: "#FF9F0D" }}
-            style={{ cursor: 'pointer' }}
+        {/* Confirm Password Input */}
+        <YStack style={{marginBottom: 24, position: 'relative'}}>
+          <XStack 
+            position="absolute"
+            style={{left: 12, top: 12, zIndex: 1, opacity: 0.5}}
           >
-            Forgot password?
-          </Text>
-        </XStack>
+            <Lock size={20} color="#666" />
+          </XStack>
+          <Input
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            placeholder="Re-enter password"
+            secureTextEntry={!showConfirmPassword}
+            style={{paddingLeft: 40, paddingRight: 40, paddingHorizontal: 40, height: 48, borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 8, fontSize: 14}}
+          />
+          <XStack 
+            position="absolute"
+            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5}}
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            cursor="pointer"
+          >
+            {showConfirmPassword ? (
+              <EyeOff size={20} color="#666" />
+            ) : (
+              <Eye size={20} color="#666" />
+            )}
+          </XStack>
+        </YStack>
         
-        {/* Login Button */}
+        {/* Signup Button */}
         <Button 
+          bg="#FF9F0D"
           color="white"
+          style={{height: 48, borderRadius: 8, fontSize: 16, fontWeight: '600', marginBottom: 24}}
+          onPress={handleSignup}
           pressStyle={{ opacity: 0.8 }}
-          onPress={handleLogin}
-          style={{
-            backgroundColor: '#FF9F0D',
-            height: 48,
-            borderRadius: 8,
-            fontSize: 16,
-            fontWeight: '600',
-            marginBottom: 24
-          }}
-          icon={<XStack style={{marginRight: 8}}><Lock size={18} color="white" /></XStack>}
+          icon={<XStack mr={8}><User size={18} color="white" /></XStack>}
         >
-          Login
+          Next
         </Button>
         
-        {/* Social Login */}
+        {/* Social Signup */}
         <YStack style={{alignItems: 'center', gap: 16}}>
           <Text fontSize={14} color="#666">
-            or login with
+            or signup with
           </Text>
           
-          <XStack style={{gap: 16}}>
+          <XStack gap={16}>
             <XStack 
-              width={40} 
-              height={40} 
-              style={{borderRadius: 20, 
-                cursor: 'pointer', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-              onPress={() => handleSocialLogin('Google')}
+              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
+              onPress={() => handleSocialSignup('Google')}
               pressStyle={{ opacity: 0.8 }}
+              cursor="pointer"
             >
               <Image 
                 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
-                width={20}
-                height={20}
+                style={{width: 20, height: 20}}
                 alt="Google"
               />
             </XStack>
             
             <XStack 
-              width={40} 
-              height={40} 
-              style={{borderRadius: 20, 
-                cursor: 'pointer', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-              onPress={() => handleSocialLogin('Facebook')}
+              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
+              onPress={() => handleSocialSignup('Facebook')}
               pressStyle={{ opacity: 0.8 }}
+              cursor="pointer"
             >
               <Image 
                 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png' }}
-                width={20}
-                height={20}
+                style={{width: 20, height: 20}}
                 alt="Facebook"
               />
             </XStack>
             
             <XStack 
-              width={40} 
-              height={40} 
-              style={{borderRadius: 20, 
-                cursor: 'pointer', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-              onPress={() => handleSocialLogin('Apple')}
+              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
+              onPress={() => handleSocialSignup('Apple')}
               pressStyle={{ opacity: 0.8 }}
+              cursor="pointer"
             >
               <Image 
                 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png' }}
-                width={20}
-                height={20}
+                style={{width: 20, height: 20}}
                 alt="Apple"
               />
             </XStack>
             
             <XStack 
-              width={40} 
-              height={40} 
-              style={{borderRadius: 20, 
-                cursor: 'pointer', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-              onPress={() => handleSocialLogin('Google')}
+              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
+              onPress={() => handleSocialSignup('Google')}
               pressStyle={{ opacity: 0.8 }}
+              cursor="pointer"
             >
               <Image 
                 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png' }}
-                width={20}
-                height={20}
+                style={{width: 20, height: 20}}
                 alt="Chrome"
               />
             </XStack>
@@ -300,38 +264,33 @@ export function LoginPage() {
         </YStack>
       </YStack>
       
-      {/* Sign Up */}
+      {/* Login */}
       <YStack style={{alignItems: 'center', gap: 16, marginTop: 20}}>
         <Text fontSize={14} color="#666">
-          Don't have an account
+          Have an account
         </Text>
         
         <Button 
+        
+          background="#FF9F0D"
           color="white"
+          style={{height: 48, borderRadius: 8, fontSize: 16, fontWeight: '600', paddingHorizontal: 40}}
           pressStyle={{ opacity: 0.8 }}
-          {...signupLink}
-          style={{
-            backgroundColor: '#FF9F0D',
-            height: 48,
-            borderRadius: 8,
-            fontSize: 16,
-            fontWeight: '600',
-            paddingHorizontal: 40
-          }}
-          icon={<XStack style={{marginRight: 8}}><User size={18} color="white" /></XStack>}
+          {...loginLink}
+          icon={<XStack style={{marginRight: 8}}><Lock size={18} color="white" /></XStack>}
         >
-          Signup
+          Login
         </Button>
       </YStack>
       
       {/* Footer Links */}
-      <XStack gap={media.sm ? 8 : 16} style={{marginTop: media.sm ? 20 : 40, flexWrap: 'wrap', justifyContent: 'center'}}>
+      <XStack style={{gap: media.sm ? 8 : 16, marginTop: media.sm ? 20 : 40, flexWrap: 'wrap', justifyContent: 'center'}}>
         <Text 
           fontSize={12} 
           color="#666"
           {...termsLink}
           hoverStyle={{ color: "#FF9F0D" }}
-          style={{ cursor: 'pointer' }}
+          cursor="pointer"
         >
           Terms & Conditions
         </Text>
@@ -341,7 +300,7 @@ export function LoginPage() {
           color="#666"
           {...privacyLink}
           hoverStyle={{ color: "#FF9F0D" }}
-          style={{ cursor: 'pointer' }}
+          cursor="pointer"
         >
           Privacy Policy
         </Text>
@@ -351,7 +310,7 @@ export function LoginPage() {
           color="#666"
           {...refundLink}
           hoverStyle={{ color: "#FF9F0D" }}
-          style={{ cursor: 'pointer' }}
+          cursor="pointer"
         >
           Refund Policy
         </Text>

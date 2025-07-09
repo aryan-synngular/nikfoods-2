@@ -1,3 +1,5 @@
+"use client"
+
 import { XStack, ScrollView, YStack, Circle, Button } from 'tamagui'
 import { CategoryCard } from '../cards/CategoryCard'
 import { useState, useRef } from 'react'

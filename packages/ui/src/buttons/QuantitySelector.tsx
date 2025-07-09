@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react'
 import { XStack, Button, Text } from 'tamagui'
 import { Minus, Plus } from '@tamagui/lucide-icons'

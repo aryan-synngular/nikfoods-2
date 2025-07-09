@@ -6893,7 +6893,7 @@ var require_Platform = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.default = void 0;
-    var Platform9 = {
+    var Platform12 = {
       OS: "web",
       select: /* @__PURE__ */ __name((obj) => "web" in obj ? obj.web : obj.default, "select"),
       get isTesting() {
@@ -6903,7 +6903,7 @@ var require_Platform = __commonJS({
         return false;
       }
     };
-    var _default = exports2.default = Platform9;
+    var _default = exports2.default = Platform12;
     module2.exports = exports2.default;
   }
 });
@@ -14750,7 +14750,7 @@ var require_Image = __commonJS({
       return uri;
     }
     __name(resolveAssetUri, "resolveAssetUri");
-    var Image4 = /* @__PURE__ */ React86.forwardRef((props, ref) => {
+    var Image6 = /* @__PURE__ */ React86.forwardRef((props, ref) => {
       var _ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, blurRadius = props.blurRadius, defaultSource = props.defaultSource, draggable = props.draggable, onError = props.onError, onLayout = props.onLayout, onLoad = props.onLoad, onLoadEnd = props.onLoadEnd, onLoadStart = props.onLoadStart, pointerEvents = props.pointerEvents, source = props.source, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var ariaLabel = _ariaLabel || accessibilityLabel;
       if (process.env.NODE_ENV !== "production") {
@@ -14876,8 +14876,8 @@ var require_Image = __commonJS({
         suppressHydrationWarning: true
       }), hiddenImage, createTintColorSVG(tintColor, filterRef.current));
     });
-    Image4.displayName = "Image";
-    var ImageWithStatics = Image4;
+    Image6.displayName = "Image";
+    var ImageWithStatics = Image6;
     ImageWithStatics.getSize = function(uri, success2, failure) {
       _ImageLoader.default.getSize(uri, success2, failure);
     };
@@ -19805,7 +19805,7 @@ var require_Button = __commonJS({
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _TouchableOpacity = _interopRequireDefault(require_TouchableOpacity());
     var _Text = _interopRequireDefault(require_Text());
-    var Button = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
+    var Button3 = /* @__PURE__ */ React86.forwardRef((props, forwardedRef) => {
       var accessibilityLabel = props.accessibilityLabel, color = props.color, disabled = props.disabled, onPress = props.onPress, testID = props.testID, title = props.title;
       return /* @__PURE__ */ React86.createElement(_TouchableOpacity.default, {
         accessibilityLabel,
@@ -19822,7 +19822,7 @@ var require_Button = __commonJS({
         style: [styles2.text, disabled && styles2.textDisabled]
       }, title));
     });
-    Button.displayName = "Button";
+    Button3.displayName = "Button";
     var styles2 = _StyleSheet.default.create({
       button: {
         backgroundColor: "#2196F3",
@@ -19842,7 +19842,7 @@ var require_Button = __commonJS({
         color: "#a1a1a1"
       }
     });
-    var _default = exports2.default = Button;
+    var _default = exports2.default = Button3;
     module2.exports = exports2.default;
   }
 });
@@ -23348,12 +23348,12 @@ var require_constants2 = __commonJS({
       useIsomorphicLayoutEffect: /* @__PURE__ */ __name(() => useIsomorphicLayoutEffect3, "useIsomorphicLayoutEffect")
     });
     module2.exports = __toCommonJS2(constants_exports);
-    var import_react67 = require("react");
+    var import_react100 = require("react");
     var isWeb9 = true;
     var isWindowDefined2 = typeof window < "u";
     var isServer3 = isWeb9 && !isWindowDefined2;
     var isClient4 = isWeb9 && isWindowDefined2;
-    var useIsomorphicLayoutEffect3 = isServer3 ? import_react67.useEffect : import_react67.useLayoutEffect;
+    var useIsomorphicLayoutEffect3 = isServer3 ? import_react100.useEffect : import_react100.useLayoutEffect;
     var isChrome3 = typeof navigator < "u" && /Chrome/.test(navigator.userAgent || "");
     var isWebTouchable3 = isClient4 && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
     var isTouchable3 = !isWeb9 || isWebTouchable3;
@@ -24007,8 +24007,8 @@ var require_ThemeSettingContext = __commonJS({
       ThemeSettingContext: /* @__PURE__ */ __name(() => ThemeSettingContext, "ThemeSettingContext")
     });
     module2.exports = __toCommonJS2(ThemeSettingContext_exports);
-    var import_react67 = __toESM2(require("react"));
-    var ThemeSettingContext = import_react67.default.createContext({
+    var import_react100 = __toESM2(require("react"));
+    var ThemeSettingContext = import_react100.default.createContext({
       toggle: /* @__PURE__ */ __name(() => {
       }, "toggle"),
       set: /* @__PURE__ */ __name((_) => {
@@ -24055,12 +24055,12 @@ var require_NextThemeProvider = __commonJS({
     var import_use_event4 = require_cjs3();
     var import_head = __toESM2(require_head2());
     var React86 = __toESM2(require("react"));
-    var import_react67 = require("react");
+    var import_react100 = require("react");
     var import_constants210 = require_constants3();
     var import_helpers37 = require_helpers();
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var import_jsx_runtime94 = require("react/jsx-runtime");
-    var NextThemeProvider = (0, import_react67.memo)(
+    var import_jsx_runtime133 = require("react/jsx-runtime");
+    var NextThemeProvider = (0, import_react100.memo)(
       ({
         forcedTheme,
         disableTransitionOnChange = false,
@@ -24078,7 +24078,7 @@ var require_NextThemeProvider = __commonJS({
         },
         children
       }) => {
-        const [theme, setThemeState] = (0, import_react67.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react67.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
+        const [theme, setThemeState] = (0, import_react100.useState)(() => (0, import_helpers37.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react100.useState)(() => (0, import_helpers37.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event4.useEvent)((e) => {
           const _ = (0, import_helpers37.getSystemTheme)(e), update = /* @__PURE__ */ __name(() => setResolvedTheme(_), "update");
           disableTransitionOnChange ? update() : React86.startTransition(() => update()), theme === "system" && !forcedTheme && handleChangeTheme(_, false);
         }), handleChangeTheme = (0, import_use_event4.useEvent)(
@@ -24108,7 +24108,7 @@ var require_NextThemeProvider = __commonJS({
         const set = (0, import_use_event4.useEvent)((newTheme) => {
           forcedTheme ? handleChangeTheme(newTheme, true, false) : handleChangeTheme(newTheme), setThemeState(newTheme);
         });
-        (0, import_react67.useEffect)(() => {
+        (0, import_react100.useEffect)(() => {
           const handleStorage = /* @__PURE__ */ __name((e) => {
             if (e.key !== storageKey)
               return;
@@ -24135,7 +24135,7 @@ var require_NextThemeProvider = __commonJS({
         const toggle = (0, import_use_event4.useEvent)(() => {
           const order = resolvedTheme === "dark" ? ["system", "light", "dark"] : ["system", "dark", "light"], next = order[(order.indexOf(theme) + 1) % order.length];
           set(next);
-        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react67.useMemo)(() => ({
+        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react100.useMemo)(() => ({
           theme,
           current: theme,
           set,
@@ -24154,8 +24154,8 @@ var require_NextThemeProvider = __commonJS({
           themes2,
           systemTheme
         ]);
-        return /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime133.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
             ThemeScript,
             {
               forcedTheme,
@@ -24169,11 +24169,11 @@ var require_NextThemeProvider = __commonJS({
               skipNextHead
             }
           ),
-          (0, import_react67.useMemo)(() => children, [children])
+          (0, import_react100.useMemo)(() => children, [children])
         ] });
       }
     );
-    var ThemeScript = (0, import_react67.memo)(
+    var ThemeScript = (0, import_react100.memo)(
       ({
         forcedTheme,
         storageKey,
@@ -24188,7 +24188,7 @@ var require_NextThemeProvider = __commonJS({
           name2 = value?.[name2] || name2;
           const val = literal ? name2 : `'${name2}'`;
           return attribute === "class" ? `d.add(${val})` : `d.setAttribute('${attribute}', ${val})`;
-        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_jsx_runtime94.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
+        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(import_jsx_runtime133.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24197,7 +24197,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
+        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24207,7 +24207,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
+        ) : /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24218,7 +24218,7 @@ var require_NextThemeProvider = __commonJS({
           },
           "next-themes-script"
         ) });
-        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_head.default, { children: contents });
+        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(import_head.default, { children: contents });
       },
       (prevProps, nextProps) => prevProps.forcedTheme === nextProps.forcedTheme
     );
@@ -24278,10 +24278,10 @@ var require_useTheme = __commonJS({
       useThemeSetting: /* @__PURE__ */ __name(() => useThemeSetting2, "useThemeSetting")
     });
     module2.exports = __toCommonJS2(useTheme_exports);
-    var import_react67 = __toESM2(require("react"));
+    var import_react100 = __toESM2(require("react"));
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var useTheme7 = /* @__PURE__ */ __name(() => import_react67.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
-    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react67.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
+    var useTheme7 = /* @__PURE__ */ __name(() => import_react100.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
+    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react100.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
   }
 });
 
@@ -24337,7 +24337,7 @@ var require_useRootTheme = __commonJS({
       useRootTheme: /* @__PURE__ */ __name(() => useRootTheme2, "useRootTheme")
     });
     module2.exports = __toCommonJS2(useRootTheme_exports);
-    var import_react67 = __toESM2(require("react"));
+    var import_react100 = __toESM2(require("react"));
     var import_constants57 = require_cjs2();
     var useRootTheme2 = /* @__PURE__ */ __name(({
       fallback = "light"
@@ -24347,7 +24347,7 @@ var require_useRootTheme = __commonJS({
         const classes = [...document.documentElement.classList];
         initialVal = classes.includes("t_dark") ? "dark" : classes.includes("t_light") ? "light" : fallback;
       }
-      return import_react67.default.useState(initialVal);
+      return import_react100.default.useState(initialVal);
     }, "useRootTheme");
   }
 });
@@ -24402,6 +24402,873 @@ var require_cjs4 = __commonJS({
   }
 });
 
+// ../../node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js
+var require_app_router_context_shared_runtime = __commonJS({
+  "../../node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js"(exports2) {
+    "use client";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      AppRouterContext: /* @__PURE__ */ __name(function() {
+        return AppRouterContext;
+      }, "AppRouterContext"),
+      GlobalLayoutRouterContext: /* @__PURE__ */ __name(function() {
+        return GlobalLayoutRouterContext;
+      }, "GlobalLayoutRouterContext"),
+      LayoutRouterContext: /* @__PURE__ */ __name(function() {
+        return LayoutRouterContext;
+      }, "LayoutRouterContext"),
+      MissingSlotContext: /* @__PURE__ */ __name(function() {
+        return MissingSlotContext;
+      }, "MissingSlotContext"),
+      TemplateContext: /* @__PURE__ */ __name(function() {
+        return TemplateContext;
+      }, "TemplateContext")
+    });
+    var _interop_require_default = require_interop_require_default();
+    var _react = /* @__PURE__ */ _interop_require_default._(require("react"));
+    var AppRouterContext = _react.default.createContext(null);
+    var LayoutRouterContext = _react.default.createContext(null);
+    var GlobalLayoutRouterContext = _react.default.createContext(null);
+    var TemplateContext = _react.default.createContext(null);
+    if (process.env.NODE_ENV !== "production") {
+      AppRouterContext.displayName = "AppRouterContext";
+      LayoutRouterContext.displayName = "LayoutRouterContext";
+      GlobalLayoutRouterContext.displayName = "GlobalLayoutRouterContext";
+      TemplateContext.displayName = "TemplateContext";
+    }
+    var MissingSlotContext = _react.default.createContext(/* @__PURE__ */ new Set());
+  }
+});
+
+// ../../node_modules/next/dist/shared/lib/hooks-client-context.shared-runtime.js
+var require_hooks_client_context_shared_runtime = __commonJS({
+  "../../node_modules/next/dist/shared/lib/hooks-client-context.shared-runtime.js"(exports2) {
+    "use client";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      PathParamsContext: /* @__PURE__ */ __name(function() {
+        return PathParamsContext;
+      }, "PathParamsContext"),
+      PathnameContext: /* @__PURE__ */ __name(function() {
+        return PathnameContext;
+      }, "PathnameContext"),
+      SearchParamsContext: /* @__PURE__ */ __name(function() {
+        return SearchParamsContext;
+      }, "SearchParamsContext")
+    });
+    var _react = require("react");
+    var SearchParamsContext = (0, _react.createContext)(null);
+    var PathnameContext = (0, _react.createContext)(null);
+    var PathParamsContext = (0, _react.createContext)(null);
+    if (process.env.NODE_ENV !== "production") {
+      SearchParamsContext.displayName = "SearchParamsContext";
+      PathnameContext.displayName = "PathnameContext";
+      PathParamsContext.displayName = "PathParamsContext";
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/router-reducer/reducers/get-segment-value.js
+var require_get_segment_value = __commonJS({
+  "../../node_modules/next/dist/client/components/router-reducer/reducers/get-segment-value.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "getSegmentValue", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return getSegmentValue;
+      }, "get")
+    });
+    function getSegmentValue(segment) {
+      return Array.isArray(segment) ? segment[1] : segment;
+    }
+    __name(getSegmentValue, "getSegmentValue");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/shared/lib/segment.js
+var require_segment = __commonJS({
+  "../../node_modules/next/dist/shared/lib/segment.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      DEFAULT_SEGMENT_KEY: /* @__PURE__ */ __name(function() {
+        return DEFAULT_SEGMENT_KEY;
+      }, "DEFAULT_SEGMENT_KEY"),
+      PAGE_SEGMENT_KEY: /* @__PURE__ */ __name(function() {
+        return PAGE_SEGMENT_KEY;
+      }, "PAGE_SEGMENT_KEY"),
+      isGroupSegment: /* @__PURE__ */ __name(function() {
+        return isGroupSegment;
+      }, "isGroupSegment")
+    });
+    function isGroupSegment(segment) {
+      return segment[0] === "(" && segment.endsWith(")");
+    }
+    __name(isGroupSegment, "isGroupSegment");
+    var PAGE_SEGMENT_KEY = "__PAGE__";
+    var DEFAULT_SEGMENT_KEY = "__DEFAULT__";
+  }
+});
+
+// ../../node_modules/next/dist/client/components/async-local-storage.js
+var require_async_local_storage = __commonJS({
+  "../../node_modules/next/dist/client/components/async-local-storage.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "createAsyncLocalStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return createAsyncLocalStorage;
+      }, "get")
+    });
+    var sharedAsyncLocalStorageNotAvailableError = new Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available");
+    var FakeAsyncLocalStorage = class {
+      static {
+        __name(this, "FakeAsyncLocalStorage");
+      }
+      disable() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+      }
+      getStore() {
+        return void 0;
+      }
+      run() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+      }
+      exit() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+      }
+      enterWith() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+      }
+    };
+    var maybeGlobalAsyncLocalStorage = globalThis.AsyncLocalStorage;
+    function createAsyncLocalStorage() {
+      if (maybeGlobalAsyncLocalStorage) {
+        return new maybeGlobalAsyncLocalStorage();
+      }
+      return new FakeAsyncLocalStorage();
+    }
+    __name(createAsyncLocalStorage, "createAsyncLocalStorage");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/request-async-storage-instance.js
+var require_request_async_storage_instance = __commonJS({
+  "../../node_modules/next/dist/client/components/request-async-storage-instance.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "requestAsyncStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return requestAsyncStorage;
+      }, "get")
+    });
+    var _asynclocalstorage = require_async_local_storage();
+    var requestAsyncStorage = (0, _asynclocalstorage.createAsyncLocalStorage)();
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/request-async-storage.external.js
+var require_request_async_storage_external = __commonJS({
+  "../../node_modules/next/dist/client/components/request-async-storage.external.js"(exports2, module2) {
+    "TURBOPACK { transition: next-shared }";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      getExpectedRequestStore: /* @__PURE__ */ __name(function() {
+        return getExpectedRequestStore;
+      }, "getExpectedRequestStore"),
+      requestAsyncStorage: /* @__PURE__ */ __name(function() {
+        return _requestasyncstorageinstance.requestAsyncStorage;
+      }, "requestAsyncStorage")
+    });
+    var _requestasyncstorageinstance = require_request_async_storage_instance();
+    function getExpectedRequestStore(callingExpression) {
+      const store = _requestasyncstorageinstance.requestAsyncStorage.getStore();
+      if (store) return store;
+      throw new Error("`" + callingExpression + "` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context");
+    }
+    __name(getExpectedRequestStore, "getExpectedRequestStore");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/action-async-storage-instance.js
+var require_action_async_storage_instance = __commonJS({
+  "../../node_modules/next/dist/client/components/action-async-storage-instance.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "actionAsyncStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return actionAsyncStorage;
+      }, "get")
+    });
+    var _asynclocalstorage = require_async_local_storage();
+    var actionAsyncStorage = (0, _asynclocalstorage.createAsyncLocalStorage)();
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/action-async-storage.external.js
+var require_action_async_storage_external = __commonJS({
+  "../../node_modules/next/dist/client/components/action-async-storage.external.js"(exports2, module2) {
+    "TURBOPACK { transition: next-shared }";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "actionAsyncStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return _actionasyncstorageinstance.actionAsyncStorage;
+      }, "get")
+    });
+    var _actionasyncstorageinstance = require_action_async_storage_instance();
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/redirect-status-code.js
+var require_redirect_status_code = __commonJS({
+  "../../node_modules/next/dist/client/components/redirect-status-code.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "RedirectStatusCode", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return RedirectStatusCode;
+      }, "get")
+    });
+    var RedirectStatusCode;
+    (function(RedirectStatusCode2) {
+      RedirectStatusCode2[RedirectStatusCode2["SeeOther"] = 303] = "SeeOther";
+      RedirectStatusCode2[RedirectStatusCode2["TemporaryRedirect"] = 307] = "TemporaryRedirect";
+      RedirectStatusCode2[RedirectStatusCode2["PermanentRedirect"] = 308] = "PermanentRedirect";
+    })(RedirectStatusCode || (RedirectStatusCode = {}));
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/redirect.js
+var require_redirect = __commonJS({
+  "../../node_modules/next/dist/client/components/redirect.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      RedirectType: /* @__PURE__ */ __name(function() {
+        return RedirectType;
+      }, "RedirectType"),
+      getRedirectError: /* @__PURE__ */ __name(function() {
+        return getRedirectError;
+      }, "getRedirectError"),
+      getRedirectStatusCodeFromError: /* @__PURE__ */ __name(function() {
+        return getRedirectStatusCodeFromError;
+      }, "getRedirectStatusCodeFromError"),
+      getRedirectTypeFromError: /* @__PURE__ */ __name(function() {
+        return getRedirectTypeFromError;
+      }, "getRedirectTypeFromError"),
+      getURLFromRedirectError: /* @__PURE__ */ __name(function() {
+        return getURLFromRedirectError;
+      }, "getURLFromRedirectError"),
+      isRedirectError: /* @__PURE__ */ __name(function() {
+        return isRedirectError;
+      }, "isRedirectError"),
+      permanentRedirect: /* @__PURE__ */ __name(function() {
+        return permanentRedirect;
+      }, "permanentRedirect"),
+      redirect: /* @__PURE__ */ __name(function() {
+        return redirect;
+      }, "redirect")
+    });
+    var _requestasyncstorageexternal = require_request_async_storage_external();
+    var _actionasyncstorageexternal = require_action_async_storage_external();
+    var _redirectstatuscode = require_redirect_status_code();
+    var REDIRECT_ERROR_CODE = "NEXT_REDIRECT";
+    var RedirectType;
+    (function(RedirectType2) {
+      RedirectType2["push"] = "push";
+      RedirectType2["replace"] = "replace";
+    })(RedirectType || (RedirectType = {}));
+    function getRedirectError(url, type, statusCode) {
+      if (statusCode === void 0) statusCode = _redirectstatuscode.RedirectStatusCode.TemporaryRedirect;
+      const error3 = new Error(REDIRECT_ERROR_CODE);
+      error3.digest = REDIRECT_ERROR_CODE + ";" + type + ";" + url + ";" + statusCode + ";";
+      const requestStore = _requestasyncstorageexternal.requestAsyncStorage.getStore();
+      if (requestStore) {
+        error3.mutableCookies = requestStore.mutableCookies;
+      }
+      return error3;
+    }
+    __name(getRedirectError, "getRedirectError");
+    function redirect(url, type) {
+      if (type === void 0) type = "replace";
+      const actionStore = _actionasyncstorageexternal.actionAsyncStorage.getStore();
+      throw getRedirectError(
+        url,
+        type,
+        // If we're in an action, we want to use a 303 redirect
+        // as we don't want the POST request to follow the redirect,
+        // as it could result in erroneous re-submissions.
+        (actionStore == null ? void 0 : actionStore.isAction) ? _redirectstatuscode.RedirectStatusCode.SeeOther : _redirectstatuscode.RedirectStatusCode.TemporaryRedirect
+      );
+    }
+    __name(redirect, "redirect");
+    function permanentRedirect(url, type) {
+      if (type === void 0) type = "replace";
+      const actionStore = _actionasyncstorageexternal.actionAsyncStorage.getStore();
+      throw getRedirectError(
+        url,
+        type,
+        // If we're in an action, we want to use a 303 redirect
+        // as we don't want the POST request to follow the redirect,
+        // as it could result in erroneous re-submissions.
+        (actionStore == null ? void 0 : actionStore.isAction) ? _redirectstatuscode.RedirectStatusCode.SeeOther : _redirectstatuscode.RedirectStatusCode.PermanentRedirect
+      );
+    }
+    __name(permanentRedirect, "permanentRedirect");
+    function isRedirectError(error3) {
+      if (typeof error3 !== "object" || error3 === null || !("digest" in error3) || typeof error3.digest !== "string") {
+        return false;
+      }
+      const [errorCode, type, destination, status] = error3.digest.split(";", 4);
+      const statusCode = Number(status);
+      return errorCode === REDIRECT_ERROR_CODE && (type === "replace" || type === "push") && typeof destination === "string" && !isNaN(statusCode) && statusCode in _redirectstatuscode.RedirectStatusCode;
+    }
+    __name(isRedirectError, "isRedirectError");
+    function getURLFromRedirectError(error3) {
+      if (!isRedirectError(error3)) return null;
+      return error3.digest.split(";", 3)[2];
+    }
+    __name(getURLFromRedirectError, "getURLFromRedirectError");
+    function getRedirectTypeFromError(error3) {
+      if (!isRedirectError(error3)) {
+        throw new Error("Not a redirect error");
+      }
+      return error3.digest.split(";", 2)[1];
+    }
+    __name(getRedirectTypeFromError, "getRedirectTypeFromError");
+    function getRedirectStatusCodeFromError(error3) {
+      if (!isRedirectError(error3)) {
+        throw new Error("Not a redirect error");
+      }
+      return Number(error3.digest.split(";", 4)[3]);
+    }
+    __name(getRedirectStatusCodeFromError, "getRedirectStatusCodeFromError");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/not-found.js
+var require_not_found = __commonJS({
+  "../../node_modules/next/dist/client/components/not-found.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      isNotFoundError: /* @__PURE__ */ __name(function() {
+        return isNotFoundError;
+      }, "isNotFoundError"),
+      notFound: /* @__PURE__ */ __name(function() {
+        return notFound;
+      }, "notFound")
+    });
+    var NOT_FOUND_ERROR_CODE = "NEXT_NOT_FOUND";
+    function notFound() {
+      const error3 = new Error(NOT_FOUND_ERROR_CODE);
+      error3.digest = NOT_FOUND_ERROR_CODE;
+      throw error3;
+    }
+    __name(notFound, "notFound");
+    function isNotFoundError(error3) {
+      if (typeof error3 !== "object" || error3 === null || !("digest" in error3)) {
+        return false;
+      }
+      return error3.digest === NOT_FOUND_ERROR_CODE;
+    }
+    __name(isNotFoundError, "isNotFoundError");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/navigation.react-server.js
+var require_navigation_react_server = __commonJS({
+  "../../node_modules/next/dist/client/components/navigation.react-server.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      ReadonlyURLSearchParams: /* @__PURE__ */ __name(function() {
+        return ReadonlyURLSearchParams;
+      }, "ReadonlyURLSearchParams"),
+      RedirectType: /* @__PURE__ */ __name(function() {
+        return _redirect.RedirectType;
+      }, "RedirectType"),
+      notFound: /* @__PURE__ */ __name(function() {
+        return _notfound.notFound;
+      }, "notFound"),
+      permanentRedirect: /* @__PURE__ */ __name(function() {
+        return _redirect.permanentRedirect;
+      }, "permanentRedirect"),
+      redirect: /* @__PURE__ */ __name(function() {
+        return _redirect.redirect;
+      }, "redirect")
+    });
+    var _redirect = require_redirect();
+    var _notfound = require_not_found();
+    var ReadonlyURLSearchParamsError = class extends Error {
+      static {
+        __name(this, "ReadonlyURLSearchParamsError");
+      }
+      constructor() {
+        super("Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams");
+      }
+    };
+    var ReadonlyURLSearchParams = class extends URLSearchParams {
+      static {
+        __name(this, "ReadonlyURLSearchParams");
+      }
+      /** @deprecated Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams */
+      append() {
+        throw new ReadonlyURLSearchParamsError();
+      }
+      /** @deprecated Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams */
+      delete() {
+        throw new ReadonlyURLSearchParamsError();
+      }
+      /** @deprecated Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams */
+      set() {
+        throw new ReadonlyURLSearchParamsError();
+      }
+      /** @deprecated Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams */
+      sort() {
+        throw new ReadonlyURLSearchParamsError();
+      }
+    };
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/shared/lib/server-inserted-html.shared-runtime.js
+var require_server_inserted_html_shared_runtime = __commonJS({
+  "../../node_modules/next/dist/shared/lib/server-inserted-html.shared-runtime.js"(exports2) {
+    "use client";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      ServerInsertedHTMLContext: /* @__PURE__ */ __name(function() {
+        return ServerInsertedHTMLContext;
+      }, "ServerInsertedHTMLContext"),
+      useServerInsertedHTML: /* @__PURE__ */ __name(function() {
+        return useServerInsertedHTML;
+      }, "useServerInsertedHTML")
+    });
+    var _interop_require_wildcard = require_interop_require_wildcard();
+    var _react = /* @__PURE__ */ _interop_require_wildcard._(require("react"));
+    var ServerInsertedHTMLContext = /* @__PURE__ */ _react.default.createContext(null);
+    function useServerInsertedHTML(callback) {
+      const addInsertedServerHTMLCallback = (0, _react.useContext)(ServerInsertedHTMLContext);
+      if (addInsertedServerHTMLCallback) {
+        addInsertedServerHTMLCallback(callback);
+      }
+    }
+    __name(useServerInsertedHTML, "useServerInsertedHTML");
+  }
+});
+
+// ../../node_modules/next/dist/shared/lib/lazy-dynamic/bailout-to-csr.js
+var require_bailout_to_csr = __commonJS({
+  "../../node_modules/next/dist/shared/lib/lazy-dynamic/bailout-to-csr.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      BailoutToCSRError: /* @__PURE__ */ __name(function() {
+        return BailoutToCSRError;
+      }, "BailoutToCSRError"),
+      isBailoutToCSRError: /* @__PURE__ */ __name(function() {
+        return isBailoutToCSRError;
+      }, "isBailoutToCSRError")
+    });
+    var BAILOUT_TO_CSR = "BAILOUT_TO_CLIENT_SIDE_RENDERING";
+    var BailoutToCSRError = class extends Error {
+      static {
+        __name(this, "BailoutToCSRError");
+      }
+      constructor(reason) {
+        super("Bail out to client-side rendering: " + reason);
+        this.reason = reason;
+        this.digest = BAILOUT_TO_CSR;
+      }
+    };
+    function isBailoutToCSRError(err) {
+      if (typeof err !== "object" || err === null || !("digest" in err)) {
+        return false;
+      }
+      return err.digest === BAILOUT_TO_CSR;
+    }
+    __name(isBailoutToCSRError, "isBailoutToCSRError");
+  }
+});
+
+// ../../node_modules/next/dist/client/components/static-generation-async-storage-instance.js
+var require_static_generation_async_storage_instance = __commonJS({
+  "../../node_modules/next/dist/client/components/static-generation-async-storage-instance.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "staticGenerationAsyncStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return staticGenerationAsyncStorage;
+      }, "get")
+    });
+    var _asynclocalstorage = require_async_local_storage();
+    var staticGenerationAsyncStorage = (0, _asynclocalstorage.createAsyncLocalStorage)();
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/static-generation-async-storage.external.js
+var require_static_generation_async_storage_external = __commonJS({
+  "../../node_modules/next/dist/client/components/static-generation-async-storage.external.js"(exports2, module2) {
+    "TURBOPACK { transition: next-shared }";
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "staticGenerationAsyncStorage", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return _staticgenerationasyncstorageinstance.staticGenerationAsyncStorage;
+      }, "get")
+    });
+    var _staticgenerationasyncstorageinstance = require_static_generation_async_storage_instance();
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/bailout-to-client-rendering.js
+var require_bailout_to_client_rendering = __commonJS({
+  "../../node_modules/next/dist/client/components/bailout-to-client-rendering.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports2, "bailoutToClientRendering", {
+      enumerable: true,
+      get: /* @__PURE__ */ __name(function() {
+        return bailoutToClientRendering;
+      }, "get")
+    });
+    var _bailouttocsr = require_bailout_to_csr();
+    var _staticgenerationasyncstorageexternal = require_static_generation_async_storage_external();
+    function bailoutToClientRendering(reason) {
+      const staticGenerationStore = _staticgenerationasyncstorageexternal.staticGenerationAsyncStorage.getStore();
+      if (staticGenerationStore == null ? void 0 : staticGenerationStore.forceStatic) return;
+      if (staticGenerationStore == null ? void 0 : staticGenerationStore.isStaticGeneration) throw new _bailouttocsr.BailoutToCSRError(reason);
+    }
+    __name(bailoutToClientRendering, "bailoutToClientRendering");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/dist/client/components/navigation.js
+var require_navigation = __commonJS({
+  "../../node_modules/next/dist/client/components/navigation.js"(exports2, module2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", {
+      value: true
+    });
+    function _export(target, all) {
+      for (var name2 in all) Object.defineProperty(target, name2, {
+        enumerable: true,
+        get: all[name2]
+      });
+    }
+    __name(_export, "_export");
+    _export(exports2, {
+      ReadonlyURLSearchParams: /* @__PURE__ */ __name(function() {
+        return _navigationreactserver.ReadonlyURLSearchParams;
+      }, "ReadonlyURLSearchParams"),
+      RedirectType: /* @__PURE__ */ __name(function() {
+        return _navigationreactserver.RedirectType;
+      }, "RedirectType"),
+      ServerInsertedHTMLContext: /* @__PURE__ */ __name(function() {
+        return _serverinsertedhtmlsharedruntime.ServerInsertedHTMLContext;
+      }, "ServerInsertedHTMLContext"),
+      notFound: /* @__PURE__ */ __name(function() {
+        return _navigationreactserver.notFound;
+      }, "notFound"),
+      permanentRedirect: /* @__PURE__ */ __name(function() {
+        return _navigationreactserver.permanentRedirect;
+      }, "permanentRedirect"),
+      redirect: /* @__PURE__ */ __name(function() {
+        return _navigationreactserver.redirect;
+      }, "redirect"),
+      useParams: /* @__PURE__ */ __name(function() {
+        return useParams;
+      }, "useParams"),
+      usePathname: /* @__PURE__ */ __name(function() {
+        return usePathname;
+      }, "usePathname"),
+      useRouter: /* @__PURE__ */ __name(function() {
+        return useRouter3;
+      }, "useRouter"),
+      useSearchParams: /* @__PURE__ */ __name(function() {
+        return useSearchParams;
+      }, "useSearchParams"),
+      useSelectedLayoutSegment: /* @__PURE__ */ __name(function() {
+        return useSelectedLayoutSegment;
+      }, "useSelectedLayoutSegment"),
+      useSelectedLayoutSegments: /* @__PURE__ */ __name(function() {
+        return useSelectedLayoutSegments;
+      }, "useSelectedLayoutSegments"),
+      useServerInsertedHTML: /* @__PURE__ */ __name(function() {
+        return _serverinsertedhtmlsharedruntime.useServerInsertedHTML;
+      }, "useServerInsertedHTML")
+    });
+    var _react = require("react");
+    var _approutercontextsharedruntime = require_app_router_context_shared_runtime();
+    var _hooksclientcontextsharedruntime = require_hooks_client_context_shared_runtime();
+    var _getsegmentvalue = require_get_segment_value();
+    var _segment = require_segment();
+    var _navigationreactserver = require_navigation_react_server();
+    var _serverinsertedhtmlsharedruntime = require_server_inserted_html_shared_runtime();
+    function useSearchParams() {
+      const searchParams = (0, _react.useContext)(_hooksclientcontextsharedruntime.SearchParamsContext);
+      const readonlySearchParams = (0, _react.useMemo)(() => {
+        if (!searchParams) {
+          return null;
+        }
+        return new _navigationreactserver.ReadonlyURLSearchParams(searchParams);
+      }, [
+        searchParams
+      ]);
+      if (typeof window === "undefined") {
+        const { bailoutToClientRendering } = require_bailout_to_client_rendering();
+        bailoutToClientRendering("useSearchParams()");
+      }
+      return readonlySearchParams;
+    }
+    __name(useSearchParams, "useSearchParams");
+    function usePathname() {
+      return (0, _react.useContext)(_hooksclientcontextsharedruntime.PathnameContext);
+    }
+    __name(usePathname, "usePathname");
+    function useRouter3() {
+      const router = (0, _react.useContext)(_approutercontextsharedruntime.AppRouterContext);
+      if (router === null) {
+        throw new Error("invariant expected app router to be mounted");
+      }
+      return router;
+    }
+    __name(useRouter3, "useRouter");
+    function useParams() {
+      return (0, _react.useContext)(_hooksclientcontextsharedruntime.PathParamsContext);
+    }
+    __name(useParams, "useParams");
+    function getSelectedLayoutSegmentPath(tree, parallelRouteKey, first, segmentPath) {
+      if (first === void 0) first = true;
+      if (segmentPath === void 0) segmentPath = [];
+      let node;
+      if (first) {
+        node = tree[1][parallelRouteKey];
+      } else {
+        const parallelRoutes = tree[1];
+        var _parallelRoutes_children;
+        node = (_parallelRoutes_children = parallelRoutes.children) != null ? _parallelRoutes_children : Object.values(parallelRoutes)[0];
+      }
+      if (!node) return segmentPath;
+      const segment = node[0];
+      const segmentValue = (0, _getsegmentvalue.getSegmentValue)(segment);
+      if (!segmentValue || segmentValue.startsWith(_segment.PAGE_SEGMENT_KEY)) {
+        return segmentPath;
+      }
+      segmentPath.push(segmentValue);
+      return getSelectedLayoutSegmentPath(node, parallelRouteKey, false, segmentPath);
+    }
+    __name(getSelectedLayoutSegmentPath, "getSelectedLayoutSegmentPath");
+    function useSelectedLayoutSegments(parallelRouteKey) {
+      if (parallelRouteKey === void 0) parallelRouteKey = "children";
+      const context2 = (0, _react.useContext)(_approutercontextsharedruntime.LayoutRouterContext);
+      if (!context2) return null;
+      return getSelectedLayoutSegmentPath(context2.tree, parallelRouteKey);
+    }
+    __name(useSelectedLayoutSegments, "useSelectedLayoutSegments");
+    function useSelectedLayoutSegment(parallelRouteKey) {
+      if (parallelRouteKey === void 0) parallelRouteKey = "children";
+      const selectedLayoutSegments = useSelectedLayoutSegments(parallelRouteKey);
+      if (!selectedLayoutSegments || selectedLayoutSegments.length === 0) {
+        return null;
+      }
+      const selectedLayoutSegment = parallelRouteKey === "children" ? selectedLayoutSegments[0] : selectedLayoutSegments[selectedLayoutSegments.length - 1];
+      return selectedLayoutSegment === _segment.DEFAULT_SEGMENT_KEY ? null : selectedLayoutSegment;
+    }
+    __name(useSelectedLayoutSegment, "useSelectedLayoutSegment");
+    if ((typeof exports2.default === "function" || typeof exports2.default === "object" && exports2.default !== null) && typeof exports2.default.__esModule === "undefined") {
+      Object.defineProperty(exports2.default, "__esModule", { value: true });
+      Object.assign(exports2.default, exports2);
+      module2.exports = exports2.default;
+    }
+  }
+});
+
+// ../../node_modules/next/navigation.js
+var require_navigation2 = __commonJS({
+  "../../node_modules/next/navigation.js"(exports2, module2) {
+    module2.exports = require_navigation();
+  }
+});
+
 // ../../packages/ui/src/assets/logo.png
 var require_logo = __commonJS({
   "../../packages/ui/src/assets/logo.png"(exports2, module2) {
@@ -24414,12 +25281,14 @@ var src_exports = {};
 __export(src_exports, {
   ACTIONS: () => ACTIONS,
   Accordion: () => Accordion,
+  AccountCreatedPage: () => AccountCreatedPage,
   Adapt: () => Adapt,
   AdaptContents: () => AdaptContents,
   AdaptContext: () => AdaptContext,
   AdaptParent: () => AdaptParent,
   AdaptPortalContents: () => AdaptPortalContents,
   AddButton: () => AddButton,
+  AddMoreButton: () => AddMoreButton,
   AlertDialog: () => AlertDialog,
   AlertDialogAction: () => AlertDialogAction,
   AlertDialogCancel: () => AlertDialogCancel,
@@ -24431,6 +25300,8 @@ __export(src_exports, {
   AlertDialogTrigger: () => AlertDialogTrigger,
   Anchor: () => Anchor,
   AnimatePresence: () => AnimatePresence,
+  AppDownloadBanner: () => AppDownloadBanner,
+  AppFooter: () => AppFooter,
   AppHeader: () => AppHeader,
   Article: () => Article,
   Aside: () => Aside,
@@ -24450,6 +25321,10 @@ __export(src_exports, {
   CardFooter: () => CardFooter,
   CardFrame: () => CardFrame,
   CardHeader: () => CardHeader,
+  CartDaySection: () => CartDaySection,
+  CartItem: () => CartItem,
+  CartPage: () => CartPage,
+  CartSummary: () => CartSummary,
   CategoryRail: () => CategoryRail,
   Checkbox: () => Checkbox,
   CheckboxContext: () => CheckboxContext,
@@ -24460,6 +25335,8 @@ __export(src_exports, {
   ComponentContext: () => import_core58.ComponentContext,
   Configuration: () => import_core58.Configuration,
   CustomToast: () => CustomToast,
+  DeliveryDatePopup: () => DeliveryDatePopup,
+  DessertDeals: () => DessertDeals,
   Dialog: () => Dialog,
   DialogClose: () => DialogClose,
   DialogContent: () => DialogContent,
@@ -24471,12 +25348,15 @@ __export(src_exports, {
   DialogTitle: () => DialogTitle,
   DialogTrigger: () => DialogTrigger,
   DialogWarningProvider: () => DialogWarningProvider,
+  EmptyCart: () => EmptyCart,
   EnsureFlexed: () => EnsureFlexed,
+  FAQSection: () => FAQSection,
   Fieldset: () => Fieldset,
   FontLanguage: () => import_core58.FontLanguage,
   FoodCard: () => FoodCard,
   FoodListingRail: () => FoodListingRail,
   Footer: () => Footer,
+  ForgotPasswordPage: () => ForgotPasswordPage,
   Form: () => Form2,
   FormFrame: () => FormFrame,
   FormProvider: () => FormProvider,
@@ -24507,12 +25387,14 @@ __export(src_exports, {
   ListItemSubtitle: () => ListItemSubtitle,
   ListItemText: () => ListItemText,
   ListItemTitle: () => ListItemTitle,
+  LoginPage: () => LoginPage,
   Main: () => Main,
   MyComponent: () => MyComponent,
   Nav: () => Nav,
   Overlay: () => Overlay,
   Paragraph: () => Paragraph,
   ParentSheetContext: () => ParentSheetContext,
+  PasswordChangedPage: () => PasswordChangedPage,
   Popover: () => Popover,
   PopoverAnchor: () => PopoverAnchor,
   PopoverArrow: () => PopoverArrow,
@@ -24546,6 +25428,7 @@ __export(src_exports, {
   RadioGroupStyledContext: () => RadioGroupStyledContext,
   Range: () => Range,
   ResetPresence: () => ResetPresence,
+  SavingsBanner: () => SavingsBanner,
   ScrollView: () => ScrollView,
   SearchFood: () => SearchFood,
   Section: () => Section,
@@ -24556,6 +25439,7 @@ __export(src_exports, {
   SelectProvider: () => SelectProvider,
   SelectSeparator: () => SelectSeparator,
   Separator: () => Separator,
+  SetNewPasswordPage: () => SetNewPasswordPage,
   Sheet: () => Sheet,
   SheetController: () => SheetController,
   SheetControllerContext: () => SheetControllerContext,
@@ -24563,6 +25447,8 @@ __export(src_exports, {
   SheetInsideSheetContext: () => SheetInsideSheetContext,
   SheetOverlayFrame: () => SheetOverlayFrame,
   SheetScrollView: () => SheetScrollView,
+  SignupPage: () => SignupPage,
+  SignupStep2Page: () => SignupStep2Page,
   SizableStack: () => SizableStack,
   SizableText: () => SizableText,
   Slider: () => Slider,
@@ -24583,6 +25469,7 @@ __export(src_exports, {
   StyleObjectPseudo: () => StyleObjectPseudo,
   StyleObjectRules: () => StyleObjectRules,
   StyleObjectValue: () => StyleObjectValue,
+  SubscriptionBanner: () => SubscriptionBanner,
   Switch: () => Switch,
   SwitchContext: () => SwitchContext,
   SwitchFrame: () => SwitchFrame,
@@ -24609,8 +25496,10 @@ __export(src_exports, {
   Track: () => Track,
   USE_NATIVE_PORTAL: () => USE_NATIVE_PORTAL,
   Unspaced: () => import_core58.Unspaced,
+  VerifyEmailPage: () => VerifyEmailPage,
   View: () => import_core58.View,
   VisuallyHidden: () => VisuallyHidden,
+  WhyChooseUs: () => WhyChooseUs,
   XGroup: () => XGroup,
   XStack: () => XStack,
   YGroup: () => YGroup,
@@ -26957,14 +27846,14 @@ function createContext7(rootComponentName, defaultContext) {
     });
   }
   __name(Provider, "Provider");
-  function useContext17(consumerName) {
+  function useContext18(consumerName) {
     const context2 = React20.useContext(Context);
     if (context2) return context2;
     if (defaultContext !== void 0) return defaultContext;
     throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
   }
-  __name(useContext17, "useContext");
-  return [Provider, useContext17];
+  __name(useContext18, "useContext");
+  return [Provider, useContext18];
 }
 __name(createContext7, "createContext");
 function createContextScope(scopeName, createContextScopeDeps = []) {
@@ -26984,7 +27873,7 @@ function createContextScope(scopeName, createContextScopeDeps = []) {
       });
     }
     __name(Provider, "Provider");
-    function useContext17(consumerName, scope, options) {
+    function useContext18(consumerName, scope, options) {
       const Context = scope?.[scopeName]?.[index3] || BaseContext, context2 = React20.useContext(Context);
       if (context2) return context2;
       if (defaultContext !== void 0) return defaultContext;
@@ -26992,8 +27881,8 @@ function createContextScope(scopeName, createContextScopeDeps = []) {
       if (options?.fallback) return options?.warn !== false && console.warn(missingContextMessage), options.fallback;
       throw new Error(missingContextMessage);
     }
-    __name(useContext17, "useContext");
-    return [Provider, useContext17];
+    __name(useContext18, "useContext");
+    return [Provider, useContext18];
   }
   __name(createContext22, "createContext2");
   const createScope = /* @__PURE__ */ __name(() => {
@@ -43798,14 +44687,180 @@ var SwitchRouterButton = /* @__PURE__ */ __name(({ pagesMode = false }) => {
   ] }) });
 }, "SwitchRouterButton");
 
-// ../../packages/ui/src/Header.tsx
+// ../../node_modules/solito/build/app/navigation/use-router.js
+var import_react57 = require("react");
 var import_react_native2 = require("@tamagui/react-native-web-lite");
+
+// ../../node_modules/solito/build/router/parse-next-path.js
+var parseNextPath = /* @__PURE__ */ __name((from) => {
+  let path = (typeof from == "string" ? from : from.pathname) || "";
+  if (typeof from == "object" && from.query && typeof from.query == "object") {
+    const query = { ...from.query };
+    for (const key in query) {
+      if (path.includes(`[${key}]`)) {
+        path = path.replace(`[${key}]`, `${query[key] ?? ""}`);
+        delete query[key];
+      } else if (path.includes(`[...${key}]`)) {
+        const values = query[key];
+        if (Array.isArray(values)) {
+          path = path.replace(`[...${key}]`, values.join("/"));
+          delete query[key];
+        }
+      }
+    }
+    if (Object.keys(query).length) {
+      path += "?";
+      for (const key in query) {
+        const value = query[key];
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            path += `${key}=${item}&`;
+          });
+        } else if (value != null) {
+          path += `${key}=${value}&`;
+        }
+      }
+      if (path.endsWith("&") || path.endsWith("?")) {
+        path = path.slice(0, -1);
+      }
+    }
+  }
+  return path;
+}, "parseNextPath");
+
+// ../../node_modules/solito/build/router/replace-helpers.web.js
+var import_react56 = require("react");
+var LinkingContext = (0, import_react56.createContext)({
+  options: void 0
+});
+var StackActions;
+var getStateFromPath;
+var getActionFromState;
+
+// ../../node_modules/solito/build/router/use-link-to.web.js
+var noOp = /* @__PURE__ */ __name(() => {
+  throw new Error("[use-link-to] is not supported on the web. Something went wrong if you called this.");
+}, "noOp");
+var useLinkTo = /* @__PURE__ */ __name(() => noOp, "useLinkTo");
+
+// ../../node_modules/solito/build/router/use-navigation.web.js
+var useNavigation = /* @__PURE__ */ __name(() => void 0, "useNavigation");
+
+// ../../node_modules/solito/build/app/navigation/use-next-router.web.js
+var import_navigation = __toESM(require_navigation2());
+
+// ../../node_modules/solito/build/app/navigation/use-router.js
+function useRouter2() {
+  const linkTo = useLinkTo();
+  const navigation = useNavigation();
+  const nextRouter = (0, import_navigation.useRouter)();
+  const linking = (0, import_react57.useContext)(LinkingContext);
+  return (0, import_react57.useMemo)(() => ({
+    push: /* @__PURE__ */ __name((url, navigateOptions) => {
+      if (import_react_native2.Platform.OS === "web") {
+        nextRouter?.push(url, navigateOptions);
+      } else {
+        const to = parseNextPath(url);
+        if (to) {
+          linkTo(to);
+        }
+      }
+    }, "push"),
+    replace: /* @__PURE__ */ __name((url, navigateOptions) => {
+      if (import_react_native2.Platform.OS === "web") {
+        nextRouter?.replace(url, navigateOptions);
+      } else {
+        const to = parseNextPath(url);
+        if (to) {
+          if (navigateOptions?.experimental?.nativeBehavior === "stack-replace") {
+            if (linking?.options) {
+              const { options } = linking;
+              const state = options?.getStateFromPath ? options.getStateFromPath(to, options.config) : getStateFromPath(to, options?.config);
+              if (state) {
+                const action = getActionFromState(state, options?.config);
+                if (action !== void 0) {
+                  if ("payload" in action && action.payload && "name" in action.payload && action.payload.name) {
+                    const { name: name2, params } = action.payload;
+                    if (navigateOptions?.experimental?.isNestedNavigator && params && "screen" in params && params.screen) {
+                      navigation?.dispatch(StackActions.replace(params.screen, params.params));
+                    } else {
+                      navigation?.dispatch(StackActions.replace(name2, params));
+                    }
+                  } else {
+                    navigation?.dispatch(action);
+                  }
+                } else {
+                  navigation?.reset(state);
+                }
+              }
+            } else {
+              console.warn(`[solito] replace("${to}") faced an issue. You should still see your new screen, but it probably didn't replace the previous one. This may be due to a breaking change in React Navigation. 
+  Please open an issue at https://github.com/nandorojo/solito and report how this happened. Thanks!`);
+              linkTo(to);
+            }
+          } else {
+            linkTo(to);
+          }
+        }
+      }
+    }, "replace"),
+    back: /* @__PURE__ */ __name(() => {
+      if (import_react_native2.Platform.OS === "web") {
+        nextRouter?.back();
+      } else {
+        navigation?.goBack();
+      }
+    }, "back"),
+    parseNextPath
+  }), [linkTo, navigation]);
+}
+__name(useRouter2, "useRouter");
+
+// ../../node_modules/solito/build/app/navigation/use-link.js
+var import_react_native3 = require("@tamagui/react-native-web-lite");
+function useLink({ href, replace, experimental }) {
+  const router = useRouter2();
+  const onPress = /* @__PURE__ */ __name((e) => {
+    let shouldHandle = false;
+    if (import_react_native3.Platform.OS !== "web" || !e) {
+      shouldHandle = e ? !e.defaultPrevented : true;
+    } else if (!e.defaultPrevented && // onPress prevented default
+    // @ts-expect-error: these properties exist on web, but not in React Native
+    !(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) && // ignore clicks with modifier keys
+    // @ts-expect-error: these properties exist on web, but not in React Native
+    (e.button == null || e.button === 0) && // ignore everything but left clicks
+    // @ts-expect-error: these properties exist on web, but not in React Native
+    [void 0, null, "", "self"].includes(e.currentTarget?.target)) {
+      e.preventDefault();
+      shouldHandle = true;
+    }
+    if (shouldHandle) {
+      if (href === "#") {
+        return;
+      }
+      if (replace) {
+        router.replace(href, { experimental });
+      } else {
+        router.push(href);
+      }
+    }
+  }, "onPress");
+  return {
+    accessibilityRole: "link",
+    onPress,
+    href
+  };
+}
+__name(useLink, "useLink");
+
+// ../../packages/ui/src/Header.tsx
+var import_react_native4 = require("@tamagui/react-native-web-lite");
 
 // ../../node_modules/@tamagui/helpers-icon/dist/esm/themed.mjs
 var import_core66 = require("@tamagui/core");
-var import_react56 = __toESM(require("react"), 1);
+var import_react58 = __toESM(require("react"), 1);
 var import_jsx_runtime78 = require("react/jsx-runtime");
-import_react56.default.keep;
+import_react58.default.keep;
 function themed(Component, optsIn = {}) {
   const opts = {
     defaultThemeColor: process.env.DEFAULT_ICON_THEME_COLOR || "$color",
@@ -43834,10 +44889,10 @@ function themed(Component, optsIn = {}) {
 __name(themed, "themed");
 
 // ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ArrowRight.mjs
-var import_react57 = require("react");
+var import_react59 = require("react");
 var import_react_native_svg = require("react-native-svg");
 var import_jsx_runtime79 = require("react/jsx-runtime");
-var ArrowRight = themed((0, import_react57.memo)(function(props) {
+var ArrowRight = themed((0, import_react59.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
@@ -43864,10 +44919,10 @@ var ArrowRight = themed((0, import_react57.memo)(function(props) {
 }));
 
 // ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Bell.mjs
-var import_react58 = require("react");
+var import_react60 = require("react");
 var import_react_native_svg2 = require("react-native-svg");
 var import_jsx_runtime80 = require("react/jsx-runtime");
-var Bell = themed((0, import_react58.memo)(function(props) {
+var Bell = themed((0, import_react60.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
@@ -43893,11 +44948,11 @@ var Bell = themed((0, import_react58.memo)(function(props) {
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Minus.mjs
-var import_react59 = require("react");
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Check.mjs
+var import_react61 = require("react");
 var import_react_native_svg3 = require("react-native-svg");
 var import_jsx_runtime81 = require("react/jsx-runtime");
-var Minus = themed((0, import_react59.memo)(function(props) {
+var Check = themed((0, import_react61.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
@@ -43914,6 +44969,346 @@ var Minus = themed((0, import_react59.memo)(function(props) {
     strokeLinejoin: "round",
     ...otherProps,
     children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_react_native_svg3.Path, {
+      d: "M20 6 9 17l-5-5",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ChevronDown.mjs
+var import_react62 = require("react");
+var import_react_native_svg4 = require("react-native-svg");
+var import_jsx_runtime82 = require("react/jsx-runtime");
+var ChevronDown = themed((0, import_react62.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+      d: "m6 9 6 6 6-6",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ChevronLeft.mjs
+var import_react63 = require("react");
+var import_react_native_svg5 = require("react-native-svg");
+var import_jsx_runtime83 = require("react/jsx-runtime");
+var ChevronLeft = themed((0, import_react63.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Path, {
+      d: "m15 18-6-6 6-6",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ChevronRight.mjs
+var import_react64 = require("react");
+var import_react_native_svg6 = require("react-native-svg");
+var import_jsx_runtime84 = require("react/jsx-runtime");
+var ChevronRight = themed((0, import_react64.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Path, {
+      d: "m9 18 6-6-6-6",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ChevronUp.mjs
+var import_react65 = require("react");
+var import_react_native_svg7 = require("react-native-svg");
+var import_jsx_runtime85 = require("react/jsx-runtime");
+var ChevronUp = themed((0, import_react65.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(import_react_native_svg7.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(import_react_native_svg7.Path, {
+      d: "m18 15-6-6-6 6",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/EyeOff.mjs
+var import_react66 = require("react");
+var import_react_native_svg8 = require("react-native-svg");
+var import_jsx_runtime86 = require("react/jsx-runtime");
+var EyeOff = themed((0, import_react66.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_react_native_svg8.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_react_native_svg8.Path, {
+      d: "M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_react_native_svg8.Path, {
+      d: "M14.084 14.158a3 3 0 0 1-4.242-4.242",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_react_native_svg8.Path, {
+      d: "M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_react_native_svg8.Path, {
+      d: "m2 2 20 20",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Eye.mjs
+var import_react67 = require("react");
+var import_react_native_svg9 = require("react-native-svg");
+var import_jsx_runtime87 = require("react/jsx-runtime");
+var Eye = themed((0, import_react67.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_react_native_svg9.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime87.jsx)(import_react_native_svg9.Path, {
+      d: "M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(import_react_native_svg9.Circle, {
+      cx: "12",
+      cy: "12",
+      r: "3",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Facebook.mjs
+var import_react68 = require("react");
+var import_react_native_svg10 = require("react-native-svg");
+var import_jsx_runtime88 = require("react/jsx-runtime");
+var Facebook = themed((0, import_react68.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(import_react_native_svg10.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(import_react_native_svg10.Path, {
+      d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Instagram.mjs
+var import_react69 = require("react");
+var import_react_native_svg11 = require("react-native-svg");
+var import_jsx_runtime89 = require("react/jsx-runtime");
+var Instagram = themed((0, import_react69.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime89.jsxs)(import_react_native_svg11.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_react_native_svg11.Rect, {
+      width: "20",
+      height: "20",
+      x: "2",
+      y: "2",
+      rx: "5",
+      ry: "5",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_react_native_svg11.Path, {
+      d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_react_native_svg11.Line, {
+      x1: "17.5",
+      x2: "17.51",
+      y1: "6.5",
+      y2: "6.5",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Lock.mjs
+var import_react70 = require("react");
+var import_react_native_svg12 = require("react-native-svg");
+var import_jsx_runtime90 = require("react/jsx-runtime");
+var Lock = themed((0, import_react70.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)(import_react_native_svg12.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime90.jsx)(import_react_native_svg12.Rect, {
+      width: "18",
+      height: "11",
+      x: "3",
+      y: "11",
+      rx: "2",
+      ry: "2",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(import_react_native_svg12.Path, {
+      d: "M7 11V7a5 5 0 0 1 10 0v4",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Mail.mjs
+var import_react71 = require("react");
+var import_react_native_svg13 = require("react-native-svg");
+var import_jsx_runtime91 = require("react/jsx-runtime");
+var Mail = themed((0, import_react71.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)(import_react_native_svg13.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime91.jsx)(import_react_native_svg13.Path, {
+      d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(import_react_native_svg13.Rect, {
+      x: "2",
+      y: "4",
+      width: "20",
+      height: "16",
+      rx: "2",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Minus.mjs
+var import_react72 = require("react");
+var import_react_native_svg14 = require("react-native-svg");
+var import_jsx_runtime92 = require("react/jsx-runtime");
+var Minus = themed((0, import_react72.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(import_react_native_svg14.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(import_react_native_svg14.Path, {
       d: "M5 12h14",
       stroke: color
     })
@@ -43921,16 +45316,16 @@ var Minus = themed((0, import_react59.memo)(function(props) {
 }));
 
 // ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Plus.mjs
-var import_react60 = require("react");
-var import_react_native_svg4 = require("react-native-svg");
-var import_jsx_runtime82 = require("react/jsx-runtime");
-var Plus = themed((0, import_react60.memo)(function(props) {
+var import_react73 = require("react");
+var import_react_native_svg15 = require("react-native-svg");
+var import_jsx_runtime93 = require("react/jsx-runtime");
+var Plus = themed((0, import_react73.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
     ...otherProps
   } = props;
-  return /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_react_native_svg4.Svg, {
+  return /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(import_react_native_svg15.Svg, {
     width: size5,
     height: size5,
     viewBox: "0 0 24 24",
@@ -43940,27 +45335,27 @@ var Plus = themed((0, import_react60.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+    children: [/* @__PURE__ */ (0, import_jsx_runtime93.jsx)(import_react_native_svg15.Path, {
       d: "M5 12h14",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_react_native_svg4.Path, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(import_react_native_svg15.Path, {
       d: "M12 5v14",
       stroke: color
     })]
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Search.mjs
-var import_react61 = require("react");
-var import_react_native_svg5 = require("react-native-svg");
-var import_jsx_runtime83 = require("react/jsx-runtime");
-var Search = themed((0, import_react61.memo)(function(props) {
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/RefreshCw.mjs
+var import_react74 = require("react");
+var import_react_native_svg16 = require("react-native-svg");
+var import_jsx_runtime94 = require("react/jsx-runtime");
+var RefreshCw = themed((0, import_react74.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
     ...otherProps
   } = props;
-  return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(import_react_native_svg5.Svg, {
+  return /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)(import_react_native_svg16.Svg, {
     width: size5,
     height: size5,
     viewBox: "0 0 24 24",
@@ -43970,10 +45365,46 @@ var Search = themed((0, import_react61.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Path, {
+    children: [/* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_react_native_svg16.Path, {
+      d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_react_native_svg16.Path, {
+      d: "M21 3v5h-5",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_react_native_svg16.Path, {
+      d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(import_react_native_svg16.Path, {
+      d: "M8 16H3v5",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Search.mjs
+var import_react75 = require("react");
+var import_react_native_svg17 = require("react-native-svg");
+var import_jsx_runtime95 = require("react/jsx-runtime");
+var Search = themed((0, import_react75.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(import_react_native_svg17.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime95.jsx)(import_react_native_svg17.Path, {
       d: "m21 21-4.34-4.34",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_react_native_svg5.Circle, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(import_react_native_svg17.Circle, {
       cx: "11",
       cy: "11",
       r: "8",
@@ -43982,17 +45413,17 @@ var Search = themed((0, import_react61.memo)(function(props) {
   });
 }));
 
-// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
-var import_react62 = require("react");
-var import_react_native_svg6 = require("react-native-svg");
-var import_jsx_runtime84 = require("react/jsx-runtime");
-var ShoppingCart = themed((0, import_react62.memo)(function(props) {
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingBag.mjs
+var import_react76 = require("react");
+var import_react_native_svg18 = require("react-native-svg");
+var import_jsx_runtime96 = require("react/jsx-runtime");
+var ShoppingBag = themed((0, import_react76.memo)(function(props) {
   const {
     color = "black",
     size: size5 = 24,
     ...otherProps
   } = props;
-  return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(import_react_native_svg6.Svg, {
+  return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)(import_react_native_svg18.Svg, {
     width: size5,
     height: size5,
     viewBox: "0 0 24 24",
@@ -44002,18 +45433,170 @@ var ShoppingCart = themed((0, import_react62.memo)(function(props) {
     strokeLinecap: "round",
     strokeLinejoin: "round",
     ...otherProps,
-    children: [/* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Circle, {
+    children: [/* @__PURE__ */ (0, import_jsx_runtime96.jsx)(import_react_native_svg18.Path, {
+      d: "M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(import_react_native_svg18.Path, {
+      d: "M3 6h18",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(import_react_native_svg18.Path, {
+      d: "M16 10a4 4 0 0 1-8 0",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/ShoppingCart.mjs
+var import_react77 = require("react");
+var import_react_native_svg19 = require("react-native-svg");
+var import_jsx_runtime97 = require("react/jsx-runtime");
+var ShoppingCart = themed((0, import_react77.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime97.jsxs)(import_react_native_svg19.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime97.jsx)(import_react_native_svg19.Circle, {
       cx: "8",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Circle, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime97.jsx)(import_react_native_svg19.Circle, {
       cx: "19",
       cy: "21",
       r: "1",
       stroke: color
-    }), /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_react_native_svg6.Path, {
+    }), /* @__PURE__ */ (0, import_jsx_runtime97.jsx)(import_react_native_svg19.Path, {
       d: "M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Twitter.mjs
+var import_react78 = require("react");
+var import_react_native_svg20 = require("react-native-svg");
+var import_jsx_runtime98 = require("react/jsx-runtime");
+var Twitter = themed((0, import_react78.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(import_react_native_svg20.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(import_react_native_svg20.Path, {
+      d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z",
+      stroke: color
+    })
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/User.mjs
+var import_react79 = require("react");
+var import_react_native_svg21 = require("react-native-svg");
+var import_jsx_runtime99 = require("react/jsx-runtime");
+var User = themed((0, import_react79.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime99.jsxs)(import_react_native_svg21.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime99.jsx)(import_react_native_svg21.Path, {
+      d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(import_react_native_svg21.Circle, {
+      cx: "12",
+      cy: "7",
+      r: "4",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/X.mjs
+var import_react80 = require("react");
+var import_react_native_svg22 = require("react-native-svg");
+var import_jsx_runtime100 = require("react/jsx-runtime");
+var X = themed((0, import_react80.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime100.jsxs)(import_react_native_svg22.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime100.jsx)(import_react_native_svg22.Path, {
+      d: "M18 6 6 18",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime100.jsx)(import_react_native_svg22.Path, {
+      d: "m6 6 12 12",
+      stroke: color
+    })]
+  });
+}));
+
+// ../../node_modules/@tamagui/lucide-icons/dist/esm/icons/Youtube.mjs
+var import_react81 = require("react");
+var import_react_native_svg23 = require("react-native-svg");
+var import_jsx_runtime101 = require("react/jsx-runtime");
+var Youtube = themed((0, import_react81.memo)(function(props) {
+  const {
+    color = "black",
+    size: size5 = 24,
+    ...otherProps
+  } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime101.jsxs)(import_react_native_svg23.Svg, {
+    width: size5,
+    height: size5,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    ...otherProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime101.jsx)(import_react_native_svg23.Path, {
+      d: "M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17",
+      stroke: color
+    }), /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(import_react_native_svg23.Path, {
+      d: "m10 15 5-3-5-3z",
       stroke: color
     })]
   });
@@ -44068,11 +45651,17 @@ var {
 } = colors2;
 
 // ../../packages/ui/src/Header.tsx
-var import_jsx_runtime85 = (
+var import_jsx_runtime102 = (
   // Web version uses absolute URL from public directory
   require("react/jsx-runtime")
 );
 var AppHeader = /* @__PURE__ */ __name(() => {
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const cartLink = useLink({
+    href: "/cart"
+  });
   const headerStyle = {
     height: 60,
     width: "100%",
@@ -44084,7 +45673,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     // Using pixel value instead of token
     justifyContent: "space-between",
     alignItems: "center",
-    position: import_react_native2.Platform.OS === "web" ? "sticky" : "absolute",
+    position: import_react_native4.Platform.OS === "web" ? "sticky" : "absolute",
     top: 0,
     zIndex: 100,
     boxShadow: `0px 2px 4px ${shadow}`,
@@ -44092,8 +45681,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     fontFamily: "Nunito"
     // Apply Nunito font to the header
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(XStack, { style: headerStyle, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native2.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime102.jsxs)(XStack, { style: headerStyle, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(XStack, { style: { alignItems: "center", paddingLeft: 0 }, children: import_react_native4.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
       Image,
       {
         source: { uri: "/images/logo.png" },
@@ -44104,7 +45693,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       }
     ) : (
       // Native version uses require statement for bundled assets
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
         Image,
         {
           source: require_logo(),
@@ -44115,22 +45704,39 @@ var AppHeader = /* @__PURE__ */ __name(() => {
         }
       )
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(ShoppingCart, { size: "$1" }), style: { backgroundColor: "transparent" } }),
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Button2, { size: "$3", style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" }, children: "Login" })
+    /* @__PURE__ */ (0, import_jsx_runtime102.jsxs)(XStack, { style: { gap: 8, alignItems: "center", paddingRight: 12 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(Button2, { size: "$3", circular: true, icon: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(Bell, { size: "$1" }), style: { backgroundColor: "transparent" } }),
+      /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
+        Button2,
+        {
+          size: "$3",
+          circular: true,
+          icon: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(ShoppingCart, { size: "$1" }),
+          style: { backgroundColor: "transparent" },
+          ...cartLink
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
+        Button2,
+        {
+          size: "$3",
+          style: { backgroundColor: primary, color: background, fontFamily: "Nunito", fontWeight: "600" },
+          ...loginLink,
+          children: "Login"
+        }
+      )
     ] })
   ] });
 }, "AppHeader");
 
 // ../../packages/ui/src/HeroBanner.tsx
-var import_react_native3 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime86 = require("react/jsx-runtime");
+var import_react_native5 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime103 = require("react/jsx-runtime");
 var HeroBanner = /* @__PURE__ */ __name(() => {
-  if (import_react_native3.Platform.OS !== "web") {
+  if (import_react_native5.Platform.OS !== "web") {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime103.jsxs)(
     XStack,
     {
       style: {
@@ -44145,7 +45751,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
         marginTop: 0
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44161,7 +45767,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime103.jsxs)(
           YStack,
           {
             style: {
@@ -44171,8 +45777,8 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               zIndex: 2
             },
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
-                import_react_native3.Image,
+              /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
+                import_react_native5.Image,
                 {
                   source: { uri: "/images/banner-text.png" },
                   style: {
@@ -44182,7 +45788,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                   }
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime103.jsxs)(
                 Text4,
                 {
                   style: {
@@ -44195,11 +45801,11 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                   children: [
                     "Order your favorite curries, biryanis, and more for convenient delivery across United States and",
                     " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
+                    /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(Text4, { style: { color: primary, fontFamily: "Nunito" }, children: "we do free deliveries too!" })
                   ]
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime103.jsxs)(
                 Button2,
                 {
                   style: {
@@ -44215,21 +45821,21 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
                     marginTop: 10
                   },
                   children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
                       Text4,
                       {
                         style: { color: "white", fontWeight: "bold", marginRight: 8, fontFamily: "Nunito" },
                         children: "Schedule your weekly meal"
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(ArrowRight, { color: "white", size: 18 })
+                    /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(ArrowRight, { color: "white", size: 18 })
                   ]
                 }
               )
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
           XStack,
           {
             style: {
@@ -44237,8 +45843,8 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
               justifyContent: "flex-end",
               zIndex: 2
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
-              import_react_native3.Image,
+            children: /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
+              import_react_native5.Image,
               {
                 source: { uri: "/images/thali-plate.png" },
                 style: {
@@ -44250,7 +45856,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             )
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44266,7 +45872,7 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
             }
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
           import_core58.Stack,
           {
             style: {
@@ -44288,11 +45894,11 @@ var HeroBanner = /* @__PURE__ */ __name(() => {
 }, "HeroBanner");
 
 // ../../packages/ui/src/SearchFood.tsx
-var import_react63 = require("react");
-var import_react_native4 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime87 = require("react/jsx-runtime");
+var import_react82 = require("react");
+var import_react_native6 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime104 = require("react/jsx-runtime");
 var textLight2 = "#9CA3AF";
-var styles = import_react_native4.StyleSheet.create({
+var styles = import_react_native6.StyleSheet.create({
   container: {
     paddingTop: 80,
     alignItems: "center",
@@ -44353,9 +45959,9 @@ function SearchFood({
   initialQuery = "",
   initialVegOnly = false
 }) {
-  const [searchQuery, setSearchQuery] = (0, import_react63.useState)(initialQuery);
-  const [vegOnly, setVegOnly] = (0, import_react63.useState)(initialVegOnly);
-  const { width } = (0, import_react_native4.useWindowDimensions)();
+  const [searchQuery, setSearchQuery] = (0, import_react82.useState)(initialQuery);
+  const [vegOnly, setVegOnly] = (0, import_react82.useState)(initialVegOnly);
+  const { width } = (0, import_react_native6.useWindowDimensions)();
   const getResponsiveWidth = /* @__PURE__ */ __name(() => {
     if (width < 768) {
       return "90%";
@@ -44373,9 +45979,9 @@ function SearchFood({
     setVegOnly(checked);
     onVegToggle?.(checked);
   }, "handleVegToggle");
-  return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth(), maxWidth: 600 }], children: [
-    /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Text4, { style: styles.title, children: "Search Your Favorite Food" }),
-    /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime104.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth(), maxWidth: 600 }], children: [
+    /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Text4, { style: styles.title, children: "Search Your Favorite Food" }),
+    /* @__PURE__ */ (0, import_jsx_runtime104.jsxs)(
       XStack,
       {
         style: {
@@ -44389,9 +45995,9 @@ function SearchFood({
           boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.05)"
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Search, { size: 18, color: textLight2 }),
-          /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
-            import_react_native4.TextInput,
+          /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Search, { size: 18, color: textLight2 }),
+          /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(
+            import_react_native6.TextInput,
             {
               style: {
                 flex: 1,
@@ -44407,16 +46013,16 @@ function SearchFood({
               placeholderTextColor: textLight2
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Text4, { fontSize: 12, color: vegOnly ? "#4caf50" : textLight2, children: "Veg Only" }),
-            /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime104.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Text4, { fontSize: 12, color: vegOnly ? "#4caf50" : textLight2, children: "Veg Only" }),
+            /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(
               Switch,
               {
                 size: "$2",
                 checked: vegOnly,
                 onCheckedChange: handleVegToggle,
                 bg: vegOnly ? "#4caf50" : void 0,
-                children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Switch.Thumb, { animation: "bouncy", bg: vegOnly ? "white" : "#f5f5f5" })
+                children: /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Switch.Thumb, { animation: "bouncy", bg: vegOnly ? "white" : "#f5f5f5" })
               }
             )
           ] })
@@ -44428,15 +46034,23 @@ function SearchFood({
 __name(SearchFood, "SearchFood");
 
 // ../../packages/ui/src/cards/CategoryCard.tsx
-var import_jsx_runtime88 = require("react/jsx-runtime");
+var import_react83 = require("react");
+var import_jsx_runtime105 = require("react/jsx-runtime");
 function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(
+  const [isHovered, setIsHovered] = (0, import_react83.useState)(false);
+  const bgColor = selected || isHovered ? "#FF9F0D" : "#FFF4E4";
+  const textColor = selected || isHovered ? "white" : "#2A1A0C";
+  return /* @__PURE__ */ (0, import_jsx_runtime105.jsxs)(
     YStack,
     {
-      bg: selected ? "#FF9F0D" : "#FFF4E4",
+      bg: bgColor,
       onPress,
       pressStyle: { opacity: 0.8 },
+      onHoverIn: () => setIsHovered(true),
+      onHoverOut: () => setIsHovered(false),
       style: {
+        transform: [{ translateY: isHovered ? -5 : 0 }],
+        transition: "all 0.3s ease",
         padding: 16,
         borderRadius: 12,
         justifyContent: "center",
@@ -44451,13 +46065,15 @@ function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
         shadowRadius: 30,
         elevation: 0,
         // For Android
-        // Box shadow for web
-        boxShadow: "3px 3px 10px 0px #AEAEC066"
+        // Box shadow for web - changes based on hover state
+        boxShadow: isHovered ? "3px 8px 15px 0px #AEAEC099" : "3px 3px 10px 0px #AEAEC066",
+        // Add cursor pointer for web
+        cursor: "pointer"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Text4, { fontSize: 16, fontWeight: "400", color: selected ? "white" : "#2A1A0C", children: name2 }),
-        /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(XStack, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Circle, { size: 24, bg: selected ? "white" : "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(ArrowRight, { size: 14, color: selected ? "#FF9F0D" : "white" }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(Text4, { fontSize: 16, fontWeight: "400", color: textColor, children: name2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(XStack, { children: /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(Circle, { size: 24, bg: selected || isHovered ? "white" : "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(ArrowRight, { size: 14, color: selected || isHovered ? "#FF9F0D" : "white" }) }) })
       ]
     }
   );
@@ -44465,8 +46081,8 @@ function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
 __name(CategoryCard, "CategoryCard");
 
 // ../../packages/ui/src/rails/CategoryRail.tsx
-var import_react64 = require("react");
-var import_jsx_runtime89 = require("react/jsx-runtime");
+var import_react84 = require("react");
+var import_jsx_runtime106 = require("react/jsx-runtime");
 var categories = [
   {
     id: 1,
@@ -44520,60 +46136,130 @@ var categories = [
   }
 ];
 function CategoryRail() {
-  const [selectedId, setSelectedId] = (0, import_react64.useState)(null);
+  const [selectedId, setSelectedId] = (0, import_react84.useState)(null);
+  const scrollViewRef = (0, import_react84.useRef)(null);
   const handleCardPress = /* @__PURE__ */ __name((id) => {
     setSelectedId(selectedId === id ? null : id);
     console.log("Card pressed:", id);
   }, "handleCardPress");
-  return /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
-    ScrollView,
-    {
-      horizontal: true,
-      showsHorizontalScrollIndicator: false,
-      bounces: false,
-      style: { height: 250, minHeight: 250 },
-      children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(XStack, { gap: "$3", style: { paddingLeft: 20, paddingTop: 20, paddingBottom: 20 }, children: categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
-        CategoryCard,
-        {
-          imageUrl: category.imageUrl,
-          name: category.name,
-          selected: selectedId === category.id,
-          onPress: () => handleCardPress(category.id)
-        },
-        category.id
-      )) })
+  const scrollLeft = /* @__PURE__ */ __name(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: Math.max(0, scrollViewRef.current.scrollLeft - 300),
+        animated: true
+      });
     }
-  );
+  }, "scrollLeft");
+  const scrollRight = /* @__PURE__ */ __name(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: scrollViewRef.current.scrollLeft + 300,
+        animated: true
+      });
+    }
+  }, "scrollRight");
+  return /* @__PURE__ */ (0, import_jsx_runtime106.jsxs)(YStack, { position: "relative", height: 250, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(
+      Circle,
+      {
+        size: 40,
+        bg: "white",
+        style: {
+          position: "absolute",
+          left: 5,
+          top: "50%",
+          zIndex: 1,
+          opacity: 0.9,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          transform: [{ translateY: -20 }],
+          cursor: "pointer"
+        },
+        pressStyle: { opacity: 0.7 },
+        onPress: scrollLeft,
+        children: /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(ChevronLeft, { size: 24, color: "#FF9F0D" })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(
+      Circle,
+      {
+        size: 40,
+        bg: "white",
+        style: {
+          position: "absolute",
+          right: 5,
+          top: "50%",
+          zIndex: 1,
+          opacity: 0.9,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          transform: [{ translateY: -20 }],
+          cursor: "pointer"
+        },
+        pressStyle: { opacity: 0.7 },
+        onPress: scrollRight,
+        children: /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(ChevronRight, { size: 24, color: "#FF9F0D" })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(
+      ScrollView,
+      {
+        ref: scrollViewRef,
+        horizontal: true,
+        showsHorizontalScrollIndicator: false,
+        bounces: false,
+        style: { height: 250, minHeight: 250, width: "100%" },
+        contentContainerStyle: { paddingLeft: 20, paddingRight: 20 },
+        children: /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(XStack, { gap: "$3", style: { paddingTop: 20, paddingBottom: 20 }, children: categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime106.jsx)(
+          CategoryCard,
+          {
+            imageUrl: category.imageUrl,
+            name: category.name,
+            selected: selectedId === category.id,
+            onPress: () => handleCardPress(category.id)
+          },
+          category.id
+        )) })
+      }
+    )
+  ] });
 }
 __name(CategoryRail, "CategoryRail");
 
 // ../../packages/ui/src/rails/FoodListingRail.tsx
-var import_react66 = require("react");
+var import_react88 = require("react");
 
 // ../../packages/ui/src/cards/FoodCard.tsx
-var import_react_native5 = require("@tamagui/react-native-web-lite");
+var import_react87 = require("react");
+var import_react_native7 = require("@tamagui/react-native-web-lite");
 
 // ../../packages/ui/src/buttons/QuantitySelector.tsx
-var import_react65 = require("react");
+var import_react85 = require("react");
 
 // ../../packages/ui/src/buttons/AddButton.tsx
-var import_jsx_runtime90 = require("react/jsx-runtime");
+var import_jsx_runtime107 = require("react/jsx-runtime");
 function AddButton({ onPress }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(
     Button2,
     {
       onPress,
       style: { backgroundColor: "#FF9F0D", borderRadius: 8, height: 32, alignItems: "center" },
       color: "white",
       pressStyle: { opacity: 0.8 },
-      children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(Text4, { color: "white", children: "Add" })
+      children: /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(Text4, { color: "white", children: "Add" })
     }
   );
 }
 __name(AddButton, "AddButton");
 
 // ../../packages/ui/src/buttons/QuantitySelector.tsx
-var import_jsx_runtime91 = require("react/jsx-runtime");
+var import_jsx_runtime108 = require("react/jsx-runtime");
 function QuantitySelector({
   initialQuantity = 0,
   onAdd,
@@ -44581,7 +46267,7 @@ function QuantitySelector({
   onDecrement,
   quantity: externalQuantity
 }) {
-  const [internalQuantity, setInternalQuantity] = (0, import_react65.useState)(initialQuantity);
+  const [internalQuantity, setInternalQuantity] = (0, import_react85.useState)(initialQuantity);
   const isControlled = externalQuantity !== void 0;
   const currentQuantity = isControlled ? externalQuantity : internalQuantity;
   const handleAdd = /* @__PURE__ */ __name(() => {
@@ -44608,8 +46294,8 @@ function QuantitySelector({
       onDecrement();
     }
   }, "handleDecrement");
-  return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(import_jsx_runtime91.Fragment, { children: currentQuantity > 0 ? /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)(XStack, { style: { alignItems: "center", borderRadius: 8, borderWidth: 1, borderColor: "#E0CAB6" }, gap: 8, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(import_jsx_runtime108.Fragment, { children: currentQuantity > 0 ? /* @__PURE__ */ (0, import_jsx_runtime108.jsxs)(XStack, { style: { alignItems: "center", borderRadius: 8, borderWidth: 1, borderColor: "#E0CAB6" }, gap: 8, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
       Button2,
       {
         size: "$2",
@@ -44621,11 +46307,11 @@ function QuantitySelector({
           borderBottomRightRadius: 0
         },
         onPress: handleDecrement,
-        icon: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Minus, { size: 16, color: "#FF9F0D" })
+        icon: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Minus, { size: 16, color: "#FF9F0D" })
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Text4, { fontSize: 14, width: 16, style: { textAlign: "center" }, children: currentQuantity }),
-    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Text4, { fontSize: 14, width: 16, style: { textAlign: "center" }, children: currentQuantity }),
+    /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
       Button2,
       {
         size: "$2",
@@ -44637,15 +46323,200 @@ function QuantitySelector({
           borderBottomRightRadius: 8
         },
         onPress: handleIncrement,
-        icon: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Plus, { size: 16, color: "#FF9F0D" })
+        icon: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Plus, { size: 16, color: "#FF9F0D" })
       }
     )
-  ] }) : /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(AddButton, { onPress: handleAdd }) });
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(AddButton, { onPress: handleAdd }) });
 }
 __name(QuantitySelector, "QuantitySelector");
 
+// ../../packages/ui/src/popups/DeliveryDatePopup.tsx
+var import_react86 = require("react");
+var import_jsx_runtime109 = require("react/jsx-runtime");
+function DeliveryDatePopup({
+  open,
+  onOpenChange,
+  onSelect,
+  foodName,
+  foodPrice,
+  foodImage
+}) {
+  const generateDateOptions = /* @__PURE__ */ __name(() => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const options = [];
+    for (let i = 0; i < 5; i++) {
+      const date = /* @__PURE__ */ new Date();
+      date.setDate(date.getDate() + i);
+      const day = days[date.getDay()];
+      const dateStr = `${date.getDate()} ${date.toLocaleString("default", { month: "short" })}, ${date.getFullYear()}`;
+      const fullDate = date.toISOString().split("T")[0];
+      options.push({ day, date: dateStr, fullDate });
+    }
+    return options;
+  }, "generateDateOptions");
+  const media2 = (0, import_core58.useMedia)();
+  const dateOptions = generateDateOptions();
+  const [selectedDates, setSelectedDates] = (0, import_react86.useState)([]);
+  const handleToggleDate = /* @__PURE__ */ __name((fullDate) => {
+    setSelectedDates((prev) => {
+      if (prev.includes(fullDate)) {
+        return prev.filter((date) => date !== fullDate);
+      } else {
+        return [...prev, fullDate];
+      }
+    });
+  }, "handleToggleDate");
+  const handleSelect = /* @__PURE__ */ __name(() => {
+    onSelect(selectedDates);
+    onOpenChange(false);
+  }, "handleSelect");
+  const formattedPrice = `$${foodPrice.toFixed(2)}`;
+  return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+    Dialog,
+    {
+      modal: true,
+      open,
+      onOpenChange,
+      children: /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(Dialog.Portal, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+          Dialog.Overlay,
+          {
+            style: {
+              backgroundColor: "rgba(0,0,0,0.5)",
+              animation: "lazy",
+              opacity: 1
+            },
+            enterStyle: { opacity: 0 },
+            exitStyle: { opacity: 0 }
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+          Dialog.Content,
+          {
+            style: {
+              backgroundColor: "white",
+              borderRadius: 16,
+              maxWidth: 500,
+              width: media2.sm ? "90%" : 500,
+              boxShadow: "0px 8px 30px rgba(0, 0, 0, 0.12)",
+              maxHeight: media2.sm ? "80vh" : "90vh",
+              overflow: "auto",
+              padding: 0
+            },
+            animation: "medium",
+            children: /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(YStack, { style: { padding: 16, gap: 14 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Text4, { fontSize: 18, fontWeight: "600", color: "#2A1A0C", children: "Choose Delivery date" }),
+                /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+                  Button2,
+                  {
+                    size: "$2",
+                    circular: true,
+                    icon: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(X, { size: 18 }),
+                    style: {
+                      backgroundColor: "transparent"
+                    },
+                    pressStyle: { opacity: 0.7 },
+                    onPress: () => onOpenChange(false)
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+                  YStack,
+                  {
+                    width: 60,
+                    height: 60,
+                    style: {
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      backgroundColor: "#F5F5F5"
+                    },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+                      Image,
+                      {
+                        source: { uri: foodImage },
+                        style: { width: "100%", height: "100%" },
+                        resizeMode: "cover",
+                        alt: foodName
+                      }
+                    )
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(YStack, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Text4, { fontSize: 16, fontWeight: "600", color: "#2A1A0C", children: foodName }),
+                  /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Text4, { fontSize: 16, fontWeight: "600", color: "#FF9F0D", children: formattedPrice })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(YStack, { space: 8, children: dateOptions.map((option, index3) => {
+                const isSelected = selectedDates.includes(option.fullDate);
+                return /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(
+                  XStack,
+                  {
+                    style: {
+                      borderWidth: 1,
+                      borderColor: isSelected ? "#FF9F0D" : "#E0E0E0",
+                      borderRadius: 12,
+                      padding: 12,
+                      backgroundColor: isSelected ? "#FFF8EE" : "white",
+                      cursor: "pointer",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    },
+                    onPress: () => handleToggleDate(option.fullDate),
+                    pressStyle: { opacity: 0.8 },
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime109.jsxs)(XStack, { style: { alignItems: "center", gap: 12 }, children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+                          Checkbox,
+                          {
+                            id: `date-${option.fullDate}`,
+                            checked: isSelected,
+                            onCheckedChange: () => handleToggleDate(option.fullDate),
+                            style: {
+                              backgroundColor: isSelected ? "#FF9F0D" : "transparent",
+                              borderColor: isSelected ? "#FF9F0D" : "#E0E0E0"
+                            }
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Text4, { fontSize: 15, fontWeight: "500", color: "#2A1A0C", children: option.day })
+                      ] }),
+                      /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Text4, { fontSize: 13, color: "#666", children: option.date })
+                    ]
+                  },
+                  option.fullDate
+                );
+              }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+                Button2,
+                {
+                  onPress: handleSelect,
+                  color: "white",
+                  height: 46,
+                  fontSize: 15,
+                  fontWeight: "600",
+                  pressStyle: { opacity: 0.8 },
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    borderRadius: 8,
+                    marginTop: 8
+                  },
+                  disabled: selectedDates.length === 0,
+                  opacity: selectedDates.length === 0 ? 0.7 : 1,
+                  children: "Select"
+                }
+              )
+            ] })
+          }
+        )
+      ] })
+    }
+  );
+}
+__name(DeliveryDatePopup, "DeliveryDatePopup");
+
 // ../../packages/ui/src/cards/FoodCard.tsx
-var import_jsx_runtime92 = require("react/jsx-runtime");
+var import_jsx_runtime110 = require("react/jsx-runtime");
 function FoodCard({
   imageUrl,
   name: name2,
@@ -44655,66 +46526,88 @@ function FoodCard({
   onDecrement,
   quantity = 0
 }) {
+  const [isDatePopupOpen, setIsDatePopupOpen] = (0, import_react87.useState)(false);
   const formattedPrice = `$${price.toFixed(2)}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(YStack, { width: 200, style: { alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { width: 180, style: { alignItems: "center" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
-      Circle,
-      {
-        size: 100,
-        overflow: "hidden",
-        style: {
-          elevation: 4,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 5,
-          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)",
-          zIndex: 2,
-          marginBottom: -70
-          // Creates overlap effect
-        },
-        children: /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
-          import_react_native5.Image,
-          {
-            source: { uri: imageUrl },
-            style: { width: "100%", height: "100%" },
-            resizeMode: "cover"
-          }
-        )
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(
-      YStack,
-      {
-        width: 180,
-        style: { borderRadius: 24, overflow: "hidden", backgroundColor: "white" },
-        boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.1)",
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(YStack, { height: 70 }),
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 16, fontWeight: "600", color: "#2A1A0C", children: name2 }),
-            /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(Text4, { fontSize: 16, color: "#FF9F0D", children: formattedPrice }),
-              /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
-                QuantitySelector,
-                {
-                  quantity,
-                  onAdd,
-                  onIncrement,
-                  onDecrement
-                }
-              )
+  const handleAddButtonClick = /* @__PURE__ */ __name(() => {
+    setIsDatePopupOpen(true);
+  }, "handleAddButtonClick");
+  const handleDateSelection = /* @__PURE__ */ __name((selectedDates) => {
+    if (onAdd) {
+      onAdd(selectedDates);
+    }
+  }, "handleDateSelection");
+  return /* @__PURE__ */ (0, import_jsx_runtime110.jsxs)(import_jsx_runtime110.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(YStack, { width: 200, style: { alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime110.jsxs)(YStack, { width: 180, style: { alignItems: "center" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(
+        Circle,
+        {
+          size: 100,
+          overflow: "hidden",
+          style: {
+            elevation: 4,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)",
+            zIndex: 2,
+            marginBottom: -70
+            // Creates overlap effect
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(
+            import_react_native7.Image,
+            {
+              source: { uri: imageUrl },
+              style: { width: "100%", height: "100%" },
+              resizeMode: "cover"
+            }
+          )
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime110.jsxs)(
+        YStack,
+        {
+          width: 180,
+          style: { borderRadius: 24, overflow: "hidden", backgroundColor: "white" },
+          boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.1)",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(YStack, { height: 70 }),
+            /* @__PURE__ */ (0, import_jsx_runtime110.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(Text4, { fontSize: 16, fontWeight: "600", color: "#2A1A0C", children: name2 }),
+              /* @__PURE__ */ (0, import_jsx_runtime110.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(Text4, { fontSize: 16, color: "#FF9F0D", children: formattedPrice }),
+                /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(
+                  QuantitySelector,
+                  {
+                    quantity,
+                    onAdd: handleAddButtonClick,
+                    onIncrement,
+                    onDecrement
+                  }
+                )
+              ] })
             ] })
-          ] })
-        ]
+          ]
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime110.jsx)(
+      DeliveryDatePopup,
+      {
+        open: isDatePopupOpen,
+        onOpenChange: setIsDatePopupOpen,
+        onSelect: handleDateSelection,
+        foodName: name2,
+        foodPrice: price,
+        foodImage: imageUrl
       }
     )
-  ] }) });
+  ] });
 }
 __name(FoodCard, "FoodCard");
 
 // ../../packages/ui/src/rails/FoodListingRail.tsx
-var import_jsx_runtime93 = require("react/jsx-runtime");
+var import_jsx_runtime111 = require("react/jsx-runtime");
 var foodItems = [
   {
     id: 1,
@@ -44748,7 +46641,7 @@ var foodItems = [
   }
 ];
 function FoodListingRail({ displayLabel }) {
-  const [quantities, setQuantities] = (0, import_react66.useState)({});
+  const [quantities, setQuantities] = (0, import_react88.useState)({});
   const handleAdd = /* @__PURE__ */ __name((id) => {
     setQuantities((prev) => ({
       ...prev,
@@ -44772,9 +46665,9 @@ function FoodListingRail({ displayLabel }) {
       return newQuantities;
     });
   }, "handleDecrement");
-  return /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(Text4, { fontSize: 28, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
-    /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(YStack, { style: { paddingHorizontal: 20, paddingBottom: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(XStack, { flexWrap: "wrap", gap: "$4", style: { justifyContent: "flex-start" }, children: foodItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(YStack, { style: { marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime111.jsxs)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(Text4, { fontSize: 28, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
+    /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(YStack, { style: { paddingHorizontal: 20, paddingBottom: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(XStack, { flexWrap: "wrap", gap: "$4", style: { justifyContent: "flex-start" }, children: foodItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(YStack, { style: { marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
       FoodCard,
       {
         imageUrl: item.imageUrl,
@@ -44789,16 +46682,3580 @@ function FoodListingRail({ displayLabel }) {
   ] });
 }
 __name(FoodListingRail, "FoodListingRail");
+
+// ../../packages/ui/src/banners/AppDownloadBanner.tsx
+var import_jsx_runtime112 = require("react/jsx-runtime");
+function AppDownloadBanner() {
+  return /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+    YStack,
+    {
+      style: {
+        backgroundColor: "#FFF9F2",
+        borderRadius: 16,
+        padding: 16,
+        margin: 20,
+        marginTop: 10,
+        marginBottom: 30,
+        borderWidth: 1,
+        borderColor: "#FF9F0D",
+        overflow: "hidden"
+      },
+      children: /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(XStack, { alignItems: "center", justifyContent: "space-between", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(YStack, { space: "$2", flex: 1, mr: "$4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(Text4, { fontWeight: "600", fontSize: 16, color: "#2A1A0C", children: "For better experience," }),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(Text4, { fontWeight: "700", fontSize: 18, color: "#2A1A0C", children: "download the Nikfoods app now" }),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(XStack, { space: "$2", mt: "$2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+              Button2,
+              {
+                backgroundColor: "#000",
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                height: 36,
+                onPress: () => console.log("App Store"),
+                pressStyle: { opacity: 0.8 },
+                style: { cursor: "pointer" },
+                children: /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(XStack, { alignItems: "center", space: "$1", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+                    Image,
+                    {
+                      source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/2048px-App_Store_%28iOS%29.svg.png" },
+                      width: 20,
+                      height: 20,
+                      resizeMode: "contain"
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(Text4, { color: "white", fontSize: 12, fontWeight: "600", children: "App Store" })
+                ] })
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+              Button2,
+              {
+                backgroundColor: "#000",
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                height: 36,
+                onPress: () => console.log("Google Play"),
+                pressStyle: { opacity: 0.8 },
+                style: { cursor: "pointer" },
+                children: /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(XStack, { alignItems: "center", space: "$1", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+                    Image,
+                    {
+                      source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/2560px-Google_Play_Store_badge_EN.svg.png" },
+                      width: 20,
+                      height: 20,
+                      resizeMode: "contain"
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(Text4, { color: "white", fontSize: 12, fontWeight: "600", children: "Google Play" })
+                ] })
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime112.jsxs)(XStack, { position: "relative", width: 120, height: 120, justifyContent: "center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+            Image,
+            {
+              source: { uri: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" },
+              style: {
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                position: "absolute",
+                top: 10,
+                left: 35,
+                borderWidth: 2,
+                borderColor: "white"
+              }
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+            Image,
+            {
+              source: { uri: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" },
+              style: {
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                position: "absolute",
+                top: 5,
+                right: 15,
+                borderWidth: 2,
+                borderColor: "white"
+              }
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+            Image,
+            {
+              source: { uri: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" },
+              style: {
+                width: 45,
+                height: 45,
+                borderRadius: 25,
+                position: "absolute",
+                bottom: 15,
+                right: 25,
+                borderWidth: 2,
+                borderColor: "white"
+              }
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+            Image,
+            {
+              source: { uri: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" },
+              style: {
+                width: 35,
+                height: 35,
+                borderRadius: 20,
+                position: "absolute",
+                bottom: 25,
+                left: 15,
+                borderWidth: 2,
+                borderColor: "white"
+              }
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime112.jsx)(
+            Image,
+            {
+              source: { uri: "https://images.unsplash.com/photo-1527751171053-6ac5ec50000b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" },
+              style: {
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                position: "absolute",
+                top: 40,
+                left: 60,
+                borderWidth: 2,
+                borderColor: "white"
+              }
+            }
+          )
+        ] })
+      ] })
+    }
+  );
+}
+__name(AppDownloadBanner, "AppDownloadBanner");
+
+// ../../packages/ui/src/banners/SubscriptionBanner.tsx
+var import_react89 = require("react");
+var import_jsx_runtime113 = require("react/jsx-runtime");
+function SubscriptionBanner() {
+  const [email, setEmail] = (0, import_react89.useState)("");
+  const handleSubscribe = /* @__PURE__ */ __name(() => {
+    if (email && email.includes("@")) {
+      console.log("Subscribing with email:", email);
+      setEmail("");
+    }
+  }, "handleSubscribe");
+  return /* @__PURE__ */ (0, import_jsx_runtime113.jsxs)(
+    YStack,
+    {
+      style: {
+        backgroundColor: "#2A1A0C",
+        padding: 24,
+        margin: 20,
+        marginTop: 0,
+        marginBottom: 40,
+        borderRadius: 12,
+        alignItems: "center"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime113.jsx)(
+          Text4,
+          {
+            color: "white",
+            fontWeight: "700",
+            fontSize: 22,
+            textAlign: "center",
+            marginBottom: 8,
+            children: "Subscribe to us for all the updates!"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime113.jsx)(
+          Text4,
+          {
+            color: "#E0E0E0",
+            fontSize: 14,
+            textAlign: "center",
+            marginBottom: 20,
+            children: "Discover cooking tips, regional specialties, and the best way to enjoy Indian Cuisine at home in America."
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime113.jsxs)(
+          XStack,
+          {
+            width: "100%",
+            maxWidth: 450,
+            alignItems: "center",
+            gap: 8,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime113.jsx)(
+                Input,
+                {
+                  flex: 1,
+                  value: email,
+                  onChangeText: setEmail,
+                  placeholder: "Enter your email",
+                  placeholderTextColor: "#999",
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderWidth: 0,
+                  color: "white",
+                  borderRadius: 8,
+                  height: 44,
+                  paddingHorizontal: 16
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime113.jsx)(
+                Button2,
+                {
+                  backgroundColor: "white",
+                  color: "#2A1A0C",
+                  fontWeight: "600",
+                  borderRadius: 8,
+                  height: 44,
+                  paddingHorizontal: 20,
+                  onPress: handleSubscribe,
+                  pressStyle: { opacity: 0.8 },
+                  style: { cursor: "pointer" },
+                  children: "Subscribe"
+                }
+              )
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+__name(SubscriptionBanner, "SubscriptionBanner");
+
+// ../../packages/ui/src/features/WhyChooseUs.tsx
+var import_jsx_runtime114 = require("react/jsx-runtime");
+function FeatureCard({ imageUrl, title }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime114.jsxs)(
+    YStack,
+    {
+      alignItems: "center",
+      width: 150,
+      marginHorizontal: 8,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+          YStack,
+          {
+            width: 150,
+            height: 150,
+            borderRadius: 12,
+            overflow: "hidden",
+            marginBottom: 10,
+            children: /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+              Image,
+              {
+                source: { uri: imageUrl },
+                width: "100%",
+                height: "100%",
+                resizeMode: "cover"
+              }
+            )
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+          Text4,
+          {
+            color: "#2A1A0C",
+            fontWeight: "600",
+            fontSize: 14,
+            textAlign: "center",
+            children: title
+          }
+        )
+      ]
+    }
+  );
+}
+__name(FeatureCard, "FeatureCard");
+function WhyChooseUs() {
+  const features = [
+    {
+      id: 1,
+      title: "100% Authentic Indian Food",
+      imageUrl: "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
+    },
+    {
+      id: 2,
+      title: "Top High Quality Ingredients",
+      imageUrl: "https://images.unsplash.com/photo-1516211881327-e5120a941edc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
+    },
+    {
+      id: 3,
+      title: "Timely Deliveries on Fixed Hours",
+      imageUrl: "https://images.unsplash.com/photo-1542228262-3d663b306a53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
+    },
+    {
+      id: 4,
+      title: "Clear Fee Easy Pickup",
+      imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
+    }
+  ];
+  return /* @__PURE__ */ (0, import_jsx_runtime114.jsxs)(
+    YStack,
+    {
+      padding: 20,
+      paddingTop: 10,
+      paddingBottom: 40,
+      backgroundColor: "#FFF9F2",
+      marginBottom: 20,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+          Text4,
+          {
+            fontSize: 24,
+            fontWeight: "700",
+            color: "#2A1A0C",
+            marginBottom: 24,
+            marginLeft: 8,
+            children: "Why Choose Us?"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+          XStack,
+          {
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: 16,
+            children: features.map((feature) => /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+              FeatureCard,
+              {
+                imageUrl: feature.imageUrl,
+                title: feature.title
+              },
+              feature.id
+            ))
+          }
+        )
+      ]
+    }
+  );
+}
+__name(WhyChooseUs, "WhyChooseUs");
+
+// ../../packages/ui/src/sections/FAQSection.tsx
+var import_react90 = require("react");
+var import_jsx_runtime115 = require("react/jsx-runtime");
+function FAQItem({ question, answer, isOpen, onToggle }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime115.jsxs)(
+    YStack,
+    {
+      backgroundColor: "#FFF4E4",
+      borderRadius: 8,
+      marginBottom: 12,
+      overflow: "hidden",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime115.jsxs)(
+          XStack,
+          {
+            padding: 16,
+            justifyContent: "space-between",
+            alignItems: "center",
+            onPress: onToggle,
+            pressStyle: { opacity: 0.8 },
+            style: { cursor: "pointer" },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontWeight: "600", fontSize: 16, color: "#2A1A0C", children: question }),
+              isOpen ? /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(ChevronUp, { size: 20, color: "#2A1A0C" }) : /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(ChevronDown, { size: 20, color: "#2A1A0C" })
+            ]
+          }
+        ),
+        isOpen && /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(YStack, { padding: 16, paddingTop: 0, children: typeof answer === "string" ? /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", lineHeight: 20, children: answer }) : answer })
+      ]
+    }
+  );
+}
+__name(FAQItem, "FAQItem");
+function FAQSection() {
+  const [openIndex, setOpenIndex] = (0, import_react90.useState)(0);
+  const faqs = [
+    {
+      id: 1,
+      question: "How do I place my orders?",
+      answer: /* @__PURE__ */ (0, import_jsx_runtime115.jsxs)(YStack, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 8, children: "To place an order, simply follow these steps:" }),
+        /* @__PURE__ */ (0, import_jsx_runtime115.jsxs)(YStack, { paddingLeft: 16, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 4, children: "1. Open the app and browse restaurants or cuisines" }),
+          /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 4, children: "2. Select the items you'd like to order and add them to your cart" }),
+          /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 4, children: "3. Review your cart and proceed to checkout" }),
+          /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 4, children: "4. Choose your delivery address or pickup option" }),
+          /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginBottom: 4, children: "5. Select a payment method and confirm your order" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { fontSize: 14, color: "#2A1A0C", marginTop: 8, children: "You'll receive updates and can track your order in real-time through the app" })
+      ] })
+    },
+    {
+      id: 2,
+      question: "What are your delivery hours?",
+      answer: "We deliver from 11:00 AM to 10:00 PM every day. Last orders are accepted 30 minutes before closing time to ensure timely delivery."
+    },
+    {
+      id: 3,
+      question: "By what time duration can I get my order?",
+      answer: "Delivery times typically range from 30-45 minutes depending on your location and order volume. During peak hours, it might take up to 60 minutes. You can always check the estimated delivery time in the app when placing your order."
+    },
+    {
+      id: 4,
+      question: "Can I cancel my order?",
+      answer: "Yes, you can cancel your order within 5 minutes of placing it without any charges. After that, cancellation may be subject to a fee depending on the preparation status. For assistance with cancellations, please contact our customer support through the app."
+    }
+  ];
+  const toggleFAQ = /* @__PURE__ */ __name((index3) => {
+    setOpenIndex(openIndex === index3 ? -1 : index3);
+  }, "toggleFAQ");
+  return /* @__PURE__ */ (0, import_jsx_runtime115.jsxs)(YStack, { padding: 20, paddingBottom: 40, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(
+      Text4,
+      {
+        fontSize: 24,
+        fontWeight: "700",
+        color: "#2A1A0C",
+        marginBottom: 24,
+        children: "FAQ's"
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(YStack, { children: faqs.map((faq, index3) => /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(
+      FAQItem,
+      {
+        question: faq.question,
+        answer: faq.answer,
+        isOpen: openIndex === index3,
+        onToggle: () => toggleFAQ(index3)
+      },
+      faq.id
+    )) }),
+    /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(XStack, { justifyContent: "center", marginTop: 24, children: /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(
+      XStack,
+      {
+        backgroundColor: "#FFF4E4",
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        borderColor: "#FF9F0D",
+        borderWidth: 1,
+        pressStyle: { opacity: 0.8 },
+        style: { cursor: "pointer" },
+        children: /* @__PURE__ */ (0, import_jsx_runtime115.jsx)(Text4, { color: "#FF9F0D", fontWeight: "600", children: "View All" })
+      }
+    ) })
+  ] });
+}
+__name(FAQSection, "FAQSection");
+
+// ../../packages/ui/src/footer/Footer.tsx
+var import_react91 = require("react");
+var import_jsx_runtime116 = require("react/jsx-runtime");
+function FooterLink({ title, href }) {
+  const linkProps = useLink({
+    href
+  });
+  return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+    Text4,
+    {
+      color: "#E0E0E0",
+      fontSize: 14,
+      mb: 8,
+      opacity: 0.9,
+      hoverStyle: { opacity: 1, color: "white" },
+      style: { cursor: "pointer" },
+      ...linkProps,
+      children: title
+    }
+  );
+}
+__name(FooterLink, "FooterLink");
+function SocialIcon({ children, href }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+    XStack,
+    {
+      width: 32,
+      height: 32,
+      alignItems: "center",
+      justifyContent: "center",
+      bg: "rgba(255,255,255,0.1)",
+      mr: 12,
+      hoverStyle: { bg: "rgba(255,255,255,0.2)" },
+      pressStyle: { opacity: 0.8 },
+      onPress: () => window.open(href, "_blank"),
+      style: {
+        cursor: "pointer",
+        borderRadius: 16
+      },
+      children
+    }
+  );
+}
+__name(SocialIcon, "SocialIcon");
+function AppFooter() {
+  const [currentYear, setCurrentYear] = (0, import_react91.useState)(2025);
+  const [isMobile, setIsMobile] = (0, import_react91.useState)(false);
+  (0, import_react91.useEffect)(() => {
+    setCurrentYear((/* @__PURE__ */ new Date()).getFullYear());
+    const checkScreenSize = /* @__PURE__ */ __name(() => {
+      setIsMobile(window.innerWidth < 768);
+    }, "checkScreenSize");
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
+    YStack,
+    {
+      bg: "#2A1A0C",
+      py: 40,
+      px: 20,
+      width: "100%",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
+          XStack,
+          {
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            maxWidth: 1200,
+            marginHorizontal: "auto",
+            width: "100%",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(YStack, { flex: 1, minWidth: isMobile ? "100%" : 250, marginBottom: isMobile ? 32 : 0, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "white", fontSize: 20, fontWeight: "700", marginBottom: 8, children: "Nikfoods" }),
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "#E0E0E0", fontSize: 14, marginBottom: 16, maxWidth: 300, children: "Your American source of tasty Indian Food" }),
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(XStack, { marginBottom: 16, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(SocialIcon, { href: "https://twitter.com/nikfoods", children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Twitter, { size: 16, color: "white" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(SocialIcon, { href: "https://facebook.com/nikfoods", children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Facebook, { size: 16, color: "white" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(SocialIcon, { href: "https://instagram.com/nikfoods", children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Instagram, { size: 16, color: "white" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(SocialIcon, { href: "https://youtube.com/nikfoods", children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Youtube, { size: 16, color: "white" }) })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
+                YStack,
+                {
+                  minWidth: isMobile ? "50%" : 150,
+                  marginBottom: isMobile ? 32 : 0,
+                  paddingRight: 16,
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "white", fontSize: 16, fontWeight: "600", marginBottom: 16, children: "Quick Links" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "Home", href: "/" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "Menu", href: "/menu" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "About", href: "/about" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "Help", href: "/help" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "FAQ's", href: "/faqs" })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
+                YStack,
+                {
+                  minWidth: isMobile ? "50%" : 200,
+                  marginBottom: isMobile ? 32 : 0,
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "white", fontSize: 16, fontWeight: "600", marginBottom: 16, children: "Contact Us" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "#E0E0E0", fontSize: 14, marginBottom: 8, children: "www.nikfoods.com" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "#E0E0E0", fontSize: 14, marginBottom: 8, children: "+12 9876543210" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(XStack, { alignItems: "center", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "#E0E0E0", fontSize: 14, children: "Made with love in" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "#E0E0E0", fontSize: 14, marginLeft: 4, children: "\u2764\uFE0F" })
+                    ] })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(YStack, { minWidth: isMobile ? "50%" : 150, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text4, { color: "white", fontSize: 16, fontWeight: "600", marginBottom: 16, children: "My Account" }),
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(FooterLink, { title: "All Credit Cards", href: "/payment" })
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
+          XStack,
+          {
+            justifyContent: "space-between",
+            marginTop: 40,
+            borderTopWidth: 1,
+            borderTopColor: "rgba(255,255,255,0.1)",
+            paddingTop: 16,
+            maxWidth: 1200,
+            marginHorizontal: "auto",
+            width: "100%",
+            flexDirection: isMobile ? "column" : "row",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(Text4, { color: "#E0E0E0", fontSize: 12, marginBottom: isMobile ? 8 : 0, children: [
+                "\xA9 ",
+                currentYear,
+                " Nikfoods LLC. All Rights Reserved."
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(XStack, { gap: 16, flexWrap: "wrap", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+                  Text4,
+                  {
+                    color: "#E0E0E0",
+                    fontSize: 12,
+                    style: { cursor: "pointer" },
+                    hoverStyle: { color: "white" },
+                    children: "Terms of Service"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+                  Text4,
+                  {
+                    color: "#E0E0E0",
+                    fontSize: 12,
+                    style: { cursor: "pointer" },
+                    hoverStyle: { color: "white" },
+                    children: "Privacy Policy"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+                  Text4,
+                  {
+                    color: "#E0E0E0",
+                    fontSize: 12,
+                    style: { cursor: "pointer" },
+                    hoverStyle: { color: "white" },
+                    children: "Manage Cookies"
+                  }
+                )
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+__name(AppFooter, "AppFooter");
+
+// ../../packages/ui/src/auth/LoginPage.tsx
+var import_react92 = require("react");
+var import_jsx_runtime117 = require("react/jsx-runtime");
+function LoginPage() {
+  const media2 = (0, import_core58.useMedia)();
+  const [email, setEmail] = (0, import_react92.useState)("");
+  const [password, setPassword] = (0, import_react92.useState)("");
+  const [rememberMe, setRememberMe] = (0, import_react92.useState)(false);
+  const [showPassword, setShowPassword] = (0, import_react92.useState)(false);
+  const signupLink = useLink({
+    href: "/signup"
+  });
+  const forgotPasswordLink = useLink({
+    href: "/forgot-password"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const handleLogin = /* @__PURE__ */ __name(() => {
+    console.log("Login with:", { email, password, rememberMe });
+  }, "handleLogin");
+  const handleSocialLogin = /* @__PURE__ */ __name((provider) => {
+    console.log(`Login with ${provider}`);
+  }, "handleSocialLogin");
+  return /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      style: {
+        paddingTop: media2.sm ? 20 : 40,
+        paddingBottom: media2.sm ? 10 : 20,
+        paddingHorizontal: media2.sm ? 10 : 20,
+        alignItems: "center",
+        justifyContent: "space-between"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(YStack, { style: { alignItems: "center", width: "100%" }, children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            style: { width: 150, height: 50 },
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(
+          YStack,
+          {
+            style: {
+              width: "100%",
+              maxWidth: 450,
+              padding: media2.sm ? 16 : 24,
+              backgroundColor: "white",
+              borderRadius: 16,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              elevation: 5,
+              marginVertical: media2.sm ? 20 : 40,
+              alignSelf: "center"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                Text4,
+                {
+                  fontSize: media2.sm ? 24 : 28,
+                  fontWeight: "700",
+                  color: "#2A1A0C",
+                  style: {
+                    textAlign: "center",
+                    marginBottom: 8
+                  },
+                  children: "Login"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "#666",
+                  style: {
+                    textAlign: "center",
+                    marginBottom: 24
+                  },
+                  children: "No more typing your address every time. Pinky promise."
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(YStack, { style: { marginBottom: 16, position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { left: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Mail, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                  Input,
+                  {
+                    value: email,
+                    onChangeText: setEmail,
+                    placeholder: "Enter e-mail",
+                    style: { paddingLeft: 40, borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(YStack, { style: { marginBottom: 16, position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { left: 12, top: 12, zIndex: 1 },
+                    opacity: 0.5,
+                    children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Lock, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                  Input,
+                  {
+                    value: password,
+                    onChangeText: setPassword,
+                    placeholder: "********",
+                    secureTextEntry: !showPassword,
+                    style: { paddingLeft: 40, paddingRight: 40, borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: "pointer" },
+                    onPress: () => setShowPassword(!showPassword),
+                    children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(EyeOff, { size: 20, color: "#666" }) : /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Eye, { size: 20, color: "#666" })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(
+                XStack,
+                {
+                  style: { justifyContent: "space-between", alignItems: "center", marginBottom: 24 },
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                        Checkbox,
+                        {
+                          checked: rememberMe,
+                          onCheckedChange: (checked) => setRememberMe(!!checked),
+                          backgroundColor: rememberMe ? "#FF9F0D" : void 0,
+                          borderColor: rememberMe ? "#FF9F0D" : "#E0E0E0"
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Text4, { fontSize: 14, color: "#666", children: "Remember me" })
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                      Text4,
+                      {
+                        fontSize: 14,
+                        color: "#666",
+                        ...forgotPasswordLink,
+                        hoverStyle: { color: "#FF9F0D" },
+                        style: { cursor: "pointer" },
+                        children: "Forgot password?"
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                Button2,
+                {
+                  color: "white",
+                  pressStyle: { opacity: 0.8 },
+                  onPress: handleLogin,
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    height: 48,
+                    borderRadius: 8,
+                    fontSize: 16,
+                    fontWeight: "600",
+                    marginBottom: 24
+                  },
+                  icon: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(XStack, { style: { marginRight: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Lock, { size: 18, color: "white" }) }),
+                  children: "Login"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(YStack, { style: { alignItems: "center", gap: 16 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Text4, { fontSize: 14, color: "#666", children: "or login with" }),
+                /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(XStack, { style: { gap: 16 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                    XStack,
+                    {
+                      width: 40,
+                      height: 40,
+                      style: {
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: "#E0E0E0"
+                      },
+                      onPress: () => handleSocialLogin("Google"),
+                      pressStyle: { opacity: 0.8 },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" },
+                          width: 20,
+                          height: 20,
+                          alt: "Google"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                    XStack,
+                    {
+                      width: 40,
+                      height: 40,
+                      style: {
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: "#E0E0E0"
+                      },
+                      onPress: () => handleSocialLogin("Facebook"),
+                      pressStyle: { opacity: 0.8 },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png" },
+                          width: 20,
+                          height: 20,
+                          alt: "Facebook"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                    XStack,
+                    {
+                      width: 40,
+                      height: 40,
+                      style: {
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: "#E0E0E0"
+                      },
+                      onPress: () => handleSocialLogin("Apple"),
+                      pressStyle: { opacity: 0.8 },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png" },
+                          width: 20,
+                          height: 20,
+                          alt: "Apple"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                    XStack,
+                    {
+                      width: 40,
+                      height: 40,
+                      style: {
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: "#E0E0E0"
+                      },
+                      onPress: () => handleSocialLogin("Google"),
+                      pressStyle: { opacity: 0.8 },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" },
+                          width: 20,
+                          height: 20,
+                          alt: "Chrome"
+                        }
+                      )
+                    }
+                  )
+                ] })
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(YStack, { style: { alignItems: "center", gap: 16, marginTop: 20 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Text4, { fontSize: 14, color: "#666", children: "Don't have an account" }),
+          /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+            Button2,
+            {
+              color: "white",
+              pressStyle: { opacity: 0.8 },
+              ...signupLink,
+              style: {
+                backgroundColor: "#FF9F0D",
+                height: 48,
+                borderRadius: 8,
+                fontSize: 16,
+                fontWeight: "600",
+                paddingHorizontal: 40
+              },
+              icon: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(XStack, { style: { marginRight: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(User, { size: 18, color: "white" }) }),
+              children: "Signup"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(XStack, { gap: media2.sm ? 8 : 16, style: { marginTop: media2.sm ? 20 : 40, flexWrap: "wrap", justifyContent: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(LoginPage, "LoginPage");
+
+// ../../packages/ui/src/auth/SignupPage.tsx
+var import_react93 = require("react");
+var import_jsx_runtime118 = require("react/jsx-runtime");
+function SignupPage() {
+  const media2 = (0, import_core58.useMedia)();
+  const [email, setEmail] = (0, import_react93.useState)("");
+  const [password, setPassword] = (0, import_react93.useState)("");
+  const [confirmPassword, setConfirmPassword] = (0, import_react93.useState)("");
+  const [showPassword, setShowPassword] = (0, import_react93.useState)(false);
+  const [showConfirmPassword, setShowConfirmPassword] = (0, import_react93.useState)(false);
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const signupStep2Link = useLink({
+    href: "/signup/step2"
+  });
+  const handleSignup = /* @__PURE__ */ __name(() => {
+    console.log("Signup with:", { email, password });
+    if (email && password && password === confirmPassword) {
+      if (signupStep2Link.onPress) {
+        signupStep2Link.onPress();
+      }
+    } else {
+      console.log("Please fill all fields correctly");
+    }
+  }, "handleSignup");
+  const handleSocialSignup = /* @__PURE__ */ __name((provider) => {
+    console.log(`Signup with ${provider}`);
+  }, "handleSocialSignup");
+  return /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      style: {
+        paddingTop: media2.sm ? 20 : 40,
+        paddingBottom: media2.sm ? 10 : 20,
+        paddingHorizontal: media2.sm ? 10 : 20,
+        alignItems: "center",
+        justifyContent: "space-between"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(YStack, { style: { alignItems: "center", width: "100%" }, children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            style: { width: 150, height: 50 },
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(
+          YStack,
+          {
+            style: {
+              width: "100%",
+              maxWidth: 450,
+              padding: media2.sm ? 16 : 24,
+              backgroundColor: "white",
+              borderRadius: 16,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              elevation: 5,
+              marginVertical: media2.sm ? 20 : 40,
+              alignSelf: "center"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                Text4,
+                {
+                  fontSize: media2.sm ? 24 : 28,
+                  fontWeight: "700",
+                  color: "#2A1A0C",
+                  style: { textAlign: "center", marginBottom: 8 },
+                  children: "Create Account"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "#666",
+                  style: { textAlign: "center", marginBottom: 24 },
+                  children: "No more typing your address every time. Pinky promise."
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(YStack, { style: { marginBottom: 16, position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { left: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Mail, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  Input,
+                  {
+                    value: email,
+                    onChangeText: setEmail,
+                    placeholder: "E-mail",
+                    style: { paddingLeft: 40, paddingRight: 40, borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(YStack, { style: { marginBottom: 16, position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { left: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Lock, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  Input,
+                  {
+                    value: password,
+                    onChangeText: setPassword,
+                    placeholder: "Password",
+                    secureTextEntry: !showPassword,
+                    style: { paddingLeft: 40, paddingRight: 40, borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { right: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    onPress: () => setShowPassword(!showPassword),
+                    cursor: "pointer",
+                    children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(EyeOff, { size: 20, color: "#666" }) : /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Eye, { size: 20, color: "#666" })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(YStack, { style: { marginBottom: 24, position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { left: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Lock, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  Input,
+                  {
+                    value: confirmPassword,
+                    onChangeText: setConfirmPassword,
+                    placeholder: "Re-enter password",
+                    secureTextEntry: !showConfirmPassword,
+                    style: { paddingLeft: 40, paddingRight: 40, paddingHorizontal: 40, height: 48, borderWidth: 1, borderColor: "#E0E0E0", borderRadius: 8, fontSize: 14 }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    style: { right: 12, top: 12, zIndex: 1, opacity: 0.5 },
+                    onPress: () => setShowConfirmPassword(!showConfirmPassword),
+                    cursor: "pointer",
+                    children: showConfirmPassword ? /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(EyeOff, { size: 20, color: "#666" }) : /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Eye, { size: 20, color: "#666" })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                Button2,
+                {
+                  bg: "#FF9F0D",
+                  color: "white",
+                  style: { height: 48, borderRadius: 8, fontSize: 16, fontWeight: "600", marginBottom: 24 },
+                  onPress: handleSignup,
+                  pressStyle: { opacity: 0.8 },
+                  icon: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(XStack, { mr: 8, children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(User, { size: 18, color: "white" }) }),
+                  children: "Next"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(YStack, { style: { alignItems: "center", gap: 16 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Text4, { fontSize: 14, color: "#666", children: "or signup with" }),
+                /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(XStack, { gap: 16, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                    XStack,
+                    {
+                      style: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "white", borderWidth: 1 },
+                      onPress: () => handleSocialSignup("Google"),
+                      pressStyle: { opacity: 0.8 },
+                      cursor: "pointer",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" },
+                          style: { width: 20, height: 20 },
+                          alt: "Google"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                    XStack,
+                    {
+                      style: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "white", borderWidth: 1 },
+                      onPress: () => handleSocialSignup("Facebook"),
+                      pressStyle: { opacity: 0.8 },
+                      cursor: "pointer",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png" },
+                          style: { width: 20, height: 20 },
+                          alt: "Facebook"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                    XStack,
+                    {
+                      style: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "white", borderWidth: 1 },
+                      onPress: () => handleSocialSignup("Apple"),
+                      pressStyle: { opacity: 0.8 },
+                      cursor: "pointer",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png" },
+                          style: { width: 20, height: 20 },
+                          alt: "Apple"
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                    XStack,
+                    {
+                      style: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "white", borderWidth: 1 },
+                      onPress: () => handleSocialSignup("Google"),
+                      pressStyle: { opacity: 0.8 },
+                      cursor: "pointer",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+                        Image,
+                        {
+                          source: { uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" },
+                          style: { width: 20, height: 20 },
+                          alt: "Chrome"
+                        }
+                      )
+                    }
+                  )
+                ] })
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(YStack, { style: { alignItems: "center", gap: 16, marginTop: 20 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Text4, { fontSize: 14, color: "#666", children: "Have an account" }),
+          /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+            Button2,
+            {
+              background: "#FF9F0D",
+              color: "white",
+              style: { height: 48, borderRadius: 8, fontSize: 16, fontWeight: "600", paddingHorizontal: 40 },
+              pressStyle: { opacity: 0.8 },
+              ...loginLink,
+              icon: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(XStack, { style: { marginRight: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Lock, { size: 18, color: "white" }) }),
+              children: "Login"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime118.jsxs)(XStack, { style: { gap: media2.sm ? 8 : 16, marginTop: media2.sm ? 20 : 40, flexWrap: "wrap", justifyContent: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              cursor: "pointer",
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              cursor: "pointer",
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              cursor: "pointer",
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(SignupPage, "SignupPage");
+
+// ../../packages/ui/src/auth/ForgotPasswordPage.tsx
+var import_react94 = require("react");
+var import_jsx_runtime119 = require("react/jsx-runtime");
+function ForgotPasswordPage({ onSubmit, isSubmitting = false }) {
+  const [email, setEmail] = (0, import_react94.useState)("");
+  const [isSubmitted, setIsSubmitted] = (0, import_react94.useState)(false);
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const handleSubmit = /* @__PURE__ */ __name(() => {
+    if (email && email.includes("@")) {
+      console.log("Password reset requested for:", email);
+      if (onSubmit) {
+        onSubmit(email);
+      } else {
+        setIsSubmitted(true);
+      }
+    }
+  }, "handleSubmit");
+  return /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      paddingTop: 40,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      alignItems: "center",
+      justifyContent: "space-between",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(YStack, { alignItems: "center", width: "100%", children: /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            width: 150,
+            height: 50,
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        isSubmitted ? (
+          // Success message after submission
+          /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(
+            YStack,
+            {
+              width: "100%",
+              maxWidth: 450,
+              padding: 24,
+              backgroundColor: "white",
+              borderRadius: 16,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              elevation: 5,
+              marginVertical: 40,
+              alignSelf: "center",
+              alignItems: "center",
+              gap: 16,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                  Text4,
+                  {
+                    fontSize: 28,
+                    fontWeight: "700",
+                    textAlign: "center",
+                    marginBottom: 8,
+                    color: "#2A1A0C",
+                    children: "Check Your Email"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(
+                  Text4,
+                  {
+                    fontSize: 14,
+                    color: "#666",
+                    textAlign: "center",
+                    marginBottom: 16,
+                    children: [
+                      "We've sent a password reset link to ",
+                      email,
+                      ". Please check your inbox and follow the instructions."
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                  Button2,
+                  {
+                    style: {
+                      backgroundColor: "#FF9F0D",
+                      height: 48,
+                      borderRadius: 8,
+                      paddingHorizontal: 40
+                    },
+                    color: "white",
+                    onPress: () => setIsSubmitted(false),
+                    pressStyle: { opacity: 0.8 },
+                    children: "Try Again"
+                  }
+                )
+              ]
+            }
+          )
+        ) : (
+          // Forgot password form
+          /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(
+            YStack,
+            {
+              width: "100%",
+              maxWidth: 450,
+              padding: 24,
+              backgroundColor: "white",
+              borderRadius: 16,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              elevation: 5,
+              marginVertical: 40,
+              alignSelf: "center",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                  Text4,
+                  {
+                    fontSize: 28,
+                    fontWeight: "700",
+                    textAlign: "center",
+                    marginBottom: 8,
+                    color: "#2A1A0C",
+                    children: "Forgot Password"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                  Text4,
+                  {
+                    fontSize: 14,
+                    color: "#666",
+                    textAlign: "center",
+                    marginBottom: 24,
+                    children: "Provide your account's email for which you want to reset password!"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(YStack, { marginBottom: 24, position: "relative", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                    XStack,
+                    {
+                      position: "absolute",
+                      left: 12,
+                      top: 12,
+                      zIndex: 1,
+                      opacity: 0.5,
+                      children: /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(Mail, { size: 20, color: "#666" })
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                    Input,
+                    {
+                      value: email,
+                      onChangeText: setEmail,
+                      placeholder: "Enter registered e-mail",
+                      paddingLeft: 40,
+                      height: 48,
+                      borderWidth: 1,
+                      borderColor: "#E0E0E0",
+                      borderRadius: 8,
+                      fontSize: 14
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+                  Button2,
+                  {
+                    style: {
+                      backgroundColor: "#FF9F0D",
+                      height: 48,
+                      borderRadius: 8,
+                      marginBottom: 16
+                    },
+                    color: "white",
+                    onPress: handleSubmit,
+                    pressStyle: { opacity: 0.8 },
+                    disabled: isSubmitting,
+                    opacity: isSubmitting ? 0.7 : 1,
+                    icon: isSubmitting ? void 0 : /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(ArrowRight, { size: 18, color: "white" }),
+                    children: isSubmitting ? "Sending..." : "Next"
+                  }
+                )
+              ]
+            }
+          )
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(YStack, { alignItems: "center", marginTop: 20, children: /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+          Button2,
+          {
+            style: {
+              backgroundColor: "#FF9F0D",
+              height: 48,
+              borderRadius: 8,
+              paddingHorizontal: 40
+            },
+            color: "white",
+            ...loginLink,
+            pressStyle: { opacity: 0.8 },
+            children: "Back to login"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime119.jsxs)(XStack, { gap: 16, marginTop: 40, flexWrap: "wrap", justifyContent: "center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime119.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(ForgotPasswordPage, "ForgotPasswordPage");
+
+// ../../packages/ui/src/auth/VerifyEmailPage.tsx
+var import_react95 = require("react");
+var import_jsx_runtime120 = require("react/jsx-runtime");
+function VerifyEmailPage({ email = "your email" }) {
+  const [otp, setOtp] = (0, import_react95.useState)(["", "", "", ""]);
+  const [isLoading, setIsLoading] = (0, import_react95.useState)(false);
+  const [timer, setTimer] = (0, import_react95.useState)(60);
+  const [canResend, setCanResend] = (0, import_react95.useState)(false);
+  const inputRefs = (0, import_react95.useRef)([null, null, null, null]);
+  const changeEmailLink = useLink({
+    href: "/forgot-password"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const handleOtpChange = /* @__PURE__ */ __name((value, index3) => {
+    const newOtp = [...otp];
+    if (value && !/^\d+$/.test(value)) return;
+    newOtp[index3] = value;
+    setOtp(newOtp);
+    if (value && index3 < 3) {
+      inputRefs.current[index3 + 1]?.focus();
+    }
+  }, "handleOtpChange");
+  const handleKeyDown = /* @__PURE__ */ __name((e, index3) => {
+    if (e.key === "Backspace" && !otp[index3] && index3 > 0) {
+      inputRefs.current[index3 - 1]?.focus();
+    }
+  }, "handleKeyDown");
+  const handleVerify = /* @__PURE__ */ __name(() => {
+    const otpValue = otp.join("");
+    if (otpValue.length === 4) {
+      console.log("Verifying OTP:", otpValue);
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        window.location.href = "/set-new-password";
+      }, 1500);
+    }
+  }, "handleVerify");
+  const handleResendOtp = /* @__PURE__ */ __name(() => {
+    if (canResend) {
+      console.log("Resending OTP");
+      setCanResend(false);
+      setTimer(60);
+    }
+  }, "handleResendOtp");
+  (0, import_react95.useEffect)(() => {
+    let interval = null;
+    if (timer > 0 && !canResend) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1e3);
+    } else if (timer === 0) {
+      setCanResend(true);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [timer, canResend]);
+  return /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      paddingTop: 40,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      alignItems: "center",
+      justifyContent: "space-between",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(YStack, { alignItems: "center", width: "100%", children: /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            width: 150,
+            height: 50,
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(
+          YStack,
+          {
+            width: "100%",
+            maxWidth: 450,
+            padding: 24,
+            backgroundColor: "white",
+            borderRadius: 16,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            elevation: 5,
+            marginVertical: 40,
+            alignSelf: "center",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                Text4,
+                {
+                  fontSize: 28,
+                  fontWeight: "700",
+                  textAlign: "center",
+                  marginBottom: 8,
+                  color: "#2A1A0C",
+                  children: "Verify Email"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "#666",
+                  textAlign: "center",
+                  marginBottom: 24,
+                  children: [
+                    "Enter 4-digit OTP sent to your ",
+                    email,
+                    " ",
+                    /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                      Text4,
+                      {
+                        color: "#FF9F0D",
+                        ...changeEmailLink,
+                        style: { cursor: "pointer" },
+                        children: "change email"
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                XStack,
+                {
+                  justifyContent: "space-between",
+                  marginBottom: 24,
+                  paddingHorizontal: 16,
+                  children: [0, 1, 2, 3].map((index3) => /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                    Input,
+                    {
+                      ref: (el) => {
+                        if (el) {
+                          inputRefs.current[index3] = el;
+                        }
+                      },
+                      value: otp[index3],
+                      onChangeText: (value) => handleOtpChange(value, index3),
+                      onKeyDown: (e) => handleKeyDown(e, index3),
+                      maxLength: 1,
+                      textAlign: "center",
+                      fontSize: 24,
+                      fontWeight: "600",
+                      width: 60,
+                      height: 60,
+                      borderWidth: 1,
+                      borderColor: "#E0E0E0",
+                      borderRadius: 8,
+                      keyboardType: "numeric",
+                      autoComplete: "one-time-code"
+                    },
+                    index3
+                  ))
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(
+                XStack,
+                {
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 24,
+                  gap: 8,
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(RefreshCw, { size: 16, color: "#FF9F0D" }),
+                    canResend ? /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                      Text4,
+                      {
+                        fontSize: 14,
+                        color: "#FF9F0D",
+                        fontWeight: "600",
+                        onPress: handleResendOtp,
+                        style: { cursor: "pointer" },
+                        children: "Re-send otp"
+                      }
+                    ) : /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(Text4, { fontSize: 14, color: "#666", children: [
+                      `${timer}s`,
+                      " Re-send otp"
+                    ] })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+                Button2,
+                {
+                  backgroundColor: "#FF9F0D",
+                  color: "white",
+                  height: 48,
+                  borderRadius: 8,
+                  fontSize: 16,
+                  fontWeight: "600",
+                  marginBottom: 16,
+                  onPress: handleVerify,
+                  disabled: otp.join("").length !== 4 || isLoading,
+                  opacity: otp.join("").length !== 4 || isLoading ? 0.7 : 1,
+                  pressStyle: { opacity: 0.8 },
+                  icon: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(XStack, { marginRight: 8, children: /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(Spinner, { size: "small", color: "white" }) }) : /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(XStack, { marginRight: 8, children: /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(ArrowRight, { size: 18, color: "white" }) }),
+                  children: "Verify"
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime120.jsxs)(XStack, { gap: 16, marginTop: 40, flexWrap: "wrap", justifyContent: "center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime120.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(VerifyEmailPage, "VerifyEmailPage");
+
+// ../../packages/ui/src/auth/SetNewPasswordPage.tsx
+var import_react96 = require("react");
+var import_jsx_runtime121 = require("react/jsx-runtime");
+function SetNewPasswordPage({ onSubmit, isSubmitting = false }) {
+  const [password, setPassword] = (0, import_react96.useState)("");
+  const [confirmPassword, setConfirmPassword] = (0, import_react96.useState)("");
+  const [showPassword, setShowPassword] = (0, import_react96.useState)(false);
+  const [showConfirmPassword, setShowConfirmPassword] = (0, import_react96.useState)(false);
+  const [error3, setError] = (0, import_react96.useState)("");
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const handleSubmit = /* @__PURE__ */ __name(() => {
+    setError("");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    if (onSubmit) {
+      onSubmit(password);
+    }
+  }, "handleSubmit");
+  return /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      paddingTop: 40,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      alignItems: "center",
+      justifyContent: "space-between",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(YStack, { alignItems: "center", width: "100%", children: /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            width: 150,
+            height: 50,
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(
+          YStack,
+          {
+            width: "100%",
+            maxWidth: 450,
+            padding: 24,
+            backgroundColor: "white",
+            borderRadius: 16,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            elevation: 5,
+            marginVertical: 40,
+            alignSelf: "center",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                Text4,
+                {
+                  fontSize: 28,
+                  fontWeight: "700",
+                  textAlign: "center",
+                  marginBottom: 8,
+                  color: "#2A1A0C",
+                  children: "Set New Password"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "#666",
+                  textAlign: "center",
+                  marginBottom: 24,
+                  children: [
+                    "Your identity has been verified!",
+                    /* @__PURE__ */ (0, import_jsx_runtime121.jsx)("br", {}),
+                    "Set new password"
+                  ]
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(YStack, { marginBottom: 16, position: "relative", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    left: 12,
+                    top: 12,
+                    zIndex: 1,
+                    opacity: 0.5,
+                    children: /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(Lock, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  Input,
+                  {
+                    value: password,
+                    onChangeText: setPassword,
+                    placeholder: "Enter new password",
+                    paddingLeft: 40,
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    borderRadius: 8,
+                    fontSize: 14,
+                    secureTextEntry: !showPassword
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    right: 12,
+                    top: 12,
+                    zIndex: 1,
+                    opacity: 0.5,
+                    onPress: () => setShowPassword(!showPassword),
+                    style: { cursor: "pointer" },
+                    children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(EyeOff, { size: 20, color: "#666" }) : /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(Eye, { size: 20, color: "#666" })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(YStack, { marginBottom: 16, position: "relative", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    left: 12,
+                    top: 12,
+                    zIndex: 1,
+                    opacity: 0.5,
+                    children: /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(Lock, { size: 20, color: "#666" })
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  Input,
+                  {
+                    value: confirmPassword,
+                    onChangeText: setConfirmPassword,
+                    placeholder: "Re-enter new password",
+                    paddingLeft: 40,
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    borderRadius: 8,
+                    fontSize: 14,
+                    secureTextEntry: !showConfirmPassword
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                  XStack,
+                  {
+                    position: "absolute",
+                    right: 12,
+                    top: 12,
+                    zIndex: 1,
+                    opacity: 0.5,
+                    onPress: () => setShowConfirmPassword(!showConfirmPassword),
+                    style: { cursor: "pointer" },
+                    children: showConfirmPassword ? /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(EyeOff, { size: 20, color: "#666" }) : /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(Eye, { size: 20, color: "#666" })
+                  }
+                )
+              ] }),
+              error3 ? /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "red",
+                  textAlign: "center",
+                  marginBottom: 16,
+                  children: error3
+                }
+              ) : null,
+              /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+                Button2,
+                {
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    height: 48,
+                    borderRadius: 8
+                  },
+                  color: "white",
+                  onPress: handleSubmit,
+                  pressStyle: { opacity: 0.8 },
+                  disabled: isSubmitting,
+                  opacity: isSubmitting ? 0.7 : 1,
+                  icon: isSubmitting ? void 0 : /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(ArrowRight, { size: 18, color: "white" }),
+                  children: isSubmitting ? "Updating..." : "Update"
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(YStack, { alignItems: "center", marginTop: 20, children: /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+          Button2,
+          {
+            style: {
+              backgroundColor: "#FF9F0D",
+              height: 48,
+              borderRadius: 8,
+              paddingHorizontal: 40
+            },
+            color: "white",
+            ...loginLink,
+            pressStyle: { opacity: 0.8 },
+            children: "Back to login"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(XStack, { gap: 16, marginTop: 40, flexWrap: "wrap", justifyContent: "center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(SetNewPasswordPage, "SetNewPasswordPage");
+
+// ../../packages/ui/src/auth/PasswordChangedPage.tsx
+var import_jsx_runtime122 = require("react/jsx-runtime");
+function PasswordChangedPage({ onContinue }) {
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const handleContinue = /* @__PURE__ */ __name(() => {
+    if (onContinue) {
+      onContinue();
+    }
+  }, "handleContinue");
+  return /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      paddingTop: 40,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      alignItems: "center",
+      justifyContent: "space-between",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(YStack, { alignItems: "center", width: "100%", children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            width: 150,
+            height: 50,
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(
+          YStack,
+          {
+            width: "100%",
+            maxWidth: 450,
+            padding: 24,
+            backgroundColor: "white",
+            borderRadius: 16,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            elevation: 5,
+            marginVertical: 40,
+            alignSelf: "center",
+            alignItems: "center",
+            gap: 16,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Circle, { size: 120, backgroundColor: "#E9F7F0", children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Circle, { size: 80, backgroundColor: "#27AE60", children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Check, { size: 40, color: "white" }) }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+                Text4,
+                {
+                  fontSize: 28,
+                  fontWeight: "700",
+                  textAlign: "center",
+                  marginTop: 16,
+                  color: "#2A1A0C",
+                  children: "Password Changed"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+                Text4,
+                {
+                  fontSize: 14,
+                  color: "#666",
+                  textAlign: "center",
+                  marginBottom: 16,
+                  children: "Your password has been changed successfully!"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+                Button2,
+                {
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    height: 48,
+                    borderRadius: 8,
+                    paddingHorizontal: 40
+                  },
+                  color: "white",
+                  onPress: handleContinue || loginLink.onPress,
+                  pressStyle: { opacity: 0.8 },
+                  children: "Continue to Login"
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { gap: 16, marginTop: 40, flexWrap: "wrap", justifyContent: "center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(PasswordChangedPage, "PasswordChangedPage");
+
+// ../../packages/ui/src/auth/SignupStep2Page.tsx
+var import_react97 = require("react");
+var import_jsx_runtime123 = require("react/jsx-runtime");
+function SignupStep2Page() {
+  const media2 = (0, import_core58.useMedia)();
+  const [name2, setName] = (0, import_react97.useState)("");
+  const [phone, setPhone] = (0, import_react97.useState)("");
+  const [email, setEmail] = (0, import_react97.useState)("");
+  const [locationRemark, setLocationRemark] = (0, import_react97.useState)("");
+  const [streetAddress, setStreetAddress] = (0, import_react97.useState)("");
+  const [city, setCity] = (0, import_react97.useState)("");
+  const [province, setProvince] = (0, import_react97.useState)("");
+  const [postcode, setPostcode] = (0, import_react97.useState)("");
+  const [notes, setNotes] = (0, import_react97.useState)("");
+  const [agreedToTerms, setAgreedToTerms] = (0, import_react97.useState)(false);
+  const [agreedToMarketing, setAgreedToMarketing] = (0, import_react97.useState)(false);
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  const loginLink = useLink({
+    href: "/login"
+  });
+  const accountCreatedLink = useLink({
+    href: "/account-created"
+  });
+  const handleSignup = /* @__PURE__ */ __name(() => {
+    if (!name2 || !email || !streetAddress || !city || !postcode) {
+      console.log("Please fill all required fields");
+      return;
+    }
+    if (!agreedToTerms) {
+      console.log("Please agree to terms and conditions");
+      return;
+    }
+    const addressData = {
+      name: name2,
+      email,
+      phone,
+      locationRemark,
+      streetAddress,
+      city,
+      province,
+      postcode,
+      notes,
+      agreedToTerms,
+      agreedToMarketing
+    };
+    console.log("Complete signup with address:", addressData);
+    if (accountCreatedLink.onPress) {
+      accountCreatedLink.onPress();
+    }
+  }, "handleSignup");
+  return /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      bg: "#FFF9F2",
+      style: {
+        paddingTop: media2.sm ? 20 : 40,
+        paddingBottom: media2.sm ? 10 : 20,
+        paddingHorizontal: media2.sm ? 10 : 20,
+        alignItems: "center",
+        justifyContent: "space-between"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { alignItems: "center", width: "100%" }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            style: { width: 150, height: 50 },
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(
+          YStack,
+          {
+            style: {
+              width: "100%",
+              maxWidth: 450,
+              padding: media2.sm ? 16 : 24,
+              backgroundColor: "white",
+              borderRadius: 16,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              elevation: 5,
+              marginVertical: media2.sm ? 20 : 40,
+              alignSelf: "center"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { width: "100%", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Text4,
+                  {
+                    fontSize: media2.sm ? 20 : 24,
+                    fontWeight: "700",
+                    color: "#2A1A0C",
+                    children: "Add a delivery address"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Button2,
+                  {
+                    size: "$2",
+                    circular: true,
+                    icon: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(X, { size: 18 }),
+                    style: {
+                      backgroundColor: "transparent"
+                    },
+                    pressStyle: { opacity: 0.7 },
+                    ...loginLink
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { gap: 16, marginBottom: 16 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: name2,
+                    onChangeText: setName,
+                    placeholder: "Name*",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: locationRemark,
+                    onChangeText: setLocationRemark,
+                    placeholder: "Location remark e.g. home, office",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { gap: 16, marginBottom: 16 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: phone,
+                    onChangeText: setPhone,
+                    placeholder: "Phone (optional)",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14,
+                    keyboardType: "phone-pad"
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: email,
+                    onChangeText: setEmail,
+                    placeholder: "Email address*",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14,
+                    keyboardType: "email-address",
+                    autoCapitalize: "none"
+                  }
+                ) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                Input,
+                {
+                  value: streetAddress,
+                  onChangeText: setStreetAddress,
+                  placeholder: "Address: House number and street name",
+                  style: { borderRadius: 8 },
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: "#E0E0E0",
+                  fontSize: 14
+                }
+              ) }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { gap: 16, marginBottom: 16, flexWrap: "wrap" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1, minWidth: media2.sm ? "100%" : "30%", marginBottom: media2.sm ? 16 : 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: city,
+                    onChangeText: setCity,
+                    placeholder: "Town City",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1, minWidth: media2.sm ? "100%" : "30%", marginBottom: media2.sm ? 16 : 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: province,
+                    onChangeText: setProvince,
+                    placeholder: "Province",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1, minWidth: media2.sm ? "100%" : "30%" }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Input,
+                  {
+                    value: postcode,
+                    onChangeText: setPostcode,
+                    placeholder: "Postcode/Zip",
+                    style: { borderRadius: 8 },
+                    height: 48,
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                    fontSize: 14
+                  }
+                ) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { marginBottom: 24 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                TextArea,
+                {
+                  value: notes,
+                  onChangeText: setNotes,
+                  placeholder: "Notes about your order, e.g. special notes for delivery",
+                  style: { borderRadius: 8 },
+                  height: 80,
+                  borderWidth: 1,
+                  borderColor: "#E0E0E0",
+                  fontSize: 14
+                }
+              ) }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { marginBottom: 16, alignItems: "flex-start", gap: 8 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                  Checkbox,
+                  {
+                    checked: agreedToTerms,
+                    onCheckedChange: (checked) => setAgreedToTerms(!!checked),
+                    backgroundColor: agreedToTerms ? "#FF9F0D" : void 0,
+                    borderColor: agreedToTerms ? "#FF9F0D" : "#E0E0E0",
+                    style: { marginTop: 3 }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(Text4, { fontSize: 14, color: "#666", style: { flexWrap: "wrap" }, children: [
+                  "By creating an account, I agree to our",
+                  " ",
+                  /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                    Text4,
+                    {
+                      fontSize: 14,
+                      color: "#FF9F0D",
+                      ...termsLink,
+                      hoverStyle: { textDecorationLine: "underline" },
+                      style: { cursor: "pointer" },
+                      children: "Terms and Conditions"
+                    }
+                  ),
+                  " ",
+                  "also for receiving",
+                  " ",
+                  /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                    Text4,
+                    {
+                      fontSize: 14,
+                      color: "#FF9F0D",
+                      hoverStyle: { textDecorationLine: "underline" },
+                      style: { cursor: "pointer" },
+                      children: "Notification Emails"
+                    }
+                  )
+                ] }) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+                Button2,
+                {
+                  onPress: handleSignup,
+                  color: "white",
+                  height: 48,
+                  fontSize: 16,
+                  fontWeight: "600",
+                  pressStyle: { opacity: 0.8 },
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    borderRadius: 8,
+                    marginTop: 8,
+                    marginBottom: 24
+                  },
+                  children: "Add delivery address"
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { style: { gap: media2.sm ? 8 : 16, marginTop: media2.sm ? 20 : 40, flexWrap: "wrap", justifyContent: "center", paddingHorizontal: media2.sm ? 10 : 20 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(SignupStep2Page, "SignupStep2Page");
+
+// ../../packages/ui/src/auth/AccountCreatedPage.tsx
+var import_jsx_runtime124 = require("react/jsx-runtime");
+function AccountCreatedPage() {
+  const homeLink = useLink({
+    href: "/"
+  });
+  const termsLink = useLink({
+    href: "/terms"
+  });
+  const privacyLink = useLink({
+    href: "/privacy"
+  });
+  const refundLink = useLink({
+    href: "/refund"
+  });
+  return /* @__PURE__ */ (0, import_jsx_runtime124.jsxs)(
+    YStack,
+    {
+      flex: 1,
+      style: {
+        backgroundColor: "#FFF9F2",
+        paddingTop: 40,
+        paddingBottom: 20,
+        paddingHorizontal: 20,
+        alignItems: "center",
+        justifyContent: "space-between"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(YStack, { style: { alignItems: "center", width: "100%" }, children: /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+          Image,
+          {
+            source: { uri: "https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png" },
+            style: { width: 150, height: 50 },
+            resizeMode: "contain",
+            alt: "Nikfoods Logo"
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime124.jsxs)(
+          YStack,
+          {
+            style: {
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 1,
+              width: "100%",
+              maxWidth: 500,
+              alignSelf: "center"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+                YStack,
+                {
+                  style: {
+                    width: 120,
+                    height: 120,
+                    borderRadius: 60,
+                    backgroundColor: "#E8F5F0",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 24
+                  },
+                  children: /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+                    YStack,
+                    {
+                      style: {
+                        width: 60,
+                        height: 60,
+                        borderRadius: 30,
+                        backgroundColor: "#26B980",
+                        alignItems: "center",
+                        justifyContent: "center"
+                      },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(Check, { color: "white", size: 32 })
+                    }
+                  )
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+                Text4,
+                {
+                  style: {
+                    fontSize: 24,
+                    fontWeight: "600",
+                    color: "#333",
+                    marginBottom: 8,
+                    textAlign: "center"
+                  },
+                  children: "Account Created"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+                Text4,
+                {
+                  style: {
+                    fontSize: 16,
+                    color: "#666",
+                    marginBottom: 40,
+                    textAlign: "center"
+                  },
+                  children: "Your account has been created successfully!"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+                Button2,
+                {
+                  color: "white",
+                  height: 48,
+                  fontSize: 16,
+                  fontWeight: "600",
+                  pressStyle: { opacity: 0.8 },
+                  ...homeLink,
+                  style: {
+                    backgroundColor: "#FF9F0D",
+                    paddingHorizontal: 40,
+                    borderRadius: 8,
+                    width: 200
+                  },
+                  children: "Continue"
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime124.jsxs)(XStack, { style: { gap: 16, marginTop: 40, flexWrap: "wrap", justifyContent: "center", paddingHorizontal: 20 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...termsLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Terms & Conditions"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...privacyLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Privacy Policy"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+            Text4,
+            {
+              fontSize: 12,
+              color: "#666",
+              ...refundLink,
+              hoverStyle: { color: "#FF9F0D" },
+              style: { cursor: "pointer" },
+              children: "Refund Policy"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
+__name(AccountCreatedPage, "AccountCreatedPage");
+
+// ../../packages/ui/src/cart/CartItem.tsx
+var import_react_native8 = require("@tamagui/react-native-web-lite");
+var import_react_native9 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime125 = require("react/jsx-runtime");
+function CartItem({ imageUrl, name: name2, description, price, quantity, onIncrement, onDecrement }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime125.jsxs)(XStack, { style: {
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F0",
+    alignItems: "center"
+  }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
+      YStack,
+      {
+        style: {
+          width: 60,
+          height: 60,
+          borderRadius: 4,
+          marginRight: 16,
+          backgroundColor: "#F5F5F5",
+          overflow: "hidden"
+        },
+        children: import_react_native9.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
+          import_react_native8.Image,
+          {
+            source: { uri: imageUrl },
+            alt: name2,
+            style: { width: 60, height: 60, objectFit: "cover" }
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
+          import_react_native8.Image,
+          {
+            source: { uri: imageUrl },
+            style: { width: 60, height: 60, resizeMode: "cover" }
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime125.jsxs)(YStack, { style: { flex: 1 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#000000", marginBottom: 4 }, children: name2 }),
+      description && /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(Text4, { style: { fontSize: 14, color: "#666666" }, children: description })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(XStack, { style: {
+      alignItems: "center",
+      marginRight: 24
+    }, children: /* @__PURE__ */ (0, import_jsx_runtime125.jsxs)(XStack, { style: {
+      borderWidth: 1,
+      borderColor: "#EEEEEE",
+      borderRadius: 4,
+      alignItems: "center",
+      height: 32
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
+        XStack,
+        {
+          onPress: onDecrement,
+          style: {
+            width: 32,
+            height: 32,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#FFF8EE",
+            cursor: "pointer"
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(Minus, { size: 16, color: "#FFB648" })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(Text4, { style: {
+        width: 32,
+        textAlign: "center",
+        fontSize: 16,
+        fontWeight: "500",
+        color: "#000000"
+      }, children: quantity }),
+      /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
+        XStack,
+        {
+          onPress: onIncrement,
+          style: {
+            width: 32,
+            height: 32,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#FFF8EE",
+            cursor: "pointer"
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(Plus, { size: 16, color: "#FFB648" })
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime125.jsxs)(Text4, { style: {
+      fontSize: 18,
+      fontWeight: "700",
+      color: "#000000",
+      minWidth: 80,
+      textAlign: "right"
+    }, children: [
+      "$",
+      price.toFixed(2)
+    ] })
+  ] });
+}
+__name(CartItem, "CartItem");
+
+// ../../packages/ui/src/cart/CartSummary.tsx
+var import_react98 = require("react");
+var import_jsx_runtime126 = require("react/jsx-runtime");
+function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
+  const [couponCode, setCouponCode] = (0, import_react98.useState)("");
+  const total = Math.round(subtotal);
+  return /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(YStack, { style: { padding: 24, gap: 20 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { fontSize: 24, fontWeight: "600", color: "#000000" }, children: "Summary" }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { fontSize: 18, color: "#000000" }, children: "Subtotal" }),
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
+        "$",
+        subtotal
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { fontSize: 18, color: "#000000" }, children: "Other" }),
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: "0" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: {
+      borderWidth: 1,
+      borderColor: "#E0E0E0",
+      borderRadius: 100,
+      overflow: "hidden",
+      height: 56
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: {
+        flex: 1,
+        paddingLeft: 16,
+        alignItems: "center",
+        backgroundColor: "white"
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { color: "#AAAAAA", marginRight: 8 }, children: "\u{1F39F}\uFE0F" }),
+        /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(
+          Input,
+          {
+            flex: 1,
+            value: couponCode,
+            onChangeText: setCouponCode,
+            placeholder: "Add a coupon",
+            style: {
+              borderWidth: 0,
+              height: 56,
+              fontSize: 16
+            }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(XStack, { style: {
+        backgroundColor: "#FFF3E0",
+        paddingHorizontal: 24,
+        alignItems: "center",
+        justifyContent: "center"
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" }) })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(YStack, { style: { height: 1, backgroundColor: "#E0E0E0" } }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { fontSize: 20, fontWeight: "600", color: "#000000" }, children: "Total" }),
+      /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(Text4, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: [
+        "$",
+        total
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(
+      Button2,
+      {
+        onPress: onCheckout,
+        style: {
+          backgroundColor: "#FFB648",
+          borderRadius: 100,
+          height: 56,
+          marginTop: 8,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { color: "white", fontSize: 18, fontWeight: "600" }, children: "Checkout" }),
+          /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(ArrowRight, { color: "white", size: 20 })
+        ]
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: {
+      fontSize: 14,
+      color: "#666666",
+      textAlign: "center",
+      marginTop: 12
+    }, children: "We accept all major credit cards" })
+  ] });
+}
+__name(CartSummary, "CartSummary");
+
+// ../../packages/ui/src/cart/EmptyCart.tsx
+var import_jsx_runtime127 = require("react/jsx-runtime");
+function EmptyCart({ onBrowse }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime127.jsxs)(YStack, { style: {
+    padding: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 16,
+    flex: 1,
+    minHeight: 300
+  }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(YStack, { style: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      backgroundColor: "#FFF8EE",
+      alignItems: "center",
+      justifyContent: "center"
+    }, children: /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(ShoppingBag, { size: 36, color: "#FF9F0D" }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(Text4, { style: {
+      fontSize: 18,
+      fontWeight: "600",
+      color: "#2A1A0C",
+      textAlign: "center"
+    }, children: "Your cart is empty" }),
+    /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(Text4, { style: {
+      fontSize: 14,
+      color: "#666",
+      textAlign: "center",
+      maxWidth: 300
+    }, children: "Looks like you haven't added any items to your cart yet." }),
+    /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(
+      Button2,
+      {
+        onPress: onBrowse,
+        style: {
+          backgroundColor: "#FF9F0D",
+          borderRadius: 8,
+          height: 46,
+          paddingHorizontal: 24,
+          marginTop: 8
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime127.jsx)(Text4, { style: { color: "white", fontSize: 15, fontWeight: "600" }, children: "Browse Foods" })
+      }
+    )
+  ] });
+}
+__name(EmptyCart, "EmptyCart");
+
+// ../../packages/ui/src/cart/CartPage.tsx
+var import_react99 = require("react");
+
+// ../../packages/ui/src/cart/CartDaySection.tsx
+var import_jsx_runtime128 = require("react/jsx-runtime");
+function CartDaySection({
+  day,
+  date,
+  deliveryLabel,
+  items,
+  onIncrement,
+  onDecrement
+}) {
+  const dayTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric"
+  });
+  const isSameDay = deliveryLabel?.toLowerCase().includes("same day");
+  return /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(YStack, { style: {
+    marginBottom: 16,
+    backgroundColor: "white",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#F0F0F0",
+    overflow: "hidden"
+  }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(XStack, { style: {
+      paddingHorizontal: 24,
+      paddingVertical: 16,
+      justifyContent: "space-between",
+      alignItems: "center"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
+        "What's in your ",
+        day,
+        "'s cart"
+      ] }) }),
+      deliveryLabel && /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: {
+        fontSize: 14,
+        fontWeight: "500",
+        color: "#4CAF50"
+      }, children: isSameDay ? "Same day delivery" : deliveryLabel })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(YStack, { children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(
+      CartItem,
+      {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        quantity: item.quantity,
+        imageUrl: item.imageUrl,
+        onIncrement: () => onIncrement?.(item.id),
+        onDecrement: () => onDecrement?.(item.id)
+      },
+      item.id
+    )) }),
+    /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(XStack, { style: {
+      paddingHorizontal: 24,
+      paddingVertical: 16,
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderTopWidth: 1,
+      borderTopColor: "#F0F0F0"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#000000" }, children: "Day Total" }),
+      /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(Text4, { style: { fontSize: 20, fontWeight: "700", color: "#000000" }, children: [
+        "$",
+        dayTotal.toFixed(2)
+      ] })
+    ] })
+  ] });
+}
+__name(CartDaySection, "CartDaySection");
+
+// ../../packages/ui/src/cart/SavingsBanner.tsx
+var import_jsx_runtime129 = require("react/jsx-runtime");
+function SavingsBanner({ amount }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime129.jsx)(XStack, { style: {
+    backgroundColor: "#E0F7FA",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    alignItems: "center",
+    justifyContent: "flex-start"
+  }, children: /* @__PURE__ */ (0, import_jsx_runtime129.jsxs)(Text4, { style: {
+    fontSize: 14,
+    color: "#00838F",
+    fontWeight: "500"
+  }, children: [
+    "\u{1F389} Yay!! You saved $",
+    amount,
+    " on this order."
+  ] }) });
+}
+__name(SavingsBanner, "SavingsBanner");
+
+// ../../packages/ui/src/cart/AddMoreButton.tsx
+var import_jsx_runtime130 = require("react/jsx-runtime");
+function AddMoreButton({ onPress }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(
+    XStack,
+    {
+      onPress,
+      style: {
+        backgroundColor: "#FFF8EE",
+        borderRadius: 8,
+        padding: 16,
+        marginBottom: 16,
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: "#FFE0B2",
+        cursor: "pointer"
+      },
+      pressStyle: { opacity: 0.8 },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Plus, { size: 16, color: "#FF9F0D", style: { marginRight: 8 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text4, { style: {
+          fontSize: 14,
+          color: "#FF9F0D",
+          fontWeight: "600"
+        }, children: "Add more items" })
+      ]
+    }
+  );
+}
+__name(AddMoreButton, "AddMoreButton");
+
+// ../../packages/ui/src/cart/DessertDeals.tsx
+var import_jsx_runtime131 = require("react/jsx-runtime");
+function DessertDeals({ items, onAddItem, onViewAll }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(YStack, { style: { padding: 20 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#2A1A0C" }, children: "Dessert deals- to Grab now!" }),
+      /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(
+        Text4,
+        {
+          onPress: onViewAll,
+          style: {
+            fontSize: 14,
+            color: "#FF9F0D",
+            fontWeight: "500",
+            cursor: "pointer"
+          },
+          children: "View all wednesday dessert items"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(YStack, { style: { gap: 12 }, children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(
+      XStack,
+      {
+        style: {
+          padding: 12,
+          borderWidth: 1,
+          borderColor: "#F0F0F0",
+          borderRadius: 8,
+          backgroundColor: "white"
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(
+            YStack,
+            {
+              style: {
+                width: 70,
+                height: 70,
+                borderRadius: 8,
+                marginRight: 12,
+                backgroundColor: "#F5F5F5",
+                overflow: "hidden"
+              },
+              children: /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(
+                Image,
+                {
+                  src: item.imageUrl,
+                  alt: item.name,
+                  width: 70,
+                  height: 70,
+                  resizeMode: "cover"
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(YStack, { style: { flex: 1, justifyContent: "center" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#2A1A0C", marginBottom: 4 }, children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { fontSize: 13, color: "#666", marginBottom: 8 }, children: item.description }),
+            /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#2A1A0C" }, children: [
+                "$",
+                item.price.toFixed(2)
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(
+                Button2,
+                {
+                  onPress: () => onAddItem?.(item.id),
+                  style: {
+                    backgroundColor: "#FFB648",
+                    borderRadius: 4,
+                    height: 32,
+                    paddingHorizontal: 16,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  },
+                  children: /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { color: "white", fontSize: 14, fontWeight: "600" }, children: "Add" })
+                }
+              )
+            ] })
+          ] })
+        ]
+      },
+      item.id
+    )) })
+  ] });
+}
+__name(DessertDeals, "DessertDeals");
+
+// ../../packages/ui/src/cart/CartPage.tsx
+var import_jsx_runtime132 = require("react/jsx-runtime");
+function CartPage({
+  onBrowse,
+  onCheckout,
+  onAddMore,
+  onViewAllDesserts,
+  onAddDessert
+}) {
+  const [isDesktop, setIsDesktop] = (0, import_react99.useState)(null);
+  (0, import_react99.useEffect)(() => {
+    const checkIfDesktop = /* @__PURE__ */ __name(() => {
+      if (typeof window !== "undefined") {
+        setIsDesktop(window.innerWidth >= 768);
+      }
+    }, "checkIfDesktop");
+    checkIfDesktop();
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", checkIfDesktop);
+      return () => window.removeEventListener("resize", checkIfDesktop);
+    }
+  }, []);
+  const [cartDays, setCartDays] = (0, import_react99.useState)([
+    {
+      day: "Wednesday",
+      date: "2025-07-08",
+      deliveryLabel: "Delivery on Thursday",
+      items: [
+        {
+          id: "1",
+          name: "Gulab Jamun",
+          description: "Pack of 2 Gulab Jamuns",
+          price: 6,
+          quantity: 1,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/04/Gulab-Jamun-500x500.jpg"
+        },
+        {
+          id: "2",
+          name: "Dodda Barfi",
+          description: "Pack of 5 Dodda Barfi",
+          price: 10,
+          quantity: 1,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg"
+        }
+      ]
+    },
+    {
+      day: "Thursday",
+      date: "2025-07-09",
+      deliveryLabel: "Same day delivery",
+      items: [
+        {
+          id: "3",
+          name: "Doda Barfi (5 pcs)",
+          description: "Set of 5 barfi's made from mawa and milk",
+          price: 24,
+          quantity: 2,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg"
+        },
+        {
+          id: "4",
+          name: "Paneer 65",
+          description: "Punjabi Chefs 2 pcs, bubble-wrap+green chutney",
+          price: 14,
+          quantity: 1,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2020/01/Paneer-65-500x500.jpg"
+        }
+      ]
+    },
+    {
+      day: "Friday",
+      date: "2025-07-10",
+      deliveryLabel: "Same day delivery",
+      items: [
+        {
+          id: "5",
+          name: "Panjiri",
+          description: "Punjabi Chefs 2 pcs, bubble-wrap+green chutney",
+          price: 14,
+          quantity: 1,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/10/Panjiri-500x500.jpg"
+        },
+        {
+          id: "6",
+          name: "Kesar Milk",
+          description: "Regular size glass with dry fruits mixed",
+          price: 12,
+          quantity: 1,
+          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/10/Kesar-Milk-500x500.jpg"
+        }
+      ]
+    }
+  ]);
+  const dessertDeals = [
+    {
+      id: "d1",
+      name: "Gulab Jamun",
+      description: "Pack of 2 Gulab Jamuns",
+      price: 6,
+      imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/04/Gulab-Jamun-500x500.jpg"
+    },
+    {
+      id: "d2",
+      name: "Dodda Barfi",
+      description: "Pack of 5 Dodda Barfi",
+      price: 9,
+      imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg"
+    },
+    {
+      id: "d3",
+      name: "Rasmalai",
+      description: "Pack of 2 Kesar milk dipped Rasmalai",
+      price: 4.5,
+      imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2017/08/Rasmalai-Recipe-500x500.jpg"
+    }
+  ];
+  const subtotal = cartDays.reduce((sum, day) => {
+    return sum + day.items.reduce((daySum, item) => daySum + item.price * item.quantity, 0);
+  }, 0);
+  const handleIncrement = /* @__PURE__ */ __name((dayIndex, itemId) => {
+    setCartDays(
+      (days) => days.map((day, idx) => {
+        if (idx !== dayIndex) return day;
+        return {
+          ...day,
+          items: day.items.map(
+            (item) => item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        };
+      })
+    );
+  }, "handleIncrement");
+  const handleDecrement = /* @__PURE__ */ __name((dayIndex, itemId) => {
+    setCartDays(
+      (days) => days.map((day, idx) => {
+        if (idx !== dayIndex) return day;
+        return {
+          ...day,
+          items: day.items.map(
+            (item) => item.id === itemId && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+          )
+        };
+      })
+    );
+  }, "handleDecrement");
+  const isCartEmpty = cartDays.every((day) => day.items.length === 0);
+  if (isDesktop === null) {
+    return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: { flex: 1, backgroundColor: "#FAFAFA", justifyContent: "center", alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text4, { children: "Loading..." }) });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
+    width: "100%",
+    minHeight: "100vh"
+  }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(AppHeader, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
+      flex: 1,
+      backgroundColor: "#FAFAFA"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+        padding: 24,
+        paddingBottom: 16,
+        backgroundColor: "white",
+        borderBottomWidth: 1,
+        borderBottomColor: "#F0F0F0",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        elevation: 2,
+        zIndex: 5
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+        maxWidth: 1200,
+        width: "100%",
+        marginHorizontal: "auto",
+        paddingHorizontal: 24
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text4, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: "Your Cart" }) }) }),
+      isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+        paddingVertical: 24,
+        maxWidth: 1200,
+        width: "100%",
+        marginHorizontal: "auto",
+        paddingHorizontal: 24
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(EmptyCart, { onBrowse }) }) : /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+        maxWidth: 1200,
+        width: "100%",
+        marginHorizontal: "auto",
+        paddingHorizontal: 24
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(XStack, { style: {
+        width: "100%",
+        flexDirection: isDesktop ? "row" : "column",
+        gap: isDesktop ? 24 : 0,
+        paddingVertical: 24
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+          flex: isDesktop ? 0.65 : 1,
+          width: isDesktop ? "65%" : "100%"
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(ScrollView, { style: { flex: 1 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(SavingsBanner, { amount: 15 }),
+          cartDays.map((day, index3) => /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            CartDaySection,
+            {
+              day: day.day,
+              date: day.date,
+              items: day.items,
+              deliveryLabel: day.deliveryLabel,
+              onIncrement: (itemId) => handleIncrement(index3, itemId),
+              onDecrement: (itemId) => handleDecrement(index3, itemId)
+            },
+            day.day
+          )),
+          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(AddMoreButton, { onPress: onAddMore }),
+          isDesktop === false && /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            DessertDeals,
+            {
+              items: dessertDeals,
+              onAddItem: onAddDessert,
+              onViewAll: onViewAllDesserts
+            }
+          )
+        ] }) }),
+        isDesktop === true ? /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+          flex: 0.35,
+          width: "35%",
+          paddingRight: 0,
+          paddingTop: 0,
+          position: "relative"
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(ScrollView, { style: {
+          height: "100%",
+          paddingRight: 0
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
+          gap: 24,
+          paddingBottom: 24
+        }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+            backgroundColor: "white",
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: "#F0F0F0",
+            overflow: "hidden",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)"
+          }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            CartSummary,
+            {
+              subtotal: 144,
+              onCheckout
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+            backgroundColor: "white",
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: "#F0F0F0",
+            overflow: "hidden",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 8,
+            elevation: 2
+          }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            DessertDeals,
+            {
+              items: dessertDeals,
+              onAddItem: onAddDessert,
+              onViewAll: onViewAllDesserts
+            }
+          ) })
+        ] }) }) }) : (
+          // On mobile, show summary at the bottom
+          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+            position: "sticky",
+            bottom: 0,
+            width: "100%",
+            backgroundColor: "#FAFAFA",
+            padding: 16,
+            paddingTop: 0,
+            zIndex: 10
+          }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+            backgroundColor: "white",
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: "#F0F0F0",
+            overflow: "hidden",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 8,
+            elevation: 2
+          }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            CartSummary,
+            {
+              subtotal: 144,
+              onCheckout
+            }
+          ) }) })
+        )
+      ] }) })
+    ] })
+  ] });
+}
+__name(CartPage, "CartPage");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ACTIONS,
   Accordion,
+  AccountCreatedPage,
   Adapt,
   AdaptContents,
   AdaptContext,
   AdaptParent,
   AdaptPortalContents,
   AddButton,
+  AddMoreButton,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -44810,6 +50267,8 @@ __name(FoodListingRail, "FoodListingRail");
   AlertDialogTrigger,
   Anchor,
   AnimatePresence,
+  AppDownloadBanner,
+  AppFooter,
   AppHeader,
   Article,
   Aside,
@@ -44829,6 +50288,10 @@ __name(FoodListingRail, "FoodListingRail");
   CardFooter,
   CardFrame,
   CardHeader,
+  CartDaySection,
+  CartItem,
+  CartPage,
+  CartSummary,
   CategoryRail,
   Checkbox,
   CheckboxContext,
@@ -44839,6 +50302,8 @@ __name(FoodListingRail, "FoodListingRail");
   ComponentContext,
   Configuration,
   CustomToast,
+  DeliveryDatePopup,
+  DessertDeals,
   Dialog,
   DialogClose,
   DialogContent,
@@ -44850,12 +50315,15 @@ __name(FoodListingRail, "FoodListingRail");
   DialogTitle,
   DialogTrigger,
   DialogWarningProvider,
+  EmptyCart,
   EnsureFlexed,
+  FAQSection,
   Fieldset,
   FontLanguage,
   FoodCard,
   FoodListingRail,
   Footer,
+  ForgotPasswordPage,
   Form,
   FormFrame,
   FormProvider,
@@ -44886,12 +50354,14 @@ __name(FoodListingRail, "FoodListingRail");
   ListItemSubtitle,
   ListItemText,
   ListItemTitle,
+  LoginPage,
   Main,
   MyComponent,
   Nav,
   Overlay,
   Paragraph,
   ParentSheetContext,
+  PasswordChangedPage,
   Popover,
   PopoverAnchor,
   PopoverArrow,
@@ -44925,6 +50395,7 @@ __name(FoodListingRail, "FoodListingRail");
   RadioGroupStyledContext,
   Range,
   ResetPresence,
+  SavingsBanner,
   ScrollView,
   SearchFood,
   Section,
@@ -44935,6 +50406,7 @@ __name(FoodListingRail, "FoodListingRail");
   SelectProvider,
   SelectSeparator,
   Separator,
+  SetNewPasswordPage,
   Sheet,
   SheetController,
   SheetControllerContext,
@@ -44942,6 +50414,8 @@ __name(FoodListingRail, "FoodListingRail");
   SheetInsideSheetContext,
   SheetOverlayFrame,
   SheetScrollView,
+  SignupPage,
+  SignupStep2Page,
   SizableStack,
   SizableText,
   Slider,
@@ -44962,6 +50436,7 @@ __name(FoodListingRail, "FoodListingRail");
   StyleObjectPseudo,
   StyleObjectRules,
   StyleObjectValue,
+  SubscriptionBanner,
   Switch,
   SwitchContext,
   SwitchFrame,
@@ -44988,8 +50463,10 @@ __name(FoodListingRail, "FoodListingRail");
   Track,
   USE_NATIVE_PORTAL,
   Unspaced,
+  VerifyEmailPage,
   View,
   VisuallyHidden,
+  WhyChooseUs,
   XGroup,
   XStack,
   YGroup,

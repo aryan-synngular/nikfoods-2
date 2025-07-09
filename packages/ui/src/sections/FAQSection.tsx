@@ -1,3 +1,5 @@
+"use client"
+
 import { Text, YStack, XStack, Accordion } from 'tamagui'
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'

@@ -8,6 +8,10 @@ export const AppHeader = () => {
   const loginLink = useLink({
     href: '/login',
   })
+  
+  const cartLink = useLink({
+    href: '/cart',
+  })
 
   // Use inline styles for web-specific sticky positioning
   const headerStyle = {
@@ -54,7 +58,13 @@ export const AppHeader = () => {
       {/* Action Buttons */}
       <XStack style={{ gap: 8, alignItems: 'center', paddingRight: 12 }}>
         <Button size="$3" circular icon={<Bell size="$1" />} style={{ backgroundColor: 'transparent' }} />
-        <Button size="$3" circular icon={<ShoppingCart  size="$1" />} style={{ backgroundColor: 'transparent' }} />
+        <Button 
+          size="$3" 
+          circular 
+          icon={<ShoppingCart size="$1" />} 
+          style={{ backgroundColor: 'transparent' }} 
+          {...cartLink}
+        />
         <Button 
           size="$3" 
           style={{ backgroundColor: primary, color: background, fontFamily: 'Nunito', fontWeight: '600' }}

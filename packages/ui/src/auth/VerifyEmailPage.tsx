@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useRef, useEffect } from 'react'
 import { Text, YStack, XStack, Input, Button, Image, Spinner } from 'tamagui'
 import { ArrowRight, RefreshCw } from '@tamagui/lucide-icons'

@@ -1,3 +1,5 @@
+"use client"
+
 import { Text, YStack, XStack, Input, Button } from 'tamagui'
 import { useState } from 'react'
 

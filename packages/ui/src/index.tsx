@@ -20,7 +20,21 @@ export * from './features/WhyChooseUs' // Export the WhyChooseUs component
 export * from './sections/FAQSection' // Export the FAQSection component
 export * from './footer/Footer' // Export the AppFooter component
 export * from './auth/LoginPage' // Export the LoginPage component
+export * from './auth/SignupPage' // Export the SignupPage component
 export * from './auth/ForgotPasswordPage' // Export the ForgotPasswordPage component
 export * from './auth/VerifyEmailPage' // Export the VerifyEmailPage component
 export * from './auth/SetNewPasswordPage' // Export the SetNewPasswordPage component
 export * from './auth/PasswordChangedPage' // Export the PasswordChangedPage component
+export * from './auth/SignupStep2Page' // Export the SignupStep2Page component
+export * from './auth/AccountCreatedPage' // Export the AccountCreatedPage component
+export * from './popups/DeliveryDatePopup' // Export the DeliveryDatePopup component
+
+// Cart components
+export * from './cart/CartItem'
+export * from './cart/CartSummary'
+export * from './cart/EmptyCart'
+export * from './cart/CartPage'
+export * from './cart/CartDaySection'
+export * from './cart/SavingsBanner'
+export * from './cart/AddMoreButton'
+export * from './cart/DessertDeals'

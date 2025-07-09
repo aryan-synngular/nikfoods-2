@@ -1,3 +1,5 @@
+"use client"
+
 import { Text, YStack, XStack, ScrollView } from "tamagui";
 import { useState } from "react";
 import { FoodCard } from "../cards/FoodCard";

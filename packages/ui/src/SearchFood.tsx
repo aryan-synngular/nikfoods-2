@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react'
 import { Text, YStack, XStack, Switch } from 'tamagui'
 import { Platform, useWindowDimensions, StyleSheet, View, TextInput } from 'react-native'
