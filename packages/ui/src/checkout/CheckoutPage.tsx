@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { ScrollView, Text, YStack, XStack } from 'tamagui'
-import { CartDaySection } from './CartDaySection'
-import { CartSummary } from './CartSummary'
-import { EmptyCart } from './EmptyCart'
-import { SavingsBanner } from './SavingsBanner'
-import { AddMoreButton } from './AddMoreButton'
-import { DessertDeals } from './DessertDeals'
+import { CartDaySection } from '../cart/CartDaySection'
+import { CartSummary } from '../cart/CartSummary'
+import { EmptyCart } from '../cart/EmptyCart'
+import { SavingsBanner } from '../cart/SavingsBanner'
+import { AddMoreButton } from '../cart/AddMoreButton'
+import { DessertDeals } from '../cart/DessertDeals'
 import { AppHeader } from '../Header'
+import CheckoutSteps from './CheckoutSteps'
 
 interface CartItemData {
   id: string
@@ -34,7 +35,7 @@ interface CartPageProps {
   onAddDessert?: (id: string) => void
 }
 
-export function CartPage({
+export function CheckoutPage({
   onBrowse,
   onCheckout,
   onAddMore,
@@ -283,22 +284,7 @@ export function CartPage({
                 width: isDesktop ? '65%' : '100%'
               }}>
                 <ScrollView style={{ flex: 1 }}>
-
-                  {/* Cart sections by day */}
-                  {cartDays.map((day, index) => (
-                    <CartDaySection
-                      key={day.day}
-                      day={day.day}
-                      date={day.date}
-                      items={day.items}
-                      deliveryLabel={day.deliveryLabel}
-                      onIncrement={(itemId) => handleIncrement(index, itemId)}
-                      onDecrement={(itemId) => handleDecrement(index, itemId)}
-                    />
-                  ))}
-
-                  {/* Add more button */}
-                  <AddMoreButton onPress={onAddMore} />
+                  <CheckoutSteps />
 
                   {/* Only show dessert deals in the left column on mobile */}
                   {isDesktop === false && (

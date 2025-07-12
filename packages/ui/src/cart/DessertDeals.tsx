@@ -23,8 +23,8 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
         <Text style={{ fontSize: 18, fontWeight: '600', color: '#2A1A0C' }}>
           Dessert deals- to Grab now!
         </Text>
-        
-        <Text 
+
+        {/* <Text 
           onPress={onViewAll}
           style={{ 
             fontSize: 14, 
@@ -34,25 +34,25 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
           }}
         >
           View all wednesday dessert items
-        </Text>
+        </Text> */}
       </XStack>
-      
+
       <YStack style={{ gap: 12 }}>
         {items.map((item) => (
-          <XStack 
-            key={item.id} 
-            style={{ 
-              padding: 12, 
-              borderWidth: 1, 
-              borderColor: '#F0F0F0', 
+          <XStack
+            key={item.id}
+            style={{
+              padding: 12,
+              borderWidth: 1,
+              borderColor: '#F0F0F0',
               borderRadius: 8,
               backgroundColor: 'white'
             }}
           >
             <YStack
-              style={{ 
-                width: 70, 
-                height: 70, 
+              style={{
+                width: 70,
+                height: 70,
                 borderRadius: 8,
                 marginRight: 12,
                 backgroundColor: '#F5F5F5',
@@ -67,21 +67,21 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
                 resizeMode="cover"
               />
             </YStack>
-            
+
             <YStack style={{ flex: 1, justifyContent: 'center' }}>
               <Text style={{ fontSize: 16, fontWeight: '600', color: '#2A1A0C', marginBottom: 4 }}>
                 {item.name}
               </Text>
-              
+
               <Text style={{ fontSize: 13, color: '#666', marginBottom: 8 }}>
                 {item.description}
               </Text>
-              
+
               <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontSize: 16, fontWeight: '600', color: '#2A1A0C' }}>
                   ${item.price.toFixed(2)}
                 </Text>
-                
+
                 <Button
                   onPress={() => onAddItem?.(item.id)}
                   style={{

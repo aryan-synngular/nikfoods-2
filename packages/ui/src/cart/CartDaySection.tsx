@@ -1,6 +1,6 @@
 "use client"
 
-import { Text, XStack, YStack } from 'tamagui'
+import { styled, Text, XStack, YStack } from 'tamagui'
 import { CartItem } from './CartItem'
 
 interface CartItemData {
@@ -21,39 +21,63 @@ interface CartDaySectionProps {
   onDecrement?: (id: string) => void
 }
 
-export function CartDaySection({ 
-  day, 
-  date, 
-  deliveryLabel, 
+export function CartDaySection({
+  day,
+  date,
+  deliveryLabel,
   items,
   onIncrement,
   onDecrement
 }: CartDaySectionProps) {
   // Calculate day total
   const dayTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-  
+
   // Format date
-  const formattedDate = new Date(date).toLocaleDateString('en-US', { 
-    month: 'short', 
-    day: 'numeric' 
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric'
   })
-  
+
   // Determine if this is same day delivery
   const isSameDay = deliveryLabel?.toLowerCase().includes('same day')
-  
+
+  const Chip = ({ children, ...props }) => (
+    <XStack
+      style={{
+        borderRadius: 6,
+        paddingRight: 12,
+        paddingLeft: 12,
+        paddingTop: 4,
+        paddingBottom: 4,
+        backgroundColor: isSameDay ? "#F0FAF5" : "#FFF4E4",
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...props.style
+      }}
+      {...props}
+    >
+      {children}
+    </XStack>
+  )
+
+
   return (
-    <YStack style={{ 
-      marginBottom: 16, 
-      backgroundColor: 'white', 
+    <YStack style={{
+      marginBottom: 16,
+      backgroundColor: 'white',
       borderRadius: 8,
       borderWidth: 1,
       borderColor: '#F0F0F0',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      paddingRight: 24,
+      paddingLeft: 24,
+      paddingTop: 4,
+      paddingBottom: 4,
     }}>
       {/* Day header */}
-      <XStack style={{ 
-        paddingHorizontal: 24,
-        paddingVertical: 16,
+      <XStack style={{
+        paddingTop: 16,
+        paddingBottom: 16,
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
@@ -62,18 +86,20 @@ export function CartDaySection({
             What's in your {day}'s cart
           </Text>
         </YStack>
-        
+
         {deliveryLabel && (
-          <Text style={{ 
-            fontSize: 14, 
-            fontWeight: '500',
-            color: '#4CAF50'
-          }}>
-            {isSameDay ? 'Same day delivery' : deliveryLabel}
-          </Text>
+          <Chip>
+            <Text style={{
+              fontSize: 14,
+              fontWeight: '500',
+              color: isSameDay ? '#0A9750' : '#F55344'
+            }}>
+              {isSameDay ? 'Same day delivery' : deliveryLabel}
+            </Text>
+          </Chip>
         )}
       </XStack>
-      
+
       {/* Items */}
       <YStack>
         {items.map(item => (
@@ -89,17 +115,20 @@ export function CartDaySection({
           />
         ))}
       </YStack>
-      
+
       {/* Day total */}
-      <XStack style={{ 
-        paddingHorizontal: 24,
-        paddingVertical: 16, 
-        justifyContent: 'space-between',
+      <XStack style={{
+        paddingTop: 16,
+        paddingBottom: 16,
+        // paddingRight: 24,
+        // paddingLeft: 24,
+        justifyContent: 'flex-end',
+        gap: 20,
         alignItems: 'center',
         borderTopWidth: 1,
         borderTopColor: '#F0F0F0'
       }}>
-        <Text style={{ fontSize: 16, fontWeight: '600', color: '#000000' }}>
+        <Text style={{ fontSize: 16, fontWeight: '600', color: '#777679' }}>
           Day Total
         </Text>
         <Text style={{ fontSize: 20, fontWeight: '700', color: '#000000' }}>

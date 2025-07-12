@@ -49483,11 +49483,18 @@ var import_react_native9 = require("@tamagui/react-native-web-lite");
 var import_jsx_runtime125 = require("react/jsx-runtime");
 function CartItem({ imageUrl, name: name2, description, price, quantity, onIncrement, onDecrement }) {
   return /* @__PURE__ */ (0, import_jsx_runtime125.jsxs)(XStack, { style: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
-    alignItems: "center"
+    paddingBottom: 8,
+    paddingTop: 8,
+    paddingRight: 8,
+    paddingLeft: 8,
+    borderWidth: 1,
+    borderColor: "#F0F0F0",
+    alignItems: "center",
+    marginBottom: 16,
+    backgroundColor: "#FFFFFF",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    borderRadius: 8,
+    elevation: 2
   }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime125.jsx)(
       YStack,
@@ -49604,9 +49611,11 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
     /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: {
       borderWidth: 1,
       borderColor: "#E0E0E0",
-      borderRadius: 100,
+      borderRadius: 12,
       overflow: "hidden",
-      height: 56
+      height: 42,
+      alignItems: "center",
+      justifyContent: "space-between"
     }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime126.jsxs)(XStack, { style: {
         flex: 1,
@@ -49625,14 +49634,22 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
             style: {
               borderWidth: 0,
               height: 56,
-              fontSize: 16
+              fontSize: 16,
+              backgroundColor: "white",
+              borderColor: "none",
+              outlineColor: "none",
+              outlineWidth: 0
+              // outlineStyle: 'none',
             }
           }
         )
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(XStack, { style: {
         backgroundColor: "#FFF3E0",
-        paddingHorizontal: 24,
+        paddingRight: 24,
+        paddingLeft: 24,
+        paddingTop: 24,
+        paddingBottom: 24,
         alignItems: "center",
         justifyContent: "center"
       }, children: /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" }) })
@@ -49650,10 +49667,10 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
       {
         onPress: onCheckout,
         style: {
-          backgroundColor: "#FFB648",
-          borderRadius: 100,
-          height: 56,
-          marginTop: 8,
+          backgroundColor: "#FF9F0D",
+          borderRadius: 8,
+          height: 40,
+          marginTop: 6,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
@@ -49667,9 +49684,8 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
     ),
     /* @__PURE__ */ (0, import_jsx_runtime126.jsx)(Text4, { style: {
       fontSize: 14,
-      color: "#666666",
-      textAlign: "center",
-      marginTop: 12
+      color: "#777679",
+      textAlign: "center"
     }, children: "We accept all major credit cards" })
   ] });
 }
@@ -49743,17 +49759,39 @@ function CartDaySection({
     day: "numeric"
   });
   const isSameDay = deliveryLabel?.toLowerCase().includes("same day");
+  const Chip = /* @__PURE__ */ __name(({ children, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(
+    XStack,
+    {
+      style: {
+        borderRadius: 6,
+        paddingRight: 12,
+        paddingLeft: 12,
+        paddingTop: 4,
+        paddingBottom: 4,
+        backgroundColor: isSameDay ? "#F0FAF5" : "#FFF4E4",
+        alignItems: "center",
+        justifyContent: "center",
+        ...props.style
+      },
+      ...props,
+      children
+    }
+  ), "Chip");
   return /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(YStack, { style: {
     marginBottom: 16,
     backgroundColor: "white",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#F0F0F0",
-    overflow: "hidden"
+    overflow: "hidden",
+    paddingRight: 24,
+    paddingLeft: 24,
+    paddingTop: 4,
+    paddingBottom: 4
   }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(XStack, { style: {
-      paddingHorizontal: 24,
-      paddingVertical: 16,
+      paddingTop: 16,
+      paddingBottom: 16,
       justifyContent: "space-between",
       alignItems: "center"
     }, children: [
@@ -49762,11 +49800,11 @@ function CartDaySection({
         day,
         "'s cart"
       ] }) }),
-      deliveryLabel && /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: {
+      deliveryLabel && /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Chip, { children: /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: {
         fontSize: 14,
         fontWeight: "500",
-        color: "#4CAF50"
-      }, children: isSameDay ? "Same day delivery" : deliveryLabel })
+        color: isSameDay ? "#0A9750" : "#F55344"
+      }, children: isSameDay ? "Same day delivery" : deliveryLabel }) })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(YStack, { children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(
       CartItem,
@@ -49782,14 +49820,17 @@ function CartDaySection({
       item.id
     )) }),
     /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(XStack, { style: {
-      paddingHorizontal: 24,
-      paddingVertical: 16,
-      justifyContent: "space-between",
+      paddingTop: 16,
+      paddingBottom: 16,
+      // paddingRight: 24,
+      // paddingLeft: 24,
+      justifyContent: "flex-end",
+      gap: 20,
       alignItems: "center",
       borderTopWidth: 1,
       borderTopColor: "#F0F0F0"
     }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#000000" }, children: "Day Total" }),
+      /* @__PURE__ */ (0, import_jsx_runtime128.jsx)(Text4, { style: { fontSize: 16, fontWeight: "600", color: "#777679" }, children: "Day Total" }),
       /* @__PURE__ */ (0, import_jsx_runtime128.jsxs)(Text4, { style: { fontSize: 20, fontWeight: "700", color: "#000000" }, children: [
         "$",
         dayTotal.toFixed(2)
@@ -49803,10 +49844,13 @@ __name(CartDaySection, "CartDaySection");
 var import_jsx_runtime129 = require("react/jsx-runtime");
 function SavingsBanner({ amount }) {
   return /* @__PURE__ */ (0, import_jsx_runtime129.jsx)(XStack, { style: {
+    width: "34%",
     backgroundColor: "#E0F7FA",
     borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
     alignItems: "center",
     justifyContent: "flex-start"
   }, children: /* @__PURE__ */ (0, import_jsx_runtime129.jsxs)(Text4, { style: {
@@ -49857,22 +49901,7 @@ __name(AddMoreButton, "AddMoreButton");
 var import_jsx_runtime131 = require("react/jsx-runtime");
 function DessertDeals({ items, onAddItem, onViewAll }) {
   return /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(YStack, { style: { padding: 20 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#2A1A0C" }, children: "Dessert deals- to Grab now!" }),
-      /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(
-        Text4,
-        {
-          onPress: onViewAll,
-          style: {
-            fontSize: 14,
-            color: "#FF9F0D",
-            fontWeight: "500",
-            cursor: "pointer"
-          },
-          children: "View all wednesday dessert items"
-        }
-      )
-    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(XStack, { style: { justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(Text4, { style: { fontSize: 18, fontWeight: "600", color: "#2A1A0C" }, children: "Dessert deals- to Grab now!" }) }),
     /* @__PURE__ */ (0, import_jsx_runtime131.jsx)(YStack, { style: { gap: 12 }, children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime131.jsxs)(
       XStack,
       {
@@ -49971,11 +50000,11 @@ function CartPage({
       items: [
         {
           id: "1",
-          name: "Gulab Jamun",
-          description: "Pack of 2 Gulab Jamuns",
-          price: 6,
+          name: "Paneer 65",
+          description: "Punjabi Chefs 2 pcs, bubble-wrap+green chutney",
+          price: 14,
           quantity: 1,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/04/Gulab-Jamun-500x500.jpg"
+          imageUrl: "/foodImages/paneer65.png"
         },
         {
           id: "2",
@@ -49983,7 +50012,7 @@ function CartPage({
           description: "Pack of 5 Dodda Barfi",
           price: 10,
           quantity: 1,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg"
+          imageUrl: "/foodImages/barfi.png"
         }
       ]
     },
@@ -49998,7 +50027,7 @@ function CartPage({
           description: "Set of 5 barfi's made from mawa and milk",
           price: 24,
           quantity: 2,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg"
+          imageUrl: "/foodImages/barfi.png"
         },
         {
           id: "4",
@@ -50006,7 +50035,7 @@ function CartPage({
           description: "Punjabi Chefs 2 pcs, bubble-wrap+green chutney",
           price: 14,
           quantity: 1,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2020/01/Paneer-65-500x500.jpg"
+          imageUrl: "/foodImages/paneer65.png"
         }
       ]
     },
@@ -50021,7 +50050,7 @@ function CartPage({
           description: "Punjabi Chefs 2 pcs, bubble-wrap+green chutney",
           price: 14,
           quantity: 1,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/10/Panjiri-500x500.jpg"
+          imageUrl: "/foodImages/panjiri.png"
         },
         {
           id: "6",
@@ -50029,7 +50058,7 @@ function CartPage({
           description: "Regular size glass with dry fruits mixed",
           price: 12,
           quantity: 1,
-          imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2019/10/Kesar-Milk-500x500.jpg"
+          imageUrl: "/foodImages/kesarMilk.png"
         }
       ]
     }
@@ -50092,7 +50121,9 @@ function CartPage({
   }
   return /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
     width: "100%",
-    minHeight: "100vh"
+    minHeight: "100vh",
+    justifyContent: "center",
+    alignItems: "center"
   }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(AppHeader, {}),
     /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
@@ -50100,23 +50131,28 @@ function CartPage({
       backgroundColor: "#FAFAFA"
     }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
-        padding: 24,
+        paddingTop: 16,
         paddingBottom: 16,
-        backgroundColor: "white",
-        borderBottomWidth: 1,
-        borderBottomColor: "#F0F0F0",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-        elevation: 2,
-        zIndex: 5
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
+        backgroundColor: "white"
+        // borderBottomWidth: 1, 
+        // borderBottomColor: '#F0F0F0',
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.05,
+        // shadowRadius: 4,
+        // elevation: 2,
+        // zIndex: 5
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(XStack, { style: {
         maxWidth: 1200,
         width: "100%",
         marginHorizontal: "auto",
-        paddingHorizontal: 24
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text4, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: "Your Cart" }) }) }),
+        paddingHorizontal: 16,
+        alignItems: "center",
+        justifyContent: "space-between"
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text4, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: "Your Cart" }),
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(SavingsBanner, { amount: 15 })
+      ] }) }),
       isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { style: {
         paddingVertical: 24,
         maxWidth: 1200,
@@ -50138,7 +50174,6 @@ function CartPage({
           flex: isDesktop ? 0.65 : 1,
           width: isDesktop ? "65%" : "100%"
         }, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(ScrollView, { style: { flex: 1 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(SavingsBanner, { amount: 15 }),
           cartDays.map((day, index3) => /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
             CartDaySection,
             {

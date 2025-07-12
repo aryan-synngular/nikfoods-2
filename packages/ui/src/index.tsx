@@ -38,3 +38,6 @@ export * from './cart/CartDaySection'
 export * from './cart/SavingsBanner'
 export * from './cart/AddMoreButton'
 export * from './cart/DessertDeals'
+
+export * from './checkout/CheckoutPage'
+export * from './checkout/CheckoutSteps'
