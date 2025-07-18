@@ -3222,7 +3222,8 @@
             "componentName": "Avatar",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Button": {
@@ -7834,7 +7835,8 @@
             "componentName": "Circle",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "DialogClose": {
@@ -9578,6 +9580,7 @@
               "flexShrink": 0,
               "flexDirection": "column",
               "pointerEvents": "none",
+              "tag": "dialog",
               "unstyled": false
             },
             "validStyles": {
@@ -9835,8 +9838,17 @@
                   "alignItems": "center",
                   "justifyContent": "center",
                   "fullscreen": true,
-                  "maxHeight": "100vh",
-                  "position": "fixed"
+                  "$platform-web": {
+                    "borderWidth": 0,
+                    "backgroundColor": "transparent",
+                    "color": "inherit",
+                    "maxInlineSize": "none",
+                    "margin": 0,
+                    "width": "auto",
+                    "height": "auto",
+                    "maxHeight": "100vh",
+                    "position": "fixed"
+                  }
                 }
               }
             },
@@ -10760,7 +10772,8 @@
               "minWidth": 0,
               "flexShrink": 0,
               "flexDirection": "column",
-              "tag": "fieldset"
+              "tag": "fieldset",
+              "borderWidth": 0
             },
             "validStyles": {
               "backfaceVisibility": true,
@@ -20367,10 +20380,7 @@
                 "...size": "Function"
               }
             },
-            "defaultVariants": {
-              "unstyled": false
-            },
-            "componentName": "PopperContent",
+            "componentName": "Popover",
             "isReactNative": false,
             "isText": false,
             "isStyledHOC": false,
@@ -20650,7 +20660,7 @@
             "isHOC": true
           }
         },
-        "PopperArrow": {
+        "PopperArrowFrame": {
           "staticConfig": {
             "acceptsClassName": true,
             "defaultProps": {
@@ -20929,9 +20939,7 @@
             "componentName": "PopperArrow",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false,
-            "neverFlatten": true,
-            "isHOC": true
+            "isStyledHOC": false
           }
         },
         "PopperContentFrame": {
@@ -29561,7 +29569,8 @@
             "componentName": "Square",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Stack": {
@@ -36558,7 +36567,8 @@
             "componentName": "Avatar",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Button": {
@@ -41170,7 +41180,8 @@
             "componentName": "Circle",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "DialogClose": {
@@ -42914,6 +42925,7 @@
               "flexShrink": 0,
               "flexDirection": "column",
               "pointerEvents": "none",
+              "tag": "dialog",
               "unstyled": false
             },
             "validStyles": {
@@ -43171,8 +43183,17 @@
                   "alignItems": "center",
                   "justifyContent": "center",
                   "fullscreen": true,
-                  "maxHeight": "100vh",
-                  "position": "fixed"
+                  "$platform-web": {
+                    "borderWidth": 0,
+                    "backgroundColor": "transparent",
+                    "color": "inherit",
+                    "maxInlineSize": "none",
+                    "margin": 0,
+                    "width": "auto",
+                    "height": "auto",
+                    "maxHeight": "100vh",
+                    "position": "fixed"
+                  }
                 }
               }
             },
@@ -44096,7 +44117,8 @@
               "minWidth": 0,
               "flexShrink": 0,
               "flexDirection": "column",
-              "tag": "fieldset"
+              "tag": "fieldset",
+              "borderWidth": 0
             },
             "validStyles": {
               "backfaceVisibility": true,
@@ -53980,10 +54002,7 @@
                 "...size": "Function"
               }
             },
-            "defaultVariants": {
-              "unstyled": false
-            },
-            "componentName": "PopperContent",
+            "componentName": "Popover",
             "isReactNative": false,
             "isText": false,
             "isStyledHOC": false,
@@ -54263,7 +54282,7 @@
             "isHOC": true
           }
         },
-        "PopperArrow": {
+        "PopperArrowFrame": {
           "staticConfig": {
             "acceptsClassName": true,
             "defaultProps": {
@@ -54542,9 +54561,7 @@
             "componentName": "PopperArrow",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false,
-            "neverFlatten": true,
-            "isHOC": true
+            "isStyledHOC": false
           }
         },
         "PopperContentFrame": {
@@ -63174,7 +63191,8 @@
             "componentName": "Square",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Stack": {

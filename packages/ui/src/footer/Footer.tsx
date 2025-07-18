@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
 import { Text, YStack, XStack, Image, Stack } from 'tamagui'
 import { useState, useEffect } from 'react'
 import { Twitter, Facebook, Instagram, Youtube } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
+import { Platform } from 'react-native'
 
 type FooterLinkProps = {
   title: string
@@ -30,7 +31,7 @@ function FooterLink({ title, href }: FooterLinkProps) {
   )
 }
 
-function SocialIcon({ children, href }: { children: React.ReactNode, href: string }) {
+function SocialIcon({ children, href }: { children: React.ReactNode; href: string }) {
   return (
     <XStack
       width={32}
@@ -42,9 +43,9 @@ function SocialIcon({ children, href }: { children: React.ReactNode, href: strin
       hoverStyle={{ bg: 'rgba(255,255,255,0.2)' }}
       pressStyle={{ opacity: 0.8 }}
       onPress={() => window.open(href, '_blank')}
-      style={{ 
+      style={{
         cursor: 'pointer',
-        borderRadius: 16 
+        borderRadius: 16,
       }}
     >
       {children}
@@ -59,27 +60,24 @@ export function AppFooter() {
   // Set current year and check screen size on mount
   useEffect(() => {
     setCurrentYear(new Date().getFullYear())
-    
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    
-    checkScreenSize()
-    window.addEventListener('resize', checkScreenSize)
-    
-    return () => {
-      window.removeEventListener('resize', checkScreenSize)
+
+    if (Platform.OS === 'web') {
+      const checkScreenSize = () => {
+        setIsMobile(window.innerWidth < 768)
+      }
+
+      checkScreenSize()
+      window.addEventListener('resize', checkScreenSize)
+
+      return () => {
+        window.removeEventListener('resize', checkScreenSize)
+      }
     }
   }, [])
 
   return (
-    <YStack 
-      bg="#2A1A0C" 
-      py={40}
-      px={20}
-      width="100%"
-    >
-      <XStack 
+    <YStack bg="#2A1A0C" py={40} px={20} width="100%">
+      <XStack
         flexWrap="wrap"
         justifyContent="space-between"
         maxWidth={1200}
@@ -94,7 +92,7 @@ export function AppFooter() {
           <Text color="#E0E0E0" fontSize={14} marginBottom={16} maxWidth={300}>
             Your American source of tasty Indian Food
           </Text>
-          
+
           <XStack marginBottom={16}>
             <SocialIcon href="https://twitter.com/nikfoods">
               <Twitter size={16} color="white" />
@@ -110,10 +108,10 @@ export function AppFooter() {
             </SocialIcon>
           </XStack>
         </YStack>
-        
+
         {/* Quick Links */}
-        <YStack 
-          minWidth={isMobile ? '50%' : 150} 
+        <YStack
+          minWidth={isMobile ? '50%' : 150}
           marginBottom={isMobile ? 32 : 0}
           paddingRight={16}
         >
@@ -126,12 +124,9 @@ export function AppFooter() {
           <FooterLink title="Help" href="/help" />
           <FooterLink title="FAQ's" href="/faqs" />
         </YStack>
-        
+
         {/* Contact Us */}
-        <YStack 
-          minWidth={isMobile ? '50%' : 200} 
-          marginBottom={isMobile ? 32 : 0}
-        >
+        <YStack minWidth={isMobile ? '50%' : 200} marginBottom={isMobile ? 32 : 0}>
           <Text color="white" fontSize={16} fontWeight="600" marginBottom={16}>
             Contact Us
           </Text>
@@ -143,14 +138,14 @@ export function AppFooter() {
           </Text>
           <XStack alignItems="center">
             <Text color="#E0E0E0" fontSize={14}>
-              Made with love in 
+              Made with love in
             </Text>
             <Text color="#E0E0E0" fontSize={14} marginLeft={4}>
               ❤️
             </Text>
           </XStack>
         </YStack>
-        
+
         {/* My Account */}
         <YStack minWidth={isMobile ? '50%' : 150}>
           <Text color="white" fontSize={16} fontWeight="600" marginBottom={16}>
@@ -159,10 +154,10 @@ export function AppFooter() {
           <FooterLink title="All Credit Cards" href="/payment" />
         </YStack>
       </XStack>
-      
+
       {/* Bottom Bar */}
-      <XStack 
-        justifyContent="space-between" 
+      <XStack
+        justifyContent="space-between"
         marginTop={40}
         borderTopWidth={1}
         borderTopColor="rgba(255,255,255,0.1)"
@@ -175,27 +170,27 @@ export function AppFooter() {
         <Text color="#E0E0E0" fontSize={12} marginBottom={isMobile ? 8 : 0}>
           © {currentYear} Nikfoods LLC. All Rights Reserved.
         </Text>
-        
+
         <XStack gap={16} flexWrap="wrap">
-          <Text 
-            color="#E0E0E0" 
-            fontSize={12} 
+          <Text
+            color="#E0E0E0"
+            fontSize={12}
             style={{ cursor: 'pointer' }}
             hoverStyle={{ color: 'white' }}
           >
             Terms of Service
           </Text>
-          <Text 
-            color="#E0E0E0" 
-            fontSize={12} 
+          <Text
+            color="#E0E0E0"
+            fontSize={12}
             style={{ cursor: 'pointer' }}
             hoverStyle={{ color: 'white' }}
           >
             Privacy Policy
           </Text>
-          <Text 
-            color="#E0E0E0" 
-            fontSize={12} 
+          <Text
+            color="#E0E0E0"
+            fontSize={12}
             style={{ cursor: 'pointer' }}
             hoverStyle={{ color: 'white' }}
           >

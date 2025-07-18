@@ -1,4 +1,4 @@
-import { AccountCreatedPage } from 'app/auth/AccountCreatedPage'
+import { AccountCreatedPage } from '@my/ui'
 import { Stack } from 'expo-router'
 
 export default function Screen() {

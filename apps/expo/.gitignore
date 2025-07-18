@@ -129,3 +129,6 @@ dist/
 
 expo-env.d.ts
 # @end expo-cli
+
+# ENV file
+.env
