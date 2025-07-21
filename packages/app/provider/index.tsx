@@ -9,7 +9,6 @@ import {
 } from '@my/ui'
 import { ToastViewport } from './ToastViewport'
 import { ActivityIndicator, View } from 'react-native'
-
 // Only import useFonts on native platforms
 // This prevents Next.js from trying to process TTF files
 let useFontsHook: () => boolean;

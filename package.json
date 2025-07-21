@@ -35,13 +35,20 @@
   "dependencies": {
     "@babel/runtime": "^7.24.6",
     "@expo-google-fonts/nunito": "^0.4.1",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@tabler/icons-react": "^3.34.0",
     "@tamagui/cli": "^1.126.15",
+    "axios": "^1.10.0",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "^9.3.0",
     "expo-font": "^13.3.1",
+    "expo-secure-store": "^14.2.3",
     "husky": "^9.1.6",
+    "jsonwebtoken": "^9.0.2",
+    "next-auth": "^4.24.11",
     "prettier": "^3.3.3",
+    "react-native-async-storage": "^0.0.1",
     "turbo": "^1.13.4",
     "typescript": "~5.8.3",
     "ultra-runner": "^3.10.5",
@@ -53,6 +60,7 @@
     "npm": "10.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.3"
+    "@biomejs/biome": "^1.9.3",
+    "@types/jsonwebtoken": "^9"
   }
 }

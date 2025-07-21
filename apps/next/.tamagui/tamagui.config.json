@@ -8110,7 +8110,6 @@
               "minWidth": 0,
               "flexShrink": 0,
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },
@@ -41455,7 +41454,6 @@
               "minWidth": 0,
               "flexShrink": 0,
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },

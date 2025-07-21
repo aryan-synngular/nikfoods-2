@@ -10,6 +10,7 @@ export default function Screen() {
           headerShown: false, // Hide the default Expo header
         }}
       />
+
       <HomeScreen />
     </>
   )

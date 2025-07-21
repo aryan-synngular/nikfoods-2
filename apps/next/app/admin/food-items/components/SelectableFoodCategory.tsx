@@ -5,16 +5,21 @@ import type { FontSizeTokens, SelectProps } from 'tamagui'
 import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 
-
-export default function SelectableFoodCategory(props: SelectProps & { trigger?: React.ReactNode }) {
-   const {value, onValueChange} = props;
+export default function SelectableFoodCategory(
+  props: SelectProps & { trigger?: React.ReactNode; options: {}[] }
+) {
+  const { value, onValueChange, options = [] } = props
   return (
-    <Select   size="$4" value={value} onValueChange={onValueChange} disablePreventBodyScroll {...props}>
-      {props?.trigger || (
-        <Select.Trigger maxWidth={260} iconAfter={ChevronDown}>
-          <Select.Value placeholder="Select Food Category" />
-        </Select.Trigger>
-      )}
+    <Select
+      size="$4"
+      value={value}
+      onValueChange={onValueChange}
+      disablePreventBodyScroll
+      {...props}
+    >
+      <Select.Trigger maxWidth={260} iconAfter={ChevronDown}>
+        <Select.Value placeholder="Select Food Category" />
+      </Select.Trigger>
 
       <Adapt when="maxMd" platform="touch">
         <Sheet native={!!props.native} modal dismissOnSnapToBottom animation="medium">
@@ -34,7 +39,6 @@ export default function SelectableFoodCategory(props: SelectProps & { trigger?: 
 
       <Select.Content zIndex={200000}>
         <Select.ScrollUpButton
-      
           items="center"
           justify="center"
           position="relative"
@@ -53,34 +57,23 @@ export default function SelectableFoodCategory(props: SelectProps & { trigger?: 
           />
         </Select.ScrollUpButton>
 
-        <Select.Viewport
-          // to do animations:
-          animation="quick"
-          // animateOnly={['transform', 'opacity']}
-          // enterStyle={{ o: 0, y: -10 }}
-          // exitStyle={{ o: 0, y: 10 }}
-          minW={200}
-        >
-          <Select.Group >
+        <Select.Viewport animation="quick" minW={200}>
+          <Select.Group>
             <Select.Label>Category</Select.Label>
             {/* for longer lists memoizing these is useful */}
             {React.useMemo(
               () =>
-                FOODITEM_CATEGORY.map((item, i) => {
+                options.map((item, i) => {
                   return (
-                    <Select.Item
-                      index={i}
-                      key={item.name}
-                      value={item.name.toLowerCase()}
-                    >
-                      <Select.ItemText>{item.name}</Select.ItemText>
+                    <Select.Item index={i} key={item?.value} value={item?.value}>
+                      <Select.ItemText>{item?.label}</Select.ItemText>
                       <Select.ItemIndicator marginLeft="auto">
                         <Check size={16} />
                       </Select.ItemIndicator>
                     </Select.Item>
                   )
                 }),
-              [FOODITEM_CATEGORY]
+              [options]
             )}
           </Select.Group>
           {/* Native gets an extra icon */}
@@ -95,9 +88,7 @@ export default function SelectableFoodCategory(props: SelectProps & { trigger?: 
               width={'$4'}
               pointerEvents="none"
             >
-              <ChevronDown
-                size={getFontSize((props.size as FontSizeTokens) ?? '$true')}
-              />
+              <ChevronDown size={getFontSize((props.size as FontSizeTokens) ?? '$true')} />
             </YStack>
           )}
         </Select.Viewport>
@@ -133,5 +124,4 @@ export const FOODITEM_CATEGORY = [
   { name: 'Snack' },
   { name: 'Breakfast' },
   { name: 'Dinner' },
- 
 ]

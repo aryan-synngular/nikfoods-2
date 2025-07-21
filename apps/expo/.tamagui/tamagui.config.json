@@ -7515,7 +7515,6 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },
@@ -34542,7 +34541,6 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },

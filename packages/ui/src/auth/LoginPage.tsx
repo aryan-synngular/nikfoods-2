@@ -4,14 +4,15 @@ import { useState } from 'react'
 import { Text, YStack, XStack, Input, Button, Checkbox, Image, useMedia } from 'tamagui'
 import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
-
+import {useAuth} from 'app/provider/auth-context'
 export function LoginPage() {
+
+  const { user, loading, signIn, signOut,getAccessToken,fetchWithAuth } = useAuth();
   const media = useMedia()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  
   const signupLink = useLink({
     href: '/signup',
   })
@@ -31,13 +32,41 @@ export function LoginPage() {
   const refundLink = useLink({
     href: '/refund',
   })
+  const homeLink = useLink({
+    href: '/',
+  })
+  const addAddressLink = useLink({
+    href: '/add-address',
+  })
   
-  const handleLogin = () => {
+  const handleLogin = async() => {
     console.log('Login with:', { email, password, rememberMe })
+    if (email && password ) {
+    try {
+      const signInRes = await signIn(
+         {
+        redirect: false,
+        email,
+        password,
+      });
+      
+  console.log(signInRes)
+      if (!signInRes.isCompleted) {
+        addAddressLink.onPress() 
+      } else {
+        homeLink.onPress()
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
     // Here you would typically call your authentication service
   }
   
   const handleSocialLogin = (provider: string) => {
+    console.log(provider)
+    signIn(provider)
     console.log(`Login with ${provider}`)
     // Here you would typically redirect to OAuth provider
   }
@@ -220,7 +249,7 @@ export function LoginPage() {
                 borderWidth: 1,
                 borderColor: '#E0E0E0'
               }}
-              onPress={() => handleSocialLogin('Google')}
+              onPress={() => handleSocialLogin('google')}
               pressStyle={{ opacity: 0.8 }}
             >
               <Image 
@@ -242,7 +271,7 @@ export function LoginPage() {
                 borderWidth: 1,
                 borderColor: '#E0E0E0'
               }}
-              onPress={() => handleSocialLogin('Facebook')}
+              onPress={() => handleSocialLogin('facebook')}
               pressStyle={{ opacity: 0.8 }}
             >
               <Image 
@@ -264,7 +293,7 @@ export function LoginPage() {
                 borderWidth: 1,
                 borderColor: '#E0E0E0'
               }}
-              onPress={() => handleSocialLogin('Apple')}
+              onPress={() => handleSocialLogin('apple')}
               pressStyle={{ opacity: 0.8 }}
             >
               <Image 
@@ -286,7 +315,7 @@ export function LoginPage() {
                 borderWidth: 1,
                 borderColor: '#E0E0E0'
               }}
-              onPress={() => handleSocialLogin('Google')}
+              onPress={() => handleSocialLogin('google')}
               pressStyle={{ opacity: 0.8 }}
             >
               <Image 

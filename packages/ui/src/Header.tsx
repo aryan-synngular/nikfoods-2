@@ -1,10 +1,16 @@
 import { XStack, Text, Button, YStack, View, Image } from 'tamagui'
 import { useLink } from 'solito/navigation'
 import { Platform } from 'react-native'
-import { Bell, ShoppingCart } from '@tamagui/lucide-icons'
+import { ArrowRight, Bell, ShoppingCart } from '@tamagui/lucide-icons'
 import { primary, shadow, background, border } from './colors'
+import {useAuth} from "app/provider/auth-context"
 
+import {useSession} from  'next-auth/react'
 export const AppHeader = () => {
+
+  const { user,signOut,loading} = useAuth()
+  console.log(user)
+  console.log(user)
   const loginLink = useLink({
     href: '/login',
   })
@@ -12,7 +18,11 @@ export const AppHeader = () => {
   const cartLink = useLink({
     href: '/cart',
   })
-
+  
+  const adminLink = useLink({
+    href: '/admin',
+  })
+  
   // Use inline styles for web-specific sticky positioning
   const headerStyle = {
     height: 60,
@@ -29,6 +39,14 @@ export const AppHeader = () => {
     boxShadow: `0px 2px 4px ${shadow}`, // Subtle shadow
     fontFamily: 'Nunito', // Apply Nunito font to the header
   } as any
+
+  const handleSignOut = async () => {
+    // console.log("Hello")
+    // update({isCompleted:true, abc:"sdkjf"
+  // })
+    await signOut()
+    loginLink.onPress()
+  }
 
   return (
     <XStack style={headerStyle}>
@@ -54,24 +72,60 @@ export const AppHeader = () => {
           />
         )}
       </XStack>
-      
+
       {/* Action Buttons */}
       <XStack style={{ gap: 8, alignItems: 'center', paddingRight: 12 }}>
-        <Button size="$3" circular icon={<Bell size="$1" />} style={{ backgroundColor: 'transparent' }} />
-        <Button 
-          size="$3" 
-          circular 
-          icon={<ShoppingCart size="$1" />} 
-          style={{ backgroundColor: 'transparent' }} 
+   {Platform.OS=="web"&&user&&user.role==="ADMIN"&&   <Button
+          size="$3"
+theme='dark'
+bg={"black"}
+color={"white"}
+hoverStyle={{background:"black"}}
+iconAfter={<ArrowRight />}
+{...adminLink}
+        >
+          Admin Dashboard
+        </Button>}
+        <Button
+          size="$3"
+          circular
+          icon={<Bell size="$1" />}
+          style={{ backgroundColor: 'transparent' }}
+        />
+        <Button
+          size="$3"
+          circular
+          icon={<ShoppingCart size="$1" />}
+          style={{ backgroundColor: 'transparent' }}
           {...cartLink}
         />
-        <Button 
-          size="$3" 
-          style={{ backgroundColor: primary, color: background, fontFamily: 'Nunito', fontWeight: '600' }}
-          {...loginLink}
-        >
-          Login
-        </Button>
+        {!true? (
+          <Button
+            size="$3"
+            style={{
+              backgroundColor: primary,
+              color: background,
+              fontFamily: 'Nunito',
+              fontWeight: '600',
+            }}
+            {...loginLink}
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            size="$3"
+            style={{
+              backgroundColor: primary,
+              color: background,
+              fontFamily: 'Nunito',
+              fontWeight: '600',
+            }}
+            onPress={handleSignOut}
+          >
+            Sign Out
+          </Button>
+        )}
       </XStack>
     </XStack>
   )
