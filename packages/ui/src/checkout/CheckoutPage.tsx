@@ -1,16 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ScrollView, Text, YStack, XStack } from 'tamagui'
-import { CartDaySection } from '../cart/CartDaySection'
 import { CartSummary } from '../cart/CartSummary'
 import { EmptyCart } from '../cart/EmptyCart'
 import { SavingsBanner } from '../cart/SavingsBanner'
-import { AddMoreButton } from '../cart/AddMoreButton'
 import { DessertDeals } from '../cart/DessertDeals'
 import { AppHeader } from '../Header'
 import CheckoutSteps from './CheckoutSteps'
-
+import { useAuth } from 'app/hook/useAuth'
+import CheckoutLoggedIn from './CheckoutLoggedIn'
+import { IAddress, IAddressResponse } from 'app/types/user'
+import { apiGetAllAddress } from 'app/services/UserService'
 interface CartItemData {
   id: string
   name: string
@@ -34,7 +35,6 @@ interface CartPageProps {
   onViewAllDesserts?: () => void
   onAddDessert?: (id: string) => void
 }
-
 export function CheckoutPage({
   onBrowse,
   onCheckout,
@@ -42,9 +42,16 @@ export function CheckoutPage({
   onViewAllDesserts,
   onAddDessert,
 }: CartPageProps) {
+  const { loading, isAuthenticated } = useAuth()
+  console.log(isAuthenticated)
   // State to track if we're on desktop or mobile
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
-
+  const [address, setAddress] = useState<IAddress[]>([])
+  const [currentStep, setCurrentStep] = useState<'delivery' | 'payment'>('delivery')
+  const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
+  const handleAddressChange = (val) => {
+    setSelectedAddress(address.find((addr) => addr._id == val)!)
+  }
   // Effect to check window width and update isDesktop state
   useEffect(() => {
     // Function to check if we're on desktop
@@ -65,6 +72,19 @@ export function CheckoutPage({
       return () => window.removeEventListener('resize', checkIfDesktop)
     }
   }, [])
+
+  const getAllAddress = useCallback(async () => {
+    try {
+      const data = await apiGetAllAddress<IAddressResponse>()
+      setAddress(data?.items)
+    } catch (error) {
+      console.log('Error:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    getAllAddress()
+  }, [getAllAddress])
   // Sample cart data organized by day - in a real app, this would come from props or context
   const [cartDays, setCartDays] = useState<CartDayData[]>([
     {
@@ -206,7 +226,7 @@ export function CheckoutPage({
   const isCartEmpty = cartDays.every((day) => day.items.length === 0)
 
   // Don't render the layout until we know if we're on desktop or mobile
-  if (isDesktop === null) {
+  if (isDesktop === null && loading) {
     return (
       <YStack
         style={{
@@ -220,7 +240,13 @@ export function CheckoutPage({
       </YStack>
     )
   }
-
+  const onHandleClick = () => {
+    console.log('Helleoefne ')
+    console.log(currentStep)
+    if (currentStep == 'delivery') {
+      setCurrentStep('payment')
+    }
+  }
   return (
     <YStack
       style={{
@@ -236,7 +262,6 @@ export function CheckoutPage({
       <YStack
         style={{
           flex: 1,
-          backgroundColor: '#FAFAFA',
         }}
       >
         {/* Cart title - directly below header without container */}
@@ -265,7 +290,7 @@ export function CheckoutPage({
               justifyContent: 'space-between',
             }}
           >
-            <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Your Cart</Text>
+            <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Checkout </Text>
             {/* Savings banner */}
             <SavingsBanner amount={15} />
           </XStack>
@@ -308,7 +333,16 @@ export function CheckoutPage({
                 }}
               >
                 <ScrollView style={{ flex: 1 }}>
-                  <CheckoutSteps />
+                  {isAuthenticated ? (
+                    <CheckoutLoggedIn
+                      addresses={address}
+                      handleAddressChange={handleAddressChange}
+                      selectedAddress={selectedAddress!}
+                      currentStep={currentStep}
+                    />
+                  ) : (
+                    <CheckoutSteps />
+                  )}
 
                   {/* Only show dessert deals in the left column on mobile */}
                   {isDesktop === false && (
@@ -358,7 +392,7 @@ export function CheckoutPage({
                           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        <CartSummary subtotal={144} onCheckout={onCheckout} />
+                        <CartSummary subtotal={144} onCheckout={onHandleClick} />
                       </YStack>
 
                       {/* Dessert deals section */}
@@ -412,7 +446,7 @@ export function CheckoutPage({
                       elevation: 2,
                     }}
                   >
-                    <CartSummary subtotal={144} onCheckout={onCheckout} />
+                    <CartSummary subtotal={144} onCheckout={onHandleClick} />
                   </YStack>
                 </YStack>
               )}

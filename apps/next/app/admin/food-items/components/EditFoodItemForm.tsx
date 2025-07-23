@@ -144,10 +144,6 @@ export default function EditFoodItemForm({
               onChange={handleCategoryChange}
               options={categories}
             ></MultiSelect>
-            {/* <SelectableFoodCategory
-            value={form.category}
-            onValueChange={(category) => setForm((f) => ({ ...f, category: category[0] }))}
-            ></SelectableFoodCategory> */}
           </YStack>
 
           <YStack>

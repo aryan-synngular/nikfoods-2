@@ -368,7 +368,7 @@ var require_isWebColor = __commonJS({
 var require_normalize_colors = __commonJS({
   "../../node_modules/@react-native/normalize-colors/index.js"(exports2, module2) {
     "use strict";
-    function normalizeColor(color) {
+    function normalizeColor3(color) {
       if (typeof color === "number") {
         if (color >>> 0 === color && color >= 0 && color <= 4294967295) {
           return color;
@@ -477,7 +477,7 @@ var require_normalize_colors = __commonJS({
       }
       return null;
     }
-    __name(normalizeColor, "normalizeColor");
+    __name(normalizeColor3, "normalizeColor");
     function hue2rgb(p, q, t2) {
       if (t2 < 0) {
         t2 += 1;
@@ -898,7 +898,7 @@ var require_normalize_colors = __commonJS({
       return null;
     }
     __name(normalizeKeyword, "normalizeKeyword");
-    module2.exports = normalizeColor;
+    module2.exports = normalizeColor3;
   }
 });
 
@@ -935,7 +935,7 @@ var require_normalizeColor = __commonJS({
     exports2.default = void 0;
     var _isWebColor = _interopRequireDefault(require_isWebColor());
     var _processColor = _interopRequireDefault(require_processColor());
-    var normalizeColor = /* @__PURE__ */ __name(function normalizeColor2(color, opacity) {
+    var normalizeColor3 = /* @__PURE__ */ __name(function normalizeColor4(color, opacity) {
       if (opacity === void 0) {
         opacity = 1;
       }
@@ -953,7 +953,7 @@ var require_normalizeColor = __commonJS({
         return "rgba(" + r2 + "," + g + "," + b + "," + alpha + ")";
       }
     }, "normalizeColor");
-    var _default = exports2.default = normalizeColor;
+    var _default = exports2.default = normalizeColor3;
     module2.exports = exports2.default;
   }
 });
@@ -4779,7 +4779,7 @@ var require_Platform = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.default = void 0;
-    var Platform13 = {
+    var Platform14 = {
       OS: "web",
       select: /* @__PURE__ */ __name((obj) => "web" in obj ? obj.web : obj.default, "select"),
       get isTesting() {
@@ -4789,7 +4789,7 @@ var require_Platform = __commonJS({
         return false;
       }
     };
-    var _default = exports2.default = Platform13;
+    var _default = exports2.default = Platform14;
     module2.exports = exports2.default;
   }
 });
@@ -5103,7 +5103,7 @@ var require_mergeRefs = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = mergeRefs;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     function mergeRefs() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
@@ -5138,13 +5138,13 @@ var require_useMergeRefs = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useMergeRefs;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _mergeRefs = _interopRequireDefault(require_mergeRefs());
     function useMergeRefs() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-      return React88.useMemo(
+      return React91.useMemo(
         () => (0, _mergeRefs.default)(...args),
         // eslint-disable-next-line
         [...args]
@@ -5162,10 +5162,10 @@ var require_useStable = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useStable;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var UNINITIALIZED = typeof Symbol === "function" && typeof Symbol() === "symbol" ? Symbol() : Object.freeze({});
     function useStable(getInitialValue) {
-      var ref = React88.useRef(UNINITIALIZED);
+      var ref = React91.useRef(UNINITIALIZED);
       if (ref.current === UNINITIALIZED) {
         ref.current = getInitialValue();
       }
@@ -6081,12 +6081,12 @@ var require_useResponderEvents = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useResponderEvents;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var ResponderSystem = _interopRequireWildcard(require_ResponderSystem());
     var emptyObject = {};
     var idCounter = 0;
     function useStable(getInitialValue) {
-      var ref = React88.useRef(null);
+      var ref = React91.useRef(null);
       if (ref.current == null) {
         ref.current = getInitialValue();
       }
@@ -6098,14 +6098,14 @@ var require_useResponderEvents = __commonJS({
         config2 = emptyObject;
       }
       var id = useStable(() => idCounter++);
-      var isAttachedRef = React88.useRef(false);
-      React88.useEffect(() => {
+      var isAttachedRef = React91.useRef(false);
+      React91.useEffect(() => {
         ResponderSystem.attachListeners();
         return () => {
           ResponderSystem.removeNode(id);
         };
       }, [id]);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         var _config = config2, onMoveShouldSetResponder = _config.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = _config.onMoveShouldSetResponderCapture, onScrollShouldSetResponder = _config.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = _config.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = _config.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = _config.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = _config.onStartShouldSetResponder, onStartShouldSetResponderCapture = _config.onStartShouldSetResponderCapture;
         var requiresResponderSystem = onMoveShouldSetResponder != null || onMoveShouldSetResponderCapture != null || onScrollShouldSetResponder != null || onScrollShouldSetResponderCapture != null || onSelectionChangeShouldSetResponder != null || onSelectionChangeShouldSetResponderCapture != null || onStartShouldSetResponder != null || onStartShouldSetResponderCapture != null;
         var node = hostRef.current;
@@ -6117,10 +6117,10 @@ var require_useResponderEvents = __commonJS({
           isAttachedRef.current = false;
         }
       }, [config2, hostRef, id]);
-      React88.useDebugValue({
+      React91.useDebugValue({
         isResponder: hostRef.current === ResponderSystem.getResponderNode()
       });
-      React88.useDebugValue(config2);
+      React91.useDebugValue(config2);
     }
     __name(useResponderEvents, "useResponderEvents");
     module2.exports = exports2.default;
@@ -6151,7 +6151,7 @@ var require_View = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -6171,17 +6171,17 @@ var require_View = __commonJS({
       pointerEvents: true
     });
     var pickProps = /* @__PURE__ */ __name((props) => (0, _pick.default)(props, forwardPropsList), "pickProps");
-    var View15 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var View16 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var hrefAttrs = props.hrefAttrs, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       if (process.env.NODE_ENV !== "production") {
-        React88.Children.toArray(props.children).forEach((item) => {
+        React91.Children.toArray(props.children).forEach((item) => {
           if (typeof item === "string") {
             console.error("Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
           }
         });
       }
-      var hasTextAncestor = React88.useContext(_TextAncestorContext.default);
-      var hostRef = React88.useRef(null);
+      var hasTextAncestor = React91.useContext(_TextAncestorContext.default);
+      var hostRef = React91.useRef(null);
       var _useLocaleContext = (0, _useLocale.useLocaleContext)(), contextDirection = _useLocaleContext.direction;
       (0, _useElementLayout.default)(hostRef, onLayout);
       (0, _useResponderEvents.default)(hostRef, {
@@ -6231,7 +6231,7 @@ var require_View = __commonJS({
         writingDirection
       });
     });
-    View15.displayName = "View";
+    View16.displayName = "View";
     var styles2 = _StyleSheet.default.create({
       view$raw: {
         alignContent: "flex-start",
@@ -6256,7 +6256,7 @@ var require_View = __commonJS({
         display: "inline-flex"
       }
     });
-    var _default = exports2.default = View15;
+    var _default = exports2.default = View16;
     module2.exports = exports2.default;
   }
 });
@@ -6626,7 +6626,7 @@ var require_ScrollViewBase = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
@@ -6668,14 +6668,14 @@ var require_ScrollViewBase = __commonJS({
       return eventThrottle > 0 && timeSinceLastTick >= eventThrottle;
     }
     __name(shouldEmitScrollEvent, "shouldEmitScrollEvent");
-    var ScrollViewBase = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var ScrollViewBase = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var onScroll = props.onScroll, onTouchMove = props.onTouchMove, onWheel = props.onWheel, _props$scrollEnabled = props.scrollEnabled, scrollEnabled = _props$scrollEnabled === void 0 ? true : _props$scrollEnabled, _props$scrollEventThr = props.scrollEventThrottle, scrollEventThrottle = _props$scrollEventThr === void 0 ? 0 : _props$scrollEventThr, showsHorizontalScrollIndicator = props.showsHorizontalScrollIndicator, showsVerticalScrollIndicator = props.showsVerticalScrollIndicator, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var scrollState = React88.useRef({
+      var scrollState = React91.useRef({
         isScrolling: false,
         scrollLastTick: 0
       });
-      var scrollTimeout = React88.useRef(null);
-      var scrollRef = React88.useRef(null);
+      var scrollTimeout = React91.useRef(null);
+      var scrollRef = React91.useRef(null);
       function createPreventableScrollHandler(handler) {
         return (e) => {
           if (scrollEnabled) {
@@ -6726,7 +6726,7 @@ var require_ScrollViewBase = __commonJS({
       }
       __name(handleScrollEnd, "handleScrollEnd");
       var hideScrollbar = showsHorizontalScrollIndicator === false || showsVerticalScrollIndicator === false;
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, {
         onScroll: handleScroll,
         onTouchMove: createPreventableScrollHandler(onTouchMove),
         onWheel: createPreventableScrollHandler(onWheel),
@@ -8175,8 +8175,8 @@ var require_StateSafePureComponent = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _invariant = _interopRequireDefault(require_invariant());
-    var React88 = _interopRequireWildcard(require("react"));
-    var StateSafePureComponent = class extends React88.PureComponent {
+    var React91 = _interopRequireWildcard(require("react"));
+    var StateSafePureComponent = class extends React91.PureComponent {
       static {
         __name(this, "StateSafePureComponent");
       }
@@ -8414,15 +8414,15 @@ var require_VirtualizedListContext = __commonJS({
     exports2.VirtualizedListContextResetter = VirtualizedListContextResetter;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var __DEV__2 = process.env.NODE_ENV !== "production";
-    var VirtualizedListContext = exports2.VirtualizedListContext = /* @__PURE__ */ React88.createContext(null);
+    var VirtualizedListContext = exports2.VirtualizedListContext = /* @__PURE__ */ React91.createContext(null);
     if (__DEV__2) {
       VirtualizedListContext.displayName = "VirtualizedListContext";
     }
     function VirtualizedListContextResetter(_ref) {
       var children = _ref.children;
-      return /* @__PURE__ */ React88.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React91.createElement(VirtualizedListContext.Provider, {
         value: null
       }, children);
     }
@@ -8437,7 +8437,7 @@ var require_VirtualizedListContext = __commonJS({
         registerAsNestedChild: value.registerAsNestedChild,
         unregisterAsNestedChild: value.unregisterAsNestedChild
       }), [value.getScrollMetrics, value.horizontal, value.getOutermostParentListRef, value.registerAsNestedChild, value.unregisterAsNestedChild]);
-      return /* @__PURE__ */ React88.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React91.createElement(VirtualizedListContext.Provider, {
         value: context2
       }, children);
     }
@@ -8448,7 +8448,7 @@ var require_VirtualizedListContext = __commonJS({
       var context2 = (0, _react.useMemo)(() => currContext == null ? null : (0, _objectSpread2.default)((0, _objectSpread2.default)({}, currContext), {}, {
         cellKey
       }), [currContext, cellKey]);
-      return /* @__PURE__ */ React88.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React91.createElement(VirtualizedListContext.Provider, {
         value: context2
       }, children);
     }
@@ -8470,8 +8470,8 @@ var require_VirtualizedListCellRenderer = __commonJS({
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _VirtualizedListContext = require_VirtualizedListContext();
     var _invariant = _interopRequireDefault(require_invariant());
-    var React88 = _interopRequireWildcard(require("react"));
-    var CellRenderer = class extends React88.Component {
+    var React91 = _interopRequireWildcard(require("react"));
+    var CellRenderer = class extends React91.Component {
       static {
         __name(this, "CellRenderer");
       }
@@ -8528,7 +8528,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
           console.warn("VirtualizedList: Both ListItemComponent and renderItem props are present. ListItemComponent will take precedence over renderItem.");
         }
         if (ListItemComponent2) {
-          return /* @__PURE__ */ React88.createElement(ListItemComponent2, {
+          return /* @__PURE__ */ React91.createElement(ListItemComponent2, {
             item,
             index: index3,
             separators: this._separators
@@ -8546,20 +8546,20 @@ var require_VirtualizedListCellRenderer = __commonJS({
       render() {
         var _this$props4 = this.props, CellRendererComponent = _this$props4.CellRendererComponent, ItemSeparatorComponent = _this$props4.ItemSeparatorComponent, ListItemComponent2 = _this$props4.ListItemComponent, cellKey = _this$props4.cellKey, horizontal = _this$props4.horizontal, item = _this$props4.item, index3 = _this$props4.index, inversionStyle = _this$props4.inversionStyle, onCellFocusCapture = _this$props4.onCellFocusCapture, onCellLayout = _this$props4.onCellLayout, renderItem = _this$props4.renderItem;
         var element = this._renderElement(renderItem, ListItemComponent2, item, index3);
-        var itemSeparator = /* @__PURE__ */ React88.isValidElement(ItemSeparatorComponent) ? (
+        var itemSeparator = /* @__PURE__ */ React91.isValidElement(ItemSeparatorComponent) ? (
           // $FlowFixMe[incompatible-type]
           ItemSeparatorComponent
         ) : (
           // $FlowFixMe[incompatible-type]
-          ItemSeparatorComponent && /* @__PURE__ */ React88.createElement(ItemSeparatorComponent, this.state.separatorProps)
+          ItemSeparatorComponent && /* @__PURE__ */ React91.createElement(ItemSeparatorComponent, this.state.separatorProps)
         );
         var cellStyle = inversionStyle ? horizontal ? [styles2.rowReverse, inversionStyle] : [styles2.columnReverse, inversionStyle] : horizontal ? [styles2.row, inversionStyle] : inversionStyle;
-        var result = !CellRendererComponent ? /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({
+        var result = !CellRendererComponent ? /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({
           style: cellStyle,
           onFocusCapture: onCellFocusCapture
         }, onCellLayout && {
           onLayout: this._onLayout
-        }), element, itemSeparator) : /* @__PURE__ */ React88.createElement(CellRendererComponent, (0, _extends2.default)({
+        }), element, itemSeparator) : /* @__PURE__ */ React91.createElement(CellRendererComponent, (0, _extends2.default)({
           cellKey,
           index: index3,
           item,
@@ -8568,7 +8568,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
         }, onCellLayout && {
           onLayout: this._onLayout
         }), element, itemSeparator);
-        return /* @__PURE__ */ React88.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+        return /* @__PURE__ */ React91.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
           cellKey: this.props.cellKey
         }, result);
       }
@@ -8764,7 +8764,7 @@ var require_VirtualizedList = __commonJS({
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _invariant = _interopRequireDefault(require_invariant());
     var _nullthrows = _interopRequireDefault(require_nullthrows());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var __DEV__2 = process.env.NODE_ENV !== "production";
     var ON_EDGE_REACHED_EPSILON = 1e-3;
     var _usedIndexForKey = false;
@@ -9029,15 +9029,15 @@ var require_VirtualizedList = __commonJS({
         this._defaultRenderScrollComponent = (props) => {
           var onRefresh = props.onRefresh;
           if (this._isNestedWithSameOrientation()) {
-            return /* @__PURE__ */ React88.createElement(_View.default, props);
+            return /* @__PURE__ */ React91.createElement(_View.default, props);
           } else if (onRefresh) {
             var _props$refreshing;
             (0, _invariant.default)(typeof props.refreshing === "boolean", "`refreshing` prop must be set as a boolean in order to use `onRefresh`, but got `" + JSON.stringify((_props$refreshing = props.refreshing) !== null && _props$refreshing !== void 0 ? _props$refreshing : "undefined") + "`");
             return (
               // $FlowFixMe[prop-missing] Invalid prop usage
               // $FlowFixMe[incompatible-use]
-              /* @__PURE__ */ React88.createElement(_ScrollView.default, (0, _extends2.default)({}, props, {
-                refreshControl: props.refreshControl == null ? /* @__PURE__ */ React88.createElement(
+              /* @__PURE__ */ React91.createElement(_ScrollView.default, (0, _extends2.default)({}, props, {
+                refreshControl: props.refreshControl == null ? /* @__PURE__ */ React91.createElement(
                   _RefreshControl.default,
                   {
                     refreshing: props.refreshing,
@@ -9048,7 +9048,7 @@ var require_VirtualizedList = __commonJS({
               }))
             );
           } else {
-            return /* @__PURE__ */ React88.createElement(_ScrollView.default, props);
+            return /* @__PURE__ */ React91.createElement(_ScrollView.default, props);
           }
         };
         this._onCellLayout = (e, cellKey, index3) => {
@@ -9532,7 +9532,7 @@ var require_VirtualizedList = __commonJS({
             stickyHeaderIndices.push(cells.length);
           }
           var shouldListenForLayout = getItemLayout == null || debug || _this._fillRateHelper.enabled();
-          cells.push(/* @__PURE__ */ React88.createElement(_VirtualizedListCellRenderer.default, (0, _extends2.default)({
+          cells.push(/* @__PURE__ */ React91.createElement(_VirtualizedListCellRenderer.default, (0, _extends2.default)({
             CellRendererComponent,
             ItemSeparatorComponent: ii < end ? ItemSeparatorComponent : void 0,
             ListItemComponent: ListItemComponent2,
@@ -9597,15 +9597,15 @@ var require_VirtualizedList = __commonJS({
           if (stickyIndicesFromProps.has(0)) {
             stickyHeaderIndices.push(0);
           }
-          var _element = /* @__PURE__ */ React88.isValidElement(ListHeaderComponent) ? ListHeaderComponent : (
+          var _element = /* @__PURE__ */ React91.isValidElement(ListHeaderComponent) ? ListHeaderComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React88.createElement(ListHeaderComponent, null)
+            /* @__PURE__ */ React91.createElement(ListHeaderComponent, null)
           );
-          cells.push(/* @__PURE__ */ React88.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React91.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getCellKey() + "-header",
             key: "$header"
-          }, /* @__PURE__ */ React88.createElement(
+          }, /* @__PURE__ */ React91.createElement(
             _View.default,
             {
               onLayout: this._onLayoutHeader,
@@ -9617,15 +9617,15 @@ var require_VirtualizedList = __commonJS({
         }
         var itemCount = this.props.getItemCount(data);
         if (itemCount === 0 && ListEmptyComponent) {
-          var _element2 = /* @__PURE__ */ React88.isValidElement(ListEmptyComponent) ? ListEmptyComponent : (
+          var _element2 = /* @__PURE__ */ React91.isValidElement(ListEmptyComponent) ? ListEmptyComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React88.createElement(ListEmptyComponent, null)
+            /* @__PURE__ */ React91.createElement(ListEmptyComponent, null)
           );
-          cells.push(/* @__PURE__ */ React88.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React91.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getCellKey() + "-empty",
             key: "$empty"
-          }, /* @__PURE__ */ React88.cloneElement(_element2, {
+          }, /* @__PURE__ */ React91.cloneElement(_element2, {
             onLayout: /* @__PURE__ */ __name((event) => {
               this._onLayoutEmpty(event);
               if (_element2.props.onLayout) {
@@ -9653,7 +9653,7 @@ var require_VirtualizedList = __commonJS({
               var firstMetrics = this.__getFrameMetricsApprox(section.first, this.props);
               var lastMetrics = this.__getFrameMetricsApprox(last, this.props);
               var spacerSize = lastMetrics.offset + lastMetrics.length - firstMetrics.offset;
-              cells.push(/* @__PURE__ */ React88.createElement(_View.default, {
+              cells.push(/* @__PURE__ */ React91.createElement(_View.default, {
                 key: "$spacer-" + section.first,
                 style: {
                   [spacerKey]: spacerSize
@@ -9669,15 +9669,15 @@ var require_VirtualizedList = __commonJS({
           }
         }
         if (ListFooterComponent) {
-          var _element3 = /* @__PURE__ */ React88.isValidElement(ListFooterComponent) ? ListFooterComponent : (
+          var _element3 = /* @__PURE__ */ React91.isValidElement(ListFooterComponent) ? ListFooterComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React88.createElement(ListFooterComponent, null)
+            /* @__PURE__ */ React91.createElement(ListFooterComponent, null)
           );
-          cells.push(/* @__PURE__ */ React88.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React91.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getFooterCellKey(),
             key: "$footer"
-          }, /* @__PURE__ */ React88.createElement(
+          }, /* @__PURE__ */ React91.createElement(
             _View.default,
             {
               onLayout: this._onLayoutFooter,
@@ -9702,7 +9702,7 @@ var require_VirtualizedList = __commonJS({
           style: inversionStyle ? [inversionStyle, this.props.style] : this.props.style
         });
         this._hasMore = this.state.cellsAroundViewport.last < itemCount - 1;
-        var innerRet = /* @__PURE__ */ React88.createElement(_VirtualizedListContext.VirtualizedListContextProvider, {
+        var innerRet = /* @__PURE__ */ React91.createElement(_VirtualizedListContext.VirtualizedListContextProvider, {
           value: {
             cellKey: null,
             getScrollMetrics: this._getScrollMetrics,
@@ -9711,12 +9711,12 @@ var require_VirtualizedList = __commonJS({
             registerAsNestedChild: this._registerAsNestedChild,
             unregisterAsNestedChild: this._unregisterAsNestedChild
           }
-        }, /* @__PURE__ */ React88.cloneElement((this.props.renderScrollComponent || this._defaultRenderScrollComponent)(scrollProps), {
+        }, /* @__PURE__ */ React91.cloneElement((this.props.renderScrollComponent || this._defaultRenderScrollComponent)(scrollProps), {
           ref: this._captureScrollRef
         }, cells));
         var ret = innerRet;
         if (this.props.debug) {
-          return /* @__PURE__ */ React88.createElement(_View.default, {
+          return /* @__PURE__ */ React91.createElement(_View.default, {
             style: styles2.debug
           }, ret, this._renderDebugOverlay());
         } else {
@@ -9804,20 +9804,20 @@ var require_VirtualizedList = __commonJS({
         var windowLen = frameLast.offset + frameLast.length - windowTop;
         var visTop = this._scrollMetrics.offset;
         var visLen = this._scrollMetrics.visibleLength;
-        return /* @__PURE__ */ React88.createElement(_View.default, {
+        return /* @__PURE__ */ React91.createElement(_View.default, {
           style: [styles2.debugOverlayBase, styles2.debugOverlay]
-        }, framesInLayout.map((f, ii2) => /* @__PURE__ */ React88.createElement(_View.default, {
+        }, framesInLayout.map((f, ii2) => /* @__PURE__ */ React91.createElement(_View.default, {
           key: "f" + ii2,
           style: [styles2.debugOverlayBase, styles2.debugOverlayFrame, {
             top: f.offset * normalize,
             height: f.length * normalize
           }]
-        })), /* @__PURE__ */ React88.createElement(_View.default, {
+        })), /* @__PURE__ */ React91.createElement(_View.default, {
           style: [styles2.debugOverlayBase, styles2.debugOverlayFrameLast, {
             top: windowTop * normalize,
             height: windowLen * normalize
           }]
-        }), /* @__PURE__ */ React88.createElement(_View.default, {
+        }), /* @__PURE__ */ React91.createElement(_View.default, {
           style: [styles2.debugOverlayBase, styles2.debugOverlayFrameVis, {
             top: visTop * normalize,
             height: visLen * normalize
@@ -10021,7 +10021,7 @@ var require_FlatList = __commonJS({
     var _deepDiffer = _interopRequireDefault(require_deepDiffer());
     var _Platform = _interopRequireDefault(require_Platform());
     var _invariant = _interopRequireDefault(require_invariant());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _VirtualizedList = _interopRequireDefault(require_VirtualizedList());
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _memoizeOne = _interopRequireDefault(require_memoize_one_cjs());
@@ -10038,7 +10038,7 @@ var require_FlatList = __commonJS({
       return typeof Object(data).length === "number";
     }
     __name(isArrayLike, "isArrayLike");
-    var FlatList = class extends React88.PureComponent {
+    var FlatList = class extends React91.PureComponent {
       static {
         __name(this, "FlatList");
       }
@@ -10169,7 +10169,7 @@ var require_FlatList = __commonJS({
           var cols = numColumnsOrDefault(numColumns);
           var render = /* @__PURE__ */ __name((props) => {
             if (ListItemComponent2) {
-              return /* @__PURE__ */ React88.createElement(ListItemComponent2, props);
+              return /* @__PURE__ */ React91.createElement(ListItemComponent2, props);
             } else if (renderItem) {
               return renderItem(props);
             } else {
@@ -10180,7 +10180,7 @@ var require_FlatList = __commonJS({
             if (cols > 1) {
               var _item2 = info2.item, _index = info2.index;
               (0, _invariant.default)(Array.isArray(_item2), "Expected array of items with numColumns > 1");
-              return /* @__PURE__ */ React88.createElement(_View.default, {
+              return /* @__PURE__ */ React91.createElement(_View.default, {
                 style: [styles2.row, columnWrapperStyle]
               }, _item2.map((it, kk) => {
                 var element = render({
@@ -10189,7 +10189,7 @@ var require_FlatList = __commonJS({
                   index: _index * cols + kk,
                   separators: info2.separators
                 });
-                return element != null ? /* @__PURE__ */ React88.createElement(React88.Fragment, {
+                return element != null ? /* @__PURE__ */ React91.createElement(React91.Fragment, {
                   key: kk
                 }, element) : null;
               }));
@@ -10279,7 +10279,7 @@ var require_FlatList = __commonJS({
         var renderer = strictMode ? this._memoizedRenderer : this._renderer;
         return (
           // $FlowFixMe[incompatible-exact] - `restProps` (`Props`) is inexact.
-          /* @__PURE__ */ React88.createElement(_VirtualizedList.default, (0, _extends2.default)({}, restProps, {
+          /* @__PURE__ */ React91.createElement(_VirtualizedList.default, (0, _extends2.default)({}, restProps, {
             getItem: this._getItem,
             getItemCount: this._getItemCount,
             keyExtractor: this._keyExtractor,
@@ -12259,16 +12259,16 @@ var require_createAnimatedComponent = __commonJS({
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs2());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _excluded = ["style"];
     function createAnimatedComponent(Component) {
-      return /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+      return /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
         var _useAnimatedProps = (0, _useAnimatedProps2.default)(props), reducedProps = _useAnimatedProps[0], callbackRef = _useAnimatedProps[1];
         var ref = (0, _useMergeRefs.default)(callbackRef, forwardedRef);
         var passthroughAnimatedPropExplicitValues = reducedProps.passthroughAnimatedPropExplicitValues, style = reducedProps.style;
         var _ref = passthroughAnimatedPropExplicitValues !== null && passthroughAnimatedPropExplicitValues !== void 0 ? passthroughAnimatedPropExplicitValues : {}, passthroughStyle = _ref.style, passthroughProps = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
         var mergedStyle = [style, passthroughStyle];
-        return /* @__PURE__ */ React88.createElement(Component, (0, _extends2.default)({}, reducedProps, passthroughProps, {
+        return /* @__PURE__ */ React91.createElement(Component, (0, _extends2.default)({}, reducedProps, passthroughProps, {
           style: mergedStyle,
           ref
         }));
@@ -12288,10 +12288,10 @@ var require_AnimatedFlatList = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _FlatList = _interopRequireDefault(require_FlatList2());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var FlatListWithEventThrottle = /* @__PURE__ */ React88.forwardRef((props, ref) => /* @__PURE__ */ React88.createElement(_FlatList.default, (0, _extends2.default)({
+    var FlatListWithEventThrottle = /* @__PURE__ */ React91.forwardRef((props, ref) => /* @__PURE__ */ React91.createElement(_FlatList.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -12521,7 +12521,7 @@ var require_Image = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _AssetRegistry = require_AssetRegistry();
     var _preprocess = require_preprocess();
@@ -12539,20 +12539,20 @@ var require_Image = __commonJS({
     var _filterId = 0;
     var svgDataUriPattern = /^(data:image\/svg\+xml;utf8,)(.*)/;
     function createTintColorSVG(tintColor, id) {
-      return tintColor && id != null ? /* @__PURE__ */ React88.createElement("svg", {
+      return tintColor && id != null ? /* @__PURE__ */ React91.createElement("svg", {
         style: {
           position: "absolute",
           height: 0,
           visibility: "hidden",
           width: 0
         }
-      }, /* @__PURE__ */ React88.createElement("defs", null, /* @__PURE__ */ React88.createElement("filter", {
+      }, /* @__PURE__ */ React91.createElement("defs", null, /* @__PURE__ */ React91.createElement("filter", {
         id: "tint-" + id,
         suppressHydrationWarning: true
-      }, /* @__PURE__ */ React88.createElement("feFlood", {
+      }, /* @__PURE__ */ React91.createElement("feFlood", {
         floodColor: "" + tintColor,
         key: tintColor
-      }), /* @__PURE__ */ React88.createElement("feComposite", {
+      }), /* @__PURE__ */ React91.createElement("feComposite", {
         in2: "SourceAlpha",
         operator: "in"
       })))) : null;
@@ -12636,7 +12636,7 @@ var require_Image = __commonJS({
       return uri;
     }
     __name(resolveAssetUri, "resolveAssetUri");
-    var Image6 = /* @__PURE__ */ React88.forwardRef((props, ref) => {
+    var Image6 = /* @__PURE__ */ React91.forwardRef((props, ref) => {
       var _ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, blurRadius = props.blurRadius, defaultSource = props.defaultSource, draggable = props.draggable, onError = props.onError, onLayout = props.onLayout, onLoad = props.onLoad, onLoadEnd = props.onLoadEnd, onLoadStart = props.onLoadStart, pointerEvents = props.pointerEvents, source = props.source, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var ariaLabel = _ariaLabel || accessibilityLabel;
       if (process.env.NODE_ENV !== "production") {
@@ -12644,7 +12644,7 @@ var require_Image = __commonJS({
           throw new Error("The <Image> component cannot contain children. If you want to render content on top of the image, consider using the <ImageBackground> component or absolute positioning.");
         }
       }
-      var _React$useState = React88.useState(() => {
+      var _React$useState = React91.useState(() => {
         var uri2 = resolveAssetUri(source);
         if (uri2 != null) {
           var isLoaded = _ImageLoader.default.has(uri2);
@@ -12654,11 +12654,11 @@ var require_Image = __commonJS({
         }
         return IDLE;
       }), state = _React$useState[0], updateState = _React$useState[1];
-      var _React$useState2 = React88.useState({}), layout = _React$useState2[0], updateLayout = _React$useState2[1];
-      var hasTextAncestor = React88.useContext(_TextAncestorContext.default);
-      var hiddenImageRef = React88.useRef(null);
-      var filterRef = React88.useRef(_filterId++);
-      var requestRef = React88.useRef(null);
+      var _React$useState2 = React91.useState({}), layout = _React$useState2[0], updateLayout = _React$useState2[1];
+      var hasTextAncestor = React91.useContext(_TextAncestorContext.default);
+      var hiddenImageRef = React91.useRef(null);
+      var filterRef = React91.useRef(_filterId++);
+      var requestRef = React91.useRef(null);
       var shouldDisplaySource = state === LOADED || state === LOADING && defaultSource == null;
       var _extractNonStandardSt = extractNonStandardStyleProps(style, blurRadius, filterRef.current, props.tintColor), _resizeMode = _extractNonStandardSt[0], filter2 = _extractNonStandardSt[1], _tintColor = _extractNonStandardSt[2];
       var resizeMode = props.resizeMode || _resizeMode || "cover";
@@ -12697,7 +12697,7 @@ var require_Image = __commonJS({
       }
       __name(handleLayout, "handleLayout");
       var uri = resolveAssetUri(source);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         abortPendingRequest();
         if (uri != null) {
           updateState(LOADING);
@@ -12735,7 +12735,7 @@ var require_Image = __commonJS({
         __name(abortPendingRequest, "abortPendingRequest");
         return abortPendingRequest;
       }, [uri, requestRef, updateState, onError, onLoad, onLoadEnd, onLoadStart]);
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, {
         "aria-label": ariaLabel,
         onLayout: handleLayout,
         pointerEvents,
@@ -12752,7 +12752,7 @@ var require_Image = __commonJS({
             boxShadow: null
           }
         ]
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         style: [styles2.image, resizeModeStyles[resizeMode], {
           backgroundImage,
           filter: filter2
@@ -12847,7 +12847,7 @@ var require_AnimatedImage = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _Image = _interopRequireDefault(require_Image());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_Image.default);
@@ -12864,10 +12864,10 @@ var require_AnimatedScrollView = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _ScrollView = _interopRequireDefault(require_ScrollView());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var ScrollViewWithEventThrottle = /* @__PURE__ */ React88.forwardRef((props, ref) => /* @__PURE__ */ React88.createElement(_ScrollView.default, (0, _extends2.default)({
+    var ScrollViewWithEventThrottle = /* @__PURE__ */ React91.forwardRef((props, ref) => /* @__PURE__ */ React91.createElement(_ScrollView.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -12893,9 +12893,9 @@ var require_VirtualizedSectionList = __commonJS({
     var _VirtualizedList = _interopRequireDefault(require_VirtualizedList());
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _invariant = _interopRequireDefault(require_invariant());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _excluded = ["ItemSeparatorComponent", "SectionSeparatorComponent", "renderItem", "renderSectionFooter", "renderSectionHeader", "sections", "stickySectionHeadersEnabled"];
-    var VirtualizedSectionList = class extends React88.PureComponent {
+    var VirtualizedSectionList = class extends React91.PureComponent {
       static {
         __name(this, "VirtualizedSectionList");
       }
@@ -12957,7 +12957,7 @@ var require_VirtualizedSectionList = __commonJS({
               var renderItem = info2.section.renderItem || this.props.renderItem;
               var SeparatorComponent = this._getSeparatorComponent(index3, info2, listItemCount);
               (0, _invariant.default)(renderItem, "no renderItem!");
-              return /* @__PURE__ */ React88.createElement(ItemWithSeparator, {
+              return /* @__PURE__ */ React91.createElement(ItemWithSeparator, {
                 SeparatorComponent,
                 LeadingSeparatorComponent: infoIndex === 0 ? this.props.SectionSeparatorComponent : void 0,
                 cellKey: info2.key,
@@ -13047,7 +13047,7 @@ var require_VirtualizedSectionList = __commonJS({
           itemCount += this.props.getItemCount(section.data);
         }
         var renderItem = this._renderItem(itemCount);
-        return /* @__PURE__ */ React88.createElement(_VirtualizedList.default, (0, _extends2.default)({}, passThroughProps, {
+        return /* @__PURE__ */ React91.createElement(_VirtualizedList.default, (0, _extends2.default)({}, passThroughProps, {
           keyExtractor: this._keyExtractor,
           stickyHeaderIndices,
           renderItem,
@@ -13138,23 +13138,23 @@ var require_VirtualizedSectionList = __commonJS({
     };
     function ItemWithSeparator(props) {
       var LeadingSeparatorComponent = props.LeadingSeparatorComponent, SeparatorComponent = props.SeparatorComponent, cellKey = props.cellKey, prevCellKey = props.prevCellKey, setSelfHighlightCallback = props.setSelfHighlightCallback, updateHighlightFor = props.updateHighlightFor, setSelfUpdatePropsCallback = props.setSelfUpdatePropsCallback, updatePropsFor = props.updatePropsFor, item = props.item, index3 = props.index, section = props.section, inverted = props.inverted;
-      var _React$useState = React88.useState(false), leadingSeparatorHiglighted = _React$useState[0], setLeadingSeparatorHighlighted = _React$useState[1];
-      var _React$useState2 = React88.useState(false), separatorHighlighted = _React$useState2[0], setSeparatorHighlighted = _React$useState2[1];
-      var _React$useState3 = React88.useState({
+      var _React$useState = React91.useState(false), leadingSeparatorHiglighted = _React$useState[0], setLeadingSeparatorHighlighted = _React$useState[1];
+      var _React$useState2 = React91.useState(false), separatorHighlighted = _React$useState2[0], setSeparatorHighlighted = _React$useState2[1];
+      var _React$useState3 = React91.useState({
         leadingItem: props.leadingItem,
         leadingSection: props.leadingSection,
         section: props.section,
         trailingItem: props.item,
         trailingSection: props.trailingSection
       }), leadingSeparatorProps = _React$useState3[0], setLeadingSeparatorProps = _React$useState3[1];
-      var _React$useState4 = React88.useState({
+      var _React$useState4 = React91.useState({
         leadingItem: props.item,
         leadingSection: props.leadingSection,
         section: props.section,
         trailingItem: props.trailingItem,
         trailingSection: props.trailingSection
       }), separatorProps = _React$useState4[0], setSeparatorProps = _React$useState4[1];
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         setSelfHighlightCallback(cellKey, setSeparatorHighlighted);
         setSelfUpdatePropsCallback(cellKey, setSeparatorProps);
         return () => {
@@ -13195,13 +13195,13 @@ var require_VirtualizedSectionList = __commonJS({
         section,
         separators
       });
-      var leadingSeparator = LeadingSeparatorComponent != null && /* @__PURE__ */ React88.createElement(LeadingSeparatorComponent, (0, _extends2.default)({
+      var leadingSeparator = LeadingSeparatorComponent != null && /* @__PURE__ */ React91.createElement(LeadingSeparatorComponent, (0, _extends2.default)({
         highlighted: leadingSeparatorHiglighted
       }, leadingSeparatorProps));
-      var separator = SeparatorComponent != null && /* @__PURE__ */ React88.createElement(SeparatorComponent, (0, _extends2.default)({
+      var separator = SeparatorComponent != null && /* @__PURE__ */ React91.createElement(SeparatorComponent, (0, _extends2.default)({
         highlighted: separatorHighlighted
       }, separatorProps));
-      return leadingSeparator || separator ? /* @__PURE__ */ React88.createElement(_View.default, null, inverted === false ? leadingSeparator : separator, element, inverted === false ? separator : leadingSeparator) : element;
+      return leadingSeparator || separator ? /* @__PURE__ */ React91.createElement(_View.default, null, inverted === false ? leadingSeparator : separator, element, inverted === false ? separator : leadingSeparator) : element;
     }
     __name(ItemWithSeparator, "ItemWithSeparator");
     var _default = exports2.default = VirtualizedSectionList;
@@ -13220,10 +13220,10 @@ var require_SectionList = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _Platform = _interopRequireDefault(require_Platform());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _VirtualizedSectionList = _interopRequireDefault(require_VirtualizedSectionList());
     var _excluded = ["stickySectionHeadersEnabled"];
-    var SectionList = class extends React88.PureComponent {
+    var SectionList = class extends React91.PureComponent {
       static {
         __name(this, "SectionList");
       }
@@ -13284,7 +13284,7 @@ var require_SectionList = __commonJS({
       render() {
         var _this$props = this.props, _stickySectionHeadersEnabled = _this$props.stickySectionHeadersEnabled, restProps = (0, _objectWithoutPropertiesLoose2.default)(_this$props, _excluded);
         var stickySectionHeadersEnabled = _stickySectionHeadersEnabled !== null && _stickySectionHeadersEnabled !== void 0 ? _stickySectionHeadersEnabled : _Platform.default.OS === "ios";
-        return /* @__PURE__ */ React88.createElement(_VirtualizedSectionList.default, (0, _extends2.default)({}, restProps, {
+        return /* @__PURE__ */ React91.createElement(_VirtualizedSectionList.default, (0, _extends2.default)({}, restProps, {
           stickySectionHeadersEnabled,
           ref: this._captureRef,
           getItemCount: /* @__PURE__ */ __name((items) => items.length, "getItemCount"),
@@ -13320,10 +13320,10 @@ var require_AnimatedSectionList = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _SectionList = _interopRequireDefault(require_SectionList2());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var SectionListWithEventThrottle = /* @__PURE__ */ React88.forwardRef((props, ref) => /* @__PURE__ */ React88.createElement(_SectionList.default, (0, _extends2.default)({
+    var SectionListWithEventThrottle = /* @__PURE__ */ React91.forwardRef((props, ref) => /* @__PURE__ */ React91.createElement(_SectionList.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -13344,7 +13344,7 @@ var require_Text = __commonJS({
     exports2.default = void 0;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -13362,10 +13362,10 @@ var require_Text = __commonJS({
       pointerEvents: true
     });
     var pickProps = /* @__PURE__ */ __name((props) => (0, _pick.default)(props, forwardPropsList), "pickProps");
-    var Text9 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var Text9 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var hrefAttrs = props.hrefAttrs, numberOfLines = props.numberOfLines, onClick = props.onClick, onLayout = props.onLayout, onPress = props.onPress, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, selectable = props.selectable, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var hasTextAncestor = React88.useContext(_TextAncestorContext.default);
-      var hostRef = React88.useRef(null);
+      var hasTextAncestor = React91.useContext(_TextAncestorContext.default);
+      var hostRef = React91.useRef(null);
       var _useLocaleContext = (0, _useLocale.useLocaleContext)(), contextDirection = _useLocaleContext.direction;
       (0, _useElementLayout.default)(hostRef, onLayout);
       (0, _useResponderEvents.default)(hostRef, {
@@ -13386,7 +13386,7 @@ var require_Text = __commonJS({
         onStartShouldSetResponder,
         onStartShouldSetResponderCapture
       });
-      var handleClick = React88.useCallback((e) => {
+      var handleClick = React91.useCallback((e) => {
         if (onClick != null) {
           onClick(e);
         } else if (onPress != null) {
@@ -13430,7 +13430,7 @@ var require_Text = __commonJS({
       var element = (0, _createElement.default)(component, supportedProps, {
         writingDirection
       });
-      return hasTextAncestor ? element : /* @__PURE__ */ React88.createElement(_TextAncestorContext.default.Provider, {
+      return hasTextAncestor ? element : /* @__PURE__ */ React91.createElement(_TextAncestorContext.default.Provider, {
         value: true
       }, element);
     });
@@ -13497,7 +13497,7 @@ var require_AnimatedText = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _Text = _interopRequireDefault(require_Text());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_Text.default);
@@ -13513,7 +13513,7 @@ var require_AnimatedView = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_View.default);
@@ -15972,23 +15972,23 @@ var require_AppContainer = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
-    var RootTagContext = /* @__PURE__ */ React88.createContext(null);
-    var AppContainer = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var RootTagContext = /* @__PURE__ */ React91.createContext(null);
+    var AppContainer = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var children = props.children, WrapperComponent = props.WrapperComponent;
-      var innerView = /* @__PURE__ */ React88.createElement(_View.default, {
+      var innerView = /* @__PURE__ */ React91.createElement(_View.default, {
         children,
         key: 1,
         style: styles2.appContainer
       });
       if (WrapperComponent) {
-        innerView = /* @__PURE__ */ React88.createElement(WrapperComponent, null, innerView);
+        innerView = /* @__PURE__ */ React91.createElement(WrapperComponent, null, innerView);
       }
-      return /* @__PURE__ */ React88.createElement(RootTagContext.Provider, {
+      return /* @__PURE__ */ React91.createElement(RootTagContext.Provider, {
         value: props.rootTag
-      }, /* @__PURE__ */ React88.createElement(_View.default, {
+      }, /* @__PURE__ */ React91.createElement(_View.default, {
         ref: forwardedRef,
         style: styles2.appContainer
       }, innerView));
@@ -17092,11 +17092,11 @@ var require_ActivityIndicator = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["animating", "color", "hidesWhenStopped", "size", "style"];
-    var createSvgCircle = /* @__PURE__ */ __name((style) => /* @__PURE__ */ React88.createElement("circle", {
+    var createSvgCircle = /* @__PURE__ */ __name((style) => /* @__PURE__ */ React91.createElement("circle", {
       cx: "16",
       cy: "16",
       fill: "none",
@@ -17104,9 +17104,9 @@ var require_ActivityIndicator = __commonJS({
       strokeWidth: "4",
       style
     }), "createSvgCircle");
-    var ActivityIndicator2 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var ActivityIndicator2 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var _props$animating = props.animating, animating = _props$animating === void 0 ? true : _props$animating, _props$color = props.color, color = _props$color === void 0 ? "#1976D2" : _props$color, _props$hidesWhenStopp = props.hidesWhenStopped, hidesWhenStopped = _props$hidesWhenStopp === void 0 ? true : _props$hidesWhenStopp, _props$size = props.size, size5 = _props$size === void 0 ? "small" : _props$size, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var svg = /* @__PURE__ */ React88.createElement("svg", {
+      var svg = /* @__PURE__ */ React91.createElement("svg", {
         height: "100%",
         viewBox: "0 0 32 32",
         width: "100%"
@@ -17118,13 +17118,13 @@ var require_ActivityIndicator = __commonJS({
         strokeDasharray: 80,
         strokeDashoffset: 60
       }));
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-valuemax": 1,
         "aria-valuemin": 0,
         ref: forwardedRef,
         role: "progressbar",
         style: [styles2.container, style]
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         children: svg,
         style: [typeof size5 === "number" ? {
           height: size5,
@@ -17603,7 +17603,7 @@ var require_TouchableOpacity = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -17648,7 +17648,7 @@ var require_TouchableOpacity = __commonJS({
         }
       }), [delayLongPress, delayPressIn, delayPressOut, disabled, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination, setOpacityActive, setOpacityInactive]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         accessibilityDisabled: disabled,
         focusable: !disabled && focusable2 !== false,
         pointerEvents: disabled ? "box-none" : void 0,
@@ -17672,7 +17672,7 @@ var require_TouchableOpacity = __commonJS({
         touchAction: "manipulation"
       }
     });
-    var MemoedTouchableOpacity = /* @__PURE__ */ React88.memo(/* @__PURE__ */ React88.forwardRef(TouchableOpacity));
+    var MemoedTouchableOpacity = /* @__PURE__ */ React91.memo(/* @__PURE__ */ React91.forwardRef(TouchableOpacity));
     MemoedTouchableOpacity.displayName = "TouchableOpacity";
     var _default = exports2.default = MemoedTouchableOpacity;
     module2.exports = exports2.default;
@@ -17687,13 +17687,13 @@ var require_Button = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _TouchableOpacity = _interopRequireDefault(require_TouchableOpacity());
     var _Text = _interopRequireDefault(require_Text());
-    var Button3 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var Button3 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var accessibilityLabel = props.accessibilityLabel, color = props.color, disabled = props.disabled, onPress = props.onPress, testID = props.testID, title = props.title;
-      return /* @__PURE__ */ React88.createElement(_TouchableOpacity.default, {
+      return /* @__PURE__ */ React91.createElement(_TouchableOpacity.default, {
         accessibilityLabel,
         accessibilityRole: "button",
         disabled,
@@ -17704,7 +17704,7 @@ var require_Button = __commonJS({
           backgroundColor: color
         }, disabled && styles2.buttonDisabled],
         testID
-      }, /* @__PURE__ */ React88.createElement(_Text.default, {
+      }, /* @__PURE__ */ React91.createElement(_Text.default, {
         style: [styles2.text, disabled && styles2.textDisabled]
       }, title));
     });
@@ -17745,12 +17745,12 @@ var require_CheckBox = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["aria-readonly", "color", "disabled", "onChange", "onValueChange", "readOnly", "style", "value"];
-    var CheckBox = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var CheckBox = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var ariaReadOnly = props["aria-readonly"], color = props.color, disabled = props.disabled, onChange = props.onChange, onValueChange = props.onValueChange, readOnly = props.readOnly, style = props.style, value = props.value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       function handleChange(event) {
         var value2 = event.nativeEvent.target.checked;
@@ -17759,7 +17759,7 @@ var require_CheckBox = __commonJS({
         onValueChange && onValueChange(value2);
       }
       __name(handleChange, "handleChange");
-      var fakeControl = /* @__PURE__ */ React88.createElement(_View.default, {
+      var fakeControl = /* @__PURE__ */ React91.createElement(_View.default, {
         style: [
           styles2.fakeControl,
           value && styles2.fakeControlChecked,
@@ -17781,7 +17781,7 @@ var require_CheckBox = __commonJS({
         style: [styles2.nativeControl, styles2.cursorInherit],
         type: "checkbox"
       });
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-disabled": disabled,
         "aria-readonly": ariaReadOnly,
         style: [styles2.root, style, disabled && styles2.cursorDefault]
@@ -17849,7 +17849,7 @@ var require_ImageBackground = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var _Image = _interopRequireDefault(require_Image());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
@@ -17858,10 +17858,10 @@ var require_ImageBackground = __commonJS({
     var ImageBackground = /* @__PURE__ */ (0, _react.forwardRef)((props, forwardedRef) => {
       var children = props.children, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, imageStyle = props.imageStyle, imageRef = props.imageRef, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var _StyleSheet$flatten = _StyleSheet.default.flatten(style), height = _StyleSheet$flatten.height, width = _StyleSheet$flatten.width;
-      return /* @__PURE__ */ React88.createElement(_View.default, {
+      return /* @__PURE__ */ React91.createElement(_View.default, {
         ref: forwardedRef,
         style
-      }, /* @__PURE__ */ React88.createElement(_Image.default, (0, _extends2.default)({}, rest, {
+      }, /* @__PURE__ */ React91.createElement(_Image.default, (0, _extends2.default)({}, rest, {
         ref: imageRef,
         style: [{
           // Temporary Workaround:
@@ -17894,10 +17894,10 @@ var require_KeyboardAvoidingView = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["behavior", "contentContainerStyle", "keyboardVerticalOffset"];
-    var KeyboardAvoidingView = class extends React88.Component {
+    var KeyboardAvoidingView = class extends React91.Component {
       static {
         __name(this, "KeyboardAvoidingView");
       }
@@ -17920,7 +17920,7 @@ var require_KeyboardAvoidingView = __commonJS({
       }
       render() {
         var _this$props = this.props, behavior = _this$props.behavior, contentContainerStyle = _this$props.contentContainerStyle, keyboardVerticalOffset = _this$props.keyboardVerticalOffset, rest = (0, _objectWithoutPropertiesLoose2.default)(_this$props, _excluded);
-        return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({
+        return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({
           onLayout: this.onLayout
         }, rest));
       }
@@ -17938,12 +17938,12 @@ var require_ModalPortal = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _reactDom = _interopRequireDefault(require("react-dom"));
     var _canUseDom = _interopRequireDefault(require_canUseDom());
     function ModalPortal(props) {
       var children = props.children;
-      var elementRef = React88.useRef(null);
+      var elementRef = React91.useRef(null);
       if (_canUseDom.default && !elementRef.current) {
         var element = document.createElement("div");
         if (element && document.body) {
@@ -17951,7 +17951,7 @@ var require_ModalPortal = __commonJS({
           elementRef.current = element;
         }
       }
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         if (_canUseDom.default) {
           return () => {
             if (document.body && elementRef.current) {
@@ -17977,7 +17977,7 @@ var require_ModalAnimation = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _createElement = _interopRequireDefault(require_createElement());
     var ANIMATION_DURATION = 300;
@@ -17993,11 +17993,11 @@ var require_ModalAnimation = __commonJS({
     __name(getAnimationStyle, "getAnimationStyle");
     function ModalAnimation(props) {
       var animationType = props.animationType, children = props.children, onDismiss = props.onDismiss, onShow = props.onShow, visible = props.visible;
-      var _React$useState = React88.useState(false), isRendering = _React$useState[0], setIsRendering = _React$useState[1];
-      var wasVisible = React88.useRef(false);
-      var wasRendering = React88.useRef(false);
+      var _React$useState = React91.useState(false), isRendering = _React$useState[0], setIsRendering = _React$useState[1];
+      var wasVisible = React91.useRef(false);
+      var wasRendering = React91.useRef(false);
       var isAnimated = animationType && animationType !== "none";
-      var animationEndCallback = React88.useCallback((e) => {
+      var animationEndCallback = React91.useCallback((e) => {
         if (e && e.currentTarget !== e.target) {
           return;
         }
@@ -18009,13 +18009,13 @@ var require_ModalAnimation = __commonJS({
           setIsRendering(false);
         }
       }, [onShow, visible]);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         if (wasRendering.current && !isRendering && onDismiss) {
           onDismiss();
         }
         wasRendering.current = isRendering;
       }, [isRendering, onDismiss]);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         if (visible) {
           setIsRendering(true);
         }
@@ -18116,14 +18116,14 @@ var require_ModalContent = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _canUseDom = _interopRequireDefault(require_canUseDom());
     var _excluded = ["active", "children", "onRequestClose", "transparent"];
-    var ModalContent = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var ModalContent = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var active = props.active, children = props.children, onRequestClose = props.onRequestClose, transparent = props.transparent, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         if (_canUseDom.default) {
           var closeOnEscape = /* @__PURE__ */ __name((e) => {
             if (active && e.key === "Escape") {
@@ -18137,15 +18137,15 @@ var require_ModalContent = __commonJS({
           return () => document.removeEventListener("keyup", closeOnEscape, false);
         }
       }, [active, onRequestClose]);
-      var style = React88.useMemo(() => {
+      var style = React91.useMemo(() => {
         return [styles2.modal, transparent ? styles2.modalTransparent : styles2.modalOpaque];
       }, [transparent]);
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, {
         "aria-modal": true,
         ref: forwardedRef,
         role: active ? "dialog" : null,
         style
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         style: styles2.container
       }, children));
     });
@@ -18181,7 +18181,7 @@ var require_ModalFocusTrap = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _createElement = _interopRequireDefault(require_createElement());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -18227,12 +18227,12 @@ var require_ModalFocusTrap = __commonJS({
     __name(focusLastDescendant, "focusLastDescendant");
     var ModalFocusTrap = /* @__PURE__ */ __name((_ref) => {
       var active = _ref.active, children = _ref.children;
-      var trapElementRef = React88.useRef();
-      var focusRef = React88.useRef({
+      var trapElementRef = React91.useRef();
+      var focusRef = React91.useRef({
         trapFocusInProgress: false,
         lastFocusedElement: null
       });
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         if (_canUseDom.default) {
           var trapFocus = /* @__PURE__ */ __name(() => {
             if (trapElementRef.current == null || focusRef.current.trapFocusInProgress || !active) {
@@ -18259,7 +18259,7 @@ var require_ModalFocusTrap = __commonJS({
           return () => document.removeEventListener("focus", trapFocus, true);
         }
       }, [active]);
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         if (_canUseDom.default) {
           var lastFocusedElementOutsideTrap = document.activeElement;
           return function() {
@@ -18269,9 +18269,9 @@ var require_ModalFocusTrap = __commonJS({
           };
         }
       }, []);
-      return /* @__PURE__ */ React88.createElement(React88.Fragment, null, /* @__PURE__ */ React88.createElement(FocusBracket, null), /* @__PURE__ */ React88.createElement(_View.default, {
+      return /* @__PURE__ */ React91.createElement(React91.Fragment, null, /* @__PURE__ */ React91.createElement(FocusBracket, null), /* @__PURE__ */ React91.createElement(_View.default, {
         ref: trapElementRef
-      }, children), /* @__PURE__ */ React88.createElement(FocusBracket, null));
+      }, children), /* @__PURE__ */ React91.createElement(FocusBracket, null));
     }, "ModalFocusTrap");
     var _default = exports2.default = ModalFocusTrap;
     var styles2 = _StyleSheet.default.create({
@@ -18294,7 +18294,7 @@ var require_Modal = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _ModalPortal = _interopRequireDefault(require_ModalPortal());
     var _ModalAnimation = _interopRequireDefault(require_ModalAnimation());
     var _ModalContent = _interopRequireDefault(require_ModalContent());
@@ -18334,33 +18334,33 @@ var require_Modal = __commonJS({
       notifyActiveModalListeners();
     }
     __name(addActiveModal, "addActiveModal");
-    var Modal = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var Modal = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var animationType = props.animationType, children = props.children, onDismiss = props.onDismiss, onRequestClose = props.onRequestClose, onShow = props.onShow, transparent = props.transparent, _props$visible = props.visible, visible = _props$visible === void 0 ? true : _props$visible, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var modalId = React88.useMemo(() => uniqueModalIdentifier++, []);
-      var _React$useState = React88.useState(false), isActive = _React$useState[0], setIsActive = _React$useState[1];
-      var onDismissCallback = React88.useCallback(() => {
+      var modalId = React91.useMemo(() => uniqueModalIdentifier++, []);
+      var _React$useState = React91.useState(false), isActive = _React$useState[0], setIsActive = _React$useState[1];
+      var onDismissCallback = React91.useCallback(() => {
         removeActiveModal(modalId);
         if (onDismiss) {
           onDismiss();
         }
       }, [modalId, onDismiss]);
-      var onShowCallback = React88.useCallback(() => {
+      var onShowCallback = React91.useCallback(() => {
         addActiveModal(modalId, setIsActive);
         if (onShow) {
           onShow();
         }
       }, [modalId, onShow]);
-      React88.useEffect(() => {
+      React91.useEffect(() => {
         return () => removeActiveModal(modalId);
       }, [modalId]);
-      return /* @__PURE__ */ React88.createElement(_ModalPortal.default, null, /* @__PURE__ */ React88.createElement(_ModalAnimation.default, {
+      return /* @__PURE__ */ React91.createElement(_ModalPortal.default, null, /* @__PURE__ */ React91.createElement(_ModalAnimation.default, {
         animationType,
         onDismiss: onDismissCallback,
         onShow: onShowCallback,
         visible
-      }, /* @__PURE__ */ React88.createElement(_ModalFocusTrap.default, {
+      }, /* @__PURE__ */ React91.createElement(_ModalFocusTrap.default, {
         active: isActive
-      }, /* @__PURE__ */ React88.createElement(_ModalContent.default, (0, _extends2.default)({}, rest, {
+      }, /* @__PURE__ */ React91.createElement(_ModalContent.default, (0, _extends2.default)({}, rest, {
         active: isActive,
         onRequestClose,
         ref: forwardedRef,
@@ -18408,16 +18408,16 @@ var require_Picker = __commonJS({
     exports2.default = void 0;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePlatformMethods = _interopRequireDefault(require_usePlatformMethods());
     var _PickerItem = _interopRequireDefault(require_PickerItem());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _excluded = ["children", "enabled", "onValueChange", "selectedValue", "style", "testID", "itemStyle", "mode", "prompt"];
-    var Picker = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var Picker = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var children = props.children, enabled = props.enabled, onValueChange = props.onValueChange, selectedValue = props.selectedValue, style = props.style, testID = props.testID, itemStyle = props.itemStyle, mode = props.mode, prompt = props.prompt, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var hostRef = React88.useRef(null);
+      var hostRef = React91.useRef(null);
       function handleChange(e) {
         var _e$target = e.target, selectedIndex = _e$target.selectedIndex, value = _e$target.value;
         if (onValueChange) {
@@ -18878,7 +18878,7 @@ var require_Pressable = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _useHover = _interopRequireDefault(require_useHover());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
@@ -18918,7 +18918,7 @@ var require_Pressable = __commonJS({
         focused,
         pressed
       };
-      var blurHandler = React88.useCallback((e) => {
+      var blurHandler = React91.useCallback((e) => {
         if (e.nativeEvent.target === hostRef.current) {
           setFocused(false);
           if (onBlur != null) {
@@ -18926,7 +18926,7 @@ var require_Pressable = __commonJS({
           }
         }
       }, [hostRef, setFocused, onBlur]);
-      var focusHandler = React88.useCallback((e) => {
+      var focusHandler = React91.useCallback((e) => {
         if (e.nativeEvent.target === hostRef.current) {
           setFocused(true);
           if (onFocus != null) {
@@ -18934,7 +18934,7 @@ var require_Pressable = __commonJS({
           }
         }
       }, [hostRef, setFocused, onFocus]);
-      var contextMenuHandler = React88.useCallback((e) => {
+      var contextMenuHandler = React91.useCallback((e) => {
         if (onContextMenuPress != null) {
           onContextMenuPress(e);
         }
@@ -18942,7 +18942,7 @@ var require_Pressable = __commonJS({
           onContextMenu(e);
         }
       }, [onContextMenu, onContextMenuPress]);
-      var keyDownHandler = React88.useCallback((e) => {
+      var keyDownHandler = React91.useCallback((e) => {
         if (onKeyDownPress != null) {
           onKeyDownPress(e);
         }
@@ -18956,7 +18956,7 @@ var require_Pressable = __commonJS({
       } else {
         _tabIndex = disabled ? -1 : 0;
       }
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         "aria-disabled": disabled,
         onBlur: blurHandler,
         onContextMenu: contextMenuHandler,
@@ -19000,15 +19000,15 @@ var require_ProgressBar = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["color", "indeterminate", "progress", "trackColor", "style"];
-    var ProgressBar = /* @__PURE__ */ React88.forwardRef((props, ref) => {
+    var ProgressBar = /* @__PURE__ */ React91.forwardRef((props, ref) => {
       var _props$color = props.color, color = _props$color === void 0 ? "#1976D2" : _props$color, _props$indeterminate = props.indeterminate, indeterminate = _props$indeterminate === void 0 ? false : _props$indeterminate, _props$progress = props.progress, progress = _props$progress === void 0 ? 0 : _props$progress, _props$trackColor = props.trackColor, trackColor = _props$trackColor === void 0 ? "transparent" : _props$trackColor, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var percentageProgress = progress * 100;
       var width = indeterminate ? "25%" : percentageProgress + "%";
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-valuemax": 100,
         "aria-valuemin": 0,
         "aria-valuenow": indeterminate ? null : percentageProgress,
@@ -19017,7 +19017,7 @@ var require_ProgressBar = __commonJS({
         style: [styles2.track, style, {
           backgroundColor: trackColor
         }]
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         style: [{
           backgroundColor: color,
           width
@@ -19067,7 +19067,7 @@ var require_SafeAreaView = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _canUseDom = _interopRequireDefault(require_canUseDom());
@@ -19078,9 +19078,9 @@ var require_SafeAreaView = __commonJS({
       }
       return "env";
     }();
-    var SafeAreaView = /* @__PURE__ */ React88.forwardRef((props, ref) => {
+    var SafeAreaView = /* @__PURE__ */ React91.forwardRef((props, ref) => {
       var style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, {
         ref,
         style: [styles2.root, style]
       }));
@@ -19158,7 +19158,7 @@ var require_Switch = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _multiplyStyleLengthValue = _interopRequireDefault(require_multiplyStyleLengthValue());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -19173,9 +19173,9 @@ var require_Switch = __commonJS({
     var defaultActiveThumbColor = "#009688";
     var defaultThumbColor = "#FAFAFA";
     var defaultDisabledThumbColor = "#BDBDBD";
-    var Switch2 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var Switch2 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, activeThumbColor = props.activeThumbColor, activeTrackColor = props.activeTrackColor, _props$disabled = props.disabled, disabled = _props$disabled === void 0 ? false : _props$disabled, onValueChange = props.onValueChange, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, thumbColor = props.thumbColor, trackColor = props.trackColor, _props$value = props.value, value = _props$value === void 0 ? false : _props$value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var thumbRef = React88.useRef(null);
+      var thumbRef = React91.useRef(null);
       function handleChange(event) {
         if (onValueChange != null) {
           onValueChange(event.nativeEvent.target.checked);
@@ -19269,11 +19269,11 @@ var require_Switch = __commonJS({
         type: "checkbox",
         role: "switch"
       });
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, other, {
         style: rootStyle
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         style: trackStyle
-      }), /* @__PURE__ */ React88.createElement(_View.default, {
+      }), /* @__PURE__ */ React91.createElement(_View.default, {
         ref: thumbRef,
         style: thumbStyle
       }), nativeControl);
@@ -19332,7 +19332,7 @@ var require_TextInput = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -19383,7 +19383,7 @@ var require_TextInput = __commonJS({
     }
     __name(isEventComposing, "isEventComposing");
     var focusTimeout = null;
-    var TextInput3 = /* @__PURE__ */ React88.forwardRef((props, forwardedRef) => {
+    var TextInput3 = /* @__PURE__ */ React91.forwardRef((props, forwardedRef) => {
       var _props$autoCapitalize = props.autoCapitalize, autoCapitalize = _props$autoCapitalize === void 0 ? "sentences" : _props$autoCapitalize, autoComplete = props.autoComplete, autoCompleteType = props.autoCompleteType, _props$autoCorrect = props.autoCorrect, autoCorrect = _props$autoCorrect === void 0 ? true : _props$autoCorrect, blurOnSubmit = props.blurOnSubmit, caretHidden = props.caretHidden, clearTextOnFocus = props.clearTextOnFocus, dir = props.dir, editable = props.editable, enterKeyHint = props.enterKeyHint, inputMode = props.inputMode, keyboardType = props.keyboardType, _props$multiline = props.multiline, multiline = _props$multiline === void 0 ? false : _props$multiline, numberOfLines = props.numberOfLines, onBlur = props.onBlur, onChange = props.onChange, onChangeText = props.onChangeText, onContentSizeChange = props.onContentSizeChange, onFocus = props.onFocus, onKeyPress = props.onKeyPress, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChange = props.onSelectionChange, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, onSubmitEditing = props.onSubmitEditing, placeholderTextColor = props.placeholderTextColor, _props$readOnly = props.readOnly, readOnly = _props$readOnly === void 0 ? false : _props$readOnly, returnKeyType = props.returnKeyType, rows = props.rows, _props$secureTextEntr = props.secureTextEntry, secureTextEntry = _props$secureTextEntr === void 0 ? false : _props$secureTextEntr, selection = props.selection, selectTextOnFocus = props.selectTextOnFocus, showSoftInputOnFocus = props.showSoftInputOnFocus, spellCheck = props.spellCheck;
       var type;
       var _inputMode;
@@ -19429,20 +19429,20 @@ var require_TextInput = __commonJS({
       if (secureTextEntry) {
         type = "password";
       }
-      var dimensions = React88.useRef({
+      var dimensions = React91.useRef({
         height: null,
         width: null
       });
-      var hostRef = React88.useRef(null);
-      var prevSelection = React88.useRef(null);
-      var prevSecureTextEntry = React88.useRef(false);
-      React88.useEffect(() => {
+      var hostRef = React91.useRef(null);
+      var prevSelection = React91.useRef(null);
+      var prevSecureTextEntry = React91.useRef(false);
+      React91.useEffect(() => {
         if (hostRef.current && prevSelection.current) {
           setSelection(hostRef.current, prevSelection.current);
         }
         prevSecureTextEntry.current = secureTextEntry;
       }, [secureTextEntry]);
-      var handleContentSizeChange = React88.useCallback((hostNode) => {
+      var handleContentSizeChange = React91.useCallback((hostNode) => {
         if (multiline && onContentSizeChange && hostNode != null) {
           var newHeight = hostNode.scrollHeight;
           var newWidth = hostNode.scrollWidth;
@@ -19460,7 +19460,7 @@ var require_TextInput = __commonJS({
           }
         }
       }, [multiline, onContentSizeChange]);
-      var imperativeRef = React88.useMemo(() => (hostNode) => {
+      var imperativeRef = React91.useMemo(() => (hostNode) => {
         if (hostNode != null) {
           hostNode.clear = function() {
             if (hostNode != null) {
@@ -20377,7 +20377,7 @@ var require_TouchableHighlight = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -20445,14 +20445,14 @@ var require_TouchableHighlight = __commonJS({
         }
       }), [delayLongPress, delayPressIn, delayPressOut, disabled, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination, showUnderlay, hideUnderlay]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      var child = React88.Children.only(children);
-      return /* @__PURE__ */ React88.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      var child = React91.Children.only(children);
+      return /* @__PURE__ */ React91.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         accessibilityDisabled: disabled,
         focusable: !disabled && focusable2 !== false,
         pointerEvents: disabled ? "box-none" : void 0,
         ref: setRef2,
         style: [styles2.root, style, !disabled && styles2.actionable, extraStyles && extraStyles.underlay]
-      }), /* @__PURE__ */ React88.cloneElement(child, {
+      }), /* @__PURE__ */ React91.cloneElement(child, {
         style: [child.props.style, extraStyles && extraStyles.child]
       }));
     }
@@ -20466,7 +20466,7 @@ var require_TouchableHighlight = __commonJS({
         touchAction: "manipulation"
       }
     });
-    var MemoedTouchableHighlight = /* @__PURE__ */ React88.memo(/* @__PURE__ */ React88.forwardRef(TouchableHighlight));
+    var MemoedTouchableHighlight = /* @__PURE__ */ React91.memo(/* @__PURE__ */ React91.forwardRef(TouchableHighlight));
     MemoedTouchableHighlight.displayName = "TouchableHighlight";
     var _default = exports2.default = MemoedTouchableHighlight;
     module2.exports = exports2.default;
@@ -20525,7 +20525,7 @@ var require_TouchableWithoutFeedback = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _react = _interopRequireWildcard(require("react"));
-    var React88 = _react;
+    var React91 = _react;
     var _pick = _interopRequireDefault(require_pick());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
@@ -20563,17 +20563,17 @@ var require_TouchableWithoutFeedback = __commonJS({
         onPressEnd: onPressOut
       }), [disabled, delayPressIn, delayPressOut, delayLongPress, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      var element = React88.Children.only(props.children);
+      var element = React91.Children.only(props.children);
       var children = [element.props.children];
       var supportedProps = pickProps(props);
       supportedProps.accessibilityDisabled = disabled;
       supportedProps.focusable = !disabled && focusable2 !== false;
       supportedProps.ref = (0, _useMergeRefs.default)(forwardedRef, hostRef, element.ref);
       var elementProps = Object.assign(supportedProps, pressEventHandlers);
-      return /* @__PURE__ */ React88.cloneElement(element, elementProps, ...children);
+      return /* @__PURE__ */ React91.cloneElement(element, elementProps, ...children);
     }
     __name(TouchableWithoutFeedback, "TouchableWithoutFeedback");
-    var MemoedTouchableWithoutFeedback = /* @__PURE__ */ React88.memo(/* @__PURE__ */ React88.forwardRef(TouchableWithoutFeedback));
+    var MemoedTouchableWithoutFeedback = /* @__PURE__ */ React91.memo(/* @__PURE__ */ React91.forwardRef(TouchableWithoutFeedback));
     MemoedTouchableWithoutFeedback.displayName = "TouchableWithoutFeedback";
     var _default = exports2.default = MemoedTouchableWithoutFeedback;
     module2.exports = exports2.default;
@@ -20657,11 +20657,11 @@ var require_useColorScheme = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useColorScheme;
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _Appearance = _interopRequireDefault(require_Appearance());
     function useColorScheme() {
-      var _React$useState = React88.useState(_Appearance.default.getColorScheme()), colorScheme = _React$useState[0], setColorScheme = _React$useState[1];
-      React88.useEffect(() => {
+      var _React$useState = React91.useState(_Appearance.default.getColorScheme()), colorScheme = _React$useState[0], setColorScheme = _React$useState[1];
+      React91.useEffect(() => {
         function listener(appearance) {
           setColorScheme(appearance.colorScheme);
         }
@@ -21235,14 +21235,14 @@ var require_constants = __commonJS({
       useIsomorphicLayoutEffect: /* @__PURE__ */ __name(() => useIsomorphicLayoutEffect4, "useIsomorphicLayoutEffect")
     });
     module2.exports = __toCommonJS2(constants_exports);
-    var import_react107 = require("react");
+    var import_react110 = require("react");
     var import_react210 = require("react");
     var IS_REACT_19 = !!import_react210.use;
     var isWeb10 = true;
     var isWindowDefined2 = typeof window < "u";
     var isServer3 = isWeb10 && !isWindowDefined2;
     var isClient7 = isWeb10 && isWindowDefined2;
-    var useIsomorphicLayoutEffect4 = isServer3 ? import_react107.useEffect : import_react107.useLayoutEffect;
+    var useIsomorphicLayoutEffect4 = isServer3 ? import_react110.useEffect : import_react110.useLayoutEffect;
     var isChrome3 = typeof navigator < "u" && /Chrome/.test(navigator.userAgent || "");
     var isWebTouchable3 = isClient7 && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
     var isTouchable3 = !isWeb10 || isWebTouchable3;
@@ -21318,12 +21318,12 @@ var require_useGet = __commonJS({
     });
     module2.exports = __toCommonJS2(useGet_exports);
     var import_constants57 = require_cjs2();
-    var React88 = __toESM2(require("react"));
+    var React91 = __toESM2(require("react"));
     function useGet5(currentValue, initialValue2, forwardToFunction) {
-      const curRef = React88.useRef(initialValue2 ?? currentValue);
+      const curRef = React91.useRef(initialValue2 ?? currentValue);
       return (0, import_constants57.useIsomorphicLayoutEffect)(() => {
         curRef.current = currentValue;
-      }), React88.useCallback(forwardToFunction ? (...args) => curRef.current?.apply(null, args) : () => curRef.current, []);
+      }), React91.useCallback(forwardToFunction ? (...args) => curRef.current?.apply(null, args) : () => curRef.current, []);
     }
     __name(useGet5, "useGet");
   }
@@ -21881,8 +21881,8 @@ var require_ThemeSettingContext = __commonJS({
       ThemeSettingContext: /* @__PURE__ */ __name(() => ThemeSettingContext, "ThemeSettingContext")
     });
     module2.exports = __toCommonJS2(ThemeSettingContext_exports);
-    var import_react107 = __toESM2(require("react"));
-    var ThemeSettingContext = import_react107.default.createContext({
+    var import_react110 = __toESM2(require("react"));
+    var ThemeSettingContext = import_react110.default.createContext({
       toggle: /* @__PURE__ */ __name(() => {
       }, "toggle"),
       set: /* @__PURE__ */ __name((_) => {
@@ -21928,13 +21928,13 @@ var require_NextThemeProvider = __commonJS({
     var import_constants57 = require_cjs2();
     var import_use_event5 = require_cjs3();
     var import_head = __toESM2(require_head2());
-    var React88 = __toESM2(require("react"));
-    var import_react107 = require("react");
+    var React91 = __toESM2(require("react"));
+    var import_react110 = require("react");
     var import_constants210 = require_constants2();
     var import_helpers38 = require_helpers();
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var import_jsx_runtime139 = require("react/jsx-runtime");
-    var NextThemeProvider = (0, import_react107.memo)(
+    var import_jsx_runtime143 = require("react/jsx-runtime");
+    var NextThemeProvider = (0, import_react110.memo)(
       ({
         forcedTheme,
         disableTransitionOnChange = false,
@@ -21952,9 +21952,9 @@ var require_NextThemeProvider = __commonJS({
         },
         children
       }) => {
-        const [theme, setThemeState] = (0, import_react107.useState)(() => (0, import_helpers38.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react107.useState)(() => (0, import_helpers38.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event5.useEvent)((e) => {
+        const [theme, setThemeState] = (0, import_react110.useState)(() => (0, import_helpers38.getTheme)(storageKey, defaultTheme)), [resolvedTheme, setResolvedTheme] = (0, import_react110.useState)(() => (0, import_helpers38.getTheme)(storageKey)), attrs = value ? Object.values(value) : themes2, handleMediaQuery = (0, import_use_event5.useEvent)((e) => {
           const _ = (0, import_helpers38.getSystemTheme)(e), update = /* @__PURE__ */ __name(() => setResolvedTheme(_), "update");
-          disableTransitionOnChange ? update() : React88.startTransition(() => update()), theme === "system" && !forcedTheme && handleChangeTheme(_, false);
+          disableTransitionOnChange ? update() : React91.startTransition(() => update()), theme === "system" && !forcedTheme && handleChangeTheme(_, false);
         }), handleChangeTheme = (0, import_use_event5.useEvent)(
           (theme2, updateStorage = true, updateDOM = true) => {
             let name2 = value?.[theme2] || theme2;
@@ -21982,7 +21982,7 @@ var require_NextThemeProvider = __commonJS({
         const set = (0, import_use_event5.useEvent)((newTheme) => {
           forcedTheme ? handleChangeTheme(newTheme, true, false) : handleChangeTheme(newTheme), setThemeState(newTheme);
         });
-        (0, import_react107.useEffect)(() => {
+        (0, import_react110.useEffect)(() => {
           const handleStorage = /* @__PURE__ */ __name((e) => {
             if (e.key !== storageKey)
               return;
@@ -22009,7 +22009,7 @@ var require_NextThemeProvider = __commonJS({
         const toggle = (0, import_use_event5.useEvent)(() => {
           const order = resolvedTheme === "dark" ? ["system", "light", "dark"] : ["system", "dark", "light"], next = order[(order.indexOf(theme) + 1) % order.length];
           set(next);
-        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react107.useMemo)(() => ({
+        }), systemTheme = enableSystem ? resolvedTheme : void 0, contextValue = (0, import_react110.useMemo)(() => ({
           theme,
           current: theme,
           set,
@@ -22028,8 +22028,8 @@ var require_NextThemeProvider = __commonJS({
           themes2,
           systemTheme
         ]);
-        return /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime143.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
             ThemeScript,
             {
               forcedTheme,
@@ -22043,11 +22043,11 @@ var require_NextThemeProvider = __commonJS({
               skipNextHead
             }
           ),
-          (0, import_react107.useMemo)(() => children, [children])
+          (0, import_react110.useMemo)(() => children, [children])
         ] });
       }
     );
-    var ThemeScript = (0, import_react107.memo)(
+    var ThemeScript = (0, import_react110.memo)(
       ({
         forcedTheme,
         storageKey,
@@ -22062,7 +22062,7 @@ var require_NextThemeProvider = __commonJS({
           name2 = value?.[name2] || name2;
           const val = literal ? name2 : `'${name2}'`;
           return attribute === "class" ? `d.add(${val})` : `d.setAttribute('${attribute}', ${val})`;
-        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(import_jsx_runtime139.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(import_jsx_runtime143.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -22071,7 +22071,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -22081,7 +22081,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        ) : /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -22092,7 +22092,7 @@ var require_NextThemeProvider = __commonJS({
           },
           "next-themes-script"
         ) });
-        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(import_head.default, { children: contents });
+        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(import_head.default, { children: contents });
       },
       (prevProps, nextProps) => prevProps.forcedTheme === nextProps.forcedTheme
     );
@@ -22148,14 +22148,14 @@ var require_useTheme = __commonJS({
     var __toCommonJS2 = /* @__PURE__ */ __name((mod) => __copyProps2(__defProp2({}, "__esModule", { value: true }), mod), "__toCommonJS");
     var useTheme_exports = {};
     __export2(useTheme_exports, {
-      useTheme: /* @__PURE__ */ __name(() => useTheme7, "useTheme"),
+      useTheme: /* @__PURE__ */ __name(() => useTheme8, "useTheme"),
       useThemeSetting: /* @__PURE__ */ __name(() => useThemeSetting2, "useThemeSetting")
     });
     module2.exports = __toCommonJS2(useTheme_exports);
-    var import_react107 = __toESM2(require("react"));
+    var import_react110 = __toESM2(require("react"));
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var useTheme7 = /* @__PURE__ */ __name(() => import_react107.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
-    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react107.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
+    var useTheme8 = /* @__PURE__ */ __name(() => import_react110.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useTheme");
+    var useThemeSetting2 = /* @__PURE__ */ __name(() => import_react110.default.useContext(import_ThemeSettingContext.ThemeSettingContext), "useThemeSetting");
   }
 });
 
@@ -22211,7 +22211,7 @@ var require_useRootTheme = __commonJS({
       useRootTheme: /* @__PURE__ */ __name(() => useRootTheme2, "useRootTheme")
     });
     module2.exports = __toCommonJS2(useRootTheme_exports);
-    var import_react107 = __toESM2(require("react"));
+    var import_react110 = __toESM2(require("react"));
     var import_constants57 = require_cjs2();
     var useRootTheme2 = /* @__PURE__ */ __name(({
       fallback = "light"
@@ -22221,7 +22221,7 @@ var require_useRootTheme = __commonJS({
         const classes = [...document.documentElement.classList];
         initialVal = classes.includes("t_dark") ? "dark" : classes.includes("t_light") ? "light" : fallback;
       }
-      return import_react107.default.useState(initialVal);
+      return import_react110.default.useState(initialVal);
     }, "useRootTheme");
   }
 });
@@ -36600,14 +36600,14 @@ var require_react = __commonJS({
     exports2.getCsrfToken = getCsrfToken;
     exports2.getProviders = getProviders;
     exports2.getSession = getSession;
-    exports2.signIn = signIn;
-    exports2.signOut = signOut;
-    exports2.useSession = useSession;
+    exports2.signIn = signIn2;
+    exports2.signOut = signOut2;
+    exports2.useSession = useSession2;
     var _regenerator = _interopRequireDefault(require_regenerator2());
     var _defineProperty2 = _interopRequireDefault(require_defineProperty());
     var _asyncToGenerator2 = _interopRequireDefault(require_asyncToGenerator());
     var _slicedToArray2 = _interopRequireDefault(require_slicedToArray());
-    var React88 = _interopRequireWildcard(require("react"));
+    var React91 = _interopRequireWildcard(require("react"));
     var _logger2 = _interopRequireWildcard(require_logger());
     var _parseUrl = _interopRequireDefault(require_parse_url());
     var _utils = require_utils2();
@@ -36686,14 +36686,14 @@ var require_react = __commonJS({
     var broadcast = (0, _utils.BroadcastChannel)();
     var logger = (0, _logger2.proxyLogger)(_logger2.default, __NEXTAUTH.basePath);
     function useOnline() {
-      var _React$useState = React88.useState(typeof navigator !== "undefined" ? navigator.onLine : false), _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2), isOnline = _React$useState2[0], setIsOnline = _React$useState2[1];
+      var _React$useState = React91.useState(typeof navigator !== "undefined" ? navigator.onLine : false), _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2), isOnline = _React$useState2[0], setIsOnline = _React$useState2[1];
       var setOnline = /* @__PURE__ */ __name(function setOnline2() {
         return setIsOnline(true);
       }, "setOnline");
       var setOffline = /* @__PURE__ */ __name(function setOffline2() {
         return setIsOnline(false);
       }, "setOffline");
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         window.addEventListener("online", setOnline);
         window.addEventListener("offline", setOffline);
         return function() {
@@ -36704,18 +36704,18 @@ var require_react = __commonJS({
       return isOnline;
     }
     __name(useOnline, "useOnline");
-    var SessionContext = exports2.SessionContext = (_React$createContext = React88.createContext) === null || _React$createContext === void 0 ? void 0 : _React$createContext.call(React88, void 0);
-    function useSession(options) {
+    var SessionContext = exports2.SessionContext = (_React$createContext = React91.createContext) === null || _React$createContext === void 0 ? void 0 : _React$createContext.call(React91, void 0);
+    function useSession2(options) {
       if (!SessionContext) {
         throw new Error("React Context is unavailable in Server Components");
       }
-      var value = React88.useContext(SessionContext);
+      var value = React91.useContext(SessionContext);
       if (!value && process.env.NODE_ENV !== "production") {
         throw new Error("[next-auth]: `useSession` must be wrapped in a <SessionProvider />");
       }
       var _ref2 = options !== null && options !== void 0 ? options : {}, required = _ref2.required, onUnauthenticated = _ref2.onUnauthenticated;
       var requiredAndNotLoading = required && value.status === "unauthenticated";
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         if (requiredAndNotLoading) {
           var url2 = "/api/auth/signin?".concat(new URLSearchParams({
             error: "SessionRequired",
@@ -36734,7 +36734,7 @@ var require_react = __commonJS({
       }
       return value;
     }
-    __name(useSession, "useSession");
+    __name(useSession2, "useSession");
     function getSession(_x) {
       return _getSession2.apply(this, arguments);
     }
@@ -36814,10 +36814,10 @@ var require_react = __commonJS({
       return _getProviders.apply(this, arguments);
     }
     __name(_getProviders, "_getProviders");
-    function signIn(_x3, _x4, _x5) {
+    function signIn2(_x3, _x4, _x5) {
       return _signIn.apply(this, arguments);
     }
-    __name(signIn, "signIn");
+    __name(signIn2, "signIn");
     function _signIn() {
       _signIn = (0, _asyncToGenerator2.default)(_regenerator.default.mark(/* @__PURE__ */ __name(function _callee6(provider, options, authorizationParams) {
         var _ref5, _ref5$callbackUrl, callbackUrl, _ref5$redirect, redirect, baseUrl, providers, isCredentials, isEmail, isSupportingReturn, signInUrl, _signInUrl, res, data, _data$url, url2, error3;
@@ -36919,10 +36919,10 @@ var require_react = __commonJS({
       return _signIn.apply(this, arguments);
     }
     __name(_signIn, "_signIn");
-    function signOut(_x6) {
+    function signOut2(_x6) {
       return _signOut.apply(this, arguments);
     }
-    __name(signOut, "signOut");
+    __name(signOut2, "signOut");
     function _signOut() {
       _signOut = (0, _asyncToGenerator2.default)(_regenerator.default.mark(/* @__PURE__ */ __name(function _callee7(options) {
         var _options$redirect;
@@ -36998,12 +36998,12 @@ var require_react = __commonJS({
       if (basePath) __NEXTAUTH.basePath = basePath;
       var hasInitialSession = props.session !== void 0;
       __NEXTAUTH._lastSync = hasInitialSession ? (0, _utils.now)() : 0;
-      var _React$useState3 = React88.useState(function() {
+      var _React$useState3 = React91.useState(function() {
         if (hasInitialSession) __NEXTAUTH._session = props.session;
         return props.session;
       }), _React$useState4 = (0, _slicedToArray2.default)(_React$useState3, 2), session = _React$useState4[0], setSession = _React$useState4[1];
-      var _React$useState5 = React88.useState(!hasInitialSession), _React$useState6 = (0, _slicedToArray2.default)(_React$useState5, 2), loading = _React$useState6[0], setLoading = _React$useState6[1];
-      React88.useEffect(function() {
+      var _React$useState5 = React91.useState(!hasInitialSession), _React$useState6 = (0, _slicedToArray2.default)(_React$useState5, 2), loading = _React$useState6[0], setLoading = _React$useState6[1];
+      React91.useEffect(function() {
         __NEXTAUTH._getSession = (0, _asyncToGenerator2.default)(_regenerator.default.mark(/* @__PURE__ */ __name(function _callee() {
           var _ref4, event, storageEvent, _args = arguments;
           return _regenerator.default.wrap(/* @__PURE__ */ __name(function _callee$(_context) {
@@ -37062,7 +37062,7 @@ var require_react = __commonJS({
           };
         };
       }, []);
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         var unsubscribe = broadcast.receive(function() {
           return __NEXTAUTH._getSession({
             event: "storage"
@@ -37072,7 +37072,7 @@ var require_react = __commonJS({
           return unsubscribe();
         };
       }, []);
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         var _props$refetchOnWindo = props.refetchOnWindowFocus, refetchOnWindowFocus = _props$refetchOnWindo === void 0 ? true : _props$refetchOnWindo;
         var visibilityHandler = /* @__PURE__ */ __name(function visibilityHandler2() {
           if (refetchOnWindowFocus && document.visibilityState === "visible") __NEXTAUTH._getSession({
@@ -37086,7 +37086,7 @@ var require_react = __commonJS({
       }, [props.refetchOnWindowFocus]);
       var isOnline = useOnline();
       var shouldRefetch = refetchWhenOffline !== false || isOnline;
-      React88.useEffect(function() {
+      React91.useEffect(function() {
         if (refetchInterval && shouldRefetch) {
           var refetchIntervalTimer = setInterval(function() {
             if (__NEXTAUTH._session) {
@@ -37100,7 +37100,7 @@ var require_react = __commonJS({
           };
         }
       }, [refetchInterval, shouldRefetch]);
-      var value = React88.useMemo(function() {
+      var value = React91.useMemo(function() {
         return {
           data: session,
           status: loading ? "loading" : session ? "authenticated" : "unauthenticated",
@@ -37339,7 +37339,6 @@ __export(src_exports, {
   SavingsBanner: () => SavingsBanner,
   ScrollView: () => ScrollView,
   SearchFood: () => SearchFood,
-  Section: () => Section,
   Select: () => Select,
   SelectGroupFrame: () => SelectGroupFrame,
   SelectIcon: () => SelectIcon,
@@ -61672,46 +61671,49 @@ var import_react_native4 = require("@tamagui/react-native-web-lite");
 // ../../packages/app/constants/api.constant.ts
 var TOKEN_TYPE = "Bearer ";
 var REQUEST_HEADER_AUTH_KEY = "authorization";
-var DEV_SERVER_URL = "http://localhost:3000/";
+var CURRENT_USER_PLATFORM = "user-platform";
+var MOBILE_DEV_SERVER_URL = "http://192.168.1.12:3000/api/";
+var WEB_DEV_SERVER_URL = "api/";
+var LOGIN_REDIRECT_URL = "/login";
+
+// ../../packages/app/constants/app.constant.ts
+var PLATFORM = { MOBILE: "MOBILE", WEB: "WEB" };
+
+// ../../packages/app/constants/store.constant.ts
+var SECURE_STORE_TOKEN_VARIABLE = "token";
+var SECURE_STORE_REFRESH_TOKEN_VARIABLE = "refreshToken";
 
 // ../../packages/app/services/BaseService.ts
 var REFRESH_ENDPOINT = "auth/refresh-token";
 var isExpo2 = !(import_react_native4.Platform.OS === "web");
-var BASE_URL = isExpo2 ? DEV_SERVER_URL : "api/";
+var BASE_URL = isExpo2 ? MOBILE_DEV_SERVER_URL : WEB_DEV_SERVER_URL;
 var BaseService = axios_default.create({
   baseURL: BASE_URL,
   timeout: 6e4
 });
 var getAccessToken = /* @__PURE__ */ __name(async () => {
-  if (isExpo2) {
-    const SecureStore = await Promise.resolve().then(() => (init_SecureStore(), SecureStore_exports));
-    return SecureStore.getItemAsync("token");
-  } else {
-    const { getSession } = await Promise.resolve().then(() => __toESM(require_react()));
-    const session = await getSession();
-    console.log(session);
-    return session?.user ? session.user.id : null;
-  }
+  const SecureStore = await Promise.resolve().then(() => (init_SecureStore(), SecureStore_exports));
+  return SecureStore.getItemAsync(SECURE_STORE_TOKEN_VARIABLE);
 }, "getAccessToken");
 var getRefreshToken = /* @__PURE__ */ __name(async () => {
   if (isExpo2) {
     const SecureStore = await Promise.resolve().then(() => (init_SecureStore(), SecureStore_exports));
-    return SecureStore.getItemAsync("refreshToken");
+    return SecureStore.getItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE);
   }
   return null;
 }, "getRefreshToken");
 var saveAccessToken = /* @__PURE__ */ __name(async (token, refreshToken) => {
   if (isExpo2) {
     const SecureStore = await Promise.resolve().then(() => (init_SecureStore(), SecureStore_exports));
-    await SecureStore.setItemAsync("token", token);
-    await SecureStore.setItemAsync("refreshToken", refreshToken);
+    await SecureStore.setItemAsync(SECURE_STORE_TOKEN_VARIABLE, token);
+    await SecureStore.setItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE, refreshToken);
   }
 }, "saveAccessToken");
 var clearTokens = /* @__PURE__ */ __name(async () => {
   if (isExpo2) {
     const SecureStore = await Promise.resolve().then(() => (init_SecureStore(), SecureStore_exports));
-    await SecureStore.deleteItemAsync("accessToken");
-    await SecureStore.deleteItemAsync("refreshToken");
+    await SecureStore.deleteItemAsync(SECURE_STORE_TOKEN_VARIABLE);
+    await SecureStore.deleteItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE);
   }
 }, "clearTokens");
 var navigateToLogin = /* @__PURE__ */ __name(async () => {
@@ -61724,8 +61726,11 @@ var navigateToLogin = /* @__PURE__ */ __name(async () => {
 }, "navigateToLogin");
 BaseService.interceptors.request.use(
   async (config2) => {
-    const token = await getAccessToken();
-    if (token) {
+    config2.headers[CURRENT_USER_PLATFORM] = isExpo2 ? PLATFORM.MOBILE : PLATFORM.WEB;
+    if (isExpo2) {
+      const token = await getAccessToken();
+      console.log("Token---------------");
+      console.log(token);
       config2.headers[REQUEST_HEADER_AUTH_KEY] = `${TOKEN_TYPE}${token}`;
     }
     return config2;
@@ -61736,6 +61741,7 @@ BaseService.interceptors.response.use(
   (response) => response,
   async (error3) => {
     const originalRequest = error3.config;
+    console.log(error3);
     if (error3.response?.status === 401) {
       if (isExpo2) {
         if (!originalRequest._retry) {
@@ -61758,8 +61764,9 @@ BaseService.interceptors.response.use(
           }
         }
       } else {
-        const { signOut } = await Promise.resolve().then(() => __toESM(require_react()));
-        await signOut({ callbackUrl: "/login" });
+        console.log(error3);
+        const { signOut: signOut2 } = await Promise.resolve().then(() => __toESM(require_react()));
+        await signOut2({ callbackUrl: LOGIN_REDIRECT_URL });
       }
     }
     console.log(error3);
@@ -61811,7 +61818,7 @@ var import_jsx_runtime106 = (
   require("react/jsx-runtime")
 );
 var AppHeader = /* @__PURE__ */ __name(() => {
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut: signOut2, loading } = useAuth();
   console.log(user);
   console.log(user);
   const loginLink = useLink({
@@ -61843,7 +61850,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     // Apply Nunito font to the header
   };
   const handleSignOut = /* @__PURE__ */ __name(async () => {
-    await signOut();
+    await signOut2();
     loginLink.onPress();
   }, "handleSignOut");
   return /* @__PURE__ */ (0, import_jsx_runtime106.jsxs)(XStack, { style: headerStyle, children: [
@@ -62629,6 +62636,24 @@ async function apiAddFoodItemToCart(data) {
   }
 }
 __name(apiAddFoodItemToCart, "apiAddFoodItemToCart");
+async function apiGetCart() {
+  const url2 = `cart/get-cart`;
+  const axiosConfig = {
+    url: url2,
+    method: "GET",
+    headers: {},
+    maxRedirects: 5
+  };
+  try {
+    const response = await ApiService_default.fetchData(axiosConfig);
+    console.log("Cart:", response.data);
+    return response.data;
+  } catch (error3) {
+    console.error("Error Cart:", error3);
+    throw error3;
+  }
+}
+__name(apiGetCart, "apiGetCart");
 
 // ../../packages/ui/src/popups/DeliveryDatePopup.tsx
 var import_react93 = require("react");
@@ -63544,7 +63569,7 @@ __name(AppFooter, "AppFooter");
 var import_react98 = require("react");
 var import_jsx_runtime121 = require("react/jsx-runtime");
 function LoginPage() {
-  const { user, loading, signIn, signOut, getAccessToken: getAccessToken2, fetchWithAuth } = useAuth();
+  const { user, loading, signIn: signIn2, signOut: signOut2, getAccessToken: getAccessToken2, fetchWithAuth } = useAuth();
   const media2 = (0, import_core61.useMedia)();
   const [email, setEmail] = (0, import_react98.useState)("");
   const [password, setPassword] = (0, import_react98.useState)("");
@@ -63575,7 +63600,7 @@ function LoginPage() {
     console.log("Login with:", { email, password, rememberMe });
     if (email && password) {
       try {
-        const signInRes = await signIn(
+        const signInRes = await signIn2(
           {
             redirect: false,
             email,
@@ -63595,7 +63620,7 @@ function LoginPage() {
   }, "handleLogin");
   const handleSocialLogin = /* @__PURE__ */ __name((provider) => {
     console.log(provider);
-    signIn(provider);
+    signIn2(provider);
     console.log(`Login with ${provider}`);
   }, "handleSocialLogin");
   return /* @__PURE__ */ (0, import_jsx_runtime121.jsxs)(
@@ -65841,7 +65866,12 @@ __name(CartItem, "CartItem");
 // ../../packages/ui/src/cart/CartSummary.tsx
 var import_react104 = require("react");
 var import_jsx_runtime130 = require("react/jsx-runtime");
-function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
+function CartSummary({
+  subtotal,
+  deliveryFee = 2.99,
+  tax = 0,
+  onCheckout
+}) {
   const [couponCode, setCouponCode] = (0, import_react104.useState)("");
   const total = Math.round(subtotal);
   return /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(YStack, { style: { padding: 24, gap: 20 }, children: [
@@ -65857,52 +65887,70 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
       /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { fontSize: 18, color: "#000000" }, children: "Other" }),
       /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: "0" })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(XStack, { style: {
-      borderWidth: 1,
-      borderColor: "#E0E0E0",
-      borderRadius: 12,
-      overflow: "hidden",
-      height: 42,
-      alignItems: "center",
-      justifyContent: "space-between"
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(XStack, { style: {
-        flex: 1,
-        paddingLeft: 16,
-        alignItems: "center",
-        backgroundColor: "white"
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { color: "#AAAAAA", marginRight: 8 }, children: "\u{1F39F}\uFE0F" }),
-        /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(
-          Input,
-          {
-            flex: 1,
-            value: couponCode,
-            onChangeText: setCouponCode,
-            placeholder: "Add a coupon",
-            style: {
-              borderWidth: 0,
-              height: 56,
-              fontSize: 16,
-              backgroundColor: "white",
-              borderColor: "none",
-              outlineColor: "none",
-              outlineWidth: 0
-              // outlineStyle: 'none',
+    /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(
+      XStack,
+      {
+        style: {
+          borderWidth: 1,
+          borderColor: "#E0E0E0",
+          borderRadius: 12,
+          overflow: "hidden",
+          height: 42,
+          alignItems: "center",
+          justifyContent: "space-between"
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(
+            XStack,
+            {
+              style: {
+                flex: 1,
+                paddingLeft: 16,
+                alignItems: "center",
+                backgroundColor: "white"
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { color: "#AAAAAA", marginRight: 8 }, children: "\u{1F39F}\uFE0F" }),
+                /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(
+                  Input,
+                  {
+                    flex: 1,
+                    value: couponCode,
+                    onChangeText: setCouponCode,
+                    placeholder: "Add a coupon",
+                    style: {
+                      borderWidth: 0,
+                      height: 56,
+                      fontSize: 16,
+                      backgroundColor: "white",
+                      borderColor: "none",
+                      outlineColor: "none",
+                      outlineWidth: 0
+                      // outlineStyle: 'none',
+                    }
+                  }
+                )
+              ]
             }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(XStack, { style: {
-        backgroundColor: "#FFF3E0",
-        paddingRight: 24,
-        paddingLeft: 24,
-        paddingTop: 24,
-        paddingBottom: 24,
-        alignItems: "center",
-        justifyContent: "center"
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" }) })
-    ] }),
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(
+            XStack,
+            {
+              style: {
+                backgroundColor: "#FFF3E0",
+                paddingRight: 24,
+                paddingLeft: 24,
+                paddingTop: 24,
+                paddingBottom: 24,
+                alignItems: "center",
+                justifyContent: "center"
+              },
+              children: /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" })
+            }
+          )
+        ]
+      }
+    ),
     /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(YStack, { style: { height: 1, backgroundColor: "#E0E0E0" } }),
     /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { fontSize: 20, fontWeight: "600", color: "#000000" }, children: "Total" }),
@@ -65911,7 +65959,7 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
         total
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime130.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(
       Button2,
       {
         onPress: onCheckout,
@@ -65923,19 +65971,24 @@ function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: 8
+          fontWeight: 600,
+          color: "white"
         },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: { color: "white", fontSize: 18, fontWeight: "600" }, children: "Checkout" }),
-          /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(ArrowRight, { color: "white", size: 20 })
-        ]
+        iconAfter: /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(ArrowRight, { fontWeight: 600, color: "white" }),
+        children: "Checkout"
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(Text5, { style: {
-      fontSize: 14,
-      color: "#777679",
-      textAlign: "center"
-    }, children: "We accept all major credit cards" })
+    /* @__PURE__ */ (0, import_jsx_runtime130.jsx)(
+      Text5,
+      {
+        style: {
+          fontSize: 14,
+          color: "#777679",
+          textAlign: "center"
+        },
+        children: "We accept all major credit cards"
+      }
+    )
   ] });
 }
 __name(CartSummary, "CartSummary");
@@ -66002,7 +66055,11 @@ function CartDaySection({
   onIncrement,
   onDecrement
 }) {
-  const dayTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const dayTotal = items.reduce(
+    (sum, item) => sum + Number(item?.food?.price) * Number(item.quantity),
+    0
+  );
+  console.log(dayTotal);
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric"
@@ -66026,66 +66083,90 @@ function CartDaySection({
       children
     }
   ), "Chip");
-  return /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(YStack, { style: {
-    marginBottom: 16,
-    backgroundColor: "white",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#F0F0F0",
-    overflow: "hidden",
-    paddingRight: 24,
-    paddingLeft: 24,
-    paddingTop: 4,
-    paddingBottom: 4
-  }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(XStack, { style: {
-      paddingTop: 16,
-      paddingBottom: 16,
-      justifyContent: "space-between",
-      alignItems: "center"
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
-        "What's in your ",
-        day,
-        "'s cart"
-      ] }) }),
-      deliveryLabel && /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Chip, { children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text5, { style: {
-        fontSize: 14,
-        fontWeight: "500",
-        color: isSameDay ? "#0A9750" : "#F55344"
-      }, children: isSameDay ? "Same day delivery" : deliveryLabel }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
-      CartItem,
-      {
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        quantity: item.quantity,
-        imageUrl: item.imageUrl,
-        onIncrement: () => onIncrement?.(item.id),
-        onDecrement: () => onDecrement?.(item.id)
+  return /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(
+    YStack,
+    {
+      style: {
+        marginBottom: 16,
+        backgroundColor: "white",
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "#F0F0F0",
+        overflow: "hidden",
+        paddingRight: 24,
+        paddingLeft: 24,
+        paddingTop: 4,
+        paddingBottom: 4
       },
-      item.id
-    )) }),
-    /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(XStack, { style: {
-      paddingTop: 16,
-      paddingBottom: 16,
-      // paddingRight: 24,
-      // paddingLeft: 24,
-      justifyContent: "flex-end",
-      gap: 20,
-      alignItems: "center",
-      borderTopWidth: 1,
-      borderTopColor: "#F0F0F0"
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#777679" }, children: "Day Total" }),
-      /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(Text5, { style: { fontSize: 20, fontWeight: "700", color: "#000000" }, children: [
-        "$",
-        dayTotal.toFixed(2)
-      ] })
-    ] })
-  ] });
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(
+          XStack,
+          {
+            style: {
+              paddingTop: 16,
+              paddingBottom: 16,
+              justifyContent: "space-between",
+              alignItems: "center"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
+                "What's in your ",
+                day,
+                "'s cart"
+              ] }) }),
+              deliveryLabel && /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Chip, { children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+                Text5,
+                {
+                  style: {
+                    fontSize: 14,
+                    fontWeight: "500",
+                    color: isSameDay ? "#0A9750" : "#F55344"
+                  },
+                  children: isSameDay ? "Same day delivery" : deliveryLabel
+                }
+              ) })
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(YStack, { children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          CartItem,
+          {
+            name: item?.food?.name,
+            description: item?.food?.description,
+            price: Number(item?.food?.price),
+            quantity: item.quantity,
+            imageUrl: item?.food?.url,
+            onIncrement: () => onIncrement?.(item._id),
+            onDecrement: () => onDecrement?.(item._id)
+          },
+          item?._id
+        )) }),
+        /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(
+          XStack,
+          {
+            style: {
+              paddingTop: 16,
+              paddingBottom: 16,
+              // paddingRight: 24,
+              // paddingLeft: 24,
+              justifyContent: "flex-end",
+              gap: 20,
+              alignItems: "center",
+              borderTopWidth: 1,
+              borderTopColor: "#F0F0F0"
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#777679" }, children: "Day Total" }),
+              /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(Text5, { style: { fontSize: 20, fontWeight: "700", color: "#000000" }, children: [
+                "$",
+                dayTotal?.toFixed(2)
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
 }
 __name(CartDaySection, "CartDaySection");
 
@@ -66335,9 +66416,6 @@ function CartPage({
       imageUrl: "https://www.cookwithmanali.com/wp-content/uploads/2017/08/Rasmalai-Recipe-500x500.jpg"
     }
   ];
-  const subtotal = cartDays.reduce((sum, day) => {
-    return sum + day.items.reduce((daySum, item) => daySum + item.price * item.quantity, 0);
-  }, 0);
   const handleIncrement = /* @__PURE__ */ __name((dayIndex, itemId) => {
     setCartDays(
       (days) => days.map((day, idx) => {
@@ -66364,7 +66442,32 @@ function CartPage({
       })
     );
   }, "handleDecrement");
+  const [cart, setCart] = (0, import_react105.useState)({});
+  const [dessert, setDessert] = (0, import_react105.useState)([]);
   const isCartEmpty = cartDays.every((day) => day.items.length === 0);
+  const getCartData = (0, import_react105.useCallback)(async () => {
+    try {
+      const data = await apiGetCart();
+      console.log(data?.data);
+      setCart(data?.data);
+    } catch (error3) {
+      console.log(error3);
+    }
+  }, []);
+  (0, import_react105.useEffect)(() => {
+    getCartData();
+  }, [getCartData]);
+  const totalAmount = (0, import_react105.useMemo)(() => {
+    if (!cart?.days || cart.days.length === 0) return 0;
+    return cart.days.reduce((dayAcc, day) => {
+      const dayTotal = day?.items?.reduce((itemAcc, item) => {
+        const price = item.food?.price || 0;
+        return itemAcc + price * (item.quantity || 1);
+      }, 0) || 0;
+      return dayAcc + dayTotal;
+    }, 0);
+  }, [cart]);
+  console.log(totalAmount);
   if (isDesktop === null) {
     return /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(
       YStack,
@@ -66379,6 +66482,13 @@ function CartPage({
       }
     );
   }
+  const checkOutLink = useLink({
+    href: "/checkout"
+  });
+  const handleCheckout = /* @__PURE__ */ __name(() => {
+    console.log("Helo");
+    checkOutLink.onPress();
+  }, "handleCheckout");
   return /* @__PURE__ */ (0, import_jsx_runtime136.jsxs)(
     YStack,
     {
@@ -66405,14 +66515,6 @@ function CartPage({
                     paddingTop: 16,
                     paddingBottom: 16,
                     backgroundColor: "white"
-                    // borderBottomWidth: 1,
-                    // borderBottomColor: '#F0F0F0',
-                    // shadowColor: '#000',
-                    // shadowOffset: { width: 0, height: 2 },
-                    // shadowOpacity: 0.05,
-                    // shadowRadius: 4,
-                    // elevation: 2,
-                    // zIndex: 5
                   },
                   children: /* @__PURE__ */ (0, import_jsx_runtime136.jsxs)(
                     XStack,
@@ -66472,18 +66574,20 @@ function CartPage({
                               width: isDesktop ? "65%" : "100%"
                             },
                             children: /* @__PURE__ */ (0, import_jsx_runtime136.jsxs)(ScrollView, { style: { flex: 1 }, children: [
-                              cartDays.map((day, index3) => /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(
-                                CartDaySection,
-                                {
-                                  day: day.day,
-                                  date: day.date,
-                                  items: day.items,
-                                  deliveryLabel: day.deliveryLabel,
-                                  onIncrement: (itemId) => handleIncrement(index3, itemId),
-                                  onDecrement: (itemId) => handleDecrement(index3, itemId)
-                                },
-                                day.day
-                              )),
+                              cart?.days?.map(
+                                (day, index3) => day.items.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(
+                                  CartDaySection,
+                                  {
+                                    day: day.day,
+                                    date: day?.date,
+                                    items: day.items,
+                                    deliveryLabel: "Some Lable",
+                                    onIncrement: (itemId) => handleIncrement(index3, itemId),
+                                    onDecrement: (itemId) => handleDecrement(index3, itemId)
+                                  },
+                                  day.day
+                                ) : /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(import_jsx_runtime136.Fragment, {})
+                              ),
                               /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(AddMoreButton, { onPress: onAddMore }),
                               isDesktop === false && /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(
                                 DessertDeals,
@@ -66535,7 +66639,7 @@ function CartPage({
                                             zIndex: 10,
                                             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)"
                                           },
-                                          children: /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(CartSummary, { subtotal: 144, onCheckout })
+                                          children: /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(CartSummary, { subtotal: totalAmount, onCheckout })
                                         }
                                       ),
                                       /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(
@@ -66598,7 +66702,7 @@ function CartPage({
                                     shadowRadius: 8,
                                     elevation: 2
                                   },
-                                  children: /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(CartSummary, { subtotal: 144, onCheckout })
+                                  children: /* @__PURE__ */ (0, import_jsx_runtime136.jsx)(CartSummary, { subtotal: totalAmount, onCheckout: handleCheckout })
                                 }
                               )
                             }
@@ -66619,7 +66723,7 @@ function CartPage({
 __name(CartPage, "CartPage");
 
 // ../../packages/ui/src/checkout/CheckoutPage.tsx
-var import_react106 = require("react");
+var import_react109 = require("react");
 
 // ../../packages/ui/src/checkout/CheckoutSteps.tsx
 var import_jsx_runtime137 = require("react/jsx-runtime");
@@ -66653,7 +66757,7 @@ var Section2 = /* @__PURE__ */ __name(({
             borderRadius: 16,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#FFF8F2"
+            backgroundColor: "white"
           },
           children: icon
         }
@@ -66711,8 +66815,508 @@ function CheckoutSteps() {
 }
 __name(CheckoutSteps, "CheckoutSteps");
 
-// ../../packages/ui/src/checkout/CheckoutPage.tsx
+// ../../packages/app/hook/useAuth.ts
+var import_react106 = require("react");
+var import_react_native13 = require("@tamagui/react-native-web-lite");
+init_SecureStore();
+var useSession = null;
+var signIn = null;
+var signOut = null;
+if (import_react_native13.Platform.OS === "web") {
+  const nextAuth = require_react();
+  useSession = nextAuth.useSession;
+  signIn = nextAuth.signIn;
+  signOut = nextAuth.signOut;
+}
+function useAuth2() {
+  const [state, setState] = (0, import_react106.useState)({
+    user: null,
+    isAuthenticated: false,
+    loading: true
+  });
+  if (import_react_native13.Platform.OS === "web" && useSession) {
+    const { data: session, status } = useSession();
+    (0, import_react106.useEffect)(() => {
+      if (status === "loading") {
+        setState((prev) => ({ ...prev, loading: true }));
+      } else if (session?.user) {
+        setState({
+          user: session.user,
+          isAuthenticated: true,
+          loading: false
+        });
+      } else {
+        setState({
+          user: null,
+          isAuthenticated: false,
+          loading: false
+        });
+      }
+    }, [session, status]);
+  } else {
+    (0, import_react106.useEffect)(() => {
+      ;
+      (async () => {
+        const token = await getItemAsync("auth_token");
+        if (token) {
+          const user = parseJwt(token);
+          setState({
+            user,
+            isAuthenticated: true,
+            loading: false,
+            token
+          });
+        } else {
+          setState({
+            user: null,
+            isAuthenticated: false,
+            loading: false
+          });
+        }
+      })();
+    }, []);
+  }
+  const login = (0, import_react106.useCallback)(async (credentials) => {
+    if (import_react_native13.Platform.OS === "web" && signIn) {
+      return signIn("credentials", {
+        email: credentials?.email,
+        password: credentials?.password,
+        redirect: false
+      });
+    } else {
+      const response = await fetch("https://your-api.com/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials)
+      });
+      const { token } = await response.json();
+      await setItemAsync("auth_token", token);
+      setState({
+        user: parseJwt(token),
+        isAuthenticated: true,
+        loading: false,
+        token
+      });
+    }
+  }, []);
+  const logout = (0, import_react106.useCallback)(async () => {
+    if (import_react_native13.Platform.OS === "web" && signOut) {
+      await signOut({ redirect: false });
+    } else {
+      await deleteItemAsync("auth_token");
+      setState({
+        user: null,
+        isAuthenticated: false,
+        loading: false
+      });
+    }
+  }, []);
+  return { ...state, login, logout };
+}
+__name(useAuth2, "useAuth");
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64).split("").map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+__name(parseJwt, "parseJwt");
+
+// ../../packages/ui/src/checkout/CheckoutLoggedIn.tsx
+var import_react108 = require("react");
+
+// ../../packages/ui/src/Selectable.tsx
+var import_react107 = __toESM(require("react"));
+
+// ../../node_modules/@tamagui/linear-gradient/dist/esm/LinearGradient.mjs
+var import_core71 = require("@tamagui/core");
+
+// ../../node_modules/@tamagui/linear-gradient/dist/esm/linear-gradient.mjs
+var import_core70 = require("@tamagui/core");
+var React88 = __toESM(require("react"), 1);
+var import_react_native_web14 = __toESM(require_cjs(), 1);
 var import_jsx_runtime138 = require("react/jsx-runtime");
+function LinearGradient({
+  colors: colors3,
+  locations,
+  start,
+  end,
+  ...props
+}) {
+  const [{
+    height,
+    width
+  }, setLayout] = React88.useState({
+    height: 1,
+    width: 1
+  }), linearGradientBackgroundImage = React88.useMemo(() => getLinearGradientBackgroundImage(
+    // @ts-expect-error ok
+    colors3,
+    locations,
+    start ? Array.isArray(start) ? start : [start.x, start.y] : void 0,
+    end ? Array.isArray(end) ? end : [end.x, end.y] : void 0,
+    width,
+    height
+  ), [colors3, locations, start, end, width, height]);
+  return /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(import_react_native_web14.View, {
+    ...props,
+    style: [
+      props.style,
+      // @ts-ignore: [ts] Property 'backgroundImage' does not exist on type 'ViewStyle'.
+      {
+        backgroundImage: linearGradientBackgroundImage
+      }
+    ],
+    onLayout: /* @__PURE__ */ __name((event) => {
+      const {
+        width: width2,
+        height: height2
+      } = event.nativeEvent.layout;
+      setLayout((oldLayout) => width2 !== oldLayout.width || height2 !== oldLayout.height ? {
+        height: height2,
+        width: width2
+      } : oldLayout), props.onLayout && props.onLayout(event);
+    }, "onLayout")
+  });
+}
+__name(LinearGradient, "LinearGradient");
+function getLinearGradientBackgroundImage(colors3, locations, startPoint, endPoint, width = 1, height = 1) {
+  const gradientColors = calculateGradientColors(
+    // @ts-expect-error TODO fix numbers
+    colors3,
+    locations
+  );
+  return `linear-gradient(${calculatePseudoAngle(width, height, startPoint, endPoint)}deg, ${gradientColors.join(", ")})`;
+}
+__name(getLinearGradientBackgroundImage, "getLinearGradientBackgroundImage");
+function calculatePseudoAngle(width, height, startPoint, endPoint) {
+  const getControlPoints = /* @__PURE__ */ __name(() => {
+    let correctedStartPoint = [0, 0];
+    Array.isArray(startPoint) && (correctedStartPoint = [startPoint[0] != null ? startPoint[0] : 0, startPoint[1] != null ? startPoint[1] : 0]);
+    let correctedEndPoint = [0, 1];
+    return Array.isArray(endPoint) && (correctedEndPoint = [endPoint[0] != null ? endPoint[0] : 0, endPoint[1] != null ? endPoint[1] : 1]), [correctedStartPoint, correctedEndPoint];
+  }, "getControlPoints"), [start, end] = getControlPoints();
+  start[0] *= width, end[0] *= width, start[1] *= height, end[1] *= height;
+  const py = end[1] - start[1], px = end[0] - start[0];
+  return 90 + Math.atan2(py, px) * 180 / Math.PI;
+}
+__name(calculatePseudoAngle, "calculatePseudoAngle");
+function calculateGradientColors(colors3, locations) {
+  return colors3.map((color, index3) => {
+    const output = (0, import_core70.normalizeColor)(color);
+    if (locations && locations[index3]) {
+      const percentage = Math.max(0, Math.min(1, locations[index3])) * 100;
+      return `${output} ${percentage}%`;
+    }
+    return output;
+  });
+}
+__name(calculateGradientColors, "calculateGradientColors");
+
+// ../../node_modules/@tamagui/linear-gradient/dist/esm/LinearGradient.mjs
+var import_jsx_runtime139 = require("react/jsx-runtime");
+var LinearGradientFrame = (0, import_core71.styled)(YStack, {
+  name: "LinearGradient",
+  overflow: "hidden",
+  position: "relative"
+});
+var LinearGradient2 = LinearGradientFrame.styleable((propsIn, ref) => {
+  const props = (0, import_core71.useProps)(propsIn), {
+    start,
+    end,
+    colors: colorsProp,
+    locations,
+    children,
+    ...stackProps
+  } = props, theme = (0, import_core71.useTheme)();
+  let colors3 = props.colors?.map((c) => theme[c]?.get("web") ?? c) || [];
+  return process.env.NODE_ENV !== "production" && colors3.some((c) => {
+    const normalized = (0, import_core71.normalizeColor)(c);
+    if (!normalized || normalized.startsWith("$")) return true;
+  }) && (console.error(`LinearGradient: "colors" prop contains invalid color tokens: ${colors3} fallback to default colors: ["#000", "#fff"]`), colors3 = ["#000", "#fff"]), /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(LinearGradientFrame, {
+    ref,
+    ...stackProps,
+    children: [/* @__PURE__ */ (0, import_jsx_runtime139.jsx)(LinearGradient, {
+      start,
+      end,
+      colors: colors3,
+      locations,
+      style: gradientStyle
+    }), children]
+  });
+});
+var gradientStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  zIndex: 0
+};
+
+// ../../packages/ui/src/Selectable.tsx
+var import_jsx_runtime140 = require("react/jsx-runtime");
+function Selectable(props) {
+  const { value, onValueChange, options = [], title = "", placeholder = "Select.." } = props;
+  return /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(import_jsx_runtime140.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Label, { children: title }),
+    /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+      Select,
+      {
+        size: "$4",
+        value,
+        onValueChange,
+        disablePreventBodyScroll: true,
+        ...props,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Select.Trigger, { maxWidth: 260, iconAfter: ChevronDown, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Select.Value, { placeholder }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Adapt, { when: "maxMd", platform: "touch", children: /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Sheet, { native: !!props.native, modal: true, dismissOnSnapToBottom: true, animation: "medium", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Sheet.Frame, { children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Sheet.ScrollView, { children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Adapt.Contents, {}) }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+              Sheet.Overlay,
+              {
+                bg: "$shadowColor",
+                animation: "lazy",
+                enterStyle: { opacity: 0 },
+                exitStyle: { opacity: 0 }
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Select.Content, { zIndex: 2e5, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+              Select.ScrollUpButton,
+              {
+                items: "center",
+                justify: "center",
+                position: "relative",
+                width: "100%",
+                height: "$3",
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(YStack, { z: 10, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(ChevronUp, { size: 20 }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                    LinearGradient2,
+                    {
+                      start: [0, 0],
+                      end: [0, 1],
+                      fullscreen: true,
+                      colors: ["$background", "transparent"],
+                      shadowRadius: "$4"
+                    }
+                  )
+                ]
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Select.Viewport, { mt: 30, animation: "quick", minW: 200, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Select.Group, { children: import_react107.default.useMemo(
+                () => options.map((item, i) => {
+                  return /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Select.Item, { index: i, value: item?.value, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Select.ItemText, { children: item?.label }),
+                    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Select.ItemIndicator, { marginLeft: "auto", children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Check, { size: 16 }) })
+                  ] }, item?.value);
+                }),
+                [options]
+              ) }),
+              props.native && /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                YStack,
+                {
+                  position: "absolute",
+                  r: 0,
+                  t: 0,
+                  b: 0,
+                  items: "center",
+                  justify: "center",
+                  width: "$4",
+                  pointerEvents: "none",
+                  children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(ChevronDown, { size: getFontSize(props.size ?? "$true") })
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+              Select.ScrollDownButton,
+              {
+                items: "center",
+                justify: "center",
+                position: "relative",
+                width: "100%",
+                height: "$3",
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(YStack, { z: 10, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(ChevronDown, { size: 20 }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                    LinearGradient2,
+                    {
+                      start: [0, 0],
+                      end: [0, 1],
+                      fullscreen: true,
+                      colors: ["transparent", "$background"],
+                      shadowRadius: "$4"
+                    }
+                  )
+                ]
+              }
+            )
+          ] })
+        ]
+      }
+    )
+  ] });
+}
+__name(Selectable, "Selectable");
+
+// ../../packages/ui/src/checkout/CheckoutLoggedIn.tsx
+var import_jsx_runtime141 = require("react/jsx-runtime");
+var StepCard2 = (0, import_core61.styled)(import_core61.View, {
+  style: {
+    borderRadius: 8,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#EDEDED",
+    marginBottom: 16,
+    shadowColor: "rgba(0, 0, 0, 0.05)",
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 4,
+    backgroundColor: "#FAFAFA"
+  }
+});
+var CheckoutLoggedIn = /* @__PURE__ */ __name(({
+  currentStep,
+  addresses = []
+}) => {
+  const [selectedAddress, setSelectedAddress] = (0, import_react108.useState)(null);
+  const handleAddressChange = /* @__PURE__ */ __name((value) => {
+    const addr = addresses.find((a) => a._id === value);
+    setSelectedAddress(addr);
+  }, "handleAddressChange");
+  return /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(StepCard2, { children: /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(
+    YStack,
+    {
+      space: "$4",
+      minW: 500,
+      style: {
+        borderRadius: "20px"
+      },
+      children: [
+        currentStep === "delivery" && /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(import_core61.View, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+            Section2,
+            {
+              icon: /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(MapPin, { size: 16, color: "#FF6B00" }),
+              title: "Delivery Address",
+              description: "We'll only use your address to deliver your order safely and on time."
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { p: "$4", bg: "white", style: { borderRadius: "10px" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+              Selectable,
+              {
+                size: "$4",
+                title: "Select Address",
+                placeholder: "Select a address...",
+                options: addresses?.map((addr) => ({ value: addr._id, label: addr.name })),
+                onValueChange: (val) => {
+                  console.log(val);
+                  setSelectedAddress(addresses.find((addr) => addr._id == val));
+                }
+              }
+            ),
+            selectedAddress && /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { space: "$3", mt: "$3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Address" }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Input, { readOnly: true, value: selectedAddress?.street_address }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { space: "$3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Town City" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Input, { readOnly: true, value: selectedAddress?.city })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Province" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Input, { readOnly: true, value: selectedAddress?.province })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Notes about your order" }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+                Input,
+                {
+                  readOnly: true,
+                  value: selectedAddress?.notes,
+                  placeholder: "E.g. special notes for delivery"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { fontSize: "$5", fontWeight: "bold", mt: "$4", children: "Personal Details" }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { space: "$3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Name" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Input, { readOnly: true, placeholder: "Name", value: selectedAddress?.name })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Email Address" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Input, { readOnly: true, placeholder: "Email address", value: selectedAddress?.email })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { space: "$3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Phone (optional)" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+                    Input,
+                    {
+                      readOnly: true,
+                      placeholder: "Phone (optional)",
+                      value: selectedAddress?.phone
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { flex: 1, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Label, { children: "Location Remark" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+                    Input,
+                    {
+                      readOnly: true,
+                      placeholder: "e.g. home, office",
+                      value: selectedAddress?.location_remark
+                    }
+                  )
+                ] })
+              ] })
+            ] })
+          ] })
+        ] }),
+        currentStep == "payment" && /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(import_core61.View, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { fontSize: "$6", fontWeight: "bold", children: "Payment Method" }),
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { children: "Payment UI will be integrated here." })
+        ] })
+      ]
+    }
+  ) });
+}, "CheckoutLoggedIn");
+var CheckoutLoggedIn_default = CheckoutLoggedIn;
+
+// ../../packages/app/services/UserService.ts
+async function apiGetAllAddress() {
+  const url2 = `address/get-all-address`;
+  const axiosConfig = {
+    url: url2,
+    method: "GET",
+    headers: {},
+    maxRedirects: 5
+  };
+  try {
+    const response = await ApiService_default.fetchData(axiosConfig);
+    console.log(response);
+    console.log("All Address:", response.data);
+    return response.data;
+  } catch (error3) {
+    console.error("Error all address:", error3);
+    throw error3?.response?.data;
+  }
+}
+__name(apiGetAllAddress, "apiGetAllAddress");
+
+// ../../packages/ui/src/checkout/CheckoutPage.tsx
+var import_jsx_runtime142 = require("react/jsx-runtime");
 function CheckoutPage({
   onBrowse,
   onCheckout,
@@ -66720,8 +67324,12 @@ function CheckoutPage({
   onViewAllDesserts,
   onAddDessert
 }) {
-  const [isDesktop, setIsDesktop] = (0, import_react106.useState)(null);
-  (0, import_react106.useEffect)(() => {
+  const { loading, isAuthenticated } = useAuth2();
+  console.log(isAuthenticated);
+  const [isDesktop, setIsDesktop] = (0, import_react109.useState)(null);
+  const [address, setAddress] = (0, import_react109.useState)([]);
+  const [currentStep, setCurrentStep] = (0, import_react109.useState)("delivery");
+  (0, import_react109.useEffect)(() => {
     const checkIfDesktop = /* @__PURE__ */ __name(() => {
       if (typeof window !== "undefined") {
         setIsDesktop(window.innerWidth >= 768);
@@ -66733,7 +67341,18 @@ function CheckoutPage({
       return () => window.removeEventListener("resize", checkIfDesktop);
     }
   }, []);
-  const [cartDays, setCartDays] = (0, import_react106.useState)([
+  const getAllAddress = (0, import_react109.useCallback)(async () => {
+    try {
+      const data = await apiGetAllAddress();
+      setAddress(data?.items);
+    } catch (error3) {
+      console.log("Error:", error3);
+    }
+  }, []);
+  (0, import_react109.useEffect)(() => {
+    getAllAddress();
+  }, [getAllAddress]);
+  const [cartDays, setCartDays] = (0, import_react109.useState)([
     {
       day: "Wednesday",
       date: "2025-07-08",
@@ -66857,8 +67476,8 @@ function CheckoutPage({
     );
   }, "handleDecrement");
   const isCartEmpty = cartDays.every((day) => day.items.length === 0);
-  if (isDesktop === null) {
-    return /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+  if (isDesktop === null && loading) {
+    return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
       YStack,
       {
         style: {
@@ -66867,11 +67486,16 @@ function CheckoutPage({
           justifyContent: "center",
           alignItems: "center"
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(Text5, { children: "Loading..." })
+        children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Text5, { children: "Loading..." })
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(
+  const onHandleClick = /* @__PURE__ */ __name(() => {
+    if (currentStep == "delivery") {
+      setCurrentStep("payment");
+    }
+  }, "onHandleClick");
+  return /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
     YStack,
     {
       style: {
@@ -66881,16 +67505,15 @@ function CheckoutPage({
         alignItems: "center"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(AppHeader, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(AppHeader, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
           YStack,
           {
             style: {
-              flex: 1,
-              backgroundColor: "#FAFAFA"
+              flex: 1
             },
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                 YStack,
                 {
                   style: {
@@ -66906,7 +67529,7 @@ function CheckoutPage({
                     // elevation: 2,
                     // zIndex: 5
                   },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(
+                  children: /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
                     XStack,
                     {
                       style: {
@@ -66918,14 +67541,14 @@ function CheckoutPage({
                         justifyContent: "space-between"
                       },
                       children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(Text5, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: "Your Cart" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(SavingsBanner, { amount: 15 })
+                        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Text5, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: "Checkout " }),
+                        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(SavingsBanner, { amount: 15 })
                       ]
                     }
                   )
                 }
               ),
-              isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+              isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                 YStack,
                 {
                   style: {
@@ -66935,9 +67558,9 @@ function CheckoutPage({
                     marginHorizontal: "auto",
                     paddingHorizontal: 24
                   },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(EmptyCart, { onBrowse })
+                  children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(EmptyCart, { onBrowse })
                 }
-              ) : /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+              ) : /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                 YStack,
                 {
                   style: {
@@ -66946,7 +67569,7 @@ function CheckoutPage({
                     marginHorizontal: "auto",
                     paddingHorizontal: 24
                   },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(
+                  children: /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
                     XStack,
                     {
                       style: {
@@ -66956,16 +67579,16 @@ function CheckoutPage({
                         paddingVertical: 24
                       },
                       children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                           YStack,
                           {
                             style: {
                               flex: isDesktop ? 0.65 : 1,
                               width: isDesktop ? "65%" : "100%"
                             },
-                            children: /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(ScrollView, { style: { flex: 1 }, children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(CheckoutSteps, {}),
-                              isDesktop === false && /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                            children: /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(ScrollView, { style: { flex: 1 }, children: [
+                              isAuthenticated ? /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(CheckoutLoggedIn_default, { addresses: address, currentStep: "delivery" }) : /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(CheckoutSteps, {}),
+                              isDesktop === false && /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                                 DessertDeals,
                                 {
                                   items: dessertDeals,
@@ -66976,7 +67599,7 @@ function CheckoutPage({
                             ] })
                           }
                         ),
-                        isDesktop === true ? /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                        isDesktop === true ? /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                           YStack,
                           {
                             style: {
@@ -66986,14 +67609,14 @@ function CheckoutPage({
                               paddingTop: 0,
                               position: "relative"
                             },
-                            children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                            children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                               ScrollView,
                               {
                                 style: {
                                   height: "100%",
                                   paddingRight: 0
                                 },
-                                children: /* @__PURE__ */ (0, import_jsx_runtime138.jsxs)(
+                                children: /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
                                   YStack,
                                   {
                                     style: {
@@ -67001,7 +67624,7 @@ function CheckoutPage({
                                       paddingBottom: 24
                                     },
                                     children: [
-                                      /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                                      /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                                         YStack,
                                         {
                                           style: {
@@ -67015,10 +67638,10 @@ function CheckoutPage({
                                             zIndex: 10,
                                             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)"
                                           },
-                                          children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(CartSummary, { subtotal: 144, onCheckout })
+                                          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(CartSummary, { subtotal: 144, onCheckout })
                                         }
                                       ),
-                                      /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                                      /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                                         YStack,
                                         {
                                           style: {
@@ -67033,7 +67656,7 @@ function CheckoutPage({
                                             shadowRadius: 8,
                                             elevation: 2
                                           },
-                                          children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                                          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                                             DessertDeals,
                                             {
                                               items: dessertDeals,
@@ -67051,7 +67674,7 @@ function CheckoutPage({
                           }
                         ) : (
                           // On mobile, show summary at the bottom
-                          /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                          /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                             YStack,
                             {
                               style: {
@@ -67063,7 +67686,7 @@ function CheckoutPage({
                                 paddingTop: 0,
                                 zIndex: 10
                               },
-                              children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
+                              children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
                                 YStack,
                                 {
                                   style: {
@@ -67078,7 +67701,7 @@ function CheckoutPage({
                                     shadowRadius: 8,
                                     elevation: 2
                                   },
-                                  children: /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(CartSummary, { subtotal: 144, onCheckout })
+                                  children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(CartSummary, { subtotal: 144, onCheckout: onHandleClick })
                                 }
                               )
                             }
@@ -67260,7 +67883,6 @@ __name(CheckoutPage, "CheckoutPage");
   SavingsBanner,
   ScrollView,
   SearchFood,
-  Section,
   Select,
   SelectGroupFrame,
   SelectIcon,

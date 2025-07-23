@@ -10,8 +10,8 @@ import { AddMoreButton } from './AddMoreButton'
 import { DessertDeals } from './DessertDeals'
 import { AppHeader } from '../Header'
 import { apiGetCart } from 'app/services/CartService'
-import { apiGetCategory, apiGetFoodItems } from 'app/services/FoodService'
-
+import { useLink } from 'solito/navigation'
+import { ICart, ICartResponse } from 'app/types/cart'
 interface CartItemData {
   id: string
   name: string
@@ -45,6 +45,9 @@ export function CartPage({
 }: CartPageProps) {
   // State to track if we're on desktop or mobile
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  const checkOutLink = useLink({
+    href: '/checkout',
+  })
 
   // Effect to check window width and update isDesktop state
   useEffect(() => {
@@ -167,7 +170,6 @@ export function CartPage({
 
   // Calculate cart totals
 
-
   // Handlers for cart item actions
   const handleIncrement = (dayIndex: number, itemId: string) => {
     setCartDays((days) =>
@@ -202,34 +204,33 @@ export function CartPage({
   }
 
   // Check if cart is empty
-  const [cart, setCart]=useState({})
-  const [dessert, setDessert]=useState([])
+  const [cart, setCart] = useState<ICart>({} as ICart)
+  const [dessert, setDessert] = useState([])
   const isCartEmpty = cartDays.every((day) => day.items.length === 0)
 
-  const getCartData=useCallback(async()=>{
+  const getCartData = useCallback(async () => {
     try {
-      
-      const data=await apiGetCart()
+      const data = await apiGetCart<ICartResponse>()
       console.log(data?.data)
       setCart(data?.data)
     } catch (error) {
       console.log(error)
     }
+  }, [])
 
-  },[])
-  
-  useEffect(()=>{
+  useEffect(() => {
     getCartData()
-  },[getCartData])
+  }, [getCartData])
 
   const totalAmount = useMemo(() => {
     if (!cart?.days || cart.days.length === 0) return 0
-  
+
     return cart.days.reduce((dayAcc, day) => {
-      const dayTotal = day?.items?.reduce((itemAcc, item) => {
-        const price = item.food?.price || item.price || 0
-        return itemAcc + price * (item.quantity || 1)
-      }, 0) || 0
+      const dayTotal =
+        day?.items?.reduce((itemAcc, item) => {
+          const price = item.food?.price || 0
+          return itemAcc + price * (item.quantity || 1)
+        }, 0) || 0
       return dayAcc + dayTotal
     }, 0)
   }, [cart])
@@ -250,6 +251,10 @@ export function CartPage({
     )
   }
 
+  const handleCheckout = () => {
+    console.log('Helo')
+    checkOutLink.onPress()
+  }
   return (
     <YStack
       style={{
@@ -259,7 +264,6 @@ export function CartPage({
         alignItems: 'center',
       }}
     >
-
       {/* Add the header */}
       <AppHeader />
 
@@ -331,17 +335,21 @@ export function CartPage({
               >
                 <ScrollView style={{ flex: 1 }}>
                   {/* Cart sections by day */}
-                  {cart?.days?.map((day, index) => (
-                    day.items.length>0?<CartDaySection
-                      key={day.day}
-                      day={day.day}
-                      date={day.date}
-                      items={day.items}
-                      deliveryLabel={day?.deliveryLabel??"Hello"}
-                      onIncrement={(itemId) => handleIncrement(index, itemId)}
-                      onDecrement={(itemId) => handleDecrement(index, itemId)}
-                    />:<></>
-                  ))}
+                  {cart?.days?.map((day, index) =>
+                    day.items.length > 0 ? (
+                      <CartDaySection
+                        key={day.day}
+                        day={day.day}
+                        date={day?.date}
+                        items={day.items}
+                        deliveryLabel={'Some Lable'}
+                        onIncrement={(itemId) => handleIncrement(index, itemId)}
+                        onDecrement={(itemId) => handleDecrement(index, itemId)}
+                      />
+                    ) : (
+                      <></>
+                    )
+                  )}
 
                   {/* Add more button */}
                   <AddMoreButton onPress={onAddMore} />
@@ -394,7 +402,7 @@ export function CartPage({
                           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        <CartSummary subtotal={totalAmount} onCheckout={onCheckout} />
+                        <CartSummary subtotal={totalAmount} onCheckout={handleCheckout} />
                       </YStack>
 
                       {/* Dessert deals section */}
@@ -448,7 +456,7 @@ export function CartPage({
                       elevation: 2,
                     }}
                   >
-                    <CartSummary subtotal={totalAmount} onCheckout={onCheckout} />
+                    <CartSummary subtotal={totalAmount} onCheckout={handleCheckout} />
                   </YStack>
                 </YStack>
               )}

@@ -28,15 +28,13 @@ const addressSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  console.log('Ima in')
   const authResult = await verifyAuth(req)
 
   // If authResult is NextResponse (error), return it directly
-  console.log(authResult)
+
   if (authResult instanceof NextResponse) {
     return authResult
   }
-  console.log(authResult)
   const { id } = authResult.user
   let session: mongoose.ClientSession | null = null
   try {

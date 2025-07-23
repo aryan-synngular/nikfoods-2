@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
     const cartDaysData = days.map((day) => ({
       day,
       items: [],
+      date: Date.now(),
       cart: newCart[0]._id,
     }))
 

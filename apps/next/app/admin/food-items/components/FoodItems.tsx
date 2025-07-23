@@ -18,10 +18,9 @@ import {
 } from 'tamagui'
 import { ArrowLeft, ArrowRight, Dot, Pencil, Plus, Trash } from '@tamagui/lucide-icons'
 import EditFoodItemForm from './EditFoodItemForm'
-import SelectableFoodCategory from './SelectableFoodCategory'
 import { useSearchParams } from 'next/navigation'
 import { ICategory } from 'app/admin/food-category/components/EditFoodCategory'
-
+import Selectable from '@my/ui/src/Selectable'
 export default function FoodItems() {
   const searchParams = useSearchParams()
   const categoryFromQuery = searchParams?.get('category')
@@ -135,14 +134,14 @@ export default function FoodItems() {
           />
           {/* Hide SelectableFoodCategory if categoryId is present */}
           {!categoryIdFromQuery && (
-            <SelectableFoodCategory
+            <Selectable
               value={selectedCategory}
               options={[{ value: 'all', label: 'all' }, ...categories]}
               onValueChange={(category) => {
                 console.log(category)
                 setSelectedCategory(category)
               }}
-            ></SelectableFoodCategory>
+            ></Selectable>
           )}
         </XStack>
         <Button

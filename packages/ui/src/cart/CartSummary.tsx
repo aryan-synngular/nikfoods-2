@@ -1,64 +1,61 @@
-"use client"
-
+'use client'
 import { useState } from 'react'
 import { Button, Input, Text, XStack, YStack } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 
 interface CartSummaryProps {
   subtotal: number
+  onCheckout: () => void
   deliveryFee?: number
   tax?: number
-  onCheckout?: () => void
 }
 
-export function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }: CartSummaryProps) {
+export function CartSummary({
+  subtotal,
+  onCheckout,
+  deliveryFee = 2.99,
+  tax = 0,
+}: CartSummaryProps) {
   const [couponCode, setCouponCode] = useState('')
   const total = Math.round(subtotal) // Simplified for the example to match the image
-console.log(subtotal)
+
   return (
     <YStack style={{ padding: 24, gap: 20 }}>
       {/* Summary header */}
-      <Text style={{ fontSize: 24, fontWeight: '600', color: '#000000' }}>
-        Summary
-      </Text>
+      <Text style={{ fontSize: 24, fontWeight: '600', color: '#000000' }}>Summary</Text>
 
       {/* Subtotal */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 18, color: '#000000' }}>
-          Subtotal
-        </Text>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
-          ${subtotal}
-        </Text>
+        <Text style={{ fontSize: 18, color: '#000000' }}>Subtotal</Text>
+        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>${subtotal}</Text>
       </XStack>
 
       {/* Other */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 18, color: '#000000' }}>
-          Other
-        </Text>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
-          0
-        </Text>
+        <Text style={{ fontSize: 18, color: '#000000' }}>Other</Text>
+        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>0</Text>
       </XStack>
 
       {/* Coupon input */}
-      <XStack style={{
-        borderWidth: 1,
-        borderColor: '#E0E0E0',
-        borderRadius: 12,
-        overflow: 'hidden',
-        height: 42,
-        alignItems: 'center',
-        justifyContent: 'space-between'
-
-      }}>
-        <XStack style={{
-          flex: 1,
-          paddingLeft: 16,
+      <XStack
+        style={{
+          borderWidth: 1,
+          borderColor: '#E0E0E0',
+          borderRadius: 12,
+          overflow: 'hidden',
+          height: 42,
           alignItems: 'center',
-          backgroundColor: 'white'
-        }}>
+          justifyContent: 'space-between',
+        }}
+      >
+        <XStack
+          style={{
+            flex: 1,
+            paddingLeft: 16,
+            alignItems: 'center',
+            backgroundColor: 'white',
+          }}
+        >
           <Text style={{ color: '#AAAAAA', marginRight: 8 }}>🎟️</Text>
           <Input
             flex={1}
@@ -77,15 +74,17 @@ console.log(subtotal)
             }}
           />
         </XStack>
-        <XStack style={{
-          backgroundColor: '#FFF3E0',
-          paddingRight: 24,
-          paddingLeft: 24,
-          paddingTop: 24,
-          paddingBottom: 24,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
+        <XStack
+          style={{
+            backgroundColor: '#FFF3E0',
+            paddingRight: 24,
+            paddingLeft: 24,
+            paddingTop: 24,
+            paddingBottom: 24,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Text style={{ color: '#FFB648', fontWeight: '600', fontSize: 16 }}>Add</Text>
         </XStack>
       </XStack>
@@ -95,17 +94,15 @@ console.log(subtotal)
 
       {/* Total */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>
-          Total
-        </Text>
-        <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>
-          ${total}
-        </Text>
+        <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>Total</Text>
+        <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>${total}</Text>
       </XStack>
 
       {/* Checkout button */}
       <Button
-        onPress={onCheckout}
+        onPress={() => {
+          onCheckout()
+        }}
         style={{
           backgroundColor: '#FF9F0D',
           borderRadius: 8,
@@ -114,21 +111,22 @@ console.log(subtotal)
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 8
+          fontWeight: 600,
+          color: 'white',
         }}
+        iconAfter={<ArrowRight fontWeight={600} color="white" />}
       >
-        <Text style={{ color: 'white', fontSize: 18, fontWeight: '600' }}>
-          Checkout
-        </Text>
-        <ArrowRight color="white" size={20} />
+        Checkout
       </Button>
 
       {/* Credit card acceptance text */}
-      <Text style={{
-        fontSize: 14,
-        color: '#777679',
-        textAlign: 'center',
-      }}>
+      <Text
+        style={{
+          fontSize: 14,
+          color: '#777679',
+          textAlign: 'center',
+        }}
+      >
         We accept all major credit cards
       </Text>
     </YStack>

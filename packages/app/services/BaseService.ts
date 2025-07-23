@@ -1,13 +1,25 @@
 import axios from 'axios'
 import { Platform } from 'react-native'
-import { DEV_SERVER_URL, REQUEST_HEADER_AUTH_KEY, TOKEN_TYPE } from 'app/constants/api.constant'
+import {
+  CURRENT_USER_PLATFORM,
+  LOGIN_REDIRECT_URL,
+  MOBILE_DEV_SERVER_URL,
+  REQUEST_HEADER_AUTH_KEY,
+  TOKEN_TYPE,
+  WEB_DEV_SERVER_URL,
+} from 'app/constants/api.constant'
+import { PLATFORM } from 'app/constants/app.constant'
+import {
+  SECURE_STORE_REFRESH_TOKEN_VARIABLE,
+  SECURE_STORE_TOKEN_VARIABLE,
+} from 'app/constants/store.constant'
 
 const REFRESH_ENDPOINT = 'auth/refresh-token'
 const isExpo = !(Platform.OS === 'web')
 
 const BASE_URL = isExpo
-  ? DEV_SERVER_URL // web
-  : 'api/'
+  ? MOBILE_DEV_SERVER_URL // web
+  : WEB_DEV_SERVER_URL
 const BaseService = axios.create({
   baseURL: BASE_URL,
   timeout: 60000,
@@ -15,21 +27,14 @@ const BaseService = axios.create({
 
 // ---------- Token Helpers (Dynamic Imports) ---------- //
 const getAccessToken = async (): Promise<string | null> => {
-  if (isExpo) {
-    const SecureStore = await import('expo-secure-store')
-    return SecureStore.getItemAsync('token')
-  } else {
-    const { getSession } = await import('next-auth/react')
-    const session = await getSession()
-    console.log(session)
-    return session?.user ? (session.user as any).id : null
-  }
+  const SecureStore = await import('expo-secure-store')
+  return SecureStore.getItemAsync(SECURE_STORE_TOKEN_VARIABLE)
 }
 
 const getRefreshToken = async (): Promise<string | null> => {
   if (isExpo) {
     const SecureStore = await import('expo-secure-store')
-    return SecureStore.getItemAsync('refreshToken')
+    return SecureStore.getItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE)
   }
   return null
 }
@@ -37,16 +42,16 @@ const getRefreshToken = async (): Promise<string | null> => {
 const saveAccessToken = async (token: string, refreshToken: string): Promise<void> => {
   if (isExpo) {
     const SecureStore = await import('expo-secure-store')
-    await SecureStore.setItemAsync('token', token)
-    await SecureStore.setItemAsync('refreshToken', refreshToken)
+    await SecureStore.setItemAsync(SECURE_STORE_TOKEN_VARIABLE, token)
+    await SecureStore.setItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE, refreshToken)
   }
 }
 
 const clearTokens = async (): Promise<void> => {
   if (isExpo) {
     const SecureStore = await import('expo-secure-store')
-    await SecureStore.deleteItemAsync('accessToken')
-    await SecureStore.deleteItemAsync('refreshToken')
+    await SecureStore.deleteItemAsync(SECURE_STORE_TOKEN_VARIABLE)
+    await SecureStore.deleteItemAsync(SECURE_STORE_REFRESH_TOKEN_VARIABLE)
   }
 }
 
@@ -63,10 +68,11 @@ const navigateToLogin = async () => {
 // ---------- Request Interceptor ---------- //
 BaseService.interceptors.request.use(
   async (config) => {
-    const token = await getAccessToken()
-    console.log('Token---------------')
-    console.log(token)
-    if (token) {
+    config.headers[CURRENT_USER_PLATFORM] = isExpo ? PLATFORM.MOBILE : PLATFORM.WEB
+    if (isExpo) {
+      const token = await getAccessToken()
+      console.log('Token---------------')
+      console.log(token)
       config.headers[REQUEST_HEADER_AUTH_KEY] = `${TOKEN_TYPE}${token}`
     }
     return config
@@ -108,8 +114,9 @@ BaseService.interceptors.response.use(
         }
       } else {
         // Web: Sign out and redirect
+        console.log(error)
         const { signOut } = await import('next-auth/react')
-        await signOut({ callbackUrl: '/login' })
+        await signOut({ callbackUrl: LOGIN_REDIRECT_URL })
       }
     }
     console.log(error)

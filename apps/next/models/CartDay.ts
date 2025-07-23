@@ -21,7 +21,7 @@ export interface ICartDay {
 const CartDaySchema = new Schema<ICartDay>({
   day: { type: String, enum: Object.values(WeekDays), required: true },
   cart_value: { type: Number, default: 0 },
-  date: { type: Date, required: false },
+  date: { type: Date, required: true },
   cart: { type: Schema.Types.ObjectId, ref: 'Cart', required: true },
   items: [{ type: Schema.Types.ObjectId, ref: CartItem }], // Reference to CartItem
 })
