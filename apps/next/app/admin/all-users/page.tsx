@@ -1,3 +1,5 @@
-export default function AllUsers(){
-  return  <>All Users</>
+import AllUsersPage from './components/AllUsersPage'
+
+export default function AllUsers() {
+  return <AllUsersPage></AllUsersPage>
 }

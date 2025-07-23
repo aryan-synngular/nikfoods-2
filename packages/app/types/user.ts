@@ -6,7 +6,17 @@ export interface IUser {
   email: string
   role: RoleType
   isCompleted: boolean
-  addresses: IAddress
+  addresses: IAddress[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface IUserResponse {
+  _id: string
+  email: string
+  role: RoleType
+  isCompleted: boolean
+  addresses: IAddress[]
   createdAt: string
   updatedAt: string
 }
@@ -27,7 +37,6 @@ export interface IAddress {
   updatedAt: string
 }
 
-
 export interface IAddressResponse {
-  items:IAddress[]
+  items: IAddress[]
 }
