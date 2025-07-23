@@ -2,9 +2,9 @@
 
 import { XStack, ScrollView, YStack, Circle, Button } from 'tamagui'
 import { CategoryCard } from '../cards/CategoryCard'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
-
+import {apiGetCategory} from "app/services/FoodService"
 // Sample categories data
 const categories = [
   {
@@ -61,6 +61,7 @@ const categories = [
 
 export function CategoryRail() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
   const scrollViewRef = useRef<any>(null);
   
   const handleCardPress = (id: number) => {
@@ -88,6 +89,21 @@ export function CategoryRail() {
     }
   };
 
+  const allCategories=useCallback(async()=>{
+try {
+  const data =await apiGetCategory()
+  console.log(data)
+  setCategories(data?.items)
+  
+} catch (error) {
+  console.log(error)
+}
+  },[])
+
+
+  useEffect(()=>{
+    allCategories()
+  },[allCategories])
   return (
     <YStack position="relative" height={250}>
       {/* Left scroll button */}
@@ -147,13 +163,13 @@ export function CategoryRail() {
         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 } as any}
       >
         <XStack gap="$3" style={{paddingTop: 20, paddingBottom: 20}}>
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <CategoryCard
-              key={category.id}
-              imageUrl={category.imageUrl}
+              key={category._id}
+              imageUrl={category.url}
               name={category.name}
-              selected={selectedId === category.id}
-              onPress={() => handleCardPress(category.id)}
+              selected={selectedId === category._id}
+              onPress={() => handleCardPress(category._id)}
             />
           ))}
         </XStack>

@@ -30,8 +30,8 @@ export function CartDaySection({
   onDecrement
 }: CartDaySectionProps) {
   // Calculate day total
-  const dayTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-
+  const dayTotal = items.reduce((sum, item) => sum + (Number(item?.food?.price) * Number(item.quantity)), 0)
+console.log(dayTotal)
   // Format date
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     month: 'short',
@@ -104,12 +104,12 @@ export function CartDaySection({
       <YStack>
         {items.map(item => (
           <CartItem
-            key={item.id}
-            name={item.name}
-            description={item.description}
-            price={item.price}
+            key={item?._id}
+            name={item?.food?.name}
+            description={item?.food?.description}
+            price={Number(item?.food?.price)}
             quantity={item.quantity}
-            imageUrl={item.imageUrl}
+            imageUrl={item?.food?.url}
             onIncrement={() => onIncrement?.(item.id)}
             onDecrement={() => onDecrement?.(item.id)}
           />
@@ -132,7 +132,7 @@ export function CartDaySection({
           Day Total
         </Text>
         <Text style={{ fontSize: 20, fontWeight: '700', color: '#000000' }}>
-          ${dayTotal.toFixed(2)}
+          ${dayTotal?.toFixed(2)}
         </Text>
       </XStack>
     </YStack>

@@ -4,6 +4,7 @@ import { YStack, Button, Spinner } from 'tamagui'
 import * as SecureStore from 'expo-secure-store'
 import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { apiAddAddress, apiLoginUser, apiRegisterUser } from 'app/services/AuthService'
 
 // Import next-auth hooks only on web
 let useSessionWeb: any = null
@@ -111,28 +112,29 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log(session)
         return { isCompleted: session?.user?.isCompleted }
       } else {
-        const res = await fetch('http://192.168.1.12:3000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(credentials),
-        })
-        if (!res.ok) throw new Error('Login failed')
-        const data = await res.json()
-        console.log(data)
-        const expiresAt = Date.now() + data.data.expiresIn * 1000
+        // const res = await fetch('http://192.168.1.12:3000/api/auth/login', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify(credentials),
+        // })
+        // if (!res.ok) throw new Error('Login failed')
+        // const data = await res.json()
+        const data = await apiLoginUser(credentials)
+        console.log('ABCDEFG', data)
+        const expiresAt = Date.now() + data?.data?.expiresIn * 1000
 
-        await SecureStore.setItemAsync('token', String(data.data.token))
-        await SecureStore.setItemAsync('refreshToken', String(data.data.refreshToken))
+        await SecureStore.setItemAsync('token', String(data?.data?.token))
+        await SecureStore.setItemAsync('refreshToken', String(data?.data?.refreshToken))
         await SecureStore.setItemAsync('expiresAt', String(expiresAt))
-        await SecureStore.setItemAsync('user', JSON.stringify(data.data.user))
+        await SecureStore.setItemAsync('user', JSON.stringify(data?.data?.user))
 
         setUser({
-          ...data.data.user,
-          token: data.data.token,
-          refreshToken: data.data.refreshToken,
+          ...data?.data?.user,
+          token: data?.data?.token,
+          refreshToken: data?.data?.refreshToken,
           expiresAt,
         })
-        return { isCompleted: data.data.isCompleted }
+        return { isCompleted: data?.data?.isCompleted }
       }
     } catch (error) {
       console.log(error)
@@ -183,29 +185,23 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (credentials: any) => {
     try {
-      const res = await fetch(`api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      })
+      const data = await apiRegisterUser(credentials)
 
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Registration failed')
       console.log(data)
       if (Platform.OS == 'web') {
         await signIn(credentials)
       } else {
-        const expiresAt = Date.now() + data.data.expiresIn * 1000
+        const expiresAt = Date.now() + data?.data?.expiresIn * 1000
 
         await SecureStore.setItemAsync('token', String(data.data.token))
-        await SecureStore.setItemAsync('refreshToken', String(data.data.refreshToken))
+        await SecureStore.setItemAsync('refreshToken', String(data?.data.refreshToken))
         await SecureStore.setItemAsync('expiresAt', String(expiresAt))
-        await SecureStore.setItemAsync('user', JSON.stringify(data.data.user))
+        await SecureStore.setItemAsync('user', JSON.stringify(data?.data.user))
 
         setUser({
-          ...data.data.user,
-          token: data.data.token,
-          refreshToken: data.data.refreshToken,
+          ...data?.data.user,
+          token: data?.data.token,
+          refreshToken: data?.data.refreshToken,
           expiresAt,
         })
       }
@@ -219,32 +215,33 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const registerStep2 = async (addressData: any) => {
     try {
-      console.log(user)
-      let token: String | null = null
-      if (!(Platform.OS == 'web')) {
-        token = await SecureStore.getItemAsync('token')
-        if (!token) {
-          throw new Error('Not Authorized')
-        }
-      } else {
-        if (!user || !user.id) {
-          throw new Error('Not Authorized')
-        }
-      }
-      console.log('token------------------')
-      console.log(token)
-      const res = await fetch(`api/auth/register-step2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ ...addressData, userId: user?.id }),
-      })
+      // console.log(user)
+      // let token: String | null = null
+      // if (!(Platform.OS == 'web')) {
+      //   token = await SecureStore.getItemAsync('token')
+      //   if (!token) {
+      //     throw new Error('Not Authorized')
+      //   }
+      // } else {
+      //   if (!user || !user.id) {
+      //     throw new Error('Not Authorized')
+      //   }
+      // }
+      // console.log('token------------------')
+      // console.log(token)
+      // const res = await fetch(`api/auth/register-step2`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      //   },
+      //   body: JSON.stringify({ ...addressData, userId: user?.id }),
+      // })
+      const data = await apiAddAddress(addressData)
 
-      const data = await res.json()
+      // const data = await res.json()
       console.log(data)
-      if (!res.ok) throw new Error(data.error || 'Registration failed')
+      // if (!res.ok) throw new Error(data.error || 'Registration failed')
 
       console.log(updateSession)
       if (Platform.OS === 'web' && updateSession) {

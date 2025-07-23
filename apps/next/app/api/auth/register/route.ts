@@ -5,6 +5,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import RefreshToken from 'models/RefreshToken'
 import mongoose from 'mongoose'
+import { verifyAuth } from 'lib/verifyJwt'
+import Cart from 'models/Cart'
+import CartDay, { WeekDays } from 'models/CartDay'
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
 const JWT_EXPIRES_IN = '1h'
 const REFRESH_TOKEN_EXPIRES_IN = '7d'
@@ -42,6 +45,24 @@ export async function POST(request: NextRequest) {
       { session } // important!
     )
     console.log(newUser)
+
+    // Create Cart
+    const newCart = await Cart.create([{ user: newUser[0]._id }], { session })
+
+    // Create 7 CartDays linked to the cart
+    const days = Object.values(WeekDays) // ["Sunday", "Monday", ...]
+    const cartDaysData = days.map((day) => ({
+      day,
+      items: [],
+      cart: newCart[0]._id,
+    }))
+
+    const cartDays = await CartDay.insertMany(cartDaysData, { session })
+
+    // Update Cart with CartDay references
+    newCart[0].days = cartDays.map((d) => d._id)
+    await newCart[0].save({ session })
+
     const token = jwt.sign(
       {
         id: newUser[0].id,

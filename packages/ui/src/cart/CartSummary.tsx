@@ -14,7 +14,7 @@ interface CartSummaryProps {
 export function CartSummary({ subtotal, deliveryFee = 2.99, tax = 0, onCheckout }: CartSummaryProps) {
   const [couponCode, setCouponCode] = useState('')
   const total = Math.round(subtotal) // Simplified for the example to match the image
-
+console.log(subtotal)
   return (
     <YStack style={{ padding: 24, gap: 20 }}>
       {/* Summary header */}

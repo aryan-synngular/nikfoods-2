@@ -8,6 +8,14 @@ declare module 'next-auth' {
     isCompleted: boolean
     email: string
   }
+  interface Session {
+    user: {
+      id: string
+      email: string
+      role: string
+      isCompleted: boolean
+    }
+  }
 }
 
 declare module 'next-auth/jwt' {

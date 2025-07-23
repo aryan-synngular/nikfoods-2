@@ -113,6 +113,7 @@ export const authOptions: NextAuthOptions = {
         role: token.role as string,
         isCompleted: token.isCompleted as boolean,
       }
+      console.log('NEW SESSION.USER:', session.user)
       return session
     },
   },

@@ -1,11 +1,11 @@
 // lib/verifyJwt.ts
 import jwt from 'jsonwebtoken'
-import RefreshToken from 'models/RefreshToken'
-import User from 'models/User'
 import { getServerSession } from 'next-auth/next'
+import { NextRequest, NextResponse } from 'next/server'
+import { NextApiRequest } from 'next'
+import { authOptions } from './auth'
+
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
-const JWT_EXPIRES_IN = '1h'
-const REFRESH_TOKEN_EXPIRES_IN = '7d'
 export interface DecodedToken {
   id: string
   email?: string
@@ -18,52 +18,34 @@ export interface Error {
   message: string
 }
 
-export async function verifyJwt(req: Request): Promise<DecodedToken | Error> {
-  const nextSession = await getServerSession()
-  console.log(nextSession)
+const ACCESS_TOKEN_SECRET = JWT_SECRET!
+
+export async function verifyAuth(req: NextRequest) {
+  // Check if coming from Expo (Bearer token present)
+  console.log(req.headers)
   const authHeader = req.headers.get('authorization')
-  console.log('Verify JWT')
+  console.log('AuthHeader------------------------------------')
   console.log(authHeader)
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return { error: true, message: 'Invalid Token' }
-  }
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    console.log('VERIFY EXPO SESSION')
 
-  const token = authHeader.split(' ')[1]
-  try {
-    return jwt.verify(token, JWT_SECRET) as DecodedToken
-  } catch (error: any) {
-    if (error?.name === 'TokenExpiredError') {
-      // Try refresh
-      const payload: any = jwt.decode(token)
-      const refreshEntry = await RefreshToken.findOne({ user: payload.id })
-      if (!refreshEntry) {
-        return { error: true, message: 'Session expired' }
-      }
-
-      // Verify refresh token
-      try {
-        jwt.verify(refreshEntry.refresh_token, JWT_SECRET)
-      } catch (err) {
-        return { error: true, message: 'Invalid refresh token' }
-      }
-
-      // Generate new token
-      const user = await User.findById(payload.id)
-      if (!user) {
-        return { error: true, message: 'User not found' }
-      }
-
-      const newToken = jwt.sign(
-        { id: user._id, email: user.email, role: user.role, isCompleted: user.isCompleted },
-        JWT_SECRET,
-        { expiresIn: JWT_EXPIRES_IN }
-      )
-
-      return { ...user, token: newToken }
+    const token = authHeader.split(' ')[1]
+    try {
+      const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET)
+      console.log(decoded)
+      return { user: decoded, platform: 'expo' }
+    } catch (err) {
+      console.log(err)
+      return NextResponse.json({ error: 'Not Authourized' }, { status: 401 })
     }
-
-    console.error('JWT verification failed:', error)
-
-    return { error: true, message: 'Unauthorised' }
   }
+
+  // Otherwise, use NextAuth session for web app
+  const session = await getServerSession(authOptions)
+  console.log('VERIFY NEXT SESSION')
+  console.log(session)
+  if (!session) {
+    return NextResponse.json({ error: 'Not Authourized' }, { status: 401 })
+  }
+  return { user: session?.user, platform: 'web' }
 }

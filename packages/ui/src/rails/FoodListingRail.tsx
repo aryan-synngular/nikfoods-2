@@ -1,8 +1,11 @@
 "use client"
 
 import { Text, YStack, XStack, ScrollView } from "tamagui";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FoodCard } from "../cards/FoodCard";
+import { apiGetCategory, apiGetFoodItems } from "app/services/FoodService";
+import {apiAddFoodItemToCart} from "app/services/CartService";
+import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 
 // Sample food data
 const foodItems = [
@@ -40,6 +43,8 @@ const foodItems = [
 
 export function FoodListingRail({displayLabel}: {displayLabel: string}) {
   const [quantities, setQuantities] = useState<{[key: number]: number}>({}); 
+  const [foodItems, setFoodItems] = useState<any[]>([]); 
+  const [selectedFoodItem, setSelectedFoodItem] = useState({}); 
   
   const handleAdd = (id: number) => {
     setQuantities(prev => ({
@@ -67,6 +72,41 @@ export function FoodListingRail({displayLabel}: {displayLabel: string}) {
     });
   };
   
+  const allFoodItems=useCallback(async()=>{
+    try {
+      const data =await apiGetFoodItems({})
+      console.log(data)
+      setFoodItems(data?.items)
+      
+    } catch (error) {
+      console.log(error)
+    }
+      },[])
+    
+    
+      useEffect(()=>{
+        allFoodItems()
+      },[allFoodItems])
+
+
+      const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
+  
+      const handleAddButtonClick = (item:any) => {
+        setSelectedFoodItem(item)
+        setIsDatePopupOpen(true)
+      }
+      const handleDateSelection = (selectedDates: any) => {
+        console.log(selectedDates)
+        handleAdd(selectedFoodItem?._id)
+        try {
+          
+          const data=  apiAddFoodItemToCart({foodItemId:selectedFoodItem?._id, days:selectedDates,quantity:1})
+          console.log(data)
+        } catch (error) {
+          console.log(error)
+        }
+
+      }
   return (
     <YStack style={{paddingTop: 20, paddingBottom: 20}}>
       <Text fontSize={28} fontWeight="600" style={{paddingLeft: 20, marginBottom: 16}}>
@@ -75,21 +115,29 @@ export function FoodListingRail({displayLabel}: {displayLabel: string}) {
       
       <YStack style={{paddingHorizontal: 20, paddingBottom: 20}}>
         <XStack flexWrap="wrap" gap="$4" style={{justifyContent: 'flex-start'}}>
-          {foodItems.map((item) => (
-            <YStack key={item.id} style={{marginBottom: 16}}>
+          {foodItems?.map((item) => (
+            <YStack key={item._id} style={{marginBottom: 16}}>
               <FoodCard
-                imageUrl={item.imageUrl}
+                imageUrl={item.url}
                 name={item.name}
                 price={item.price}
-                quantity={quantities[item.id] || 0}
-                onAdd={() => handleAdd(item.id)}
-                onIncrement={() => handleIncrement(item.id)}
-                onDecrement={() => handleDecrement(item.id)}
+                quantity={quantities[item._id] || 0}
+                onAdd={() => handleAdd(item._id)}
+                onIncrement={() => handleIncrement(item._id)}
+                onDecrement={() => handleDecrement(item._id)}
+                handleAddButtonClick={()=>handleAddButtonClick(item)}
               />
             </YStack>
           ))}
         </XStack>
       </YStack>
+      <DeliveryDatePopup
+
+       item={selectedFoodItem}
+        open={isDatePopupOpen}
+        onOpenChange={setIsDatePopupOpen}
+        onSelect={handleDateSelection}
+      />
     </YStack>
   );
 }

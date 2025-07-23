@@ -13,19 +13,15 @@ interface DeliveryDateOption {
 interface DeliveryDatePopupProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSelect: (selectedDates: string[]) => void
-  foodName: string
-  foodPrice: number
-  foodImage: string
+  onSelect: (selectedDates: {day_name:string,date:string}[]) => void
+  item:any
 }
 
 export function DeliveryDatePopup({
   open,
   onOpenChange,
   onSelect,
-  foodName,
-  foodPrice,
-  foodImage
+  item
 }: DeliveryDatePopupProps) {
   // Generate date options for the next 5 days
   const generateDateOptions = (): DeliveryDateOption[] => {
@@ -48,26 +44,32 @@ export function DeliveryDatePopup({
   
   const media = useMedia()
   const dateOptions = generateDateOptions()
-  const [selectedDates, setSelectedDates] = useState<string[]>([])
+  const [selectedDates, setSelectedDates] = useState<{day_name:string,date:string}[]>([])
   
-  const handleToggleDate = (fullDate: string) => {
+  const handleToggleDate = (val:DeliveryDateOption) => {
+    console.log(val)
     setSelectedDates(prev => {
-      if (prev.includes(fullDate)) {
-        return prev.filter(date => date !== fullDate)
-      } else {
-        return [...prev, fullDate]
-      }
+      const data=prev.filter(date => date.day_name !== val.day)
+         if(data.length==prev.length)
+         {
+           return [...prev, {day_name:val.day,date:val.fullDate}]
+
+         }
+         else{
+          return data
+         }
     })
   }
   
   // No longer needed as we check directly in the render
   
   const handleSelect = () => {
+    console.log(selectedDates)
     onSelect(selectedDates)
     onOpenChange(false)
   }
   
-  const formattedPrice = `$${foodPrice.toFixed(2)}`
+  const formattedPrice = `$${item?.price?.toFixed(2)}`
   
   return (
     <Dialog
@@ -128,15 +130,15 @@ export function DeliveryDatePopup({
               }}
             >
               <Image
-                source={{ uri: foodImage }}
+                source={{ uri: item?.url }}
                 style={{ width: '100%', height: '100%' }}
                 resizeMode="cover"
-                alt={foodName}
+                alt={item?.name}
               />
             </YStack>
             <YStack>
               <Text fontSize={16} fontWeight="600" color="#2A1A0C">
-                {foodName}
+                {item?.name}
               </Text>
               <Text fontSize={16} fontWeight="600" color="#FF9F0D">
                 {formattedPrice}
@@ -148,7 +150,7 @@ export function DeliveryDatePopup({
           <YStack space={8}>
             {dateOptions.map((option, index) => {
               // Check if this date is selected directly from state each time
-              const isSelected = selectedDates.includes(option.fullDate)
+              const isSelected = selectedDates.some(day=>day.day_name==option.day)
               
               return (
                 <XStack
@@ -163,14 +165,14 @@ export function DeliveryDatePopup({
                     justifyContent: 'space-between',
                     alignItems: 'center'
                   }}
-                  onPress={() => handleToggleDate(option.fullDate)}
+                  onPress={() => handleToggleDate(option)}
                   pressStyle={{ opacity: 0.8 }}
                 >
                   <XStack style={{ alignItems: 'center', gap: 12 }}>
                     <Checkbox
                       id={`date-${option.fullDate}`}
                       checked={isSelected}
-                      onCheckedChange={() => handleToggleDate(option.fullDate)}
+                      // onCheckedChange={() => handleToggleDate(option)}
                       style={{
                         backgroundColor: isSelected ? "#FF9F0D" : "transparent",
                         borderColor: isSelected ? "#FF9F0D" : "#E0E0E0"

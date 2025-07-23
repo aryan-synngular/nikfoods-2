@@ -1,10 +1,9 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 import { Image } from 'react-native'
 import { Text, YStack, XStack, Circle, ZStack } from 'tamagui'
 import { QuantitySelector } from '../buttons/QuantitySelector'
-import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 
 interface FoodCardProps {
   imageUrl: string
@@ -14,42 +13,35 @@ interface FoodCardProps {
   onIncrement?: () => void
   onDecrement?: () => void
   quantity?: number
+  handleAddButtonClick: () => void
 }
 
-export function FoodCard({ 
-  imageUrl, 
-  name, 
-  price, 
-  onAdd, 
-  onIncrement, 
+export function FoodCard({
+  imageUrl,
+  name,
+  price,
+  onAdd,
+  onIncrement,
   onDecrement,
-  quantity = 0 
+  handleAddButtonClick,
+  quantity = 0,
 }: FoodCardProps) {
-  const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
-  
-  // Format price with dollar sign and two decimal places
   const formattedPrice = `$${price.toFixed(2)}`
-  
+
+  // Format price with dollar sign and two decimal places
+
   // Handle the add button click to open the date popup
-  const handleAddButtonClick = () => {
-    setIsDatePopupOpen(true)
-  }
-  
+
   // Handle date selection from popup
-  const handleDateSelection = (selectedDates: string[]) => {
-    if (onAdd) {
-      onAdd(selectedDates)
-    }
-  }
-  
+
   return (
     <>
       <YStack width={200} style={{ alignItems: 'center' }}>
         {/* Main container with relative positioning */}
         <YStack width={180} style={{ alignItems: 'center' }}>
           {/* Circle image that overlaps the card */}
-          <Circle 
-            size={100} 
+          <Circle
+            size={100}
             overflow="hidden"
             style={{
               elevation: 4,
@@ -59,31 +51,31 @@ export function FoodCard({
               shadowRadius: 5,
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
               zIndex: 2,
-              marginBottom: -70 // Creates overlap effect
+              marginBottom: -70, // Creates overlap effect
             }}
           >
-            <Image 
-              source={{ uri: imageUrl }} 
-              style={{ width: '100%', height: '100%' }} 
-              resizeMode="cover" 
+            <Image
+              source={{ uri: imageUrl }}
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="cover"
             />
           </Circle>
-          
+
           {/* Card content */}
           <YStack
             width={180}
-            style={{borderRadius: 24, overflow: 'hidden', backgroundColor: 'white'}}
+            style={{ borderRadius: 24, overflow: 'hidden', backgroundColor: 'white' }}
             boxShadow="10px 10px 20px rgba(0, 0, 0, 0.1)"
           >
             {/* Empty space for the circle image */}
             <YStack height={70} />
-            
-            <YStack style={{padding: 16, gap: 12}}>
+
+            <YStack style={{ padding: 16, gap: 12 }}>
               <Text fontSize={16} fontWeight="600" color="#2A1A0C">
                 {name}
               </Text>
-              <XStack style={{justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text fontSize={16}  color="#FF9F0D">
+              <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text fontSize={16} color="#FF9F0D">
                   {formattedPrice}
                 </Text>
                 <QuantitySelector
@@ -97,16 +89,8 @@ export function FoodCard({
           </YStack>
         </YStack>
       </YStack>
-      
+
       {/* Delivery Date Selection Popup */}
-      <DeliveryDatePopup
-        open={isDatePopupOpen}
-        onOpenChange={setIsDatePopupOpen}
-        onSelect={handleDateSelection}
-        foodName={name}
-        foodPrice={price}
-        foodImage={imageUrl}
-      />
     </>
   )
 }
