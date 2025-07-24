@@ -6,6 +6,7 @@ import { FoodCard } from "../cards/FoodCard";
 import { apiGetCategory, apiGetFoodItems } from "app/services/FoodService";
 import {apiAddFoodItemToCart} from "app/services/CartService";
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
+import { IFoodItem } from "app/types/foodItem";
 
 // Sample food data
 const foodItems = [
@@ -43,8 +44,8 @@ const foodItems = [
 
 export function FoodListingRail({displayLabel}: {displayLabel: string}) {
   const [quantities, setQuantities] = useState<{[key: number]: number}>({}); 
-  const [foodItems, setFoodItems] = useState<any[]>([]); 
-  const [selectedFoodItem, setSelectedFoodItem] = useState({}); 
+  const [foodItems, setFoodItems] = useState<IFoodItem[]>([]); 
+  const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem|null>(null); 
   
   const handleAdd = (id: number) => {
     setQuantities(prev => ({

@@ -13,3 +13,7 @@ export interface IFoodItem {
   createdAt: string
   updatedAt: string
 }
+
+export interface IFoodItemsResponse {
+  items: IFoodItem[]
+}

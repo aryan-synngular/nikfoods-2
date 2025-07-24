@@ -1,7 +1,7 @@
-import { View, Input, Label, Select, YStack, XStack, Text, styled } from 'tamagui'
+import { View, Input, Label, Select, YStack, XStack, Text, styled, Button } from 'tamagui'
 import { IAddress } from 'app/types/user'
 import Selectable from '../Selectable'
-import { MapPin } from '@tamagui/lucide-icons'
+import { MapPin, Plus } from '@tamagui/lucide-icons'
 import { Section } from './CheckoutSteps'
 const StepCard = styled(View, {
   style: {
@@ -21,11 +21,13 @@ const CheckoutLoggedIn = ({
   addresses = [],
   selectedAddress,
   handleAddressChange,
+  goBack,
 }: {
   currentStep: 'delivery' | 'payment'
   addresses: IAddress[]
   selectedAddress: IAddress
   handleAddressChange: (val: string) => void
+  goBack: () => void
 }) => {
   return (
     <StepCard>
@@ -47,14 +49,33 @@ const CheckoutLoggedIn = ({
               Delivery Address
             </Text> */}
             {/* Select Box */}
-            <YStack p={'$4'} bg={'white'} style={{ borderRadius: '10px' }}>
+            <YStack width={'100%'} p={'$4'} bg={'white'} style={{ borderRadius: '10px' }}>
               <Selectable
                 size={'$4'}
-                title="Select Address"
+                value={selectedAddress?._id}
+                title="Saved Address"
                 placeholder="Select a address..."
-                options={addresses?.map((addr) => ({ value: addr._id, label: addr.name }))}
+                options={addresses?.map((addr) => ({
+                  value: addr._id,
+                  label: `${addr.location_remark} ${addr.street_address}   ${addr.city} ${addr.province} ${addr.postal_code} `,
+                }))}
                 onValueChange={handleAddressChange}
-              ></Selectable>
+              >
+                <Button
+                  borderColor="#FF9F0D"
+                  style={{
+                    color: '#FF9F0D',
+                    fontWeight: 'bold',
+                  }}
+                  iconAfter={<Plus color={'#FF9F0D'}></Plus>}
+                  borderWidth={1}
+                  m={4}
+                  chromeless
+                  variant="outlined"
+                >
+                  Add Address
+                </Button>
+              </Selectable>
 
               {selectedAddress && (
                 <YStack space="$3" mt="$3">
@@ -119,9 +140,25 @@ const CheckoutLoggedIn = ({
 
         {currentStep == 'payment' && (
           <View>
-            <Text fontSize="$6" fontWeight="bold">
-              Payment Method
-            </Text>
+            <XStack justify={'space-between'} items={'center'}>
+              <Text fontSize="$6" fontWeight="bold">
+                Payment Method
+              </Text>
+              <Text
+                onPress={goBack}
+                hoverStyle={{
+                  color: '#FF1F0D',
+                }}
+                cursor="pointer"
+                style={{
+                  color: '#FF9F0D',
+                  borderBottomWidth: '1px',
+                  borderBottomColor: '#FF9F0D',
+                }}
+              >
+                Edit address
+              </Text>
+            </XStack>
             <Text>Payment UI will be integrated here.</Text>
           </View>
         )}

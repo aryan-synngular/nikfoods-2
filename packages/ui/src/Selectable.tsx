@@ -2,7 +2,7 @@ import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import React from 'react'
 
 import type { FontSizeTokens, SelectProps } from 'tamagui'
-import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
+import { Adapt, Button, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 import { ISelectOption } from 'app/types/common'
 
@@ -12,9 +12,20 @@ export default function Selectable(
     options: ISelectOption[]
     title: string
     placeholder: string
+    children?: React.ReactNode
+    selectBoxWidth?: number
+    // value:ISelectOption
   }
 ) {
-  const { value, onValueChange, options = [], title = '', placeholder = 'Select..' } = props
+  const {
+    children,
+    value,
+    onValueChange,
+    options = [],
+    title = '',
+    placeholder = 'Select..',
+    selectBoxWidth = 550,
+  } = props
   return (
     <>
       <Label>{title}</Label>
@@ -25,7 +36,7 @@ export default function Selectable(
         disablePreventBodyScroll
         {...props}
       >
-        <Select.Trigger maxWidth={260} iconAfter={ChevronDown}>
+        <Select.Trigger iconAfter={ChevronDown}>
           <Select.Value placeholder={placeholder} />
         </Select.Trigger>
 
@@ -46,13 +57,7 @@ export default function Selectable(
         </Adapt>
 
         <Select.Content zIndex={200000}>
-          <Select.ScrollUpButton
-            items="center"
-            justify="center"
-            position="relative"
-            width="100%"
-            height="$3"
-          >
+          <Select.ScrollUpButton items="center" justify="center" position="relative" height="$3">
             <YStack z={10}>
               <ChevronUp size={20} />
             </YStack>
@@ -65,7 +70,7 @@ export default function Selectable(
             />
           </Select.ScrollUpButton>
 
-          <Select.Viewport mt={30} animation="quick" minW={200}>
+          <Select.Viewport mt={30} animation="quick" maxW={selectBoxWidth}>
             <Select.Group>
               {/* for longer lists memoizing these is useful */}
               {React.useMemo(
@@ -82,6 +87,7 @@ export default function Selectable(
                   }),
                 [options]
               )}
+              {children}
             </Select.Group>
             {/* Native gets an extra icon */}
             {props.native && (
@@ -100,13 +106,7 @@ export default function Selectable(
             )}
           </Select.Viewport>
 
-          <Select.ScrollDownButton
-            items="center"
-            justify="center"
-            position="relative"
-            width="100%"
-            height="$3"
-          >
+          <Select.ScrollDownButton items="center" justify="center" position="relative" height="$3">
             <YStack z={10}>
               <ChevronDown size={20} />
             </YStack>

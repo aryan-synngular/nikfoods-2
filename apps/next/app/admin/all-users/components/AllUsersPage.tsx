@@ -12,8 +12,14 @@ import {
 } from '@tamagui/lucide-icons'
 import { apiGetAllUsers } from 'app/services/UserService'
 import { IUser } from 'app/types/user'
+import { IListResponse } from 'app/types/common'
 export default function AllUsersPage() {
-  const [users, setUsers] = useState<IUser[]>([])
+  const [users, setUsers] = useState<IListResponse<IUser>>({
+    items: [],
+    page: 0,
+    pageSize: 0,
+    total: 0,
+  })
   const [items, setItems] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -23,9 +29,9 @@ export default function AllUsersPage() {
 
   const getAllUsers = useCallback(async () => {
     try {
-      const data = await apiGetAllUsers()
+      const data = await apiGetAllUsers<IListResponse<IUser>>()
       console.log(data)
-      setUsers(data?.items)
+      setUsers(data)
     } catch (error) {
       setError('Failed to fetch food items')
     } finally {
@@ -64,8 +70,8 @@ export default function AllUsersPage() {
         height={'64vh'}
         style={{
           overflow: 'auto',
+          borderRadius: '12px',
         }}
-        borderRadius={12}
         shadowColor="#4F8CFF22"
         shadowOpacity={0.08}
       >
@@ -98,7 +104,7 @@ export default function AllUsersPage() {
           </Text>
         </XStack>
         {/* Table Body */}
-        {users?.map((item, idx) => (
+        {users?.items.map((item, idx) => (
           <XStack
             justify={'space-between'}
             key={idx}
@@ -186,14 +192,14 @@ export default function AllUsersPage() {
           onPress={() => setPage((prev) => Math.max(prev - 1, 1))}
         ></Button>
         <Text fontWeight="700" color="#4F8CFF" items="center">
-          Page {page} of {Math.ceil(items?.total / Number(limit))}
+          Page {page} of {Math.ceil(users?.total / Number(limit))}
         </Text>
         <Button
           size="$3"
           bg="#E6F0FF"
           color="#4F8CFF"
           icon={ArrowRight}
-          disabled={page >= Math.ceil(items?.total / Number(limit)) || loading}
+          disabled={page >= Math.ceil(users?.total / Number(limit)) || loading}
           onPress={() => setPage((prev) => prev + 1)}
         ></Button>
       </XStack>

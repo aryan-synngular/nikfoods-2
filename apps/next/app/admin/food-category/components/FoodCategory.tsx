@@ -5,6 +5,8 @@ import { AlertDialog, Button, Dialog, Text, XStack, YStack } from 'tamagui'
 import EditCategoryForm from './EditFoodCategory'
 import { Plus } from '@tamagui/lucide-icons'
 import { CategoryCard } from './CategoryCard'
+import { IListResponse } from 'app/types/common'
+import { IFoodCategory } from 'app/types/category'
 
 export default function FoodCategory() {
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -13,7 +15,12 @@ export default function FoodCategory() {
   const [deleteItemId, setDeleteItemId] = useState<string>('')
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<any>(null)
 
-  const [categories, setCategories] = useState<any>({ items: [], total: 0, page: 1, pageSize: 2 })
+  const [categories, setCategories] = useState<IListResponse<IFoodCategory>>({
+    items: [],
+    total: 0,
+    page: 1,
+    pageSize: 2,
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -87,7 +94,7 @@ export default function FoodCategory() {
               setDeleteItemId(category._id)
               setDeleteDialogOpen(true)
             }}
-            key={category.id}
+            key={category._id}
             imageUrl={category.url}
             name={category.name}
             id={category._id}

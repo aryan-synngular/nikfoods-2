@@ -9,8 +9,8 @@ interface CartDaySectionProps {
   date: string
   deliveryLabel?: string
   items: ICartItem[]
-  onIncrement?: (id: string) => void
-  onDecrement?: (id: string) => void
+  onIncrement?: (id: string, change: number) => void
+  onDecrement?: (id: string, change: number) => void
 }
 
 export function CartDaySection({
@@ -81,10 +81,12 @@ export function CartDaySection({
       >
         <YStack>
           <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
-            What's in your {day}'s cart 
+            What's in your {day}'s cart
           </Text>
         </YStack>
-
+        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
+          {new Date(date).toLocaleDateString()}
+        </Text>
         {deliveryLabel && (
           <Chip>
             <Text
@@ -110,8 +112,8 @@ export function CartDaySection({
             price={Number(item?.food?.price)}
             quantity={item.quantity}
             imageUrl={item?.food?.url}
-            onIncrement={() => onIncrement?.(item._id)}
-            onDecrement={() => onDecrement?.(item._id)}
+            onIncrement={() => onIncrement?.(item._id, 1)}
+            onDecrement={() => onDecrement?.(item._id, -1)}
           />
         ))}
       </YStack>

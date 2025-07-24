@@ -12,6 +12,8 @@ import { useAuth } from 'app/hook/useAuth'
 import CheckoutLoggedIn from './CheckoutLoggedIn'
 import { IAddress, IAddressResponse } from 'app/types/user'
 import { apiGetAllAddress } from 'app/services/UserService'
+import { apiGetCartTotalAmount } from 'app/services/CartService'
+import { IResponse } from 'app/types/common'
 interface CartItemData {
   id: string
   name: string
@@ -52,6 +54,7 @@ export function CheckoutPage({
   const handleAddressChange = (val) => {
     setSelectedAddress(address.find((addr) => addr._id == val)!)
   }
+  const [total, setTotal] = useState<{ total: number }>({ total: 0 })
   // Effect to check window width and update isDesktop state
   useEffect(() => {
     // Function to check if we're on desktop
@@ -77,6 +80,9 @@ export function CheckoutPage({
     try {
       const data = await apiGetAllAddress<IAddressResponse>()
       setAddress(data?.items)
+      if (data?.items.length > 0) {
+        setSelectedAddress(data?.items[0])
+      }
     } catch (error) {
       console.log('Error:', error)
     }
@@ -184,6 +190,19 @@ export function CheckoutPage({
     },
   ]
 
+  const getTotal = useCallback(async () => {
+    try {
+      const data = await apiGetCartTotalAmount<IResponse<{ total: number }>>()
+      console.log(data)
+      setTotal(data?.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+  useEffect(() => {
+    getTotal()
+  }, [getTotal])
+
   // Calculate cart totals
   const subtotal = cartDays.reduce((sum, day) => {
     return sum + day.items.reduce((daySum, item) => daySum + item.price * item.quantity, 0)
@@ -247,6 +266,10 @@ export function CheckoutPage({
       setCurrentStep('payment')
     }
   }
+
+  const refreshCartDetails = () => {
+    getTotal()
+  }
   return (
     <YStack
       style={{
@@ -292,7 +315,7 @@ export function CheckoutPage({
           >
             <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Checkout </Text>
             {/* Savings banner */}
-            <SavingsBanner amount={15} />
+            {/* <SavingsBanner amount={15} /> */}
           </XStack>
         </YStack>
 
@@ -336,6 +359,7 @@ export function CheckoutPage({
                   {isAuthenticated ? (
                     <CheckoutLoggedIn
                       addresses={address}
+                      goBack={() => setCurrentStep('delivery')}
                       handleAddressChange={handleAddressChange}
                       selectedAddress={selectedAddress!}
                       currentStep={currentStep}
@@ -348,7 +372,7 @@ export function CheckoutPage({
                   {isDesktop === false && (
                     <DessertDeals
                       items={dessertDeals}
-                      onAddItem={onAddDessert}
+                      onAddItem={refreshCartDetails}
                       onViewAll={onViewAllDesserts}
                     />
                   )}
@@ -392,7 +416,11 @@ export function CheckoutPage({
                           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        <CartSummary subtotal={144} onCheckout={onHandleClick} />
+                        <CartSummary
+                          subtotal={total.total}
+                          buttonTitle="Continue To Pay"
+                          onCheckout={onHandleClick}
+                        />
                       </YStack>
 
                       {/* Dessert deals section */}
@@ -412,7 +440,7 @@ export function CheckoutPage({
                       >
                         <DessertDeals
                           items={dessertDeals}
-                          onAddItem={onAddDessert}
+                          onAddItem={refreshCartDetails}
                           onViewAll={onViewAllDesserts}
                         />
                       </YStack>
@@ -446,7 +474,11 @@ export function CheckoutPage({
                       elevation: 2,
                     }}
                   >
-                    <CartSummary subtotal={144} onCheckout={onHandleClick} />
+                    <CartSummary
+                      subtotal={total.total}
+                      buttonTitle="Continue To Pay"
+                      onCheckout={onHandleClick}
+                    />
                   </YStack>
                 </YStack>
               )}

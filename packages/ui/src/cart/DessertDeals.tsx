@@ -1,7 +1,12 @@
-"use client"
+'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { Button, Text, XStack, YStack, Image } from 'tamagui'
-
+import { apiAddFoodItemToCart, apiGetCartReccomendations } from 'app/services/CartService'
+import { IListResponse, IResponse } from 'app/types/common'
+import { IFoodCategory } from 'app/types/category'
+import { IFoodItem } from 'app/types/foodItem'
+import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 interface DessertItem {
   id: string
   name: string
@@ -12,11 +17,47 @@ interface DessertItem {
 
 interface DessertDealsProps {
   items: DessertItem[]
-  onAddItem?: (id: string) => void
+  onAddItem?: () => void
   onViewAll?: () => void
 }
 
 export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps) {
+  const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem | null>(null)
+
+  const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
+
+  const handleAddButtonClick = (item: any) => {
+    setSelectedFoodItem(item)
+    setIsDatePopupOpen(true)
+  }
+  const handleDateSelection = async (selectedDates: any) => {
+    console.log(selectedDates)
+    try {
+      const data = await apiAddFoodItemToCart({
+        foodItemId: selectedFoodItem?._id,
+        days: selectedDates,
+        quantity: 1,
+      })
+      console.log(data)
+      onAddItem?.()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const [desserts, setDesserts] = useState<IListResponse<IFoodItem>>({
+    items: [],
+    page: 1,
+    pageSize: 5,
+    total: 0,
+  })
+  const getCartRecommendations = useCallback(async () => {
+    const data = await apiGetCartReccomendations<IResponse<IListResponse<IFoodItem>>>({})
+    console.log(data)
+    setDesserts(data?.data)
+  }, [])
+  useEffect(() => {
+    getCartRecommendations()
+  }, [getCartRecommendations])
   return (
     <YStack style={{ padding: 20 }}>
       <XStack style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -38,15 +79,15 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
       </XStack>
 
       <YStack style={{ gap: 12 }}>
-        {items.map((item) => (
+        {desserts.items.map((item) => (
           <XStack
-            key={item.id}
+            key={item._id}
             style={{
               padding: 12,
               borderWidth: 1,
               borderColor: '#F0F0F0',
               borderRadius: 8,
-              backgroundColor: 'white'
+              backgroundColor: 'white',
             }}
           >
             <YStack
@@ -56,16 +97,10 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
                 borderRadius: 8,
                 marginRight: 12,
                 backgroundColor: '#F5F5F5',
-                overflow: 'hidden'
+                overflow: 'hidden',
               }}
             >
-              <Image
-                src={item.imageUrl}
-                alt={item.name}
-                width={70}
-                height={70}
-                resizeMode="cover"
-              />
+              <Image src={item.url} alt={item.name} width={70} height={70} resizeMode="cover" />
             </YStack>
 
             <YStack style={{ flex: 1, justifyContent: 'center' }}>
@@ -83,26 +118,36 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
                 </Text>
 
                 <Button
-                  onPress={() => onAddItem?.(item.id)}
+                  onPress={() => {
+                    handleAddButtonClick(item)
+                  }}
                   style={{
-                    backgroundColor: '#FFB648',
+                    backgroundColor: '#FF9F0D',
+
                     borderRadius: 4,
                     height: 32,
                     paddingHorizontal: 16,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    color: 'white',
                   }}
                 >
-                  <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>
-                    Add
-                  </Text>
+                  Add
                 </Button>
               </XStack>
             </YStack>
           </XStack>
         ))}
       </YStack>
+
+      <DeliveryDatePopup
+        item={selectedFoodItem}
+        open={isDatePopupOpen}
+        onOpenChange={setIsDatePopupOpen}
+        onSelect={handleDateSelection}
+      />
     </YStack>
   )
 }

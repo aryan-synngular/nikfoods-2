@@ -8,11 +8,13 @@ interface CartSummaryProps {
   onCheckout: () => void
   deliveryFee?: number
   tax?: number
+  buttonTitle: string
 }
 
 export function CartSummary({
   subtotal,
   onCheckout,
+  buttonTitle = '',
   deliveryFee = 2.99,
   tax = 0,
 }: CartSummaryProps) {
@@ -116,7 +118,7 @@ export function CartSummary({
         }}
         iconAfter={<ArrowRight fontWeight={600} color="white" />}
       >
-        Checkout
+        {buttonTitle}
       </Button>
 
       {/* Credit card acceptance text */}

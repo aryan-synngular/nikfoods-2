@@ -21,13 +21,15 @@ import EditFoodItemForm from './EditFoodItemForm'
 import { useSearchParams } from 'next/navigation'
 import { ICategory } from 'app/admin/food-category/components/EditFoodCategory'
 import Selectable from '@my/ui/src/Selectable'
+import { IFoodItem, IFoodItemsResponse } from 'app/types/foodItem'
+import { IListResponse, ISelectOption } from 'app/types/common'
 export default function FoodItems() {
   const searchParams = useSearchParams()
   const categoryFromQuery = searchParams?.get('category')
   const categoryIdFromQuery = searchParams?.get('categoryId')
   console.log(categoryFromQuery)
   console.log(categoryIdFromQuery)
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState<ISelectOption[]>([])
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState(categoryIdFromQuery ?? 'all')
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -36,7 +38,12 @@ export default function FoodItems() {
   const [deleteItemId, setDeleteItemId] = useState<string>('')
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<any>(null)
 
-  const [items, setItems] = useState<any>({ items: [], total: 0, page: 1, pageSize: 2 })
+  const [items, setItems] = useState<IListResponse<IFoodItem>>({
+    items: [],
+    total: 0,
+    page: 1,
+    pageSize: 2,
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -135,6 +142,9 @@ export default function FoodItems() {
           {/* Hide SelectableFoodCategory if categoryId is present */}
           {!categoryIdFromQuery && (
             <Selectable
+              selectBoxWidth={100}
+              title=""
+              placeholder="Select Food Category..."
               value={selectedCategory}
               options={[{ value: 'all', label: 'all' }, ...categories]}
               onValueChange={(category) => {
@@ -166,8 +176,8 @@ export default function FoodItems() {
         height={'64vh'}
         style={{
           overflow: 'auto',
+          borderRadius: '12px',
         }}
-        borderRadius={12}
         shadowColor="#4F8CFF22"
         shadowOpacity={0.08}
       >

@@ -143,7 +143,7 @@ export async function PUT(req: NextRequest) {
     } catch (error) {
       console.log(error)
 
-      if (public_id) {
+      if (isImageUpdated && public_id) {
         try {
           await cloudinary.uploader.destroy(public_id)
           console.log(`Deleted image: ${public_id}`)

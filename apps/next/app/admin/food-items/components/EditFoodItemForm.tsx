@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { YStack, XStack, Input, Text, Switch, Button, Spinner, TextArea, Label } from 'tamagui'
-import { IFoodItem } from 'models/FoodItem'
 import { MultiSelect } from 'app/components/ui/MultiSelect'
 import { clientEnv } from 'data/env/client'
 import UploadImageButton from './UploadButton'
+import { IFoodItem } from 'app/types/foodItem'
+import { ISelectOption } from 'app/types/common'
 
 interface EditFoodItemFormProps {
   initialData?: Partial<IFoodItem>
   onSuccess?: () => void
   onCancel?: () => void
-  categories: { name: string; label: string }[]
+  categories: ISelectOption[]
 }
 
 export default function EditFoodItemForm({
@@ -24,7 +25,7 @@ export default function EditFoodItemForm({
     name: initialData?.name || '',
     description: initialData?.description || '',
     price: initialData?.price ?? 0,
-    category: initialData?.category || [],
+    category: (initialData?.category as unknown as string[]) || [],
     veg: initialData?.veg ?? true,
     available: initialData?.available ?? true,
     url: initialData?.url || '',

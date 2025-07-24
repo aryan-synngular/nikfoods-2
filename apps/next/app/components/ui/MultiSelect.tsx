@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Popover, XStack, YStack, Text, Button, ScrollView, Separator, Adapt, Sheet } from 'tamagui'
 import { Check, ChevronDown } from '@tamagui/lucide-icons'
-import { ActionsPopover } from 'app/admin/food-category/components/ActionsPopover'
-type Option = { label: string; value: string }
+import { ISelectOption } from 'app/types/common'
 
 interface MultiSelectProps {
-  options: Option[]
+  options: ISelectOption[]
   value: string[]
   onChange: (newValues: string[]) => void
   placeholder?: string
@@ -69,7 +68,7 @@ export function MultiSelect({
             },
           ]}
         >
-          <ScrollView maxHeight={maxHeight}>
+          <ScrollView maxH={maxHeight}>
             <YStack p={'$2'} items={'center'}>
               {options.map((opt) => {
                 const selected = value.includes(opt.value)

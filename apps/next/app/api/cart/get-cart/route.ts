@@ -16,8 +16,11 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDatabase()
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
     const cart = await Cart.findOne({ user: id }).populate({
       path: 'days',
+      match: { date: { $gte: today } },
       populate: {
         path: 'items',
         model: CartItem,

@@ -40,8 +40,6 @@ interface AuthContextData {
   loading: boolean
   signIn: (credentials?: any) => Promise<{ isCompleted: boolean }>
   signOut: () => Promise<void>
-  getAccessToken: () => Promise<string | null>
-  fetchWithAuth: (url: string, options?: RequestInit) => Promise<Response>
   registerStep2: (address?: any) => Promise<void>
   register: (address?: any) => Promise<void>
 }
@@ -157,31 +155,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const savePendingUserId = async (id: string) => {
-    if (Platform.OS === 'web') {
-      localStorage.setItem('pendingUserId', id)
-    } else {
-      await AsyncStorage.setItem('pendingUserId', id)
-    }
-  }
 
-  const getPendingUserId = async () => {
-    let id: string | null
-    if (Platform.OS === 'web') {
-      id = localStorage.getItem('pendingUserId')
-    } else {
-      id = await AsyncStorage.getItem('pendingUserId')
-    }
-
-    return id
-  }
-  const removePendingUserId = async () => {
-    if (Platform.OS === 'web') {
-      localStorage.removeItem('pendingUserId')
-    } else {
-      await AsyncStorage.removeItem('pendingUserId')
-    }
-  }
 
   const register = async (credentials: any) => {
     try {
@@ -263,55 +237,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  // ---- Refresh Token ----
-  const refreshToken = async (): Promise<string | null> => {
-    if (Platform.OS == 'web') return null
-    const storedRefreshToken = await SecureStore.getItemAsync('refreshToken')
-    if (!storedRefreshToken) return null
 
-    try {
-      const res = await fetch('https://your-api.com/refresh-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken: storedRefreshToken }),
-      })
-      const data = await res.json()
-      if (data?.token) {
-        const expiresAt = Date.now() + data.expiresIn * 1000
-        await SecureStore.setItemAsync('token', data.token)
-        await SecureStore.setItemAsync('expiresAt', expiresAt.toString())
-        setUser((prev) => (prev ? { ...prev, token: data.token, expiresAt } : null))
-        return data.token
-      }
-    } catch (err) {
-      console.error('Failed to refresh token', err)
-    }
-    return null
-  }
 
-  // ---- Get Access Token ----
-  const getAccessToken = async (): Promise<string | null> => {
-    if (Platform.OS == 'web') {
-      const res = await fetch('/api/auth/session')
-      const data = await res.json()
-      console.log(data)
-      return data?.user?.token ?? null
-    } else {
-      const token = await SecureStore.getItemAsync('token')
-      const expiresAtStr = await SecureStore.getItemAsync('expiresAt')
-      const expiresAt = expiresAtStr ? parseInt(expiresAtStr, 10) : 0
-      if (token && Date.now() < expiresAt) return token
-      return await refreshToken()
-    }
-  }
-
-  // ---- Fetch with Auth ----
-  const fetchWithAuth = async (url: string, options: RequestInit = {}): Promise<Response> => {
-    let token = await getAccessToken()
-    if (!token) throw new Error('No valid token available')
-    const headers = { ...options.headers, Authorization: `Bearer ${token}` }
-    return fetch(url, { ...options, headers })
-  }
+ 
+ 
 
   return (
     <AuthContext.Provider
@@ -320,8 +249,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         loading,
         signIn,
         signOut,
-        getAccessToken,
-        fetchWithAuth,
         registerStep2,
         register,
       }}

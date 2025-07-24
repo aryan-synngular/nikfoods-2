@@ -1,28 +1,27 @@
 import { XStack, Text, Button, YStack, View, Image } from 'tamagui'
 import { useLink } from 'solito/navigation'
 import { Platform } from 'react-native'
-import { ArrowRight, Bell, ShoppingCart } from '@tamagui/lucide-icons'
+import { ArrowRight, Bell, ShoppingCart, User2 } from '@tamagui/lucide-icons'
 import { primary, shadow, background, border } from './colors'
-import {useAuth} from "app/provider/auth-context"
-
-import {useSession} from  'next-auth/react'
+import { useAuth } from 'app/provider/auth-context'
+import { ProfilePopUp } from '@my/ui/src/profile/ProfilePopUp'
+import { useSession } from 'next-auth/react'
 export const AppHeader = () => {
-
-  const { user,signOut,loading} = useAuth()
+  const { user, signOut, loading } = useAuth()
   console.log(user)
   console.log(user)
   const loginLink = useLink({
     href: '/login',
   })
-  
+
   const cartLink = useLink({
     href: '/cart',
   })
-  
+
   const adminLink = useLink({
     href: '/admin',
   })
-  
+
   // Use inline styles for web-specific sticky positioning
   const headerStyle = {
     height: 60,
@@ -43,7 +42,7 @@ export const AppHeader = () => {
   const handleSignOut = async () => {
     // console.log("Hello")
     // update({isCompleted:true, abc:"sdkjf"
-  // })
+    // })
     await signOut()
     loginLink.onPress()
   }
@@ -75,17 +74,20 @@ export const AppHeader = () => {
 
       {/* Action Buttons */}
       <XStack style={{ gap: 8, alignItems: 'center', paddingRight: 12 }}>
-   {Platform.OS=="web"&&user&&user.role==="ADMIN"&&   <Button
-          size="$3"
-theme='dark'
-bg={"black"}
-color={"white"}
-hoverStyle={{background:"black"}}
-iconAfter={<ArrowRight />}
-{...adminLink}
-        >
-          Admin Dashboard
-        </Button>}
+        {Platform.OS == 'web' && user && user.role === 'ADMIN' && (
+          <Button
+            size="$3"
+            theme="dark"
+            mr={20}
+            bg={'black'}
+            color={'white'}
+            hoverStyle={{ background: 'black' }}
+            icon={User2}
+            {...adminLink}
+          >
+            Admin Panel
+          </Button>
+        )}
         <Button
           size="$3"
           circular
@@ -99,7 +101,8 @@ iconAfter={<ArrowRight />}
           style={{ backgroundColor: 'transparent' }}
           {...cartLink}
         />
-        {!true? (
+
+        {!user ? (
           <Button
             size="$3"
             style={{
@@ -113,18 +116,7 @@ iconAfter={<ArrowRight />}
             Login
           </Button>
         ) : (
-          <Button
-            size="$3"
-            style={{
-              backgroundColor: primary,
-              color: background,
-              fontFamily: 'Nunito',
-              fontWeight: '600',
-            }}
-            onPress={handleSignOut}
-          >
-            Sign Out
-          </Button>
+          <ProfilePopUp handleSignOut={handleSignOut} Name={user?.email}></ProfilePopUp>
         )}
       </XStack>
     </XStack>
