@@ -22,7 +22,9 @@ import { useSearchParams } from 'next/navigation'
 import { ICategory } from 'app/admin/food-category/components/EditFoodCategory'
 import Selectable from '@my/ui/src/Selectable'
 import { IFoodItem, IFoodItemsResponse } from 'app/types/foodItem'
-import { IListResponse, ISelectOption } from 'app/types/common'
+import { IListResponse, IResponse, ISelectOption } from 'app/types/common'
+import { apiGetCategory, apiGetFoodItems } from 'app/services/FoodService'
+import { IFoodCategory } from 'app/types/category'
 export default function FoodItems() {
   const searchParams = useSearchParams()
   const categoryFromQuery = searchParams?.get('category')
@@ -53,12 +55,14 @@ export default function FoodItems() {
   const getFoodItems = useCallback(async () => {
     try {
       setLoading(true)
-      const response = await fetch(
-        `/api/food-item?search=${search}&category=${selectedCategory}&page=${page}&limit=${limit}`
-      )
-      const data = await response.json()
-      console.log(data)
-      setItems(data)
+      const response = await apiGetFoodItems<IResponse<IListResponse<IFoodItem>>>({
+        category: selectedCategory,
+        search,
+        page,
+        limit,
+      })
+
+      setItems(response.data)
     } catch (error) {
       setError('Failed to fetch food items')
     } finally {
@@ -73,10 +77,8 @@ export default function FoodItems() {
   }
   const getCategories = useCallback(async () => {
     try {
-      const response = await fetch(`/api/food-category`)
-      const data = await response.json()
-      console.log(data)
-      const newData = getModifiedCategories(data.items)
+      const response = await apiGetCategory<IResponse<IListResponse<IFoodCategory>>>()
+      const newData = getModifiedCategories(response.data.items)
       console.log(newData)
       setCategories(newData)
     } catch (error) {
@@ -126,8 +128,8 @@ export default function FoodItems() {
         Food Items{headerCategoryName ? ` - ${headerCategoryName}` : ''}
       </Text>
 
-      <XStack items="center" justify="space-between" mb="$3" gap={16}>
-        <XStack items="center" gap={32}>
+      <XStack justify="space-between" mb="$3" gap={16}>
+        <XStack gap={32}>
           <Input
             placeholder="Search food items..."
             value={search}
@@ -135,14 +137,13 @@ export default function FoodItems() {
               setSearch(v)
               getFoodItems()
             }}
-            width={360}
             borderColor="#4F8CFF"
             bg="#F6FAFF"
           />
           {/* Hide SelectableFoodCategory if categoryId is present */}
           {!categoryIdFromQuery && (
             <Selectable
-              selectBoxWidth={100}
+              selectBoxWidth={300}
               title=""
               placeholder="Select Food Category..."
               value={selectedCategory}

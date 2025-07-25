@@ -10,10 +10,10 @@ import { AppHeader } from '../Header'
 import CheckoutSteps from './CheckoutSteps'
 import { useAuth } from 'app/hook/useAuth'
 import CheckoutLoggedIn from './CheckoutLoggedIn'
-import { IAddress, IAddressResponse } from 'app/types/user'
+import { IAddress } from 'app/types/user'
 import { apiGetAllAddress } from 'app/services/UserService'
 import { apiGetCartTotalAmount } from 'app/services/CartService'
-import { IResponse } from 'app/types/common'
+import { IListResponse, IResponse } from 'app/types/common'
 interface CartItemData {
   id: string
   name: string
@@ -48,11 +48,11 @@ export function CheckoutPage({
   console.log(isAuthenticated)
   // State to track if we're on desktop or mobile
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
-  const [address, setAddress] = useState<IAddress[]>([])
+  const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
   const [currentStep, setCurrentStep] = useState<'delivery' | 'payment'>('delivery')
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
   const handleAddressChange = (val) => {
-    setSelectedAddress(address.find((addr) => addr._id == val)!)
+    setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
   }
   const [total, setTotal] = useState<{ total: number }>({ total: 0 })
   // Effect to check window width and update isDesktop state
@@ -78,10 +78,10 @@ export function CheckoutPage({
 
   const getAllAddress = useCallback(async () => {
     try {
-      const data = await apiGetAllAddress<IAddressResponse>()
-      setAddress(data?.items)
-      if (data?.items.length > 0) {
-        setSelectedAddress(data?.items[0])
+      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
+      setAddress(data?.data)
+      if (data?.data?.items.length > 0) {
+        setSelectedAddress(data?.data?.items[0])
       }
     } catch (error) {
       console.log('Error:', error)
@@ -358,7 +358,7 @@ export function CheckoutPage({
                 <ScrollView style={{ flex: 1 }}>
                   {isAuthenticated ? (
                     <CheckoutLoggedIn
-                      addresses={address}
+                      addresses={address?.items ?? []}
                       goBack={() => setCurrentStep('delivery')}
                       handleAddressChange={handleAddressChange}
                       selectedAddress={selectedAddress!}

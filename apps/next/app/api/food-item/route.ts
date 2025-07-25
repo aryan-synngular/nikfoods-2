@@ -44,10 +44,13 @@ export async function GET(req: NextRequest) {
       .populate('category')
 
     return NextResponse.json({
-      items,
-      total: totalItems,
-      page: Number(page),
-      pageSize: Number(limit),
+      data: {
+        items,
+        total: totalItems,
+        page: Number(page),
+        pageSize: Number(limit),
+      },
+      message: 'Food Items fetched successfully',
     })
   } catch (error) {
     console.log(error)

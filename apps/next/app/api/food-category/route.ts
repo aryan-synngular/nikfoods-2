@@ -14,8 +14,11 @@ export async function GET(req: NextRequest) {
     const categories = await FoodCategory.find().sort({ createdAt: -1 })
 
     return NextResponse.json({
-      items: categories,
-      total: totalCategories,
+      data: {
+        items: categories,
+        total: totalCategories,
+      },
+      message: 'Category fetched successfully',
     })
   } catch (error) {
     console.error(error)

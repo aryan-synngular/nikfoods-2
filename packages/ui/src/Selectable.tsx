@@ -24,7 +24,7 @@ export default function Selectable(
     options = [],
     title = '',
     placeholder = 'Select..',
-    selectBoxWidth = 550,
+    selectBoxWidth,
   } = props
   return (
     <>
@@ -36,7 +36,7 @@ export default function Selectable(
         disablePreventBodyScroll
         {...props}
       >
-        <Select.Trigger iconAfter={ChevronDown}>
+        <Select.Trigger width={selectBoxWidth ?? '100%'} iconAfter={ChevronDown}>
           <Select.Value placeholder={placeholder} />
         </Select.Trigger>
 

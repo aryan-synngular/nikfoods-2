@@ -12,6 +12,7 @@ import { AppHeader } from '../Header'
 import { apiGetCart, apiUpdateCartItemQuantity } from 'app/services/CartService'
 import { useLink } from 'solito/navigation'
 import { ICart, ICartResponse } from 'app/types/cart'
+import { useToast } from '../useToast'
 interface CartItemData {
   id: string
   name: string
@@ -46,6 +47,8 @@ export function CartPage({
   const homeLink = useLink({
     href: '/',
   })
+
+  const { showMessage } = useToast()
   // State to track if we're on desktop or mobile
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
   const checkOutLink = useLink({
@@ -194,6 +197,7 @@ export function CartPage({
       const data = await apiUpdateCartItemQuantity({ cartItemId: itemId, change })
       console.log(data)
       await getCartData()
+      showMessage('Quantity Updated Successfully', 'success')
     } catch (error) {
       console.log(error)
     }

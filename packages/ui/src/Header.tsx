@@ -6,6 +6,20 @@ import { primary, shadow, background, border } from './colors'
 import { useAuth } from 'app/provider/auth-context'
 import { ProfilePopUp } from '@my/ui/src/profile/ProfilePopUp'
 import { useSession } from 'next-auth/react'
+
+// Add shimmer loader for profile tab
+function ProfileTabShimmer() {
+  return (
+    <YStack
+      width={150}
+      height={40}
+      bg="#ececec"
+      style={{ borderRadius: 10, opacity: 0.7, overflow: 'hidden', marginLeft: 8, marginRight: 8 }}
+      className="shimmer-effect"
+    />
+  )
+}
+
 export const AppHeader = () => {
   const { user, signOut, loading } = useAuth()
   console.log(user)
@@ -102,7 +116,10 @@ export const AppHeader = () => {
           {...cartLink}
         />
 
-        {!user ? (
+        {/* Profile/Login Tab */}
+        {loading ? (
+          <ProfileTabShimmer />
+        ) : !user ? (
           <Button
             size="$3"
             style={{

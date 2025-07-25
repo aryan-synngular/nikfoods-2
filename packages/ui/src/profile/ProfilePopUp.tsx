@@ -1,5 +1,6 @@
 import { Adapt, Button, Image, Popover, PopoverProps, Sheet, Text, YStack } from 'tamagui'
-import { CarTaxiFront, Home, LogOut, ShoppingCart, User } from '@tamagui/lucide-icons'
+import { User } from '@tamagui/lucide-icons'
+import { tabs } from 'app/constants/account.constant'
 export function ProfilePopUp({
   Icon,
   Name,
@@ -49,27 +50,28 @@ export function ProfilePopUp({
         ]}
       >
         <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
-        <YStack width={'100%'} justify={'flex-start'} items={'flex-start'}>
-          <Popover.Close asChild>
-            <Button size="$3" icon={User} gap={2} chromeless onPress={() => {}}>
-              Profile
+        <YStack bg={'white'} width={200} style={{ borderRadius: '20px' }}>
+          {tabs.map((tab) => (
+            <Button
+              width={'100%'}
+              key={tab.title}
+              size="$3"
+              py={'$5'}
+              bg={'white'}
+              hoverStyle={{
+                borderWidth: 0,
+                background: '#FF9F0D1A',
+              }}
+              icon={tab.icon}
+              justify={'flex-start'}
+              // variant={ ? '' : 'outlined'}
+              onPress={() => {
+                // setTab(tab.title)
+              }}
+            >
+              {tab.title}
             </Button>
-          </Popover.Close>
-          <Popover.Close asChild>
-            <Button size="$3" icon={Home} gap={2} chromeless onPress={() => {}}>
-              Address
-            </Button>
-          </Popover.Close>
-          <Popover.Close asChild>
-            <Button size="$3" icon={ShoppingCart} gap={2} chromeless onPress={() => {}}>
-              Order
-            </Button>
-          </Popover.Close>
-          <Popover.Close asChild>
-            <Button size="$3" icon={LogOut} gap={2} chromeless onPress={handleSignOut}>
-              Logout
-            </Button>
-          </Popover.Close>
+          ))}
         </YStack>
       </Popover.Content>
     </Popover>
