@@ -1,0 +1,16 @@
+import { serverEnvSchema } from 'app/schemas/env'
+
+export const serverEnv = serverEnvSchema.parse({
+  DATABASE_URL: process.env.DATABASE_URL!,
+  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  PRIVATE_KEY: process.env.PRIVATE_KEY,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID!,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET!,
+  FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID!,
+  FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET!,
+  APPLE_CLIENT_ID: process.env.APPLE_CLIENT_ID!,
+  APPLE_CLIENT_SECRET: process.env.APPLE_CLIENT_SECRET!,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+})

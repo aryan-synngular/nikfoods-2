@@ -4,8 +4,10 @@ import { useState } from 'react'
 import { Text, YStack, XStack, Input, Button, Image, useMedia } from 'tamagui'
 import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
+import { useAuth } from 'app/provider/auth-context'
 
 export function SignupPage() {
+  const {register}=useAuth()
   const media = useMedia()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,18 +31,52 @@ export function SignupPage() {
     href: '/refund',
   })
   
-  const signupStep2Link = useLink({
-    href: '/signup/step2',
+  const signupStep2Link= useLink({
+    href: `/add-address`,
   })
 
-  const handleSignup = () => {
+  const handleSignup =async  () => {
     console.log('Signup with:', { email, password })
     // Validate inputs before proceeding
     if (email && password && password === confirmPassword) {
       // Navigate to step 2 using the link
-      if (signupStep2Link.onPress) {
-        signupStep2Link.onPress()
+      try {
+        // const res = await fetch("/api/auth/register", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ email, password }),
+        // });
+  
+        // const data = await res.json();
+        const data=await register({ email, password })
+  console.log(data)
+        // if (!data?.error) {
+        //   throw new Error(data.error || "Registration failed");
+        // }
+        // const userId = data.data;
+
+        // ✅ Option 1: Store in localStorage
+        // localStorage.setItem("pendingUserId", userId);
+        // const signInRes = await signIn("credentials", {
+        //   redirect: false,
+        //   email,
+        //   password,
+        // });
+  
+        // if (signInRes?.error) {
+        //   throw new Error(signInRes.error);
+        // }
+
+  
+        // ✅ Option 2: Navigate with query param
+        if (signupStep2Link.onPress) {
+          signupStep2Link.onPress();
+        }
+      } catch (error) {
+        console.log(error)
+       
       }
+     
     } else {
       // Show validation error
       console.log('Please fill all fields correctly')
@@ -51,6 +87,7 @@ export function SignupPage() {
     console.log(`Signup with ${provider}`)
     // Here you would typically redirect to OAuth provider
   }
+  ;
 
   return (
     <YStack 

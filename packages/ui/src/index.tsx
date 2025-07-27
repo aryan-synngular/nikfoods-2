@@ -28,6 +28,7 @@ export * from './auth/PasswordChangedPage' // Export the PasswordChangedPage com
 export * from './auth/SignupStep2Page' // Export the SignupStep2Page component
 export * from './auth/AccountCreatedPage' // Export the AccountCreatedPage component
 export * from './popups/DeliveryDatePopup' // Export the DeliveryDatePopup component
+export * from './profile/AccountPage'
 
 // Cart components
 export * from './cart/CartItem'
@@ -38,6 +39,6 @@ export * from './cart/CartDaySection'
 export * from './cart/SavingsBanner'
 export * from './cart/AddMoreButton'
 export * from './cart/DessertDeals'
-
 export * from './checkout/CheckoutPage'
 export * from './checkout/CheckoutSteps'
+export * from './loaders'

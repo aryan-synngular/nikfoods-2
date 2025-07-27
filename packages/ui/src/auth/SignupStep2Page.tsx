@@ -4,8 +4,11 @@ import { useState } from 'react'
 import { Text, YStack, XStack, Input, Button, Image, useMedia, Checkbox, TextArea } from 'tamagui'
 import { ArrowRight, X } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
+import { useAuth } from 'app/provider/auth-context'
 
 export function SignupStep2Page() {
+  const {user,registerStep2}=useAuth()
+  console.log(user)
   const media = useMedia()
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -18,7 +21,6 @@ export function SignupStep2Page() {
   const [notes, setNotes] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [agreedToMarketing, setAgreedToMarketing] = useState(false)
-  
   const termsLink = useLink({
     href: '/terms',
   })
@@ -34,12 +36,16 @@ export function SignupStep2Page() {
   const loginLink = useLink({
     href: '/login',
   })
+
+  const homeLink = useLink({
+    href: '/',
+  })
   
   const accountCreatedLink = useLink({
     href: '/account-created',
   })
 
-  const handleSignup = () => {
+  const handleSignup =async () => {
     // Required fields validation
     if (!name || !email || !streetAddress || !city || !postcode) {
       // Show error or validation message
@@ -52,8 +58,15 @@ export function SignupStep2Page() {
       console.log('Please agree to terms and conditions')
       return
     }
-    
+//     const userId=localStorage.getItem("pendingUserId")
+// console.log(userId)
+//     if(!userId)
+//     {
+//       console.log('UserId is required')
+//       return
+//     }
     const addressData = {
+      // userId,
       name,
       email,
       phone,
@@ -69,11 +82,32 @@ export function SignupStep2Page() {
     
     console.log('Complete signup with address:', addressData)
     // Here you would typically call your authentication service
-    
-    // Navigate to account created page on success
-    if (accountCreatedLink.onPress) {
-      accountCreatedLink.onPress()
+    try {
+      // const res = await fetch("/api/auth/register-step2", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(addressData),
+      // });
+const data=await registerStep2(addressData)
+//       const data = await res.json();
+// console.log(data)
+//       if (!res.ok) {
+//         throw new Error(data.error || "Registration failed");
+//       }
+//       const userId = data.userId;
+
+//       // ✅ Option 1: Store in localStorage
+//       localStorage.removeItem("pendingUserId");
+      if (homeLink.onPress) {
+        homeLink.onPress()
+      }
+
+    } catch (error) {
+      console.log(error)
+     
     }
+   
+    // Navigate to account created page on success
   }
 
   return (

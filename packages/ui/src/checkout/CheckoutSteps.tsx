@@ -17,7 +17,7 @@ const StepCard = styled(View, {
   },
 })
 
-const Section = ({
+export const Section = ({
   icon,
   title,
   description,
@@ -38,7 +38,7 @@ const Section = ({
             borderRadius: 16,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#FFF8F2',
+            backgroundColor: 'white',
           }}
         >
           {icon}
@@ -73,7 +73,7 @@ export default function CheckoutSteps() {
               paddingVertical: 8,
               borderRadius: 4,
             }}
-            onPress={() => { }}
+            onPress={() => {}}
           >
             Login
           </Button>

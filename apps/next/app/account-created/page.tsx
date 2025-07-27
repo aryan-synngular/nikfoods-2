@@ -1,4 +1,4 @@
-import { AccountCreatedPage } from 'app/auth/AccountCreatedPage'
+import { AccountCreatedPage } from '@my/ui'
 
 export default function Page() {
   return <AccountCreatedPage />

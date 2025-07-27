@@ -1,0 +1,11 @@
+export const ROLE = { ADMIN: 'ADMIN', USER: 'USER' }
+export const DAYS = {
+  SUNDAY: 'SUNDAY',
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+}
+export const PLATFORM = { MOBILE: 'MOBILE', WEB: 'WEB' }

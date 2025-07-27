@@ -1274,7 +1274,8 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "fieldset"
+              "tag": "fieldset",
+              "borderWidth": 0
             },
             "validStyles": {
               "backfaceVisibility": true,
@@ -3776,7 +3777,8 @@
             "componentName": "Avatar",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Button": {
@@ -7513,7 +7515,6 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },
@@ -8707,6 +8708,7 @@
             "defaultProps": {
               "flexDirection": "column",
               "pointerEvents": "none",
+              "tag": "dialog",
               "unstyled": false
             },
             "validStyles": {
@@ -8909,7 +8911,18 @@
                 "false": {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "fullscreen": true
+                  "fullscreen": true,
+                  "$platform-web": {
+                    "borderWidth": 0,
+                    "backgroundColor": "transparent",
+                    "color": "inherit",
+                    "maxInlineSize": "none",
+                    "margin": 0,
+                    "width": "auto",
+                    "height": "auto",
+                    "maxHeight": "100vh",
+                    "position": "fixed"
+                  }
                 }
               }
             },
@@ -14943,10 +14956,7 @@
                 "...size": "Function"
               }
             },
-            "defaultVariants": {
-              "unstyled": false
-            },
-            "componentName": "PopperContent",
+            "componentName": "Popover",
             "isReactNative": false,
             "isText": false,
             "isStyledHOC": false,
@@ -15164,7 +15174,7 @@
             "isHOC": true
           }
         },
-        "PopperArrow": {
+        "PopperArrowFrame": {
           "staticConfig": {
             "acceptsClassName": true,
             "defaultProps": {
@@ -15381,9 +15391,7 @@
             "componentName": "PopperArrow",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false,
-            "neverFlatten": true,
-            "isHOC": true
+            "isStyledHOC": false
           }
         },
         "PopperContentFrame": {
@@ -19414,7 +19422,8 @@
             "componentName": "Square",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Circle": {
@@ -19720,7 +19729,8 @@
             "componentName": "Circle",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Frame": {
@@ -28290,7 +28300,8 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "fieldset"
+              "tag": "fieldset",
+              "borderWidth": 0
             },
             "validStyles": {
               "backfaceVisibility": true,
@@ -30792,7 +30803,8 @@
             "componentName": "Avatar",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Button": {
@@ -34529,7 +34541,6 @@
             "acceptsClassName": true,
             "defaultProps": {
               "flexDirection": "column",
-              "tag": "dialog",
               "size": "$true",
               "unstyled": false
             },
@@ -35723,6 +35734,7 @@
             "defaultProps": {
               "flexDirection": "column",
               "pointerEvents": "none",
+              "tag": "dialog",
               "unstyled": false
             },
             "validStyles": {
@@ -35925,7 +35937,18 @@
                 "false": {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "fullscreen": true
+                  "fullscreen": true,
+                  "$platform-web": {
+                    "borderWidth": 0,
+                    "backgroundColor": "transparent",
+                    "color": "inherit",
+                    "maxInlineSize": "none",
+                    "margin": 0,
+                    "width": "auto",
+                    "height": "auto",
+                    "maxHeight": "100vh",
+                    "position": "fixed"
+                  }
                 }
               }
             },
@@ -41959,10 +41982,7 @@
                 "...size": "Function"
               }
             },
-            "defaultVariants": {
-              "unstyled": false
-            },
-            "componentName": "PopperContent",
+            "componentName": "Popover",
             "isReactNative": false,
             "isText": false,
             "isStyledHOC": false,
@@ -42180,7 +42200,7 @@
             "isHOC": true
           }
         },
-        "PopperArrow": {
+        "PopperArrowFrame": {
           "staticConfig": {
             "acceptsClassName": true,
             "defaultProps": {
@@ -42397,9 +42417,7 @@
             "componentName": "PopperArrow",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false,
-            "neverFlatten": true,
-            "isHOC": true
+            "isStyledHOC": false
           }
         },
         "PopperContentFrame": {
@@ -46430,7 +46448,8 @@
             "componentName": "Square",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Circle": {
@@ -46736,7 +46755,8 @@
             "componentName": "Circle",
             "isReactNative": false,
             "isText": false,
-            "isStyledHOC": false
+            "isStyledHOC": false,
+            "memo": true
           }
         },
         "Frame": {
