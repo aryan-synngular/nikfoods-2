@@ -67058,7 +67058,7 @@ function Selectable(props) {
     options = [],
     title = "",
     placeholder = "Select..",
-    selectBoxWidth = 550
+    selectBoxWidth
   } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime147.jsxs)(import_jsx_runtime147.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Label, { children: title }),
@@ -67071,7 +67071,7 @@ function Selectable(props) {
         disablePreventBodyScroll: true,
         ...props,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Select.Trigger, { iconAfter: ChevronDown, children: /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Select.Value, { placeholder }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Select.Trigger, { width: selectBoxWidth ?? "100%", iconAfter: ChevronDown, children: /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Select.Value, { placeholder }) }),
           /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Adapt, { when: "maxMd", platform: "touch", children: /* @__PURE__ */ (0, import_jsx_runtime147.jsxs)(Sheet, { native: !!props.native, modal: true, dismissOnSnapToBottom: true, animation: "medium", children: [
             /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Sheet.Frame, { children: /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Sheet.ScrollView, { children: /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(Adapt.Contents, {}) }) }),
             /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(

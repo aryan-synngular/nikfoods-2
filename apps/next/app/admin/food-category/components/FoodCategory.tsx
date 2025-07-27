@@ -30,7 +30,7 @@ export default function FoodCategory() {
       const response = await fetch(`/api/food-category`)
       const data = await response.json()
       console.log(data)
-      setCategories(data)
+      setCategories(data?.data)
     } catch (error) {
       setError('Failed to fetch food items')
     } finally {
@@ -85,7 +85,7 @@ export default function FoodCategory() {
       </XStack>
 
       <XStack gap="$12" flexWrap="wrap" style={{ paddingTop: 20, paddingBottom: 20 }}>
-        {categories.items.map((category) => (
+        {categories?.items?.map((category) => (
           <CategoryCard
             handleEdit={() => {
               ;(setEditItem(category), setEditDialogOpen(true))
