@@ -5,6 +5,7 @@ import { ProfileSidebarNavigation } from './ProfileSidebarNavigation'
 import { Header } from './AccountHeader'
 import { AppHeader } from '../Header'
 import AddressTab from './AddressTab'
+import OrdersSection from './OrdersSection'
 
 export default function AccountPage() {
   const [tab, setTab] = useState('Orders')
@@ -14,7 +15,7 @@ export default function AccountPage() {
       case 'Profile':
         return <Text p="$4">Profile Details</Text>
       case 'Orders':
-        return <Text p="$4">List of Orders</Text>
+        return <OrdersSection></OrdersSection>
       case 'Address':
         return <AddressTab></AddressTab>
       case 'Logout':
