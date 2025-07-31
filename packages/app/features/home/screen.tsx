@@ -21,8 +21,12 @@ import { apiGetCategory, apiGetFoodItems } from 'app/services/FoodService'
 import { IListResponse, IResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
 import { IFoodItem } from 'app/types/foodItem'
+import { useAuth } from 'app/provider/auth-context'
+import { useToast } from '@my/ui/src/useToast'
 
 export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
+  const { showMessage } = useToast()
+  const { loginSuccess, clearLoginSuccess } = useAuth()
   const linkTarget = pagesMode ? '/pages-example-user' : '/user'
   const linkProps = useLink({
     href: `${linkTarget}/nate`,
@@ -33,6 +37,14 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   const [categories, setCategories] = useState<IListResponse<IFoodCategory> | null>(null)
   const [foodItems, setFoodItems] = useState<IListResponse<IFoodItem> | null>(null)
   const [loading, setLoading] = useState(true)
+
+  // Toast after Successful login
+  useEffect(() => {
+    if (loginSuccess) {
+      showMessage('Welcome back! Login Successful.', 'success')
+    }
+    clearLoginSuccess()
+  }, [loginSuccess, clearLoginSuccess])
 
   useEffect(() => {
     setLoading(true)

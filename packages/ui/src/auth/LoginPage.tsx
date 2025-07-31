@@ -1,13 +1,16 @@
 "use client"
 
 import { useState } from 'react'
-import { Text, YStack, XStack, Input, Button, Checkbox, Image, useMedia } from 'tamagui'
+import { Text, YStack, XStack, Input, Button, Checkbox, Image, useMedia,Spinner } from 'tamagui'
 import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 import {useAuth} from 'app/provider/auth-context'
+import { useToast } from '@my/ui/src/useToast'
+
 export function LoginPage() {
 
-  const { user, loading, signIn, signOut,getAccessToken,fetchWithAuth } = useAuth();
+  const { user, loading,signIn, signingIn , signOut,getAccessToken,fetchWithAuth } = useAuth();
+  const { showMessage } = useToast() // Add this line
   const media = useMedia()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -41,27 +44,33 @@ export function LoginPage() {
   
   const handleLogin = async() => {
     console.log('Login with:', { email, password, rememberMe })
-    if (email && password ) {
-    try {
-      const signInRes = await signIn(
-         {
-        redirect: false,
-        email,
-        password,
-      });
-      
-  console.log(signInRes)
-      if (!signInRes.isCompleted) {
-        addAddressLink.onPress() 
-      } else {
-        homeLink.onPress()
+    
+    if (email && password) {
+      try {
+        const signInRes = await signIn({
+          redirect: false,
+          email,
+          password,
+        });
+        
+        console.log(signInRes)
+        if (!signInRes.isCompleted) {
+          addAddressLink.onPress() 
+        } else {
+          homeLink.onPress()
+        }
+        
+      } catch (error) {
+        console.log(error)
+        
+        // Handle the specific error messages from your NextAuth API
+        if (error instanceof Error) {
+          showMessage(error.message, 'error')
+        } else {
+          showMessage('Login failed. Please try again.', 'error')
+        }
       }
-      
-    } catch (error) {
-      console.log(error)
     }
-  }
-    // Here you would typically call your authentication service
   }
   
   const handleSocialLogin = (provider: string) => {
@@ -150,6 +159,8 @@ export function LoginPage() {
             borderWidth={1}
             borderColor="#E0E0E0"
             fontSize={14}
+            autoCapitalize="none"
+            keyboardType="email-address"
           />
         </YStack>
         
@@ -218,17 +229,28 @@ export function LoginPage() {
           color="white"
           pressStyle={{ opacity: 0.8 }}
           onPress={handleLogin}
+          disabled={signingIn}
           style={{
-            backgroundColor: '#FF9F0D',
+            backgroundColor: signingIn ? '#FFB84D' : '#FF9F0D',
             height: 48,
             borderRadius: 8,
             fontSize: 16,
             fontWeight: '600',
             marginBottom: 24
           }}
-          icon={<XStack style={{marginRight: 8}}><Lock size={18} color="white" /></XStack>}
+          icon={
+            signingIn ? (
+              <XStack style={{marginRight: 8}}>
+                <Spinner size="small" color="white" />
+              </XStack>
+            ) : (
+              <XStack style={{marginRight: 8}}>
+                <Lock size={18} color="white" />
+              </XStack>
+            )
+          }
         >
-          Login
+          {signingIn ? 'Logging in...' : 'Login'}
         </Button>
         
         {/* Social Login */}

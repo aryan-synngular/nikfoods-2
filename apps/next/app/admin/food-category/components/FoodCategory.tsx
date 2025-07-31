@@ -5,6 +5,7 @@ import { AlertDialog, Button, Dialog, Text, XStack, YStack } from 'tamagui'
 import EditCategoryForm from './EditFoodCategory'
 import { Plus } from '@tamagui/lucide-icons'
 import { CategoryCard } from './CategoryCard'
+import { CategorySkeleton } from './CategorySkeleton'
 import { IListResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
 
@@ -59,6 +60,10 @@ export default function FoodCategory() {
       setLoading(false)
     }
   }, [deleteItemId])
+
+  if (loading && categories.items.length === 0) {
+    return <CategorySkeleton />
+  }
 
   return (
     <YStack space="$5" p="$4">

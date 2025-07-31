@@ -25,7 +25,11 @@ import { IFoodItem, IFoodItemsResponse } from 'app/types/foodItem'
 import { IListResponse, IResponse, ISelectOption } from 'app/types/common'
 import { apiGetCategory, apiGetFoodItems } from 'app/services/FoodService'
 import { IFoodCategory } from 'app/types/category'
+import { FoodItemsSkeleton } from './FoodItemsSkeleton'
+import { useToast } from '@my/ui/src/useToast'
+
 export default function FoodItems() {
+  const { showMessage } = useToast()
   const searchParams = useSearchParams()
   const categoryFromQuery = searchParams?.get('category')
   const categoryIdFromQuery = searchParams?.get('categoryId')
@@ -65,6 +69,7 @@ export default function FoodItems() {
       setItems(response.data)
     } catch (error) {
       setError('Failed to fetch food items')
+      showMessage('Failed to load food items', 'error')
     } finally {
       setLoading(false)
     }
@@ -83,6 +88,7 @@ export default function FoodItems() {
       setCategories(newData)
     } catch (error) {
       setError('Failed to fetch food items')
+      showMessage('Failed to load categories', 'error')
     } finally {
       setLoading(false)
     }
@@ -105,8 +111,10 @@ export default function FoodItems() {
       const data = await response.json()
       console.log(data)
       await getFoodItems()
+      showMessage('Food item deleted successfully', 'success')
     } catch (error) {
       setError('Failed to fetch food items')
+      showMessage('Failed to delete food item', 'error')
     } finally {
       setLoading(false)
     }
@@ -120,6 +128,11 @@ export default function FoodItems() {
   // If categoryId is present, use categoryFromQuery as the name (or fetch name if needed)
   if (categoryIdFromQuery && categoryFromQuery) {
     headerCategoryName = categoryFromQuery
+  }
+
+  // Show skeleton while loading
+  if (loading) {
+    return <FoodItemsSkeleton showCategorySelect={!categoryIdFromQuery} />
   }
 
   return (
@@ -355,6 +368,10 @@ export default function FoodItems() {
                 onSuccess={() => {
                   setEditDialogOpen(false)
                   getFoodItems()
+                  showMessage(
+                    editItem ? 'Food item updated successfully' : 'Food item created successfully',
+                    'success'
+                  )
                 }}
                 onCancel={() => setEditDialogOpen(false)}
               />
@@ -365,32 +382,85 @@ export default function FoodItems() {
 
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
+          <AlertDialog.Overlay
+            key="overlay"
+            animation="quick"
+            opacity={0.5}
+            enterStyle={{ opacity: 0 }}
+            exitStyle={{ opacity: 0 }}
+          />
           <AlertDialog.Content
+            bordered
+            elevate
+            key="content"
+            animation={[
+              'quick',
+              {
+                opacity: {
+                  overshootClamping: true,
+                },
+              },
+            ]}
+            enterStyle={{ y: -20, opacity: 0, scale: 0.9 }}
+            exitStyle={{ y: 10, opacity: 0, scale: 0.95 }}
             style={{
-              background: '#fff',
+              background: '#FFF4E4',
               borderRadius: 12,
+              borderColor: '#FF9F0D33',
+              borderWidth: 1,
               padding: 24,
               width: 440,
               maxWidth: '90vw',
+              shadowColor: '#FF9F0D44',
+              shadowRadius: 10,
+              shadowOpacity: 0.2,
             }}
           >
-            <AlertDialog.Description mb={'$4'}>
-              Are you sure you want to delete this food item?
+            <AlertDialog.Title fontSize="$6" fontWeight="700" color="#FF9F0D" mb="$2">
+              Confirm Deletion
+            </AlertDialog.Title>
+
+            <AlertDialog.Description mb="$4" color="#333" fontSize="$4">
+              Are you sure you want to delete this food item? This action cannot be undone.
             </AlertDialog.Description>
+
             <XStack gap="$3" justify="flex-end">
               <AlertDialog.Cancel asChild>
-                <Button>Cancel</Button>
+                <Button
+                  size="$3"
+                  bg="#FFF4E4"
+                  borderColor="#FF9F0D"
+                  borderWidth={1}
+                  color="#FF9F0D"
+                  hoverStyle={{
+                    bg: '#FF9F0D11',
+                    borderColor: '#FF9F0D',
+                  }}
+                  pressStyle={{
+                    bg: '#FF9F0D22',
+                  }}
+                >
+                  Cancel
+                </Button>
               </AlertDialog.Cancel>
+
               <AlertDialog.Action asChild>
                 <Button
+                  size="$3"
+                  bg="#FF9F0D"
+                  color="white"
+                  hoverStyle={{
+                    bg: '#E68F0C',
+                  }}
+                  pressStyle={{
+                    bg: '#D17F0B',
+                  }}
                   onPress={() => {
                     setDeleteDialogOpen(false)
                     deleteFoodItem()
                   }}
-                  theme="accent"
                 >
-                  Accept
+                  Delete
                 </Button>
               </AlertDialog.Action>
             </XStack>

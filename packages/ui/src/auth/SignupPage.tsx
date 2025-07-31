@@ -1,19 +1,22 @@
 "use client"
 
 import { useState } from 'react'
-import { Text, YStack, XStack, Input, Button, Image, useMedia } from 'tamagui'
+import { Text, YStack, XStack, Input, Button, Image, useMedia, Spinner } from 'tamagui'
 import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 import { useAuth } from 'app/provider/auth-context'
+import { useToast } from '@my/ui/src/useToast'
 
 export function SignupPage() {
-  const {register}=useAuth()
+  const { register, signingIn } = useAuth()
+  const { showToast } = useToast()
   const media = useMedia()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   
   const loginLink = useLink({
     href: '/login',
@@ -31,63 +34,80 @@ export function SignupPage() {
     href: '/refund',
   })
   
-  const signupStep2Link= useLink({
+  const signupStep2Link = useLink({
     href: `/add-address`,
   })
 
-  const handleSignup =async  () => {
-    console.log('Signup with:', { email, password })
-    // Validate inputs before proceeding
-    if (email && password && password === confirmPassword) {
-      // Navigate to step 2 using the link
-      try {
-        // const res = await fetch("/api/auth/register", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ email, password }),
-        // });
-  
-        // const data = await res.json();
-        const data=await register({ email, password })
-  console.log(data)
-        // if (!data?.error) {
-        //   throw new Error(data.error || "Registration failed");
-        // }
-        // const userId = data.data;
+  const validateInputs = () => {
+    if (!email) {
+      showToast('Please enter your email address', 'error')
+      return false
+    }
+    
+    if (!email.includes('@')) {
+      showToast('Please enter a valid email address', 'error')
+      return false
+    }
+    
+    if (!password) {
+      showToast('Please enter a password', 'error')
+      return false
+    }
+    
+    if (password.length < 6) {
+      showToast('Password must be at least 6 characters long', 'error')
+      return false
+    }
+    
+    if (!confirmPassword) {
+      showToast('Please confirm your password', 'error')
+      return false
+    }
+    
+    if (password !== confirmPassword) {
+      showToast('Passwords do not match', 'error')
+      return false
+    }
+    
+    return true
+  }
 
-        // ✅ Option 1: Store in localStorage
-        // localStorage.setItem("pendingUserId", userId);
-        // const signInRes = await signIn("credentials", {
-        //   redirect: false,
-        //   email,
-        //   password,
-        // });
-  
-        // if (signInRes?.error) {
-        //   throw new Error(signInRes.error);
-        // }
+  const handleSignup = async () => {
+    if (!validateInputs()) {
+      return
+    }
 
-  
-        // ✅ Option 2: Navigate with query param
-        if (signupStep2Link.onPress) {
-          signupStep2Link.onPress();
-        }
-      } catch (error) {
-        console.log(error)
-       
+    setIsLoading(true)
+    
+    try {
+      const data = await register({ email, password })
+      console.log(data)
+      
+      showToast('Account created successfully! Please add your delivery address.', 'success')
+      
+      // Navigate to step 2
+      if (signupStep2Link.onPress) {
+        signupStep2Link.onPress()
       }
-     
-    } else {
-      // Show validation error
-      console.log('Please fill all fields correctly')
+    } catch (error) {
+      console.log(error)
+      
+      // Handle the specific error messages
+      if (error instanceof Error) {
+        showToast(error.message, 'error')
+      } else {
+        showToast('Registration failed. Please try again.', 'error')
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
   
   const handleSocialSignup = (provider: string) => {
     console.log(`Signup with ${provider}`)
+    showToast(`${provider} signup coming soon!`, 'info')
     // Here you would typically redirect to OAuth provider
   }
-  ;
 
   return (
     <YStack 
@@ -162,6 +182,8 @@ export function SignupPage() {
             borderWidth={1}
             borderColor="#E0E0E0"
             fontSize={14}
+            autoCapitalize="none"
+            keyboardType="email-address"
           />
         </YStack>
         
@@ -186,9 +208,8 @@ export function SignupPage() {
           />
           <XStack 
             position="absolute"
-            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5}}
+            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer'}}
             onPress={() => setShowPassword(!showPassword)}
-            cursor="pointer"
           >
             {showPassword ? (
               <EyeOff size={20} color="#666" />
@@ -215,9 +236,8 @@ export function SignupPage() {
           />
           <XStack 
             position="absolute"
-            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5}}
+            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer'}}
             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            cursor="pointer"
           >
             {showConfirmPassword ? (
               <EyeOff size={20} color="#666" />
@@ -229,14 +249,31 @@ export function SignupPage() {
         
         {/* Signup Button */}
         <Button 
-          bg="#FF9F0D"
           color="white"
-          style={{height: 48, borderRadius: 8, fontSize: 16, fontWeight: '600', marginBottom: 24}}
           onPress={handleSignup}
+          disabled={isLoading || signingIn}
           pressStyle={{ opacity: 0.8 }}
-          icon={<XStack mr={8}><User size={18} color="white" /></XStack>}
+          style={{
+            backgroundColor: (isLoading || signingIn) ? '#FFB84D' : '#FF9F0D',
+            height: 48,
+            borderRadius: 8,
+            fontSize: 16,
+            fontWeight: '600',
+            marginBottom: 24
+          }}
+          icon={
+            (isLoading || signingIn) ? (
+              <XStack style={{marginRight: 8}}>
+                <Spinner size="small" color="white" />
+              </XStack>
+            ) : (
+              <XStack style={{marginRight: 8}}>
+                <User size={18} color="white" />
+              </XStack>
+            )
+          }
         >
-          Next
+          {(isLoading || signingIn) ? 'Creating Account...' : 'Next'}
         </Button>
         
         {/* Social Signup */}
@@ -308,7 +345,6 @@ export function SignupPage() {
         </Text>
         
         <Button 
-        
           background="#FF9F0D"
           color="white"
           style={{height: 48, borderRadius: 8, fontSize: 16, fontWeight: '600', paddingHorizontal: 40}}

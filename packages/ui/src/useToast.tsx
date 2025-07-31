@@ -1,21 +1,57 @@
 import { useToastController } from '@tamagui/toast'
-import { CheckCircle, AlertTriangle } from '@tamagui/lucide-icons'
 
 export const useToast = () => {
   const toast = useToastController()
 
+  // to work with NativeToast
   const showMessage = (message: string, type: 'success' | 'error') => {
-    toast.show(message, {
+    toast.show('', {
       duration: 3000,
-      theme: type === 'error' ? 'red' : 'green',
-      icon:
-        type === 'error' ? (
-          <AlertTriangle size={18} color="red" />
-        ) : (
-          <CheckCircle size={18} color="green" />
-        ),
+      customData: {
+        message,
+        type,
+      },
     })
   }
 
-  return { showMessage }
+  const showToast = (
+    message: string,
+    type: 'success' | 'error' | 'warning' | 'info' = 'info',
+    title?: string
+  ) => {
+    toast.show(title || '', {
+      duration: 4000,
+      message: title ? message : undefined,
+      customData: {
+        message: title ? undefined : message, // Use message in customData if no title
+        type,
+      },
+    })
+  }
+
+  // Convenience methods
+  const success = (message: string, title?: string) => {
+    showToast(message, 'success', title)
+  }
+
+  const error = (message: string, title?: string) => {
+    showToast(message, 'error', title)
+  }
+
+  const warning = (message: string, title?: string) => {
+    showToast(message, 'warning', title)
+  }
+
+  const info = (message: string, title?: string) => {
+    showToast(message, 'info', title)
+  }
+
+  return {
+    showMessage, // Keep your existing method for backward compatibility
+    showToast, // New enhanced method
+    success,
+    error,
+    warning,
+    info,
+  }
 }

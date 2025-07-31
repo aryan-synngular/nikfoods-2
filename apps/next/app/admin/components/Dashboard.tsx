@@ -1,6 +1,15 @@
-"use client"
-import { YStack, XStack, Card, Text, H3,H4 } from 'tamagui';
-import { LayoutDashboard, Utensils, List, ShoppingCart, CheckCircle, Clock } from '@tamagui/lucide-icons';
+'use client'
+import { YStack, XStack, Card, Text, H4 } from 'tamagui'
+import {
+  LayoutDashboard,
+  Utensils,
+  List,
+  ShoppingCart,
+  CheckCircle,
+  Clock,
+} from '@tamagui/lucide-icons'
+import { useState, useEffect } from 'react'
+import { DashboardSkeleton } from './DashboardSkeleton'
 
 const stats = [
   {
@@ -38,15 +47,29 @@ const stats = [
     color: '#FF7675',
     bg: '#FFF0F0',
   },
-];
+]
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true)
+
+  // Simulate loading state
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return <DashboardSkeleton />
+  }
+
   return (
     <YStack space="$6">
-      <H4 color="#222" >Dashboard Overview</H4>
-      <XStack flexWrap="wrap" gap={24}  px={6}>
+      <H4 color="#222">Dashboard Overview</H4>
+      <XStack flexWrap="wrap" gap={24} px={6}>
         {stats.map((stat, idx) => {
-          const Icon = stat.icon;
+          const Icon = stat.icon
           return (
             <Card
               key={idx}
@@ -54,9 +77,8 @@ export default function Dashboard() {
               elevate
               size="$4"
               width={240}
-              items={"center"}
+              items="center"
               height={120}
-          
               borderColor={stat.bg}
               backgroundColor={stat.bg}
               pressStyle={{ scale: 0.97 }}
@@ -64,18 +86,29 @@ export default function Dashboard() {
               marginRight={24}
             >
               <XStack space alignItems="center" height="100%">
-                <YStack alignItems="center" justifyContent="center" width={56} height={56} borderRadius={28} backgroundColor={stat.color+"22"}>
+                <YStack
+                  alignItems="center"
+                  justifyContent="center"
+                  width={56}
+                  height={56}
+                  borderRadius={28}
+                  backgroundColor={stat.color + '22'}
+                >
                   <Icon size={28} color={stat.color} />
                 </YStack>
                 <YStack ml={12}>
-                  <Text fontSize={28} fontWeight="700" color={stat.color}>{stat.value}</Text>
-                  <Text fontSize={15} fontWeight={"600"} color={stat.color}>{stat.label}</Text>
+                  <Text fontSize={28} fontWeight="700" color={stat.color}>
+                    {stat.value}
+                  </Text>
+                  <Text fontSize={15} fontWeight={'600'} color={stat.color}>
+                    {stat.label}
+                  </Text>
                 </YStack>
               </XStack>
             </Card>
-          );
+          )
         })}
       </XStack>
     </YStack>
-  );
+  )
 }
