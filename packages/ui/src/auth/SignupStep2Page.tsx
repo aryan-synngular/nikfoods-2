@@ -1,13 +1,15 @@
 "use client"
 
 import { useState } from 'react'
-import { Text, YStack, XStack, Input, Button, Image, useMedia, Checkbox, TextArea } from 'tamagui'
+import { Text, YStack, XStack, Input, Button, Image, useMedia, Checkbox, TextArea, Spinner } from 'tamagui'
 import { ArrowRight, X } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 import { useAuth } from 'app/provider/auth-context'
+import { useToast } from '@my/ui/src/useToast'
 
 export function SignupStep2Page() {
-  const {user,registerStep2}=useAuth()
+  const { user, registerStep2 } = useAuth()
+  const { showMessage } = useToast()
   console.log(user)
   const media = useMedia()
   const [name, setName] = useState('')
@@ -21,6 +23,8 @@ export function SignupStep2Page() {
   const [notes, setNotes] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [agreedToMarketing, setAgreedToMarketing] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  
   const termsLink = useLink({
     href: '/terms',
   })
@@ -45,69 +49,97 @@ export function SignupStep2Page() {
     href: '/account-created',
   })
 
-  const handleSignup =async () => {
-    // Required fields validation
-    if (!name || !email || !streetAddress || !city || !postcode) {
-      // Show error or validation message
-      console.log('Please fill all required fields')
+const validateInputs = () => {
+  if (!name.trim() || name.trim().length < 2) {
+    showMessage('Name is required', 'error')
+    return false
+  }
+
+  if (!email.trim()) {
+    showMessage('Please enter your email address', 'error')
+    return false
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    showMessage('Invalid email', 'error')
+    return false
+  }
+
+  if (!streetAddress.trim() || streetAddress.trim().length < 5) {
+    showMessage('Street Address is too short', 'error')
+    return false
+  }
+
+  if (!city.trim() || city.trim().length < 2) {
+    showMessage('City is required', 'error')
+    return false
+  }
+
+  if (!province.trim() || province.trim().length < 2) {
+    showMessage('Province is required', 'error')
+    return false
+  }
+
+  if (!postcode.trim() || postcode.trim().length < 4) {
+    showMessage('Postcode is required', 'error')
+    return false
+  }
+
+  if (!agreedToTerms) {
+    showMessage('You must agree to terms', 'error')
+    return false
+  }
+
+  return true
+}
+
+
+  const handleSignup = async () => {
+    if (!validateInputs()) {
       return
     }
     
-    if (!agreedToTerms) {
-      // Show error that user must agree to terms
-      console.log('Please agree to terms and conditions')
-      return
-    }
-//     const userId=localStorage.getItem("pendingUserId")
-// console.log(userId)
-//     if(!userId)
-//     {
-//       console.log('UserId is required')
-//       return
-//     }
+    setIsLoading(true)
+    
     const addressData = {
-      // userId,
-      name,
-      email,
-      phone,
-      locationRemark,
-      streetAddress,
-      city,
-      province,
-      postcode,
-      notes,
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      locationRemark: locationRemark.trim(),
+      streetAddress: streetAddress.trim(),
+      city: city.trim(),
+      province: province.trim(),
+      postcode: postcode.trim(),
+      notes: notes.trim(),
       agreedToTerms,
       agreedToMarketing
     }
     
     console.log('Complete signup with address:', addressData)
-    // Here you would typically call your authentication service
+    
     try {
-      // const res = await fetch("/api/auth/register-step2", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(addressData),
-      // });
-const data=await registerStep2(addressData)
-//       const data = await res.json();
-// console.log(data)
-//       if (!res.ok) {
-//         throw new Error(data.error || "Registration failed");
-//       }
-//       const userId = data.userId;
-
-//       // ✅ Option 1: Store in localStorage
-//       localStorage.removeItem("pendingUserId");
+      const data = await registerStep2(addressData)
+      
+      showMessage('Address added successfully! Welcome to Nikfoods!', 'success')
+      
+      // Navigate to home page
       if (homeLink.onPress) {
         homeLink.onPress()
       }
-
     } catch (error) {
       console.log(error)
-     
+      
+      // Handle the specific error messages
+      if (error instanceof Error) {
+        
+        showMessage(error.message, 'error')
+      } else {
+        showMessage('Failed to add address. Please try again.', 'error')
+      }
+    } finally {
+      setIsLoading(false)
     }
-   
-    // Navigate to account created page on success
   }
 
   return (
@@ -234,7 +266,7 @@ const data=await registerStep2(addressData)
           <Input
             value={streetAddress}
             onChangeText={setStreetAddress}
-            placeholder="Address: House number and street name"
+            placeholder="Address: House number and street name*"
             style={{borderRadius: 8}}
             height={48}
             borderWidth={1}
@@ -249,7 +281,7 @@ const data=await registerStep2(addressData)
             <Input
               value={city}
               onChangeText={setCity}
-              placeholder="Town City"
+              placeholder="Town City*"
               style={{borderRadius: 8}}
               height={48}
               borderWidth={1}
@@ -273,7 +305,7 @@ const data=await registerStep2(addressData)
             <Input
               value={postcode}
               onChangeText={setPostcode}
-              placeholder="Postcode/Zip"
+              placeholder="Postcode/Zip*"
               style={{borderRadius: 8}}
               height={48}
               borderWidth={1}
@@ -338,15 +370,23 @@ const data=await registerStep2(addressData)
           height={48}
           fontSize={16}
           fontWeight="600"
+          disabled={isLoading}
           pressStyle={{ opacity: 0.8 }}
           style={{
-            backgroundColor: '#FF9F0D',
+            backgroundColor: isLoading ? '#FFB84D' : '#FF9F0D',
             borderRadius: 8,
             marginTop: 8,
             marginBottom: 24
           }}
+          icon={
+            isLoading ? (
+              <XStack style={{marginRight: 8}}>
+                <Spinner size="small" color="white" />
+              </XStack>
+            ) : undefined
+          }
         >
-          Add delivery address
+          {isLoading ? 'Adding Address...' : 'Add delivery address'}
         </Button>
       </YStack>
       
@@ -386,4 +426,4 @@ const data=await registerStep2(addressData)
       </XStack>
     </YStack>
   )
-}
+ }

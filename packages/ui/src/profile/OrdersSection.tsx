@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { YStack, XStack, Text, Button, ScrollView, Circle, Square, Dialog } from 'tamagui'
-import OrderDetails from './OrderDetails'
+import OrderDetails from './components/OrderDetails'
 import { OrderCardSkeleton } from '../loaders/OrdersSectionLoader'
-
+import AddReview from './components/AddReview'
+import TrackOrder from './components/TrackOrder'
 const dummyOrders = [
   {
     id: '#1293827237464236',
@@ -38,6 +39,7 @@ const dummyOrders = [
     ],
     totalPaid: '$500.00',
     status: 'active',
+    hasReview: false,
   },
   {
     id: '#1293827237464237',
@@ -64,6 +66,13 @@ const dummyOrders = [
     ],
     totalPaid: '$128.00',
     status: 'delivered',
+    hasReview: true, // Already has review
+    reviewData: {
+      rating: 5,
+      reviewText: 'Absolutely delicious! The food arrived hot, fresh, and packed with flavor.',
+      selectedItems: ['Sweet Lassi', 'Chole Bhature'],
+      timestamp: '2025-05-25T10:30:00Z',
+    },
   },
   {
     id: '#1293827237464238',
@@ -81,15 +90,21 @@ const dummyOrders = [
     ],
     totalPaid: '$96.00',
     status: 'delivered',
+    hasReview: false, // Can add review
   },
 ]
-
 export default function OrdersSection() {
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState<any[]>([])
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false)
   const [detailsLoading, setDetailsLoading] = useState(false)
+
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false)
+  const [selectedOrderIdForReview, setSelectedOrderIdForReview] = useState<string | null>(null)
+
+  const [trackOrderDialogOpen, setTrackOrderDialogOpen] = useState(false)
+  const [selectedOrderIdForTracking, setSelectedOrderIdForTracking] = useState<string | null>(null)
 
   // Simulate loading orders
   useEffect(() => {
@@ -134,6 +149,50 @@ export default function OrdersSection() {
       color: orderStatus === 'delivered' ? '#0A9750' : '#F55344',
       bg: orderStatus === 'delivered' ? '#F0FAF5' : '#FFF4E4',
     }
+  }
+
+  // Track order
+  const handleTrackOrder = (orderId: string) => {
+    setSelectedOrderIdForTracking(orderId)
+    setTrackOrderDialogOpen(true)
+  }
+
+  const handleCloseTrackOrder = () => {
+    setTrackOrderDialogOpen(false)
+    setSelectedOrderIdForTracking(null)
+  }
+
+  // review section
+  const handleAddReview = (orderId: string) => {
+    setSelectedOrderIdForReview(orderId)
+    setReviewDialogOpen(true)
+  }
+
+  const handleReviewSubmit = (reviewData: any) => {
+    // Update the specific order's review status
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === reviewData.orderId
+          ? {
+              ...order,
+              hasReview: true,
+              reviewData: reviewData,
+            }
+          : order
+      )
+    )
+
+    // Close the dialog
+    setReviewDialogOpen(false)
+    setSelectedOrderIdForReview(null)
+
+    // Show success message (you can add toast notification here)
+    console.log('Review submitted successfully:', reviewData)
+  }
+
+  const handleCloseReview = () => {
+    setReviewDialogOpen(false)
+    setSelectedOrderIdForReview(null)
   }
 
   return (
@@ -271,6 +330,7 @@ export default function OrdersSection() {
                             size="$3"
                             fontWeight="500"
                             hoverStyle={{ background: '#FF9F0D' }}
+                            onPress={() => handleTrackOrder(order.id)}
                           >
                             Track Order
                           </Button>
@@ -312,16 +372,19 @@ export default function OrdersSection() {
                       )}
                     </XStack>
                     <YStack>
-                      <Button
-                        borderWidth={1}
-                        borderColor="#FF9F0D"
-                        bg="white"
-                        color="#FF9F0D"
-                        size="$3"
-                        fontWeight="500"
-                      >
-                        Add Review
-                      </Button>
+                      {!order.hasReview && (
+                        <Button
+                          borderWidth={1}
+                          borderColor="#FF9F0D"
+                          bg="white"
+                          color="#FF9F0D"
+                          size="$3"
+                          fontWeight="500"
+                          onPress={() => handleAddReview(order.id)}
+                        >
+                          Add Review
+                        </Button>
+                      )}
                     </YStack>
                   </XStack>
                 </YStack>
@@ -350,6 +413,53 @@ export default function OrdersSection() {
                 onClose={handleCloseDetails}
                 loading={detailsLoading}
               />
+            )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog>
+
+      {/* Add Review Dialog */}
+      {/* Add Review Dialog */}
+      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
+          <Dialog.Content
+            style={{
+              background: 'transparent',
+              padding: 0,
+              width: 400,
+              maxWidth: '100vw',
+              maxHeight: '90vh',
+              overflow: 'hidden',
+            }}
+          >
+            {selectedOrderIdForReview && (
+              <AddReview
+                orderId={selectedOrderIdForReview}
+                onClose={handleCloseReview}
+                onSubmit={handleReviewSubmit}
+              />
+            )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog>
+
+      {/* Track Order Dialog */}
+      <Dialog open={trackOrderDialogOpen} onOpenChange={setTrackOrderDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
+          <Dialog.Content
+            style={{
+              background: 'transparent',
+              padding: 0,
+              width: '90vw',
+              minWidth: 1000,
+              maxHeight: '90vh',
+              overflow: 'hidden',
+            }}
+          >
+            {selectedOrderIdForTracking && (
+              <TrackOrder orderId={selectedOrderIdForTracking} onClose={handleCloseTrackOrder} />
             )}
           </Dialog.Content>
         </Dialog.Portal>

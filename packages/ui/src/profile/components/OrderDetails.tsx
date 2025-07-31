@@ -1,7 +1,7 @@
 import React from 'react'
 import { YStack, XStack, Text, Button, ScrollView, Circle, Card, Separator, Square } from 'tamagui'
 import { X, MapPin } from '@tamagui/lucide-icons'
-import { OrderDetailsSkeleton } from '../loaders/OrdersSectionLoader'
+import { OrderDetailsSkeleton } from '../../loaders/OrdersSectionLoader'
 
 interface OrderDetailsProps {
   order: {

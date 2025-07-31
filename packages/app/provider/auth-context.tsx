@@ -38,10 +38,15 @@ interface User {
 interface AuthContextData {
   user: User | null
   loading: boolean
+  signingIn: boolean
+  registering: boolean
+  addingAddress: boolean
+  loginSuccess: boolean // for Homescreen toast
   signIn: (credentials?: any) => Promise<{ isCompleted: boolean }>
   signOut: () => Promise<void>
   registerStep2: (address?: any) => Promise<void>
   register: (address?: any) => Promise<void>
+  clearLoginSuccess: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -49,6 +54,10 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [signingIn, setSigningIn] = useState(false)
+  const [registering, setRegistering] = useState(false)
+  const [addingAddress, setAddingAddress] = useState(false)
+  const [loginSuccess, setLoginSuccess] = useState(false)
 
   // ---- WEB (NextAuth) ----
   let session: any = null
@@ -97,26 +106,24 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // ---- SignIn ----
   const signIn = async (credentials?: any) => {
+    setSigningIn(true)
     try {
       if (Platform.OS == 'web' && nextSignIn) {
         console.log('credentials---------------------')
         console.log(credentials)
         const signInRes = await nextSignIn('credentials', { ...credentials, redirect: false })
+
         if (signInRes?.error) {
           throw new Error(signInRes.error)
         }
+
         const res = await fetch('/api/auth/session')
         const session = await res.json()
         console.log(session)
+        setLoginSuccess(true)
         return { isCompleted: session?.user?.isCompleted }
       } else {
-        // const res = await fetch('http://192.168.1.12:3000/api/auth/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(credentials),
-        // })
-        // if (!res.ok) throw new Error('Login failed')
-        // const data = await res.json()
+        // Native login
         const data = await apiLoginUser(credentials)
         console.log('ABCDEFG', data)
         const expiresAt = Date.now() + data?.data?.expiresIn * 1000
@@ -132,12 +139,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           refreshToken: data?.data?.refreshToken,
           expiresAt,
         })
+
+        setLoginSuccess(true)
         return { isCompleted: data?.data?.isCompleted }
       }
     } catch (error) {
       console.log(error)
-      throw new Error(error)
+      throw error
+    } finally {
+      setSigningIn(false)
     }
+  }
+
+  const clearLoginSuccess = () => {
+    setLoginSuccess(false)
   }
 
   // ---- SignOut ----
@@ -155,9 +170,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-
-
   const register = async (credentials: any) => {
+    setRegistering(true)
     try {
       const data = await apiRegisterUser(credentials)
 
@@ -179,43 +193,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           expiresAt,
         })
       }
-      // await savePendingUserId(data.data)
       return data
     } catch (err) {
       console.error(err)
-      throw new Error(err)
+      throw err
+    } finally {
+      setRegistering(false)
     }
   }
 
   const registerStep2 = async (addressData: any) => {
+    setAddingAddress(true)
     try {
-      // console.log(user)
-      // let token: String | null = null
-      // if (!(Platform.OS == 'web')) {
-      //   token = await SecureStore.getItemAsync('token')
-      //   if (!token) {
-      //     throw new Error('Not Authorized')
-      //   }
-      // } else {
-      //   if (!user || !user.id) {
-      //     throw new Error('Not Authorized')
-      //   }
-      // }
-      // console.log('token------------------')
-      // console.log(token)
-      // const res = await fetch(`api/auth/register-step2`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      //   },
-      //   body: JSON.stringify({ ...addressData, userId: user?.id }),
-      // })
       const data = await apiAddAddress(addressData)
-
-      // const data = await res.json()
       console.log(data)
-      // if (!res.ok) throw new Error(data.error || 'Registration failed')
 
       console.log(updateSession)
       if (Platform.OS === 'web' && updateSession) {
@@ -233,14 +224,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return null
     } catch (err) {
       console.error(err)
-      throw new Error(err)
+      throw err
+    } finally {
+      setAddingAddress(false)
     }
   }
-
-
-
- 
- 
 
   return (
     <AuthContext.Provider
@@ -251,6 +239,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         signOut,
         registerStep2,
         register,
+        signingIn,
+        registering,
+        addingAddress,
+        loginSuccess,
+        clearLoginSuccess,
       }}
     >
       {children}
