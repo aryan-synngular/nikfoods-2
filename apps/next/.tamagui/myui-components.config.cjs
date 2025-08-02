@@ -36972,6 +36972,7 @@ __export(src_exports, {
   CheckboxIndicatorFrame: () => CheckboxIndicatorFrame,
   CheckboxStyledContext: () => CheckboxStyledContext,
   CheckoutPage: () => CheckoutPage,
+  CheckoutStep: () => CheckoutStep,
   Circle: () => Circle,
   ComponentContext: () => import_core61.ComponentContext,
   Configuration: () => import_core61.Configuration,
@@ -37082,6 +37083,7 @@ __export(src_exports, {
   SavingsBanner: () => SavingsBanner,
   ScrollView: () => ScrollView,
   SearchFood: () => SearchFood,
+  Section: () => Section,
   Select: () => Select,
   SelectGroupFrame: () => SelectGroupFrame,
   SelectIcon: () => SelectIcon,
@@ -61701,7 +61703,7 @@ var import_react_native4 = require("@tamagui/react-native-web-lite");
 var TOKEN_TYPE = "Bearer ";
 var REQUEST_HEADER_AUTH_KEY = "authorization";
 var CURRENT_USER_PLATFORM = "user-platform";
-var MOBILE_DEV_SERVER_URL = "http://192.168.1.12:3000/api/";
+var MOBILE_DEV_SERVER_URL = "http://192.168.1.8:3000/api/";
 var WEB_DEV_SERVER_URL = "/api/";
 var LOGIN_REDIRECT_URL = "/login";
 
@@ -67051,7 +67053,7 @@ var StepCard = (0, import_core61.styled)(import_core61.View, {
     shadowRadius: 4
   }
 });
-var Section2 = /* @__PURE__ */ __name(({
+var CheckoutStep = /* @__PURE__ */ __name(({
   icon,
   title,
   description,
@@ -67078,11 +67080,11 @@ var Section2 = /* @__PURE__ */ __name(({
     action
   ] }),
   /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(Paragraph, { fontSize: 14, color: "#666666", style: { marginLeft: 44 }, children: description })
-] }), "Section");
+] }), "CheckoutStep");
 function CheckoutSteps() {
   return /* @__PURE__ */ (0, import_jsx_runtime144.jsxs)(YStack, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-      Section2,
+      CheckoutStep,
       {
         icon: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(User, { size: 16, color: "#FF6B00" }),
         title: "Login your Account",
@@ -67107,7 +67109,7 @@ function CheckoutSteps() {
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-      Section2,
+      CheckoutStep,
       {
         icon: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(MapPin, { size: 16, color: "#FF6B00" }),
         title: "Delivery Address",
@@ -67115,7 +67117,7 @@ function CheckoutSteps() {
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-      Section2,
+      CheckoutStep,
       {
         icon: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(CreditCard, { size: 16, color: "#FF6B00" }),
         title: "Payment",
@@ -67500,7 +67502,7 @@ var CheckoutLoggedIn = /* @__PURE__ */ __name(({
       children: [
         currentStep === "delivery" && /* @__PURE__ */ (0, import_jsx_runtime148.jsxs)(import_core61.View, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime148.jsx)(
-            Section2,
+            CheckoutStep,
             {
               icon: /* @__PURE__ */ (0, import_jsx_runtime148.jsx)(MapPin, { size: 16, color: "#FF6B00" }),
               title: "Delivery Address",
@@ -68510,6 +68512,7 @@ __name(DessertDealsShimmerLoader, "DessertDealsShimmerLoader");
   CheckboxIndicatorFrame,
   CheckboxStyledContext,
   CheckoutPage,
+  CheckoutStep,
   Circle,
   ComponentContext,
   Configuration,
@@ -68620,6 +68623,7 @@ __name(DessertDealsShimmerLoader, "DessertDealsShimmerLoader");
   SavingsBanner,
   ScrollView,
   SearchFood,
+  Section,
   Select,
   SelectGroupFrame,
   SelectIcon,

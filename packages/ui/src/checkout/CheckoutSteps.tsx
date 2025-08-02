@@ -17,7 +17,7 @@ const StepCard = styled(View, {
   },
 })
 
-export const Section = ({
+export const CheckoutStep = ({
   icon,
   title,
   description,
@@ -58,7 +58,7 @@ export const Section = ({
 export default function CheckoutSteps() {
   return (
     <YStack>
-      <Section
+      <CheckoutStep
         icon={<User size={16} color="#FF6B00" />}
         title="Login your Account"
         description="To place your order now, log in to your existing account or sign up."
@@ -79,12 +79,12 @@ export default function CheckoutSteps() {
           </Button>
         }
       />
-      <Section
+      <CheckoutStep
         icon={<MapPin size={16} color="#FF6B00" />}
         title="Delivery Address"
         description="We'll only use your address to deliver your order safely and on time."
       />
-      <Section
+      <CheckoutStep
         icon={<CreditCard size={16} color="#FF6B00" />}
         title="Payment"
         description="Choose your preferred payment method. Your information is safe and secure."

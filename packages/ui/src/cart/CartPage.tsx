@@ -68,12 +68,12 @@ export function CartPage({
     checkIfDesktop()
 
     // Add event listener for window resize
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', checkIfDesktop)
+    // if (typeof window !== 'undefined') {
+    //   window.addEventListener('resize', checkIfDesktop)
 
-      // Cleanup
-      return () => window.removeEventListener('resize', checkIfDesktop)
-    }
+    //   // Cleanup
+    //   return () => window.removeEventListener('resize', checkIfDesktop)
+    // }
   }, [])
   // Sample cart data organized by day - in a real app, this would come from props or context
   const [cartDays, setCartDays] = useState<CartDayData[]>([

@@ -1,6 +1,23 @@
-import { Adapt, Button, Image, Popover, PopoverProps, Sheet, Text, YStack } from 'tamagui'
+import { Adapt, Button, Popover, PopoverProps, Sheet, Text, YStack } from 'tamagui'
 import { User } from '@tamagui/lucide-icons'
 import { tabs } from 'app/constants/account.constant'
+import { Link } from 'solito/link'
+
+const getTabPath = (title: string) => {
+  switch (title.toLowerCase()) {
+    case 'profile':
+      return '/account'
+    case 'orders':
+      return '/account'
+    case 'address':
+      return '/account'
+    case 'logout':
+      return '/account' // Optional: or call `handleSignOut` directly
+    default:
+      return '/'
+  }
+}
+
 export function ProfilePopUp({
   Icon,
   Name,
@@ -11,7 +28,7 @@ export function ProfilePopUp({
   return (
     <Popover size="$4" allowFlip stayInFrame offset={15} resize {...props}>
       <Popover.Trigger asChild>
-        <Button icon={<User size={'$1'}></User>}>
+        <Button icon={<User size={'$1'} />}>
           <Text ml={-5}> {Name}</Text>
         </Button>
       </Popover.Trigger>
@@ -35,8 +52,6 @@ export function ProfilePopUp({
       <Popover.Content
         borderWidth={1}
         borderColor="$borderColor"
-        // width={200}
-        // height={200}
         enterStyle={{ y: -10, opacity: 0 }}
         exitStyle={{ y: -10, opacity: 0 }}
         elevate
@@ -50,28 +65,51 @@ export function ProfilePopUp({
         ]}
       >
         <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
-        <YStack bg={'white'} width={200} style={{ borderRadius: '20px' }}>
-          {tabs.map((tab) => (
-            <Button
-              width={'100%'}
-              key={tab.title}
-              size="$3"
-              py={'$5'}
-              bg={'white'}
-              hoverStyle={{
-                borderWidth: 0,
-                background: '#FF9F0D1A',
-              }}
-              icon={tab.icon}
-              justify={'flex-start'}
-              // variant={ ? '' : 'outlined'}
-              onPress={() => {
-                // setTab(tab.title)
-              }}
-            >
-              {tab.title}
-            </Button>
-          ))}
+        <YStack bg="white" width={200} borderRadius={20}>
+          {tabs.map((tab) => {
+            const path = getTabPath(tab.title)
+
+            // Special case for logout
+            if (tab.title.toLowerCase() === 'logout') {
+              return (
+                <Button
+                  key={tab.title}
+                  width="100%"
+                  size="$3"
+                  py="$5"
+                  bg="white"
+                  hoverStyle={{
+                    borderWidth: 0,
+                    backgroundColor: '#FF9F0D1A',
+                  }}
+                  icon={<tab.icon />}
+                  justify="flex-start"
+                  onPress={handleSignOut}
+                >
+                  {tab.title}
+                </Button>
+              )
+            }
+
+            return (
+              <Link href={path} key={tab.title} asChild>
+                <Button
+                  width="100%"
+                  size="$3"
+                  py="$5"
+                  bg="white"
+                  hoverStyle={{
+                    borderWidth: 0,
+                    backgroundColor: '#FF9F0D1A',
+                  }}
+                  icon={<tab.icon />}
+                  justify="flex-start"
+                >
+                  {tab.title}
+                </Button>
+              </Link>
+            )
+          })}
         </YStack>
       </Popover.Content>
     </Popover>

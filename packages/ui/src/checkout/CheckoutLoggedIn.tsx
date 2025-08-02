@@ -2,7 +2,7 @@ import { View, Input, Label, Select, YStack, XStack, Text, styled, Button } from
 import { IAddress } from 'app/types/user'
 import Selectable from '../Selectable'
 import { MapPin, Plus } from '@tamagui/lucide-icons'
-import { Section } from './CheckoutSteps'
+import { CheckoutStep } from './CheckoutSteps'
 const StepCard = styled(View, {
   style: {
     borderRadius: 8,
@@ -40,7 +40,7 @@ const CheckoutLoggedIn = ({
       >
         {currentStep === 'delivery' && (
           <View>
-            <Section
+            <CheckoutStep
               icon={<MapPin size={16} color="#FF6B00" />}
               title="Delivery Address"
               description="We'll only use your address to deliver your order safely and on time."

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { YStack, XStack, Text, Button, ScrollView, Card, TextArea, Spinner } from 'tamagui'
 import { X, Star, ChevronDown, Square } from '@tamagui/lucide-icons'
+import { apiSubmitReview } from 'app/services/OrderService'
+import { useToast } from '@my/ui/src/useToast'
 
 interface AddReviewProps {
   orderId: string
+  orderDetails: any // Pass the complete order object from parent
   onClose: () => void
   onSubmit: (reviewData: any) => void
   loading?: boolean
@@ -14,90 +17,34 @@ interface ReviewItem {
   selected: boolean
 }
 
-export default function AddReview({ orderId, onClose, onSubmit, loading = false }: AddReviewProps) {
+interface ReviewSubmissionResponse {
+  success: boolean
+  message: string
+  error?: string
+}
+
+export default function AddReview({
+  orderId,
+  orderDetails,
+  onClose,
+  onSubmit,
+  loading = false,
+}: AddReviewProps) {
+  const { showMessage } = useToast()
+
   const [rating, setRating] = useState(0)
   const [reviewText, setReviewText] = useState('')
   const [selectedItems, setSelectedItems] = useState<ReviewItem[]>([])
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [itemsLoading, setItemsLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
-  const [order, setOrder] = useState<any>(null)
 
-  // Simulate fetching specific order data
-  const fetchOrderData = async (orderIdToFetch: string) => {
-    setItemsLoading(true)
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1200))
-
-    // Mock order data based on orderId
-    const mockOrderData = {
-      '#1293827237464236': {
-        id: '#1293827237464236',
-        items: [
-          {
-            day: 'Wednesday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 1 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-          {
-            day: 'Thursday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 1 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-          {
-            day: 'Friday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 1 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-        ],
-      },
-      '#1293827237464237': {
-        id: '#1293827237464237',
-        items: [
-          {
-            day: 'Monday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 1 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-          {
-            day: 'Tuesday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 1 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-        ],
-      },
-      '#1293827237464238': {
-        id: '#1293827237464238',
-        items: [
-          {
-            day: 'Saturday',
-            products: [
-              { name: 'Sweet Lassi', quantity: 2 },
-              { name: 'Chole Bhature', quantity: 1 },
-            ],
-          },
-        ],
-      },
-    }
-
-    const fetchedOrder = mockOrderData[orderIdToFetch as keyof typeof mockOrderData]
-    setOrder(fetchedOrder)
-
-    if (fetchedOrder) {
+  // Extract items from the passed order details
+  useEffect(() => {
+    if (orderDetails?.items) {
       // Extract all unique products from the order
       const allProducts: ReviewItem[] = []
-      fetchedOrder.items.forEach((dayItem) => {
-        dayItem.products.forEach((product) => {
+      orderDetails.items.forEach((dayItem: any) => {
+        dayItem.products.forEach((product: any) => {
           const existingProduct = allProducts.find((p) => p.name === product.name)
           if (!existingProduct) {
             allProducts.push({
@@ -109,14 +56,7 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
       })
       setSelectedItems(allProducts)
     }
-
-    setItemsLoading(false)
-  }
-
-  // Fetch order data when component mounts
-  useEffect(() => {
-    fetchOrderData(orderId)
-  }, [orderId])
+  }, [orderDetails])
 
   const handleStarClick = (starIndex: number) => {
     setRating(starIndex + 1)
@@ -129,23 +69,56 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
   }
 
   const handleSubmit = async () => {
-    if (rating === 0) return
+    if (rating === 0) {
+      showMessage('Please select a rating', 'error')
+      return
+    }
+
+    const selectedItemNames = selectedItems.filter((item) => item.selected).map((item) => item.name)
+    if (selectedItemNames.length === 0) {
+      showMessage('Please select at least one item to review', 'error')
+      return
+    }
+
+    if (!reviewText.trim()) {
+      showMessage('Please write a review', 'error')
+      return
+    }
 
     setSubmitting(true)
 
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const reviewData = {
+        order: orderDetails?._id || orderId, // Use _id if available, fallback to orderId
+        rating,
+        reviewText: reviewText.trim(),
+        selectedItems: selectedItemNames,
+      }
 
-    const reviewData = {
-      orderId: orderId,
-      rating,
-      reviewText,
-      selectedItems: selectedItems.filter((item) => item.selected).map((item) => item.name),
-      timestamp: new Date().toISOString(),
+      const response = await apiSubmitReview<ReviewSubmissionResponse>(reviewData)
+
+      if (response.success) {
+        // Create the review data to pass back to parent
+        const submittedReviewData = {
+          orderId: orderId,
+          rating,
+          reviewText: reviewText.trim(),
+          selectedItems: selectedItemNames,
+          timestamp: new Date().toISOString(),
+        }
+
+        showMessage(response.message || 'Review submitted successfully', 'success')
+        onSubmit(submittedReviewData)
+      } else {
+        throw new Error(response.error || 'Failed to submit review')
+      }
+    } catch (error: any) {
+      console.error('Error submitting review:', error)
+      const errorMessage = error?.error || error?.message || 'Failed to submit review'
+      showMessage(errorMessage, 'error')
+    } finally {
+      setSubmitting(false)
     }
-
-    onSubmit(reviewData)
-    setSubmitting(false)
   }
 
   const getRatingText = (rating: number) => {
@@ -169,9 +142,35 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
     selectedItems
       .filter((item) => item.selected)
       .map((item) => item.name)
-      .join(', ') || 'Select'
+      .join(', ') || 'Select items to review'
 
-  const isSubmitDisabled = rating === 0 || submitting
+  const isSubmitDisabled =
+    rating === 0 || submitting || selectedItems.filter((item) => item.selected).length === 0
+
+  // If no order details provided, show error
+  if (!orderDetails || !orderDetails.items) {
+    return (
+      <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
+        <Card width="100%" maxHeight="90vh" bg="white" borderRadius="$4" overflow="hidden" elevate>
+          <YStack flex={1} justify="center" items="center" p="$6" space="$4">
+            <Text fontSize="$4" color="red" textAlign="center">
+              Order details not available
+            </Text>
+            <Button
+              bg="white"
+              color="#666"
+              borderColor="#E0E0E0"
+              borderWidth={1}
+              size="$4"
+              onPress={onClose}
+            >
+              Close
+            </Button>
+          </YStack>
+        </Card>
+      </YStack>
+    )
+  }
 
   return (
     <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
@@ -240,7 +239,7 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
               {/* Item Selection */}
               <YStack space="$2">
                 <Text fontSize="$3" color="#333" fontWeight="500">
-                  Select Item
+                  Select Items to Review
                 </Text>
 
                 <Button
@@ -252,22 +251,14 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
                   justifyContent="space-between"
                   onPress={() => setDropdownOpen(!dropdownOpen)}
                   iconAfter={<ChevronDown size="$1" color="#666" />}
-                  disabled={itemsLoading}
                 >
-                  {itemsLoading ? (
-                    <XStack items="center" space="$2">
-                      <Spinner size="small" color="#FF9F0D" />
-                      <Text color="#666">Loading items...</Text>
-                    </XStack>
-                  ) : (
-                    <Text color="#666" numberOfLines={1}>
-                      {selectedItemsText}
-                    </Text>
-                  )}
+                  <Text color="#666" numberOfLines={1}>
+                    {selectedItemsText}
+                  </Text>
                 </Button>
 
                 {/* Dropdown Items */}
-                {dropdownOpen && !itemsLoading && (
+                {dropdownOpen && selectedItems.length > 0 && (
                   <YStack
                     bg="white"
                     borderWidth={1}
@@ -314,6 +305,7 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
                           key={item.name}
                           bg="#FFF4E4"
                           px="$3"
+                          py="$1"
                           borderRadius="$6"
                           justify="center"
                           style={{ textAlign: 'center' }}
@@ -339,6 +331,9 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
               {/* Review Text Area */}
               {rating > 0 && selectedItems.some((item) => item.selected) && (
                 <YStack space="$2">
+                  <Text fontSize="$3" color="#333" fontWeight="500">
+                    Write your review
+                  </Text>
                   <TextArea
                     placeholder="Share your experience about the food quality, delivery, etc..."
                     value={reviewText}
@@ -372,7 +367,7 @@ export default function AddReview({ orderId, onClose, onSubmit, loading = false 
                   <Text color="white">Submitting...</Text>
                 </XStack>
               ) : (
-                'Submit'
+                'Submit Review'
               )}
             </Button>
           </YStack>
