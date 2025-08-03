@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { YStack, XStack, Text, Button, ScrollView, Card, Circle, Avatar, Separator } from 'tamagui'
-import { X, Download, MapPin, Phone, MessageCircle, HelpCircle } from '@tamagui/lucide-icons'
+import { X, Download, MapPin, Phone, MessageCircle, HelpCircle, Star } from '@tamagui/lucide-icons'
 
 interface TrackOrderProps {
   orderId: string
@@ -28,6 +28,203 @@ interface DeliveryPartner {
   avatar: string
   phone: string
 }
+
+// Shimmer Animation Component
+const ShimmerBox = ({
+  width,
+  height,
+  borderRadius = 4,
+}: {
+  width: string | number
+  height: string | number
+  borderRadius?: number
+}) => (
+  <YStack
+    width={width}
+    height={height}
+    borderRadius={borderRadius}
+    bg="linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)"
+    animation="quick"
+    style={{
+      backgroundSize: '200% 100%',
+      animation: 'shimmer 1.5s infinite linear',
+    }}
+  />
+)
+
+// CSS for shimmer animation
+const shimmerStyles = `
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  .shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+`
+
+// Shimmer Loader Components
+const OrderStatusShimmer = () => (
+  <YStack space="$2" minH={250} borderColor={'#1C1B1F38'} borderWidth={1} borderRadius={10} p="$3">
+    <div
+      className="shimmer"
+      style={{ width: '120px', height: '20px', borderRadius: '4px', marginBottom: '16px' }}
+    />
+
+    {Array.from({ length: 5 }).map((_, index) => (
+      <XStack key={index} items="center" space="$3">
+        <YStack items="center">
+          <div className="shimmer" style={{ width: '16px', height: '16px', borderRadius: '50%' }} />
+          {index < 4 && (
+            <div className="shimmer" style={{ width: '2px', height: '20px', marginTop: '4px' }} />
+          )}
+        </YStack>
+        <XStack flex={1} justify="space-between" items="center">
+          <div
+            className="shimmer"
+            style={{ width: '100px', height: '16px', borderRadius: '4px' }}
+          />
+          <div className="shimmer" style={{ width: '60px', height: '12px', borderRadius: '4px' }} />
+        </XStack>
+      </XStack>
+    ))}
+  </YStack>
+)
+
+const OrderItemsShimmer = () => (
+  <YStack space="$3" minH={200} p="$3" borderColor={'#1C1B1F38'} borderWidth={1} borderRadius={10}>
+    <div
+      className="shimmer"
+      style={{ width: '130px', height: '20px', borderRadius: '4px', marginBottom: '16px' }}
+    />
+
+    <YStack space="$2">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <XStack key={index} justify="space-between" items="center" py="$2">
+          <XStack items="center" space="$3">
+            <div
+              className="shimmer"
+              style={{ width: '24px', height: '24px', borderRadius: '4px' }}
+            />
+            <div
+              className="shimmer"
+              style={{ width: '80px', height: '16px', borderRadius: '4px' }}
+            />
+          </XStack>
+          <div className="shimmer" style={{ width: '50px', height: '16px', borderRadius: '4px' }} />
+        </XStack>
+      ))}
+
+      <Separator borderColor="#f0f0f0" my="$2" />
+
+      <XStack justify="space-between" items="center">
+        <div className="shimmer" style={{ width: '140px', height: '18px', borderRadius: '4px' }} />
+        <div className="shimmer" style={{ width: '60px', height: '18px', borderRadius: '4px' }} />
+      </XStack>
+    </YStack>
+  </YStack>
+)
+
+const MapShimmer = () => (
+  <YStack
+    minH={250}
+    maxH={250}
+    minW={500}
+    borderColor={'#1C1B1F38'}
+    borderWidth={1}
+    borderRadius={10}
+    bg="#E8F5E8"
+    p="$3"
+  >
+    <div
+      className="shimmer"
+      style={{ width: '70px', height: '12px', borderRadius: '4px', marginBottom: '8px' }}
+    />
+    <div className="shimmer" style={{ width: '100%', height: '200px', borderRadius: '8px' }} />
+  </YStack>
+)
+
+const DeliveryAddressShimmer = () => (
+  <YStack
+    space="$3"
+    width="50%"
+    p="$3"
+    maxH={180}
+    borderColor="#1C1B1F38"
+    borderWidth={1}
+    borderRadius={10}
+    justifyContent="space-between"
+  >
+    <div className="shimmer" style={{ width: '130px', height: '20px', borderRadius: '4px' }} />
+
+    <YStack space="$3" flex={1}>
+      <XStack alignItems="flex-start" space="$3">
+        <div
+          className="shimmer"
+          style={{ width: '16px', height: '16px', borderRadius: '4px', marginTop: '4px' }}
+        />
+        <YStack flex={1} space="$1">
+          <div className="shimmer" style={{ width: '100%', height: '16px', borderRadius: '4px' }} />
+          <div className="shimmer" style={{ width: '80%', height: '16px', borderRadius: '4px' }} />
+        </YStack>
+      </XStack>
+
+      <XStack alignItems="center" space="$3">
+        <div className="shimmer" style={{ width: '16px', height: '16px', borderRadius: '4px' }} />
+        <div className="shimmer" style={{ width: '140px', height: '16px', borderRadius: '4px' }} />
+      </XStack>
+    </YStack>
+  </YStack>
+)
+
+const DeliveryPartnerShimmer = () => (
+  <YStack
+    space="$3"
+    minH={180}
+    width={'50%'}
+    p="$3"
+    borderColor={'#1C1B1F38'}
+    borderWidth={1}
+    borderRadius={10}
+    justify={'space-between'}
+  >
+    <div className="shimmer" style={{ width: '130px', height: '20px', borderRadius: '4px' }} />
+
+    <XStack alignItems="center" space="$3">
+      <div className="shimmer" style={{ width: '48px', height: '48px', borderRadius: '50%' }} />
+
+      <YStack flex={1} space="$1">
+        <div className="shimmer" style={{ width: '100px', height: '18px', borderRadius: '4px' }} />
+        <XStack alignItems="center" space="$1">
+          <div className="shimmer" style={{ width: '16px', height: '16px', borderRadius: '4px' }} />
+          <div className="shimmer" style={{ width: '30px', height: '12px', borderRadius: '4px' }} />
+        </XStack>
+      </YStack>
+    </XStack>
+
+    <XStack space="$2">
+      <div className="shimmer" style={{ width: '48%', height: '36px', borderRadius: '8px' }} />
+      <div className="shimmer" style={{ width: '48%', height: '36px', borderRadius: '8px' }} />
+    </XStack>
+  </YStack>
+)
+
+const ActionButtonsShimmer = () => (
+  <YStack pt="$2" width="100%">
+    <XStack justify="space-between" alignItems="center" width="100%">
+      <div className="shimmer" style={{ width: '30%', height: '44px', borderRadius: '8px' }} />
+      <div className="shimmer" style={{ width: '30%', height: '44px', borderRadius: '8px' }} />
+      <div className="shimmer" style={{ width: '30%', height: '44px', borderRadius: '8px' }} />
+    </XStack>
+  </YStack>
+)
 
 export default function TrackOrder({ orderId, onClose, loading = false }: TrackOrderProps) {
   const [trackingData, setTrackingData] = useState<any>(null)
@@ -131,346 +328,383 @@ export default function TrackOrder({ orderId, onClose, loading = false }: TrackO
   }
 
   return (
-    <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
-      <Card
-        width="100%"
-        maxWidth={800}
-        maxHeight="90vh"
-        bg="white"
-        borderRadius="$4"
-        overflow="hidden"
-        elevate
-      >
-        <YStack flex={1}>
-          {/* Header */}
-          <XStack
-            justify="space-between"
-            items="center"
-            p="$4"
-            pb="$3"
-            borderBottomWidth={1}
-            borderBottomColor="#f0f0f0"
-          >
-            <Text fontSize="$6" fontWeight="700" color="black">
-              Track Order
-            </Text>
-            <XStack items="center" space="$3">
-              <Button
-                size="$3"
-                bg="transparent"
-                borderWidth={1}
-                borderColor="#FF9F0D"
-                color="#FF9F0D"
-                icon={<Download size="$1" />}
-                fontWeight="500"
-              >
-                Download Invoice
-              </Button>
-              <Button
-                circular
-                size="$2.5"
-                bg="transparent"
-                color="#999"
-                onPress={onClose}
-                icon={X}
-                hoverStyle={{ bg: '#f5f5f5' }}
-              />
+    <>
+      <style>{shimmerStyles}</style>
+      <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
+        <Card
+          width="100%"
+          maxWidth={800}
+          maxHeight="90vh"
+          bg="white"
+          borderRadius="$4"
+          overflow="hidden"
+          elevate
+        >
+          <YStack flex={1}>
+            {/* Header */}
+            <XStack
+              justify="space-between"
+              items="center"
+              p="$4"
+              pb="$3"
+              borderBottomWidth={1}
+              borderBottomColor="#f0f0f0"
+            >
+              <Text fontSize="$6" fontWeight="700" color="black">
+                Track Order
+              </Text>
+              <XStack items="center" space="$3">
+                <Button
+                  size="$3"
+                  bg="transparent"
+                  borderWidth={1}
+                  borderColor="#FF9F0D"
+                  color="#FF9F0D"
+                  icon={<Download size="$1" />}
+                  fontWeight="500"
+                >
+                  Download Invoice
+                </Button>
+                <Button
+                  circular
+                  size="$2.5"
+                  bg="transparent"
+                  color="#999"
+                  onPress={onClose}
+                  icon={X}
+                  hoverStyle={{ bg: '#f5f5f5' }}
+                />
+              </XStack>
             </XStack>
-          </XStack>
 
-          {/* Content */}
-          <ScrollView flex={1} showsVerticalScrollIndicator={false}>
-            {dataLoading ? (
-              <YStack p="$4" space="$4" items="center">
-                <Text>Loading tracking information...</Text>
-              </YStack>
-            ) : (
-              <XStack flex={1} p="$4" space="$4">
-                {/* Left Column */}
-                <YStack flex={1} space="$4" maxW={400}>
-                  {/* Order Status */}
-                  <YStack space="$3">
+            {/* Content */}
+            <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+              {dataLoading ? (
+                <XStack flex={1} p="$4" space="$4">
+                  {/* Left Column - Shimmer */}
+                  <YStack flex={1} space="$4" maxW={400}>
+                    <YStack space="$3">
+                      <OrderStatusShimmer />
+                    </YStack>
+                    <OrderItemsShimmer />
+                  </YStack>
+
+                  {/* Right Column - Shimmer */}
+                  <YStack
+                    flex={1}
+                    maxW={500}
+                    justify={'center'}
+                    items={'center'}
+                    flexDirection="column"
+                  >
+                    <MapShimmer />
+
+                    <YStack justify={'center'} items={'center'} minH={200} minW={500} p="$2">
+                      <XStack
+                        justify={'center'}
+                        items={'center'}
+                        flexDirection="row"
+                        gap="$2"
+                        minH={200}
+                      >
+                        <DeliveryAddressShimmer />
+                        <DeliveryPartnerShimmer />
+                      </XStack>
+
+                      <ActionButtonsShimmer />
+                    </YStack>
+                  </YStack>
+                </XStack>
+              ) : (
+                <XStack flex={1} p="$4" space="$4">
+                  {/* Left Column */}
+                  <YStack flex={1} space="$4" maxW={400}>
+                    {/* Order Status */}
+                    <YStack space="$3">
+                      <YStack
+                        space="$2"
+                        minH={250}
+                        borderColor={'#1C1B1F38'}
+                        borderWidth={1}
+                        borderRadius={10}
+                        p="$3"
+                      >
+                        <Text fontSize="$5" fontWeight="600" color="black" pb="$1">
+                          Order Status
+                        </Text>
+                        {trackingData?.trackingStatus?.map(
+                          (status: TrackingStatus, index: number) => (
+                            <XStack key={index} items="center" space="$3">
+                              <YStack items="center">
+                                {renderStatusIcon(status)}
+                                {index < trackingData.trackingStatus.length - 1 && (
+                                  <YStack
+                                    width={2}
+                                    height={20}
+                                    bg={status.completed ? '#4CAF50' : '#E0E0E0'}
+                                    mt="$1"
+                                  />
+                                )}
+                              </YStack>
+                              <XStack flex={1} justify="space-between" items="center">
+                                <Text
+                                  fontSize="$3"
+                                  color={
+                                    status.current
+                                      ? '#FF9F0D'
+                                      : status.completed
+                                        ? '#4CAF50'
+                                        : '#666'
+                                  }
+                                  fontWeight={status.current || status.completed ? '600' : '400'}
+                                >
+                                  {status.status}
+                                </Text>
+                                <Text fontSize="$2" color="#999">
+                                  {status.time}
+                                </Text>
+                              </XStack>
+                            </XStack>
+                          )
+                        )}
+                      </YStack>
+                    </YStack>
+
+                    {/* Ordered Items */}
                     <YStack
-                      space="$2"
-                      minH={250}
+                      space="$3"
+                      minH={200}
+                      p="$3"
                       borderColor={'#1C1B1F38'}
                       borderWidth={1}
                       borderRadius={10}
-                      p="$3"
                     >
-                      <Text fontSize="$5" fontWeight="600" color="black" pb="$1">
-                        Order Status
+                      <Text fontSize="$5" fontWeight="600" color="black">
+                        Ordered Items
                       </Text>
-                      {trackingData?.trackingStatus?.map(
-                        (status: TrackingStatus, index: number) => (
-                          <XStack key={index} items="center" space="$3">
-                            <YStack items="center">
-                              {renderStatusIcon(status)}
-                              {index < trackingData.trackingStatus.length - 1 && (
-                                <YStack
-                                  width={2}
-                                  height={20}
-                                  bg={status.completed ? '#4CAF50' : '#E0E0E0'}
-                                  mt="$1"
-                                />
-                              )}
-                            </YStack>
-                            <XStack flex={1} justify="space-between" items="center">
-                              <Text
-                                fontSize="$3"
-                                color={
-                                  status.current ? '#FF9F0D' : status.completed ? '#4CAF50' : '#666'
-                                }
-                                fontWeight={status.current || status.completed ? '600' : '400'}
-                              >
-                                {status.status}
-                              </Text>
-                              <Text fontSize="$2" color="#999">
-                                {status.time}
+
+                      <YStack space="$2">
+                        {trackingData?.orderItems?.map((item: OrderItem) => (
+                          <XStack key={item.id} justify="space-between" items="center" py="$2">
+                            <XStack items="center" space="$3">
+                              <Text fontSize="$6">{item.image}</Text>
+                              <Text fontSize="$3" color="black">
+                                {item.name}
                               </Text>
                             </XStack>
-                          </XStack>
-                        )
-                      )}
-                    </YStack>
-                  </YStack>
-
-                  {/* Ordered Items */}
-                  <YStack
-                    space="$3"
-                    minH={200}
-                    p="$3"
-                    borderColor={'#1C1B1F38'}
-                    borderWidth={1}
-                    borderRadius={10}
-                  >
-                    <Text fontSize="$5" fontWeight="600" color="black">
-                      Ordered Items
-                    </Text>
-
-                    <YStack space="$2">
-                      {trackingData?.orderItems?.map((item: OrderItem) => (
-                        <XStack key={item.id} justify="space-between" items="center" py="$2">
-                          <XStack items="center" space="$3">
-                            <Text fontSize="$6">{item.image}</Text>
-                            <Text fontSize="$3" color="black">
-                              {item.name}
+                            <Text fontSize="$3" color="black" fontWeight="500">
+                              {item.price}
                             </Text>
                           </XStack>
-                          <Text fontSize="$3" color="black" fontWeight="500">
-                            {item.price}
+                        ))}
+
+                        <Separator borderColor="#f0f0f0" my="$2" />
+
+                        <XStack justify="space-between" items="center">
+                          <Text fontSize="$4" fontWeight="600" color="black">
+                            Total Amount Paid
+                          </Text>
+                          <Text fontSize="$4" fontWeight="600" color="black">
+                            {trackingData?.totalAmount}
                           </Text>
                         </XStack>
-                      ))}
-
-                      <Separator borderColor="#f0f0f0" my="$2" />
-
-                      <XStack justify="space-between" items="center">
-                        <Text fontSize="$4" fontWeight="600" color="black">
-                          Total Amount Paid
-                        </Text>
-                        <Text fontSize="$4" fontWeight="600" color="black">
-                          {trackingData?.totalAmount}
-                        </Text>
-                      </XStack>
+                      </YStack>
                     </YStack>
                   </YStack>
-                </YStack>
 
-                {/* Right Column */}
-                <YStack
-                  flex={1}
-                  maxW={500}
-                  justify={'center'}
-                  items={'center'}
-                  flexDirection="column"
-                >
-                  {/* Map Placeholder */}
+                  {/* Right Column */}
                   <YStack
-                    minH={250}
-                    minW={500}
-                    borderColor={'#1C1B1F38'}
-                    borderWidth={1}
-                    borderRadius={10}
-                    bg="#E8F5E8"
-                    p="$3"
+                    flex={1}
+                    maxW={500}
+                    justify={'center'}
+                    items={'center'}
+                    flexDirection="column"
                   >
-                    {/* <Text fontSize="$8">🗺️</Text> */}
-                    <Text fontSize="$2" color="#666" mt="$2">
-                      Map View
-                    </Text>
-                    {/* {trackingData?.eta !== 'Delivered' && (
-                        <YStack
-                          bg="white"
-                          px="$2"
-                          py="$1"
-                          borderRadius="$2"
-                          shadowColor="#000"
-                          shadowOffset={{ width: 0, height: 1 }}
-                          shadowOpacity={0.1}
-                          shadowRadius={2}
-                        >
-                          <Text fontSize="$2" fontWeight="600" color="black">
-                            ETA: {trackingData?.eta}
-                          </Text>
-                        </YStack>
-                      )} */}
-                  </YStack>
-
-                  <YStack justify={'center'} items={'center'} minH={200} minW={500} p="$2">
-                    <XStack
-                      justify={'center'}
-                      items={'center'}
-                      flexDirection="row"
-                      gap="$2"
-                      minH={200}
+                    {/* Map Placeholder */}
+                    <YStack
+                      minH={250}
+                      maxH={250}
+                      minW={500}
+                      borderColor={'#1C1B1F38'}
+                      borderWidth={1}
+                      borderRadius={10}
+                      bg="#E8F5E8"
+                      p="$3"
                     >
-                      {/* Delivery Address */}
-                      <YStack
-                        space="$3"
-                        width={'50%'}
-                        p="$3"
-                        minH={180}
-                        borderColor={'#1C1B1F38'}
-                        borderWidth={1}
-                        borderRadius={10}
-                      >
-                        <Text fontSize="$5" fontWeight="600" color="black">
-                          Delivery Address
-                        </Text>
+                      <Text fontSize="$2" color="#666" pb="$1">
+                        Map View
+                      </Text>
+                    </YStack>
 
-                        <YStack space="$2">
-                          <XStack items="flex-start" space="$2">
-                            <MapPin size="$1" color="#666" mt="$0.5" />
-                            <YStack flex={1}>
-                              <Text fontSize="$3" color="black" lineHeight="$1">
-                                {trackingData?.deliveryAddress?.title}
-                              </Text>
+                    <YStack justify={'center'} items={'center'} minH={200} minW={500} p="$2">
+                      <XStack
+                        justify={'center'}
+                        items={'center'}
+                        flexDirection="row"
+                        gap="$2"
+                        minH={200}
+                      >
+                        {/* Delivery Address */}
+                        <YStack
+                          space="$3"
+                          width="50%"
+                          p="$3"
+                          maxH={180}
+                          borderColor="#1C1B1F38"
+                          borderWidth={1}
+                          borderRadius={10}
+                          justifyContent="space-between"
+                        >
+                          <Text fontSize="$5" fontWeight="600" color="black">
+                            Delivery Address
+                          </Text>
+
+                          <YStack space="$3" flex={1}>
+                            <XStack alignItems="flex-start" space="$3">
+                              <MapPin size="$1" color="#666" style={{ marginTop: 4 }} />
+                              <YStack flex={1} space="$1">
+                                <Text fontSize="$3" color="black" lineHeight="$2">
+                                  {trackingData?.deliveryAddress?.title}
+                                </Text>
+                                <Text fontSize="$3" color="black" lineHeight="$2">
+                                  {trackingData?.deliveryAddress?.subtitle}
+                                </Text>
+                              </YStack>
+                            </XStack>
+
+                            <XStack alignItems="center" space="$3">
+                              <Phone size="$1" color="#666" />
                               <Text fontSize="$3" color="black">
-                                {trackingData?.deliveryAddress?.subtitle}
-                              </Text>
-                            </YStack>
-                          </XStack>
-
-                          <XStack items="center" space="$2">
-                            <Phone size="$1" color="#666" />
-                            <Text fontSize="$3" color="black">
-                              {trackingData?.deliveryAddress?.phone}
-                            </Text>
-                          </XStack>
-                        </YStack>
-                      </YStack>
-
-                      {/* Delivery Partner */}
-                      <YStack
-                        space="$3"
-                        minH={180}
-                        width={'50%'}
-                        p="$3"
-                        borderColor={'#1C1B1F38'}
-                        borderWidth={1}
-                        borderRadius={10}
-                      >
-                        <Text fontSize="$5" fontWeight="600" color="black">
-                          Delivery Partner
-                        </Text>
-
-                        <XStack items="center" space="$3">
-                          <Avatar circular size="$4">
-                            <Avatar.Image src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext y='50%25' font-size='24' text-anchor='middle' dominant-baseline='middle' x='50%25'%3E👨‍🦱%3C/text%3E%3C/svg%3E" />
-                            <Avatar.Fallback bg="#f0f0f0">
-                              <Text fontSize="$4">👨‍🦱</Text>
-                            </Avatar.Fallback>
-                          </Avatar>
-
-                          <YStack flex={1}>
-                            <Text fontSize="$4" fontWeight="600" color="black">
-                              {trackingData?.deliveryPartner?.name}
-                            </Text>
-                            <XStack items="center" space="$1">
-                              <Text fontSize="$2" color="#FF9F0D">
-                                ⭐
-                              </Text>
-                              <Text fontSize="$2" color="#666">
-                                {trackingData?.deliveryPartner?.rating}
+                                {trackingData?.deliveryAddress?.phone}
                               </Text>
                             </XStack>
                           </YStack>
-                        </XStack>
+                        </YStack>
 
-                        <XStack space="$2">
+                        {/* Delivery Partner */}
+                        <YStack
+                          space="$3"
+                          minH={180}
+                          width={'50%'}
+                          p="$3"
+                          borderColor={'#1C1B1F38'}
+                          borderWidth={1}
+                          borderRadius={10}
+                          justify={'space-between'}
+                        >
+                          <Text fontSize="$5" fontWeight="600" color="black">
+                            Delivery Partner
+                          </Text>
+
+                          <XStack alignItems="center" space="$3">
+                            <Avatar circular size="$4">
+                              {trackingData?.deliveryPartner?.avatarUrl ? (
+                                <Avatar.Image src={trackingData.deliveryPartner.avatarUrl} />
+                              ) : (
+                                <Avatar.Fallback
+                                  bg="#f0f0f0"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                >
+                                  <Text fontSize="$2" fontWeight="600" color="#555">
+                                    {trackingData?.deliveryPartner?.name
+                                      ?.split(' ')
+                                      .map((n) => n[0])
+                                      .join('')
+                                      .toUpperCase() || 'DP'}
+                                  </Text>
+                                </Avatar.Fallback>
+                              )}
+                            </Avatar>
+
+                            <YStack flex={1} space="$1">
+                              <Text fontSize="$4" fontWeight="600" color="black">
+                                {trackingData?.deliveryPartner?.name || 'Delivery Partner'}
+                              </Text>
+                              <XStack alignItems="center" space="$1">
+                                <Star size="$1" color={'#FF9F0D'}></Star>
+                                <Text fontSize="$2" color="#666">
+                                  {trackingData?.deliveryPartner?.rating || 'N/A'}
+                                </Text>
+                              </XStack>
+                            </YStack>
+                          </XStack>
+
+                          <XStack space="$2">
+                            <Button
+                              flex={1}
+                              bg="white"
+                              borderWidth={1}
+                              borderColor="#FF9F0D"
+                              color="#FF9F0D"
+                              size="$3"
+                              icon={<MessageCircle size="$1" />}
+                            >
+                              Chat
+                            </Button>
+                            <Button
+                              flex={1}
+                              bg="#FF9F0D"
+                              color="white"
+                              size="$3"
+                              icon={<Phone size="$1" />}
+                            >
+                              Call
+                            </Button>
+                          </XStack>
+                        </YStack>
+                      </XStack>
+
+                      <YStack pt="$2" width="100%">
+                        <XStack justify="space-between" alignItems="center" width="100%">
+                          {/* Left-aligned button */}
                           <Button
-                            flex={1}
                             bg="white"
                             borderWidth={1}
                             borderColor="#FF9F0D"
                             color="#FF9F0D"
-                            size="$3"
-                            icon={<MessageCircle size="$1" />}
+                            size="$4"
+                            fontWeight="500"
+                            icon={<HelpCircle size="$1" />}
+                            width="30%"
                           >
-                            Chat
+                            Help
                           </Button>
+
+                          {/* Right-aligned button */}
                           <Button
-                            flex={1}
-                            bg="#FF9F0D"
-                            color="white"
-                            size="$3"
-                            icon={<Phone size="$1" />}
+                            bg="white"
+                            borderWidth={1}
+                            borderColor="#F55344"
+                            color="#F55344"
+                            size="$4"
+                            fontWeight="500"
+                            width="30%"
                           >
-                            Call
+                            Cancel Order
+                          </Button>
+
+                          {/* Center-aligned button */}
+                          <Button
+                            borderColor="#4CAF50"
+                            bg={'white'}
+                            color="#4CAF50"
+                            size="$4"
+                            fontWeight="500"
+                            width="30%"
+                          >
+                            Re-Order
                           </Button>
                         </XStack>
                       </YStack>
-                    </XStack>
-
-                    <YStack pt="$2" width="100%">
-                      <XStack justify="space-between" alignItems="center" width="100%">
-                        {/* Left-aligned button */}
-                        <Button
-                          bg="white"
-                          borderWidth={1}
-                          borderColor="#FF9F0D"
-                          color="#FF9F0D"
-                          size="$4"
-                          fontWeight="500"
-                          icon={<HelpCircle size="$1" />}
-                          width="30%"
-                        >
-                          Help
-                        </Button>
-
-                        {/* Center-aligned button */}
-                        <Button
-                          borderColor="#4CAF50"
-                          color="#4CAF50"
-                          size="$4"
-                          fontWeight="500"
-                          width="30%"
-                        >
-                          Re-Order
-                        </Button>
-
-                        {/* Right-aligned button */}
-                        <Button
-                          bg="white"
-                          borderWidth={1}
-                          borderColor="#F55344"
-                          color="#F55344"
-                          size="$4"
-                          fontWeight="500"
-                          width="30%"
-                        >
-                          Cancel Order
-                        </Button>
-                      </XStack>
                     </YStack>
                   </YStack>
-                </YStack>
-              </XStack>
-            )}
-          </ScrollView>
-        </YStack>
-      </Card>
-    </YStack>
+                </XStack>
+              )}
+            </ScrollView>
+          </YStack>
+        </Card>
+      </YStack>
+    </>
   )
 }

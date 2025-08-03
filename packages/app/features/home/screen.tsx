@@ -102,10 +102,8 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
         <SubscriptionBanner />
         <WhyChooseUs />
         <FAQSection />
+        <AppFooter />
       </ScrollView>
-
-      {/* Footer - outside of ScrollView to be edge-to-edge */}
-      <AppFooter />
     </YStack>
   )
 }

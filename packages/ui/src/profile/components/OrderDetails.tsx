@@ -13,12 +13,25 @@ interface OrderDetailsProps {
       products: {
         name: string
         quantity: number
-        price?: string
+        price?: number
       }[]
       dayTotal: string
     }[]
     totalPaid: string
     status: string
+    restaurant?: {
+      name: string
+      location: string
+    }
+    deliveryAddress?: string
+    paymentMethod?: string
+    platformFee?: string
+    deliveryFee?: string
+    discount?: {
+      amount: string
+      code: string
+    }
+    taxes?: string
   }
   onClose: () => void
   loading?: boolean
@@ -33,9 +46,12 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
     }, 0)
   }
 
-  const calculateProductPrice = (quantity: number) => {
-    // Using a base price of $32 per item (since dayTotal seems to be $64 for 2 items)
-    return (quantity * 32).toFixed(2)
+  const formatPrice = (price: number) => {
+    return `$${price.toFixed(2)}`
+  }
+
+  const parsePrice = (priceString: string) => {
+    return parseFloat(priceString?.replace('$', '') || '0')
   }
 
   const getDeliveryStatusColor = (deliveryDate: string) => {
@@ -44,6 +60,27 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
     if (deliveryDate.includes('Delivery on')) return '#F55344'
     return '#4CAF50'
   }
+
+  const formatDeliveryDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      return `Delivery on ${date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })}`
+    } catch {
+      return dateString
+    }
+  }
+
+  // Calculate bill breakdown
+  const itemTotal = calculateItemTotal()
+  const platformFee = parsePrice(order?.platformFee || '$1.00')
+  const deliveryFee = parsePrice(order?.deliveryFee || '$10.00')
+  const discountAmount = parsePrice(order?.discount?.amount || '$0.00')
+  const taxes = parsePrice(order?.taxes || '$0.00')
+  const billTotal = parsePrice(order?.totalPaid || '$0.00')
 
   return (
     <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
@@ -64,7 +101,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
               </Text>
             ) : (
               <Text fontSize="$5" fontWeight="600" color="black">
-                Order #{order?.id || 'N/A'}
+                Order {order?.id || 'N/A'}
               </Text>
             )}
             <Button
@@ -90,10 +127,10 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                     <MapPin size="$1" color="#999" />
                     <YStack>
                       <Text fontWeight="600" fontSize="$3" color="black">
-                        Nikfoods
+                        {order?.restaurant?.name || 'Restaurant'}
                       </Text>
                       <Text fontSize="$2" color="#999">
-                        San Francisco
+                        {order?.restaurant?.location || 'Location not specified'}
                       </Text>
                     </YStack>
                   </XStack>
@@ -102,10 +139,12 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                     <MapPin size="$1" color="#999" />
                     <YStack flex={1}>
                       <Text fontWeight="600" fontSize="$3" color="black">
-                        Home
+                        Delivery Address
                       </Text>
                       <Text fontSize="$2" color="#999" numberOfLines={2}>
-                        13th Street, 47 W 13th St, New York, NY 10011, USA
+                        {order?.deliveryAddress && order.deliveryAddress !== 'Not specified'
+                          ? order.deliveryAddress
+                          : '13th Street, 47 W 13th St, New York, NY 10011, USA'}
                       </Text>
                     </YStack>
                   </XStack>
@@ -125,7 +164,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                           color={getDeliveryStatusColor(dayItem?.deliveryDate || '')}
                           fontWeight="500"
                         >
-                          {dayItem?.deliveryDate || 'TBD'}
+                          {formatDeliveryDate(dayItem?.deliveryDate || '')}
                         </Text>
                       </XStack>
 
@@ -153,10 +192,20 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                             </Text>
                           </XStack>
                           <Text fontSize="$3" color="black" fontWeight="500">
-                            ${calculateProductPrice(product?.quantity || 0)}
+                            {formatPrice((product?.price || 0) * (product?.quantity || 0))}
                           </Text>
                         </XStack>
                       )) || null}
+
+                      {/* Day Total */}
+                      <XStack justify="space-between" items="center" py="$1" mt="$1">
+                        <Text fontSize="$3" color="#666" fontWeight="500">
+                          Day Total
+                        </Text>
+                        <Text fontSize="$3" color="#666" fontWeight="500">
+                          {dayItem?.dayTotal || '$0.00'}
+                        </Text>
+                      </XStack>
                     </YStack>
                   )) || null}
                 </YStack>
@@ -169,7 +218,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                       ITEM TOTAL
                     </Text>
                     <Text fontSize="$4" fontWeight="700" color="black">
-                      ${calculateItemTotal().toFixed(2)}
+                      {formatPrice(itemTotal)}
                     </Text>
                   </XStack>
 
@@ -178,7 +227,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                       Platform Fee
                     </Text>
                     <Text fontSize="$3" color="#666">
-                      $1.00
+                      {order?.platformFee || '$1.00'}
                     </Text>
                   </XStack>
 
@@ -187,25 +236,27 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                       Delivery partner fee
                     </Text>
                     <Text fontSize="$3" color="#666">
-                      $10.00
+                      {order?.deliveryFee || '$10.00'}
                     </Text>
                   </XStack>
 
-                  <XStack justify="space-between" items="center" py="$1">
-                    <Text fontSize="$3" color="#4CAF50" fontWeight="500">
-                      Discount Applied (TRYNEW)
-                    </Text>
-                    <Text fontSize="$3" color="#4CAF50" fontWeight="500">
-                      -{calculateItemTotal() > 100 ? '$100.00' : '$50.00'}
-                    </Text>
-                  </XStack>
+                  {discountAmount > 0 && (
+                    <XStack justify="space-between" items="center" py="$1">
+                      <Text fontSize="$3" color="#4CAF50" fontWeight="500">
+                        Discount Applied {order?.discount?.code ? `(${order.discount.code})` : ''}
+                      </Text>
+                      <Text fontSize="$3" color="#4CAF50" fontWeight="500">
+                        -{order?.discount?.amount || '$0.00'}
+                      </Text>
+                    </XStack>
+                  )}
 
                   <XStack justify="space-between" items="center" py="$1">
                     <Text fontSize="$3" color="#666">
                       Taxes
                     </Text>
                     <Text fontSize="$3" color="#666">
-                      ${(calculateItemTotal() * 0.1).toFixed(2)}
+                      {order?.taxes || '$0.00'}
                     </Text>
                   </XStack>
                 </YStack>
@@ -222,7 +273,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                     </Text>
                   </XStack>
                   <Text fontSize="$2" color="#666" style={{ textAlign: 'right' }}>
-                    Paid via Credit Card
+                    Paid via {order?.paymentMethod || 'Credit Card'}
                   </Text>
                 </YStack>
               </YStack>

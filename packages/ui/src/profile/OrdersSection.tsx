@@ -1,99 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { YStack, XStack, Text, Button, ScrollView, Circle, Square, Dialog } from 'tamagui'
+import {
+  YStack,
+  XStack,
+  Text,
+  Button,
+  ScrollView,
+  Circle,
+  Check,
+  View,
+  Square,
+  Dialog,
+} from 'tamagui'
 import OrderDetails from './components/OrderDetails'
 import { OrderCardSkeleton } from '../loaders/OrdersSectionLoader'
 import AddReview from './components/AddReview'
 import TrackOrder from './components/TrackOrder'
-const dummyOrders = [
-  {
-    id: '#1293827237464236',
-    date: '26 May, 2025, 02:00 PM',
-    items: [
-      {
-        day: 'Wednesday',
-        deliveryDate: 'Delivery on Thursday',
-        products: [
-          { name: 'Sweet Lassi', quantity: 1 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$64',
-      },
-      {
-        day: 'Thursday',
-        deliveryDate: 'Same day delivery',
-        products: [
-          { name: 'Sweet Lassi', quantity: 1 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$64',
-      },
-      {
-        day: 'Friday',
-        deliveryDate: '✓ Delivered on same day',
-        products: [
-          { name: 'Sweet Lassi', quantity: 1 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$64',
-      },
-    ],
-    totalPaid: '$500.00',
-    status: 'active',
-    hasReview: false,
-  },
-  {
-    id: '#1293827237464237',
-    date: '24 May, 2025, 01:30 PM',
-    items: [
-      {
-        day: 'Monday',
-        deliveryDate: '✓ Delivered on same day',
-        products: [
-          { name: 'Sweet Lassi', quantity: 1 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$64',
-      },
-      {
-        day: 'Tuesday',
-        deliveryDate: '✓ Delivered on same day',
-        products: [
-          { name: 'Sweet Lassi', quantity: 1 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$64',
-      },
-    ],
-    totalPaid: '$128.00',
-    status: 'delivered',
-    hasReview: true, // Already has review
-    reviewData: {
-      rating: 5,
-      reviewText: 'Absolutely delicious! The food arrived hot, fresh, and packed with flavor.',
-      selectedItems: ['Sweet Lassi', 'Chole Bhature'],
-      timestamp: '2025-05-25T10:30:00Z',
-    },
-  },
-  {
-    id: '#1293827237464238',
-    date: '22 May, 2025, 12:00 PM',
-    items: [
-      {
-        day: 'Saturday',
-        deliveryDate: '✓ Delivered on same day',
-        products: [
-          { name: 'Sweet Lassi', quantity: 2 },
-          { name: 'Chole Bhature', quantity: 1 },
-        ],
-        dayTotal: '$96',
-      },
-    ],
-    totalPaid: '$96.00',
-    status: 'delivered',
-    hasReview: false, // Can add review
-  },
-]
+import UpdateItem from './components/UpdateItem'
+import { useToast } from '@my/ui/src/useToast'
+import { apiGetOrders, apiUpdateOrderItems } from 'app/services/OrderService'
+
 export default function OrdersSection() {
+  const { showMessage } = useToast()
+
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState<any[]>([])
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
@@ -106,14 +34,59 @@ export default function OrdersSection() {
   const [trackOrderDialogOpen, setTrackOrderDialogOpen] = useState(false)
   const [selectedOrderIdForTracking, setSelectedOrderIdForTracking] = useState<string | null>(null)
 
-  // Simulate loading orders
+  const [updateItemDialogOpen, setUpdateItemDialogOpen] = useState(false)
+  const [selectedOrderIdForUpdate, setSelectedOrderIdForUpdate] = useState<string | null>(null)
+
+  const [selectedOrderForReview, setSelectedOrderForReview] = useState<any>(null)
+
+  // Error state
+  const [error, setError] = useState<string | null>(null)
+
+  // Pagination state
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 10,
+    total: 0,
+    totalPages: 0,
+  })
+
+  // Load orders from backend
   useEffect(() => {
     const loadOrders = async () => {
-      setLoading(true)
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      setOrders(dummyOrders)
-      setLoading(false)
+      try {
+        setLoading(true)
+        setError(null)
+
+        const response = await apiGetOrders<{
+          data: {
+            items: any[]
+            page: number
+            pageSize: number
+            total: number
+            totalPages: number
+          }
+          message: string
+        }>()
+
+        if (response?.data?.items) {
+          setOrders(response.data.items)
+          setPagination({
+            page: response.data.page,
+            pageSize: response.data.pageSize,
+            total: response.data.total,
+            totalPages: response.data.totalPages,
+          })
+        } else {
+          setOrders([])
+        }
+      } catch (error) {
+        console.error('Failed to load orders:', error)
+        setError('Failed to load orders. Please try again.')
+        showMessage('Failed to load orders', 'error')
+        setOrders([])
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadOrders()
@@ -124,7 +97,7 @@ export default function OrdersSection() {
     setDetailsDialogOpen(true)
     setDetailsLoading(true)
 
-    // Simulate loading order details
+    // Simulate loading order details (you can enhance this to fetch more detailed data)
     await new Promise((resolve) => setTimeout(resolve, 1500))
     setDetailsLoading(false)
   }
@@ -164,8 +137,15 @@ export default function OrdersSection() {
 
   // review section
   const handleAddReview = (orderId: string) => {
-    setSelectedOrderIdForReview(orderId)
-    setReviewDialogOpen(true)
+    // Find the complete order object
+    const orderToReview = orders.find((order) => order.id === orderId)
+    if (orderToReview) {
+      setSelectedOrderForReview(orderToReview)
+      setSelectedOrderIdForReview(orderId)
+      setReviewDialogOpen(true)
+    } else {
+      showMessage('Order details not found', 'error')
+    }
   }
 
   const handleReviewSubmit = (reviewData: any) => {
@@ -186,13 +166,171 @@ export default function OrdersSection() {
     setReviewDialogOpen(false)
     setSelectedOrderIdForReview(null)
 
-    // Show success message (you can add toast notification here)
+    // Show success message
     console.log('Review submitted successfully:', reviewData)
+    showMessage('Review submitted successfully', 'success')
   }
 
   const handleCloseReview = () => {
     setReviewDialogOpen(false)
     setSelectedOrderIdForReview(null)
+    setSelectedOrderForReview(null)
+  }
+  // Update item handlers
+  const handleUpdateItem = (orderId: string) => {
+    setSelectedOrderIdForUpdate(orderId)
+    setUpdateItemDialogOpen(true)
+  }
+
+  const handleCloseUpdateItem = () => {
+    setUpdateItemDialogOpen(false)
+    setSelectedOrderIdForUpdate(null)
+  }
+
+  // Updated handleItemUpdate function for OrdersSection.tsx
+
+  const handleItemUpdate = async (orderId: string, updatedItems: any) => {
+    try {
+      // Show loading state
+      // showMessage('Updating order items...', 'info')
+
+      const order = orders.find((o) => o.id === orderId)
+
+      // Try different ID formats
+      let actualOrderId = orderId
+      if (order?._id) {
+        actualOrderId = order._id
+      } else if (orderId.startsWith('#')) {
+        // If orderId starts with #, try both with and without #
+        actualOrderId = orderId
+      }
+
+      console.log('Order details:', {
+        orderId,
+        actualOrderId,
+        orderObject: order,
+        updatedItems,
+      })
+
+      // Call the API to update order items
+      const response = await apiUpdateOrderItems<{
+        success: boolean
+        message: string
+        updatedTotal: number
+        orderItems?: any[]
+        details?: string
+      }>(actualOrderId, updatedItems)
+
+      console.log('API Response:', response)
+
+      if (response.success) {
+        // Update the local state with the new items and total
+        setOrders((prevOrders) =>
+          prevOrders.map((order) => {
+            if (order.id !== orderId) return order
+
+            // If backend returns updated items, use them; otherwise, merge locally
+            let updatedOrderItems
+
+            if (response.orderItems) {
+              // Use items from backend response
+              updatedOrderItems = response.orderItems.map((dayItem: any) => ({
+                day: dayItem.day,
+                deliveryDate: dayItem.deliveryDate,
+                products: dayItem.items.map((item: any) => ({
+                  name: item.name || 'Unknown Item',
+                  quantity: item.quantity,
+                  price: item.price,
+                })),
+                dayTotal: `$${dayItem.dayTotal.toFixed(2)}`,
+              }))
+            } else {
+              // Fallback to local merging
+              updatedOrderItems = [...order.items]
+
+              // Process each day's new items
+              Object.entries(updatedItems).forEach(([day, newProducts]: [string, any]) => {
+                const existingDayIndex = updatedOrderItems.findIndex((item) => item.day === day)
+
+                if (existingDayIndex >= 0) {
+                  // Merge with existing day
+                  const existingDayItem = updatedOrderItems[existingDayIndex]
+                  const mergedProducts = [...existingDayItem.products, ...newProducts]
+
+                  const newTotal = mergedProducts.reduce((sum, product) => {
+                    return sum + (product.price || 0) * product.quantity
+                  }, 0)
+
+                  updatedOrderItems[existingDayIndex] = {
+                    ...existingDayItem,
+                    products: mergedProducts,
+                    dayTotal: `$${newTotal.toFixed(2)}`,
+                  }
+                } else {
+                  // Create new day item
+                  const dayTotal = newProducts.reduce((sum: number, product: any) => {
+                    return sum + (product.price || 0) * product.quantity
+                  }, 0)
+
+                  updatedOrderItems.push({
+                    day: day,
+                    deliveryDate: new Date().toISOString().split('T')[0],
+                    products: newProducts,
+                    dayTotal: `$${dayTotal.toFixed(2)}`,
+                  })
+                }
+              })
+            }
+
+            return {
+              ...order,
+              items: updatedOrderItems,
+              totalPaid: `$${response.updatedTotal.toFixed(2)}`,
+            }
+          })
+        )
+
+        setUpdateItemDialogOpen(false)
+        setSelectedOrderIdForUpdate(null)
+        showMessage(response.message || 'Items updated successfully', 'success')
+      } else {
+        throw new Error(response.details || response.message || 'Failed to update items')
+      }
+    } catch (error: any) {
+      console.error('Failed to update order items:', error)
+
+      // Extract error message from different possible structures
+      let errorMessage = 'Failed to update items. Please try again.'
+
+      if (error?.details) {
+        errorMessage = error.details
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === 'string') {
+        errorMessage = error
+      }
+
+      showMessage(errorMessage, 'error')
+    }
+  }
+
+  // Retry loading orders
+  const handleRetry = () => {
+    window.location.reload()
+  }
+
+  // Render error state
+  if (error && !loading) {
+    return (
+      <YStack flex={1} justify="center" items="center" p="$4" gap="$4">
+        <Text fontSize="$4" color="red" textAlign="center">
+          {error}
+        </Text>
+        <Button bg="#FF9F0D" color="white" size="$4" onPress={handleRetry}>
+          Retry
+        </Button>
+      </YStack>
+    )
   }
 
   return (
@@ -206,6 +344,16 @@ export default function OrdersSection() {
                 <OrderCardSkeleton key={index} />
               ))}
             </>
+          ) : orders.length === 0 ? (
+            // Show empty state
+            <YStack flex={1} justify="center" items="center" p="$8" gap="$4">
+              <Text fontSize="$5" fontWeight="600" color="#666" textAlign="center">
+                No orders found
+              </Text>
+              <Text fontSize="$3" color="#999" textAlign="center">
+                You haven't placed any orders yet. Start exploring our menu!
+              </Text>
+            </YStack>
           ) : (
             // Show actual orders
             orders.map((order, orderIndex) => (
@@ -223,13 +371,39 @@ export default function OrdersSection() {
                 <XStack mb="$3" justify="space-between">
                   <YStack>
                     <Text fontSize={18} fontWeight="700" color="#1A1A1A">
-                      Order ID {order.id}
+                      Order ID : {order?.id}
                     </Text>
                     <Text fontSize={14} fontWeight="600" color="#4D4D4D" mt="$1">
                       {order.date}
                     </Text>
                   </YStack>
-                  {order.status === 'active' && (
+                  {order.status === 'delivered' ? (
+                    <View
+                      bg="#e6f3e6"
+                      p="$2"
+                      borderRadius="$2"
+                      flexDirection="row"
+                      alignItems="center"
+                      gap="$2"
+                    >
+                      <Text color="green" fontSize="$3" fontWeight="500">
+                        Delivered on {order.date}
+                      </Text>
+                    </View>
+                  ) : order.status === 'cancelled' ? (
+                    <View
+                      bg="#feeeed"
+                      p="$2"
+                      borderRadius="$2"
+                      flexDirection="row"
+                      alignItems="center"
+                      gap="$2"
+                    >
+                      <Text color="red" fontSize="$3" fontWeight="500">
+                        Cancelled on {order.date}
+                      </Text>
+                    </View>
+                  ) : (
                     <XStack gap="$2">
                       <Button
                         size="$3"
@@ -238,6 +412,7 @@ export default function OrdersSection() {
                         borderColor="#FF9F0D"
                         variant="outlined"
                         fontSize={16}
+                        onPress={() => handleUpdateItem(order.id)}
                       >
                         Update Item
                       </Button>
@@ -246,7 +421,7 @@ export default function OrdersSection() {
                 </XStack>
 
                 <YStack gap={16}>
-                  {order.items.map((dayItem: any, dayIndex: number) => {
+                  {order?.items?.map((dayItem: any, dayIndex: number) => {
                     const statusColors = getDeliveryStatusColor(dayItem.deliveryDate, order.status)
                     return (
                       <YStack
@@ -372,7 +547,7 @@ export default function OrdersSection() {
                       )}
                     </XStack>
                     <YStack>
-                      {!order.hasReview && (
+                      {!order.hasReview && order.status === 'delivered' && (
                         <Button
                           borderWidth={1}
                           borderColor="#FF9F0D"
@@ -391,9 +566,55 @@ export default function OrdersSection() {
               </YStack>
             ))
           )}
+
+          {/* Pagination */}
+          {!loading && orders.length > 0 && pagination.totalPages > 1 && (
+            <YStack items="center" pt="$4">
+              <XStack gap="$2" items="center">
+                <Button
+                  size="$3"
+                  bg="white"
+                  color="#FF9F0D"
+                  borderColor="#FF9F0D"
+                  variant="outlined"
+                  disabled={pagination.page <= 1}
+                  onPress={() => {
+                    // Handle previous page
+                    console.log('Previous page')
+                  }}
+                >
+                  Previous
+                </Button>
+
+                <Text fontSize="$3" color="#666" px="$3">
+                  Page {pagination.page} of {pagination.totalPages}
+                </Text>
+
+                <Button
+                  size="$3"
+                  bg="white"
+                  color="#FF9F0D"
+                  borderColor="#FF9F0D"
+                  variant="outlined"
+                  disabled={pagination.page >= pagination.totalPages}
+                  onPress={() => {
+                    // Handle next page
+                    console.log('Next page')
+                  }}
+                >
+                  Next
+                </Button>
+              </XStack>
+
+              <Text fontSize="$2" color="#999" pt="$2">
+                Showing {orders.length} of {pagination.total} orders
+              </Text>
+            </YStack>
+          )}
         </YStack>
       </ScrollView>
 
+      {/* Order Details Dialog */}
       <Dialog open={detailsDialogOpen} onOpenChange={setDetailsDialogOpen}>
         <Dialog.Portal>
           <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
@@ -419,7 +640,6 @@ export default function OrdersSection() {
       </Dialog>
 
       {/* Add Review Dialog */}
-      {/* Add Review Dialog */}
       <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
         <Dialog.Portal>
           <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
@@ -433,9 +653,10 @@ export default function OrdersSection() {
               overflow: 'hidden',
             }}
           >
-            {selectedOrderIdForReview && (
+            {selectedOrderIdForReview && selectedOrderForReview && (
               <AddReview
                 orderId={selectedOrderIdForReview}
+                orderDetails={selectedOrderForReview} // Pass the complete order object
                 onClose={handleCloseReview}
                 onSubmit={handleReviewSubmit}
               />
@@ -460,6 +681,31 @@ export default function OrdersSection() {
           >
             {selectedOrderIdForTracking && (
               <TrackOrder orderId={selectedOrderIdForTracking} onClose={handleCloseTrackOrder} />
+            )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog>
+
+      {/* Update Item Dialog */}
+      <Dialog open={updateItemDialogOpen} onOpenChange={setUpdateItemDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
+          <Dialog.Content
+            style={{
+              background: 'transparent',
+              padding: 0,
+              width: 'auto',
+              maxWidth: '100vw',
+              maxHeight: '90vh',
+              overflow: 'hidden',
+            }}
+          >
+            {selectedOrderIdForUpdate && (
+              <UpdateItem
+                orderId={selectedOrderIdForUpdate}
+                onClose={handleCloseUpdateItem}
+                onUpdate={handleItemUpdate}
+              />
             )}
           </Dialog.Content>
         </Dialog.Portal>
