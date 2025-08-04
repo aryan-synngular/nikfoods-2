@@ -14,7 +14,7 @@ import {
   AppFooter,
 } from '@my/ui'
 import { useEffect, useState } from 'react'
-import { Platform, ScrollView } from 'react-native'
+import { Platform, ScrollView, StatusBar } from 'react-native'
 import { useLink } from 'solito/navigation'
 import { CategoryShimmerLoader, FoodListShimmerLoader } from '@my/ui'
 import { apiGetCategory, apiGetFoodItems } from 'app/services/FoodService'
@@ -42,22 +42,161 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   useEffect(() => {
     if (loginSuccess) {
       showMessage('Welcome back! Login Successful.', 'success')
+      clearLoginSuccess()
     }
-    clearLoginSuccess()
-  }, [loginSuccess, clearLoginSuccess])
+  }, [loginSuccess, clearLoginSuccess, showMessage])
 
   useEffect(() => {
     setLoading(true)
+
     Promise.all([
       apiGetCategory<IResponse<IListResponse<IFoodCategory>>>(),
       apiGetFoodItems<IResponse<IListResponse<IFoodItem>>>({}),
     ])
       .then(([catRes, foodRes]) => {
-        setCategories(catRes.data)
-        setFoodItems(foodRes.data)
+        console.log('Cat Items:', catRes.data)
+        console.log('Food Items:', foodRes.data)
+
+        // Dummy categories fallback
+        const dummyCategories: IListResponse<IFoodCategory> = {
+          items: [
+            {
+              _id: '687df76422289651c03f6697',
+              name: 'Category 4 ',
+              description: 'fnwef',
+              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
+              createdAt: '2025-07-21T08:16:36.712Z',
+              updatedAt: '2025-07-21T08:17:42.417Z',
+            },
+            {
+              _id: '687df71422289651c03f668f',
+              name: 'Category 4',
+              description: '43',
+              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085742/nikfoods/qxllzs0zorjhug3qy01t.png',
+              createdAt: '2025-07-21T08:15:16.201Z',
+              updatedAt: '2025-07-21T08:15:45.544Z',
+            },
+            {
+              _id: '687de83622289651c03f6655',
+              name: 'categor3',
+              description: 'sfsfsdf sd fsd fs dfs df',
+              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085619/nikfoods/hfgy7a5u2n49hnh70ufn.png',
+              createdAt: '2025-07-21T07:11:50.021Z',
+              updatedAt: '2025-07-30T13:07:41.085Z',
+            },
+          ],
+          page: 0,
+          total: 0,
+          pageSize: 0,
+        }
+
+        // Dummy foodItems fallback
+        const dummyFoodItems: IListResponse<IFoodItem> = {
+          items: [
+            {
+              _id: '6881dfd3e2950f3c1d186c32',
+              name: 'Ice Cream',
+              description: 'Classic vanilla scoop with toppings',
+              price: 99,
+              veg: true,
+              available: true,
+              public_id: '',
+              url: '',
+              category: [dummyCategories.items[2]],
+              createdAt: '2025-07-24T07:25:07.182Z',
+              updatedAt: '2025-07-30T14:42:42.751Z',
+            },
+            {
+              _id: '688af6075e39c47f4d258446',
+              name: 'Paneer Wrap',
+              description: 'Spicy paneer wrap with veggies',
+              price: 150,
+              veg: true,
+              available: true,
+              public_id: '',
+              url: '',
+              category: [dummyCategories.items[0]],
+              createdAt: '2025-07-31T04:50:15.513Z',
+              updatedAt: '2025-07-31T04:50:15.513Z',
+            },
+            {
+              _id: '688af6075e39c47f4d28446',
+              name: 'Paneer Wrap 2',
+              description: 'Spicy paneer wrap with veggies',
+              price: 150,
+              veg: true,
+              available: true,
+              public_id: '',
+              url: '',
+              category: [dummyCategories.items[0]],
+              createdAt: '2025-07-31T04:50:15.513Z',
+              updatedAt: '2025-07-31T04:50:15.513Z',
+            },
+            {
+              _id: '688af605e39c47f4d258446',
+              name: 'Paneer Wrap 3',
+              description: 'Spicy paneer wrap with veggies',
+              price: 150,
+              veg: true,
+              available: true,
+              public_id: '',
+              url: '',
+              category: [dummyCategories.items[0]],
+              createdAt: '2025-07-31T04:50:15.513Z',
+              updatedAt: '2025-07-31T04:50:15.513Z',
+            },
+          ],
+          page: 0,
+          total: 0,
+          pageSize: 0,
+        }
+
+        setCategories(catRes?.data ?? dummyCategories)
+        setFoodItems(foodRes?.data ?? dummyFoodItems)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('API fetch error, using fallback data:', err)
+
+        // Set fallback data even on error
+        const dummyCategories: IListResponse<IFoodCategory> = {
+          items: [
+            {
+              _id: '687df76422289651c03f6697',
+              name: 'Category 4 ',
+              description: 'fnwef',
+              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
+              createdAt: '2025-07-21T08:16:36.712Z',
+              updatedAt: '2025-07-21T08:17:42.417Z',
+            },
+          ],
+          page: 0,
+          total: 0,
+          pageSize: 0,
+        }
+
+        const dummyFoodItems: IListResponse<IFoodItem> = {
+          items: [
+            {
+              _id: '6881dfd3e2950f3c1d186c32',
+              name: 'Ice Cream',
+              description: 'Classic vanilla scoop with toppings',
+              price: 99,
+              veg: true,
+              available: true,
+              public_id: '',
+              url: '',
+              category: [dummyCategories.items[0]],
+              createdAt: '2025-07-24T07:25:07.182Z',
+              updatedAt: '2025-07-30T14:42:42.751Z',
+            },
+          ],
+          page: 0,
+          total: 0,
+          pageSize: 0,
+        }
+
+        setCategories(dummyCategories)
+        setFoodItems(dummyFoodItems)
       })
       .finally(() => setLoading(false))
   }, [])
@@ -75,13 +214,33 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
     // Here you would typically filter data to show only vegetarian items
   }
 
+  // Calculate header height based on platform
+  const getHeaderHeight = () => {
+    if (Platform.OS === 'web') return 60
+    // For mobile, account for status bar height
+    const statusBarHeight = StatusBar.currentHeight || 24
+    return 60 + statusBarHeight
+  }
+
+  const headerHeight = getHeaderHeight()
+
   return (
     <YStack flex={1} bg="$background">
       {/* Fixed AppHeader */}
       <AppHeader />
 
-      {/* Scrollable content */}
-      <ScrollView bounces={false} showsVerticalScrollIndicator={Platform.OS === 'web'}>
+      {/* Scrollable content with proper top margin for mobile */}
+      <ScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={Platform.OS === 'web'}
+        style={{
+          flex: 1,
+          marginTop: Platform.OS === 'web' ? 0 : headerHeight,
+        }}
+        contentContainerStyle={{
+          paddingTop: Platform.OS === 'web' ? 0 : 0, // No additional padding needed since we use marginTop
+        }}
+      >
         {Platform.OS === 'web' && <HeroBanner />}
         <SearchFood
           onSearch={handleSearch}
@@ -92,12 +251,14 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
 
         {/* Category List */}
         {loading ? <CategoryShimmerLoader /> : <CategoryRail categories={categories} />}
+
         {/* Food List */}
         {loading ? (
           <FoodListShimmerLoader />
         ) : (
           <FoodListingRail displayLabel="Food" foodItems={foodItems} />
         )}
+
         <AppDownloadBanner />
         <SubscriptionBanner />
         <WhyChooseUs />

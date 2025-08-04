@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
-import { View, XStack, Text, YStack } from 'tamagui'
+import { View, XStack, Text, YStack, ScrollView } from 'tamagui'
+import { Platform, Dimensions } from 'react-native'
 import { ProfileSidebarNavigation } from './ProfileSidebarNavigation'
 import { Header } from './AccountHeader'
 import { AppHeader } from '../Header'
@@ -9,15 +10,18 @@ import OrdersSection from './OrdersSection'
 
 export default function AccountPage() {
   const [tab, setTab] = useState('Orders')
+  const { width } = Dimensions.get('window')
+  const isWeb = Platform.OS === 'web'
+  const isMobile = !isWeb || width < 768
 
   const renderTabContent = () => {
     switch (tab) {
       case 'Profile':
         return <Text p="$4">Profile Details</Text>
       case 'Orders':
-        return <OrdersSection></OrdersSection>
+        return <OrdersSection />
       case 'Address':
-        return <AddressTab></AddressTab>
+        return <AddressTab />
       case 'Logout':
         return <Text p="$4">Logging out...</Text>
       default:
@@ -25,6 +29,40 @@ export default function AccountPage() {
     }
   }
 
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <YStack flex={1} backgroundColor="$background">
+        {/* Fixed Header */}
+        <AppHeader />
+
+        {/* Content with proper top margin for fixed header */}
+        <YStack
+          flex={1}
+          marginTop={Platform.OS === 'web' ? 60 : 100} // Account for header height + status bar
+        >
+          {/* Horizontal Tabs */}
+          <View borderBottomWidth={1} borderBottomColor="$borderColor">
+            <ProfileSidebarNavigation onSelect={setTab} isMobile={true} />
+          </View>
+
+          {/* Section Header */}
+          <View paddingVertical="$2" paddingHorizontal="$4">
+            <Header title={tab} />
+          </View>
+
+          {/* Tab Content */}
+          <ScrollView flex={1} backgroundColor="$background">
+            <View paddingHorizontal="$4" paddingBottom="$4">
+              {renderTabContent()}
+            </View>
+          </ScrollView>
+        </YStack>
+      </YStack>
+    )
+  }
+
+  // Web Layout (unchanged)
   return (
     <YStack
       style={{
@@ -46,12 +84,10 @@ export default function AccountPage() {
         <YStack gap={'$2'} width={'100%'}>
           <Header title={tab} />
           <XStack gap={'$6'} mt={'$3'}>
-            <ProfileSidebarNavigation onSelect={setTab} />
+            <ProfileSidebarNavigation onSelect={setTab} isMobile={false} />
             <View flex={1}>{renderTabContent()}</View>
           </XStack>
         </YStack>
-        {/* Savings banner */}
-        {/* <SavingsBanner amount={15} /> */}
       </XStack>
     </YStack>
   )

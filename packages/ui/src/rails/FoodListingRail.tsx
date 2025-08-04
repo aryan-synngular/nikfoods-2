@@ -5,12 +5,20 @@ import { useState } from 'react'
 import { FoodCard } from '../cards/FoodCard'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 import { IListResponse } from 'app/types/common'
+import { Dimensions } from 'react-native'
 
 export interface FoodItem {
   _id: string
   name: string
   price: number
   url: string
+  description?: string
+  veg?: boolean
+  available?: boolean
+  public_id?: string
+  category?: any[]
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface FoodListingRailProps {
@@ -45,7 +53,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
       } else {
         newQuantities[id] -= 1
       }
-      return newQuantities
+      return newQuantalities
     })
   }
 
@@ -53,34 +61,74 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
     setSelectedFoodItem(item)
     setIsDatePopupOpen(true)
   }
+  
   const handleDateSelection = (selectedDates: any) => {
     console.log(selectedDates)
     if (selectedFoodItem) handleAdd(selectedFoodItem._id)
     // Add API call for cart here if needed
   }
 
+  // Calculate responsive layout
+  const screenWidth = Dimensions.get('window').width
+  const horizontalPadding = 40 // 20px on each side
+  const minCardWidth = 160 // Minimum card width for readability
+  const maxCardWidth = 200 // Maximum card width (original design)
+  const gap = 16
+  
+  const availableWidth = screenWidth - horizontalPadding
+  
+  // Calculate optimal number of items per row
+  let itemsPerRow = Math.floor((availableWidth + gap) / (minCardWidth + gap))
+  itemsPerRow = Math.max(2, itemsPerRow) // Ensure minimum 2 items per row
+  
+  // Calculate actual card width based on available space
+  const calculatedCardWidth = (availableWidth - (gap * (itemsPerRow - 1))) / itemsPerRow
+  const cardWidth = Math.min(calculatedCardWidth, maxCardWidth) // Don't exceed original design size
+  
+  // Recalculate items per row if card width is constrained
+  const finalItemsPerRow = Math.floor((availableWidth + gap) / (cardWidth + gap))
+  const actualItemsPerRow = Math.max(2, finalItemsPerRow)
+
+  // Group items into rows
+  const groupedItems = []
+  const items = foodItems?.items || []
+  for (let i = 0; i < items.length; i += actualItemsPerRow) {
+    groupedItems.push(items.slice(i, i + actualItemsPerRow))
+  }
+
   return (
-    <YStack style={{ paddingTop: 20, paddingBottom: 20 }}>
+    <YStack  style={{ paddingTop: 20, paddingBottom: 20 }}>
       <Text fontSize={28} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
         {displayLabel}
       </Text>
-      <YStack style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
-        <XStack flexWrap="wrap" gap="$4" style={{ justifyContent: 'flex-start' }}>
-          {foodItems?.items?.map((item) => (
-            <YStack key={item._id} style={{ marginBottom: 16 }}>
-              <FoodCard
-                imageUrl={item.url}
-                name={item.name}
-                price={item.price}
-                quantity={quantities[item._id] || 0}
-                onAdd={() => handleAdd(item._id)}
-                onIncrement={() => handleIncrement(item._id)}
-                onDecrement={() => handleDecrement(item._id)}
-                handleAddButtonClick={() => handleAddButtonClick(item)}
-              />
-            </YStack>
-          ))}
-        </XStack>
+      <YStack style={{ paddingHorizontal: 30, paddingBottom: 20,paddingLeft:0 }}>
+        {groupedItems.map((row, rowIndex) => (
+          <XStack 
+            key={rowIndex}
+            style={{ 
+              justifyContent: row.length === actualItemsPerRow ? 'space-between' : 'flex-start',
+              alignItems: 'flex-start',
+              marginBottom: 16,
+              gap: row.length === actualItemsPerRow ? 0 : gap,
+            }}
+          >
+            {row.map((item, itemIndex) => (
+              <YStack key={item._id} style={{ width: cardWidth }}>
+                <FoodCard
+                  imageUrl={item.url || 'https://via.placeholder.com/100'}
+                  name={item.name}
+                  price={item.price}
+                  quantity={quantities[item._id] || 0}
+                  onAdd={() => handleAdd(item._id)}
+                  onIncrement={() => handleIncrement(item._id)}
+                  onDecrement={() => handleDecrement(item._id)}
+                  handleAddButtonClick={() => handleAddButtonClick(item)}
+                  cardWidth={cardWidth}
+                />
+              </YStack>
+            ))}
+          </XStack>
+        ))}
       </YStack>
       <DeliveryDatePopup
         item={selectedFoodItem}
