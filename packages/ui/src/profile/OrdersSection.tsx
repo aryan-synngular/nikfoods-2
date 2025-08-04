@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  YStack,
-  XStack,
-  Text,
-  Button,
-  ScrollView,
-  Circle,
-  Check,
-  View,
-  Square,
-  Dialog,
-} from 'tamagui'
+import { YStack, XStack, Text, Button, ScrollView, Circle, View, Square, Dialog } from 'tamagui'
 import OrderDetails from './components/OrderDetails'
 import { OrderCardSkeleton } from '../loaders/OrdersSectionLoader'
 import AddReview from './components/AddReview'
@@ -18,10 +7,8 @@ import TrackOrder from './components/TrackOrder'
 import UpdateItem from './components/UpdateItem'
 import { useToast } from '@my/ui/src/useToast'
 import { apiGetOrders, apiUpdateOrderItems } from 'app/services/OrderService'
-
 export default function OrdersSection() {
   const { showMessage } = useToast()
-
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState<any[]>([])
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
@@ -53,6 +40,241 @@ export default function OrdersSection() {
   // Load orders from backend
   useEffect(() => {
     const loadOrders = async () => {
+      const data = {
+        items: [
+          {
+            id: '#ORDER1690970002',
+            _id: '688dd6e4e6e1e57a01abe3ce',
+            date: 'Aug 02, 2025, 03:30 PM',
+            items: [
+              {
+                day: 'Monday',
+                deliveryDate: '2025-08-05',
+                products: [
+                  {
+                    name: 'adasd',
+                    quantity: 2,
+                    price: 80,
+                  },
+                  {
+                    name: 'Ice Cream',
+                    quantity: 1,
+                    price: 120,
+                  },
+                ],
+                dayTotal: '$292.00',
+              },
+              {
+                day: 'Tuesday',
+                deliveryDate: '2025-08-06',
+                products: [
+                  {
+                    name: 'Paneer',
+                    quantity: 1,
+                    price: 150,
+                  },
+                ],
+                dayTotal: '$150.00',
+              },
+              {
+                day: 'Wednesday',
+                deliveryDate: '2025-08-02',
+                products: [
+                  {
+                    name: 'asdaa',
+                    quantity: 1,
+                    price: 32,
+                  },
+                ],
+                dayTotal: '$32.00',
+              },
+            ],
+            totalPaid: '$523.00',
+            status: 'pending',
+            hasReview: false,
+            reviewData: null,
+            restaurant: {
+              name: 'Nikfoods',
+              location: 'San Francisco',
+            },
+            deliveryAddress: 'Not specified',
+            deliveryBoy: null,
+            paymentMethod: 'Credit Card',
+            platformFee: '$1.00',
+            deliveryFee: '$10.00',
+            discount: {
+              amount: '$5.00',
+              code: 'TRYNEW',
+            },
+            taxes: '$43.00',
+          },
+          {
+            id: '#ORDER1690974444',
+            _id: '688dd92713519af021360800',
+            date: 'Aug 01, 2025, 09:30 PM',
+            items: [
+              {
+                day: 'Thursday',
+                deliveryDate: '2025-08-08',
+                products: [
+                  {
+                    name: 'adasd',
+                    quantity: 1,
+                    price: 80,
+                  },
+                  {
+                    name: 'Ice Cream',
+                    quantity: 2,
+                    price: 120,
+                  },
+                ],
+                dayTotal: '$320.00',
+              },
+            ],
+            totalPaid: '$376.00',
+            status: 'active',
+            hasReview: false,
+            reviewData: null,
+            restaurant: {
+              name: 'Nikfoods',
+              location: 'San Francisco',
+            },
+            deliveryAddress: 'Not specified',
+            deliveryBoy: null,
+            paymentMethod: 'UPI',
+            platformFee: '$1.00',
+            deliveryFee: '$10.00',
+            discount: {
+              amount: '$5.00',
+              code: 'TRYNEW',
+            },
+            taxes: '$50.00',
+          },
+          {
+            id: '#ORDER1690973333',
+            _id: '688dd89b13519af0213606ff',
+            date: 'Aug 01, 2025, 07:30 PM',
+            items: [
+              {
+                day: 'Friday',
+                deliveryDate: '2025-08-09',
+                products: [
+                  {
+                    name: 'Paneer',
+                    quantity: 1,
+                    price: 150,
+                  },
+                ],
+                dayTotal: '$150.00',
+              },
+            ],
+            totalPaid: '$203.00',
+            status: 'cancelled',
+            hasReview: false,
+            reviewData: null,
+            restaurant: {
+              name: 'Nikfoods',
+              location: 'San Francisco',
+            },
+            deliveryAddress: 'Not specified',
+            deliveryBoy: null,
+            paymentMethod: 'Debit Card',
+            platformFee: '$1.00',
+            deliveryFee: '$10.00',
+            discount: {
+              amount: '$0.00',
+              code: '',
+            },
+            taxes: '$42.00',
+          },
+          {
+            id: '#ORDER1690972222',
+            _id: '688dd8ab13519af02136071b',
+            date: 'Aug 01, 2025, 05:30 PM',
+            items: [
+              {
+                day: 'Wednesday',
+                deliveryDate: '2025-08-07',
+                products: [
+                  {
+                    name: 'Ice Cream',
+                    quantity: 1,
+                    price: 120,
+                  },
+                ],
+                dayTotal: '$120.00',
+              },
+            ],
+            totalPaid: '$163.00',
+            status: 'delivered',
+            hasReview: true,
+            reviewData: {
+              rating: 4,
+              reviewText: 'Good',
+              selectedItems: ['Ice Cream'],
+              timestamp: '2025-08-02T14:13:59.210Z',
+            },
+            restaurant: {
+              name: 'Nikfoods',
+              location: 'San Francisco',
+            },
+            deliveryAddress: 'Not specified',
+            deliveryBoy: null,
+            paymentMethod: 'Cash on Delivery',
+            platformFee: '$1.00',
+            deliveryFee: '$10.00',
+            discount: {
+              amount: '$0.00',
+              code: '',
+            },
+            taxes: '$32.00',
+          },
+          {
+            id: '#ORDER1690971111',
+            _id: '688dd8ba13519af021360737',
+            date: 'Aug 01, 2025, 03:30 PM',
+            items: [
+              {
+                day: 'Monday',
+                deliveryDate: '2025-08-05',
+                products: [
+                  {
+                    name: 'adasd',
+                    quantity: 2,
+                    price: 80,
+                  },
+                ],
+                dayTotal: '$160.00',
+              },
+            ],
+            totalPaid: '$225.00',
+            status: 'delivered',
+            hasReview: false,
+            reviewData: null,
+            restaurant: {
+              name: 'Nikfoods',
+              location: 'San Francisco',
+            },
+            deliveryAddress: 'Not specified',
+            deliveryBoy: null,
+            paymentMethod: 'Credit Card',
+            platformFee: '$1.00',
+            deliveryFee: '$10.00',
+            discount: {
+              amount: '$5.00',
+              code: 'TRYNEW',
+            },
+            taxes: '$59.00',
+          },
+        ],
+        page: 1,
+        pageSize: 10,
+        total: 5,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+      }
+
       try {
         setLoading(true)
         setError(null)
@@ -69,7 +291,8 @@ export default function OrdersSection() {
         }>()
 
         if (response?.data?.items) {
-          setOrders(response.data.items)
+          // setOrders(response.data.items)
+          setOrders(data.items)
           setPagination({
             page: response.data.page,
             pageSize: response.data.pageSize,
@@ -77,7 +300,8 @@ export default function OrdersSection() {
             totalPages: response.data.totalPages,
           })
         } else {
-          setOrders([])
+          // setOrders([])
+          setOrders(data.items)
         }
       } catch (error) {
         console.error('Failed to load orders:', error)

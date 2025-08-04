@@ -12,7 +12,7 @@ const textLight = '#9CA3AF'
 // Define styles for components that need complex styling
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 80,
+    paddingTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
