@@ -53,7 +53,7 @@ const OrderSchema = new Schema<IOrder>(
       default: () => `#ORD-${Date.now()}${Math.floor(Math.random() * 1000)}`,
     },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    address: { type: Schema.Types.ObjectId, ref: 'Address', required: true },
+    address: { type: Schema.Types.ObjectId, ref: 'Address', required: false },
     deliveryBoy: { type: Schema.Types.ObjectId, ref: 'DeliveryBoy', default: null },
 
     items: [

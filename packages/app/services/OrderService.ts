@@ -22,6 +22,27 @@ export async function apiGetOrders<T>(): Promise<T> {
   }
 }
 
+export async function apiCreateOrder<T>(orderData : any): Promise<T> {
+  const url = `orders`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    data: orderData,
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Order Created ', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error in orders creation', error)
+    throw error?.response?.data
+  }
+}
+
 export async function apiSubmitReview<T>(reviewData: {
   order: string
   rating: number
@@ -49,6 +70,30 @@ export async function apiSubmitReview<T>(reviewData: {
     throw error?.response?.data
   }
 }
+
+export async function apiCheckout<T>(orderData: { sourceId: string; amount: number,orderId : any, buyerVerificationToken  :any }): Promise<T> {
+  const url = 'checkout'
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: orderData,
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('checkout Details', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error submitting checkout:', error)
+    throw error?.response?.data
+  }
+}
+
 // Get specific order details by order ID
 export async function apiGetOrderDetails<T>(orderId: string): Promise<T> {
   const url = `orders/${orderId}`
