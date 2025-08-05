@@ -375,7 +375,15 @@ export function CartPage({
                         onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
                       />
                     ) : (
-                      <></>
+                      <CartDaySection
+                        key={day.day}
+                        day={day.day}
+                        date={day?.date}
+                        items={day.items}
+                        deliveryLabel={'Some Lable'}
+                        onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
+                        onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
+                      />
                     )
                   )}
 

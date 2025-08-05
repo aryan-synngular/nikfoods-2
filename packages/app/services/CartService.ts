@@ -40,6 +40,25 @@ export async function apiGetCart<T>(): Promise<T> {
   }
 }
 
+export async function apiClearCart<T>(): Promise<T> {
+  const url = `cart/clear`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    headers: {},
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Cart clear:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error Cart clear:', error)
+    throw error
+  }
+}
+
 export async function apiGetCartTotalAmount<T>(): Promise<T> {
   const url = `cart/get-total-amount`
 

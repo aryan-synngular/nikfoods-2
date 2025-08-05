@@ -291,8 +291,8 @@ export default function OrdersSection() {
         }>()
 
         if (response?.data?.items) {
-          // setOrders(response.data.items)
-          setOrders(data.items)
+          setOrders(response.data.items || data.items)
+          // setOrders(data.items)
           setPagination({
             page: response.data.page,
             pageSize: response.data.pageSize,
@@ -330,6 +330,14 @@ export default function OrdersSection() {
     setDetailsDialogOpen(false)
     setSelectedOrder(null)
     setDetailsLoading(false)
+  }
+
+  const getDayLabel = (status: string, dateStr: string): string => {
+    const dayName = new Date(dateStr).toLocaleDateString('en-US', { weekday: 'long' })
+
+    if (status === 'delivered') return `Delivered on ${dayName}`
+    if (status === 'cancelled') return `Cancelled on ${dayName}`
+    return `Delivery on ${dayName}`
   }
 
   const getDeliveryStatusColor = (deliveryDate: string, orderStatus: string) => {
@@ -592,8 +600,15 @@ export default function OrdersSection() {
                 shadowRadius={8}
                 elevation={3}
               >
-                <XStack mb="$3" justify="space-between">
-                  <YStack>
+                <XStack
+                  mb="$3"
+                  justifyContent="space-between"
+                  alignItems="flex-start"
+                  flexWrap="wrap"
+                  gap="$3"
+                >
+                  {/* Left Side: Order Info */}
+                  <YStack minWidth={180} flexShrink={1}>
                     <Text fontSize={18} fontWeight="700" color="#1A1A1A">
                       Order ID : {order?.id}
                     </Text>
@@ -601,6 +616,8 @@ export default function OrdersSection() {
                       {order.date}
                     </Text>
                   </YStack>
+
+                  {/* Right Side: Status or Button */}
                   {order.status === 'delivered' ? (
                     <View
                       bg="#e6f3e6"
@@ -609,6 +626,7 @@ export default function OrdersSection() {
                       flexDirection="row"
                       alignItems="center"
                       gap="$2"
+                      flexShrink={1}
                     >
                       <Text color="green" fontSize="$3" fontWeight="500">
                         Delivered on {order.date}
@@ -622,13 +640,14 @@ export default function OrdersSection() {
                       flexDirection="row"
                       alignItems="center"
                       gap="$2"
+                      flexShrink={1}
                     >
                       <Text color="red" fontSize="$3" fontWeight="500">
                         Cancelled on {order.date}
                       </Text>
                     </View>
                   ) : (
-                    <XStack gap="$2">
+                    <XStack gap="$2" flexShrink={1}>
                       <Button
                         size="$3"
                         bg="white"
@@ -655,48 +674,60 @@ export default function OrdersSection() {
                         borderTopWidth={1}
                         borderTopColor="#E0E0E0"
                       >
-                        <XStack gap="$2" justify="space-between">
+                        <XStack
+                          gap="$2"
+                          justify="space-between"
+                          flexWrap="wrap"
+                          alignItems="center"
+                        >
                           <Text fontSize={14} fontWeight="500" color="#2A2A2A" mb="$2">
                             {dayItem.day}'s Item
                           </Text>
+
                           <Text
                             fontSize={14}
                             lineHeight={21}
-                            pl={5}
-                            pr={5}
+                            px={10}
+                            py={4}
+                            borderRadius={4}
                             style={{
                               color: statusColors.color,
                               backgroundColor: statusColors.bg,
                             }}
                           >
-                            {dayItem.deliveryDate}
+                            {getDayLabel(order.status, dayItem.deliveryDate)}
                           </Text>
                         </XStack>
 
-                        <XStack>
-                          <XStack gap="$2" flex={1}>
+                        <XStack flexWrap="wrap" gap="$4">
+                          <XStack flexWrap="wrap" gap="$2" flex={1}>
                             {dayItem.products.map((product: any, productIndex: number) => (
-                              <XStack key={`${product.name}-${productIndex}`} gap={5}>
-                                <XStack gap="$2" px="$2" justify="center" items="center">
-                                  <Square
-                                    height={20}
-                                    width={20}
-                                    borderWidth={2}
-                                    borderColor="#008000"
-                                    justify="center"
-                                    items="center"
-                                  >
-                                    <Circle p={2} height={12} width={12} bg="#008000" />
-                                  </Square>
-                                  <Text fontSize="$2" color="gray">
-                                    {product.quantity} X {product.name}
-                                  </Text>
-                                </XStack>
+                              <XStack
+                                key={`${product.name}-${productIndex}`}
+                                gap={5}
+                                px="$2"
+                                justifyContent="center"
+                                alignItems="center"
+                                borderRadius="$2"
+                              >
+                                <Square
+                                  height={20}
+                                  width={20}
+                                  borderWidth={2}
+                                  borderColor="#008000"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                >
+                                  <Circle p={2} height={12} width={12} bg="#008000" />
+                                </Square>
+                                <Text fontSize="$2" color="gray">
+                                  {product.quantity} X {product.name}
+                                </Text>
                               </XStack>
                             ))}
                           </XStack>
 
-                          <YStack gap="$2" pt={4}>
+                          <YStack gap="$2" pt="$4" minWidth={120}>
                             <Text fontSize={14} color="#777679">
                               Day total:{' '}
                               <Text fontSize={14} fontWeight="600" color="#2A2A2A">

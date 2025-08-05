@@ -33,7 +33,7 @@ export const AppHeader = () => {
   })
 
   const cartLink = useLink({
-    href: '/account',
+    href: '/cart',
   })
 
   const adminLink = useLink({

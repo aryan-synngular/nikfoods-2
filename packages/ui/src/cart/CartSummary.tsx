@@ -96,7 +96,7 @@ export function CartSummary({
 
       {/* Total */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>Total</Text>
+        <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>Item's Total</Text>
         <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>${total}</Text>
       </XStack>
 
