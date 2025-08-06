@@ -37,7 +37,7 @@ export const AppHeader = () => {
   })
 
   const adminLink = useLink({
-    href: '/account',
+    href: '/admin',
   })
 
   const notificationLink = useLink({
