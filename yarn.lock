@@ -8692,6 +8692,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10/d5f6e9de5bbc52310f786099e18609289ed5e30af60a71e0646784c8185ddd1d0eebcf7c96b7faaaefc4a8366f3a3a4244d099b6d0866ee2bec80d1361e64342
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -14004,6 +14011,7 @@ __metadata:
     "@types/jsonwebtoken": "npm:^9"
     axios: "npm:^1.10.0"
     check-dependency-version-consistency: "npm:^4.1.0"
+    date-fns: "npm:^4.1.0"
     eslint: "npm:^9.3.0"
     expo-font: "npm:^13.3.1"
     expo-secure-store: "npm:^14.2.3"

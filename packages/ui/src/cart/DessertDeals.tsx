@@ -79,7 +79,7 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
       </XStack>
 
       <YStack style={{ gap: 12 }}>
-        {desserts.items.map((item) => (
+        {desserts.items.slice(0, 3).map((item) => (
           <XStack
             key={item._id}
             style={{
@@ -109,7 +109,7 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
               </Text>
 
               <Text style={{ fontSize: 13, color: '#666', marginBottom: 8 }}>
-                {item.description}
+                {item.description.substring(0, 60)}....
               </Text>
 
               <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { format, parseISO } from 'date-fns'
 import { YStack, XStack, Text, Button, ScrollView, Circle, Card, Separator, Square } from 'tamagui'
 import { X, MapPin } from '@tamagui/lucide-icons'
 import { OrderDetailsSkeleton } from '../../loaders/OrdersSectionLoader'
@@ -63,14 +64,36 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
 
   const formatDeliveryDate = (dateString: string) => {
     try {
-      const date = new Date(dateString)
-      return `Delivery on ${date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })}`
+      // First try to parse as ISO format
+      const date = parseISO(dateString)
+      return `Delivery on ${format(date, 'MMM d, yyyy')}`
+    } catch (e) {
+      try {
+        // Fallback to regular Date parsing if ISO fails
+        const date = new Date(dateString)
+        return `Delivery on ${format(date, 'MMM d, yyyy')}`
+      } catch (e) {
+        console.error('Error formatting date:', e)
+        return dateString // return original if both parsing attempts fail
+      }
+    }
+  }
+
+  const formatOrderDate = (dateString: string) => {
+    try {
+      const date = parseISO(dateString)
+      return format(date, 'MMM d, yyyy, h:mm a') // "Aug 2, 2025, 3:30 PM"
     } catch {
       return dateString
+    }
+  }
+
+  const formatDayName = (dateString: string) => {
+    try {
+      const date = parseISO(dateString)
+      return format(date, 'EEEE') // "Monday", "Tuesday", etc.
+    } catch {
+      return null
     }
   }
 
@@ -157,7 +180,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                       {/* Day Header */}
                       <XStack justify="space-between" items="center" mb="$2">
                         <Text fontWeight="600" fontSize="$3" color="black">
-                          {dayItem?.day || 'Unknown'}'s Item
+                          {formatDayName(dayItem?.deliveryDate) || dayItem?.day || 'Unknown'}'s Item
                         </Text>
                         <Text
                           fontSize="$2"

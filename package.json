@@ -41,6 +41,7 @@
     "@tamagui/cli": "^1.126.15",
     "axios": "^1.10.0",
     "check-dependency-version-consistency": "^4.1.0",
+    "date-fns": "^4.1.0",
     "eslint": "^9.3.0",
     "expo-font": "^13.3.1",
     "expo-secure-store": "^14.2.3",

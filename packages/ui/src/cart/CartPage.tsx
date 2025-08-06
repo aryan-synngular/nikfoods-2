@@ -13,6 +13,10 @@ import { apiGetCart, apiUpdateCartItemQuantity } from 'app/services/CartService'
 import { useLink } from 'solito/navigation'
 import { ICart, ICartResponse } from 'app/types/cart'
 import { useToast } from '../useToast'
+import { CartItemsShimmerLoader } from '../loaders/CartItemsShimmerLoader'
+import { CartSummaryShimmerLoader } from '../loaders/CartSummaryShimmerLoader'
+import { DessertDealsShimmerLoader } from '../loaders/DessertDealsShimmerLoader'
+
 interface CartItemData {
   id: string
   name: string
@@ -49,32 +53,32 @@ export function CartPage({
   })
 
   const { showMessage } = useToast()
-  // State to track if we're on desktop or mobile
+
+  // State to track if we're on desktop or mobile - initialize properly
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false)
+
   const checkOutLink = useLink({
     href: '/checkout',
   })
 
-  // Effect to check window width and update isDesktop state
+  // Effect to handle window resize and initial detection - fixed
   useEffect(() => {
-    // Function to check if we're on desktop
+    if (typeof window === 'undefined') return
+
     const checkIfDesktop = () => {
-      if (typeof window !== 'undefined') {
-        setIsDesktop(window.innerWidth >= 768) // 768px is a common breakpoint for tablet/desktop
-      }
+      const newIsDesktop = window.innerWidth >= 768
+      setIsDesktop(newIsDesktop)
     }
 
-    // Check initially
+    // Set initial value immediately
     checkIfDesktop()
 
-    // Add event listener for window resize
-    // if (typeof window !== 'undefined') {
-    //   window.addEventListener('resize', checkIfDesktop)
-
-    //   // Cleanup
-    //   return () => window.removeEventListener('resize', checkIfDesktop)
-    // }
+    window.addEventListener('resize', checkIfDesktop)
+    return () => window.removeEventListener('resize', checkIfDesktop)
   }, [])
+
   // Sample cart data organized by day - in a real app, this would come from props or context
   const [cartDays, setCartDays] = useState<CartDayData[]>([
     {
@@ -174,25 +178,10 @@ export function CartPage({
     },
   ]
 
-  // Calculate cart totals
-
-  // Handlers for cart item actions
-  const handleIncrement = (dayIndex: number, itemId: string) => {
-    // setCartDays((days) =>
-    //   days.map((day, idx) => {
-    //     if (idx !== dayIndex) return day
-    //     return {
-    //       ...day,
-    //       items: day.items.map((item) =>
-    //         item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-    //       ),
-    //     }
-    //   })
-    // )
-  }
   const handleQuantityChange = async (change: number, itemId: string) => {
     console.log(change)
     console.log(itemId)
+    // setIsUpdatingQuantity(true)
     try {
       const data = await apiUpdateCartItemQuantity({ cartItemId: itemId, change })
       console.log(data)
@@ -200,6 +189,8 @@ export function CartPage({
       showMessage('Quantity Updated Successfully', 'success')
     } catch (error) {
       console.log(error)
+    } finally {
+      // setIsUpdatingQuantity(false)
     }
   }
 
@@ -210,34 +201,22 @@ export function CartPage({
     } catch (error) {
       console.log(error)
     }
-    // setCartDays((days) =>
-    //   days.map((day, idx) => {
-    //     if (idx !== dayIndex) return day
-
-    //     return {
-    //       ...day,
-    //       items: day.items.map((item) =>
-    //         item.id === itemId && item.quantity > 1
-    //           ? { ...item, quantity: item.quantity - 1 }
-    //           : item
-    //       ),
-    //     }
-    //   })
-    // )
   }
 
   // Check if cart is empty
   const [cart, setCart] = useState<ICart>({} as ICart)
   const [dessert, setDessert] = useState([])
-  const isCartEmpty = cartDays.every((day) => day.items.length === 0)
 
   const getCartData = useCallback(async () => {
+    setIsLoading(true)
     try {
       const data = await apiGetCart<ICartResponse>()
       console.log(data?.data)
       setCart(data?.data)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
@@ -257,21 +236,36 @@ export function CartPage({
       return dayAcc + dayTotal
     }, 0)
   }, [cart])
+
+  const isCartEmpty =
+    !isLoading && (!cart?.days || cart.days.every((day) => !day.items || day.items.length === 0))
+
   // Don't render the layout until we know if we're on desktop or mobile
   if (isDesktop === null) {
     return (
       <YStack
         style={{
-          flex: 1,
-          backgroundColor: '#FAFAFA',
+          width: '100%',
+          minHeight: '100vh',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: '#FAFAFA',
         }}
       >
-        <Text>Loading...</Text>
+        <AppHeader />
+        <YStack
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text>Loading...</Text>
+        </YStack>
       </YStack>
     )
   }
+
   const refreshCartDetails = () => {
     getCartData()
   }
@@ -320,8 +314,6 @@ export function CartPage({
             }}
           >
             <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Your Cart</Text>
-            {/* Savings banner */}
-            {/* <SavingsBanner amount={15} /> */}
           </XStack>
         </YStack>
 
@@ -363,46 +355,48 @@ export function CartPage({
               >
                 <ScrollView style={{ flex: 1 }}>
                   {/* Cart sections by day */}
-                  {cart?.days?.map((day, index) =>
-                    day.items.length > 0 ? (
-                      <CartDaySection
-                        key={day.day}
-                        day={day.day}
-                        date={day?.date}
-                        items={day.items}
-                        deliveryLabel={'Some Lable'}
-                        onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
-                        onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
-                      />
-                    ) : (
-                      <CartDaySection
-                        key={day.day}
-                        day={day.day}
-                        date={day?.date}
-                        items={day.items}
-                        deliveryLabel={'Some Lable'}
-                        onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
-                        onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
-                      />
+                  {isLoading || isUpdatingQuantity ? (
+                    <CartItemsShimmerLoader />
+                  ) : (
+                    cart?.days?.map((day, index) =>
+                      day.items.length > 0 ? (
+                        <CartDaySection
+                          key={day.day}
+                          day={day.day}
+                          date={day?.date}
+                          items={day.items}
+                          deliveryLabel={'Some Lable'}
+                          onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
+                          onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
+                        />
+                      ) : (
+                        <></>
+                      )
                     )
                   )}
 
                   {/* Add more button */}
-                  <AddMoreButton onPress={onAddMoreItems} />
+                  {!isLoading && <AddMoreButton onPress={onAddMoreItems} />}
 
                   {/* Only show dessert deals in the left column on mobile */}
-                  {isDesktop === false && (
-                    <DessertDeals
-                      items={dessertDeals}
-                      onAddItem={refreshCartDetails}
-                      onViewAll={onViewAllDesserts}
-                    />
+                  {!isDesktop && (
+                    <>
+                      {isLoading ? (
+                        <DessertDealsShimmerLoader />
+                      ) : (
+                        <DessertDeals
+                          items={dessertDeals}
+                          onAddItem={refreshCartDetails}
+                          onViewAll={onViewAllDesserts}
+                        />
+                      )}
+                    </>
                   )}
                 </ScrollView>
               </YStack>
 
               {/* Right column - Summary and Dessert deals (desktop only) */}
-              {isDesktop === true ? (
+              {isDesktop ? (
                 <YStack
                   style={{
                     flex: 0.35,
@@ -438,11 +432,15 @@ export function CartPage({
                           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        <CartSummary
-                          buttonTitle="Checkout"
-                          subtotal={totalAmount}
-                          onCheckout={handleCheckout}
-                        />
+                        {isLoading ? (
+                          <CartSummaryShimmerLoader />
+                        ) : (
+                          <CartSummary
+                            buttonTitle="Checkout"
+                            subtotal={totalAmount}
+                            onCheckout={handleCheckout}
+                          />
+                        )}
                       </YStack>
 
                       {/* Dessert deals section */}
@@ -460,11 +458,15 @@ export function CartPage({
                           elevation: 2,
                         }}
                       >
-                        <DessertDeals
-                          items={dessertDeals}
-                          onAddItem={refreshCartDetails}
-                          onViewAll={onViewAllDesserts}
-                        />
+                        {isLoading ? (
+                          <DessertDealsShimmerLoader />
+                        ) : (
+                          <DessertDeals
+                            items={dessertDeals}
+                            onAddItem={refreshCartDetails}
+                            onViewAll={onViewAllDesserts}
+                          />
+                        )}
                       </YStack>
                     </YStack>
                   </ScrollView>
@@ -496,11 +498,15 @@ export function CartPage({
                       elevation: 2,
                     }}
                   >
-                    <CartSummary
-                      buttonTitle="Checkout"
-                      subtotal={totalAmount}
-                      onCheckout={handleCheckout}
-                    />
+                    {isLoading ? (
+                      <CartSummaryShimmerLoader />
+                    ) : (
+                      <CartSummary
+                        buttonTitle="Checkout"
+                        subtotal={totalAmount}
+                        onCheckout={handleCheckout}
+                      />
+                    )}
                   </YStack>
                 </YStack>
               )}
