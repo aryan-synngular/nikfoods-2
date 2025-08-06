@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { format, parseISO } from 'date-fns'
 import { YStack, XStack, Text, Button, ScrollView, Circle, View, Square, Dialog } from 'tamagui'
 import OrderDetails from './components/OrderDetails'
 import { OrderCardSkeleton } from '../loaders/OrdersSectionLoader'
@@ -332,8 +333,30 @@ export default function OrdersSection() {
     setDetailsLoading(false)
   }
 
+  // Consistent date formatting function
+  const formatOrderDate = (dateStr: string) => {
+    try {
+      const date = typeof dateStr === 'string' ? parseISO(dateStr) : new Date(dateStr)
+      return format(date, 'MMM dd, yyyy, hh:mm a')
+    } catch (e) {
+      console.error('Error formatting date:', e)
+      return dateStr // fallback to original string if formatting fails
+    }
+  }
+
+  // For day names
+  const getDayName = (dateStr: string) => {
+    try {
+      const date = typeof dateStr === 'string' ? parseISO(dateStr) : new Date(dateStr)
+      return format(date, 'EEEE') // 'Monday', 'Tuesday', etc.
+    } catch (e) {
+      console.error('Error getting day name:', e)
+      return ''
+    }
+  }
+
   const getDayLabel = (status: string, dateStr: string): string => {
-    const dayName = new Date(dateStr).toLocaleDateString('en-US', { weekday: 'long' })
+    const dayName = getDayName(dateStr)
 
     if (status === 'delivered') return `Delivered on ${dayName}`
     if (status === 'cancelled') return `Cancelled on ${dayName}`
@@ -613,7 +636,7 @@ export default function OrdersSection() {
                       Order ID : {order?.id}
                     </Text>
                     <Text fontSize={14} fontWeight="600" color="#4D4D4D" mt="$1">
-                      {order.date}
+                      {formatOrderDate(order.date)}
                     </Text>
                   </YStack>
 
@@ -629,7 +652,7 @@ export default function OrdersSection() {
                       flexShrink={1}
                     >
                       <Text color="green" fontSize="$3" fontWeight="500">
-                        Delivered on {order.date}
+                        Delivered on {formatOrderDate(order.date)}
                       </Text>
                     </View>
                   ) : order.status === 'cancelled' ? (
@@ -643,7 +666,7 @@ export default function OrdersSection() {
                       flexShrink={1}
                     >
                       <Text color="red" fontSize="$3" fontWeight="500">
-                        Cancelled on {order.date}
+                        Cancelled on {formatOrderDate(order.date)}
                       </Text>
                     </View>
                   ) : (
