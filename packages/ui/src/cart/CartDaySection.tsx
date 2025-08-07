@@ -84,10 +84,10 @@ export function CartDaySection({
             What's in your {day}'s cart
           </Text>
         </YStack>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
+        {/* <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>
           {new Date(date).toLocaleDateString()}
-        </Text>
-        {deliveryLabel && (
+        </Text> */}
+        {/* {deliveryLabel && (
           <Chip>
             <Text
               style={{
@@ -99,7 +99,7 @@ export function CartDaySection({
               {isSameDay ? 'Same day delivery' : deliveryLabel}
             </Text>
           </Chip>
-        )}
+        )} */}
       </XStack>
 
       {/* Items */}
@@ -108,7 +108,11 @@ export function CartDaySection({
           <CartItem
             key={item?._id}
             name={item?.food?.name}
-            description={item?.food?.description}
+            description={
+              item.food.description.length > 40
+                ? item.food.description.slice(0, 37) + '...'
+                : item.food.description
+            }
             price={Number(item?.food?.price)}
             quantity={item.quantity}
             imageUrl={item?.food?.url}

@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 
     const items = await FoodItem.find(filter)
       .skip((page - 1) * limit)
-      .limit(limit)
+      .limit(2)
 
     return NextResponse.json({
       data: {

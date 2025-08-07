@@ -43,3 +43,22 @@ export async function apiGetCategory<T>(): Promise<T> {
     throw error
   }
 }
+
+export async function apiGetFoodItemsByCategory<T>(): Promise<T> {
+  const url = `food-items-by-category`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('FoodItemsByCategory:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error FoodItemsByCategory:', error)
+    throw error
+  }
+}

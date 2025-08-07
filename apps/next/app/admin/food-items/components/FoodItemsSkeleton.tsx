@@ -259,7 +259,7 @@ const FoodItemsTableSkeleton = () => {
           Description
         </Text>
         <Text width={90} fontWeight="700" color="#4F8CFF">
-          Price (₹)
+          Price ($)
         </Text>
         <Text width={120} fontWeight="700" color="#4F8CFF">
           Category

@@ -7,18 +7,21 @@ export function AppDownloadBanner() {
   return (
     <YStack 
       style={{
+        minWidth: '60%',
         backgroundColor: '#FFF9F2',
         borderRadius: 16,
         padding: 16,
         margin: 20,
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 30,
         borderWidth: 1,
         borderColor: '#FF9F0D',
         overflow: 'hidden',
+        justifyContent: 'center',
+        
       }}
     >
-      <XStack alignItems="center" justifyContent="space-between">
+      <XStack alignItems="center" >
         <YStack space="$2" flex={1} mr="$4">
           <Text fontWeight="600" fontSize={16} color="#2A1A0C">
             For better experience,

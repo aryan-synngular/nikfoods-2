@@ -20,10 +20,8 @@ export function SubscriptionBanner() {
       style={{
         backgroundColor: '#2A1A0C',
         padding: 24,
-        margin: 20,
         marginTop: 0,
         marginBottom: 40,
-        borderRadius: 12,
         alignItems: 'center',
       }}
     >

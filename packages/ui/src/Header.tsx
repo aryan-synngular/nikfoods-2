@@ -27,21 +27,21 @@ export const AppHeader = () => {
   const { user, signOut, loading } = useAuth()
   const { width } = Dimensions.get('window')
   const isSmallScreen = width < 768
-  
+
   const loginLink = useLink({
     href: '/login',
   })
 
   const cartLink = useLink({
-    href: '/account',
+    href: '/cart',
   })
 
   const adminLink = useLink({
-    href: '/account',
+    href: '/admin',
   })
 
   const notificationLink = useLink({
-    href: '/account',
+    href: '/notification',
   })
 
   // Calculate proper top position for mobile
@@ -84,15 +84,14 @@ export const AppHeader = () => {
   // Get display name - avoid showing full email on mobile
   const getDisplayName = () => {
     if (!user) return ''
-    
+
     if (Platform.OS === 'web') {
       return user.name || user.email?.split('@')[0] || 'User'
     }
-    
+
     // On mobile, prefer name or show just username part of email
     return user.name || user.email?.split('@')[0] || 'Profile'
   }
-
 
   return (
     <XStack style={headerStyle}>
@@ -118,11 +117,7 @@ export const AppHeader = () => {
       </XStack>
 
       {/* Action Buttons */}
-      <XStack 
-        gap={Platform.OS === 'web' ? 12 : 8}
-        alignItems="center"
-        flexShrink={0}
-      >
+      <XStack gap={Platform.OS === 'web' ? 12 : 8} alignItems="center" flexShrink={0}>
         {/* Admin Panel - Only show on web for admins */}
         {Platform.OS === 'web' && user && user.role === 'ADMIN' && !isSmallScreen && (
           <Button
@@ -133,9 +128,9 @@ export const AppHeader = () => {
             fontWeight="600"
             paddingHorizontal={16}
             borderWidth={0}
-            hoverStyle={{ 
+            hoverStyle={{
               backgroundColor: primary,
-              opacity: 0.9
+              opacity: 0.9,
             }}
             icon={User2}
             {...adminLink}
@@ -150,11 +145,11 @@ export const AppHeader = () => {
           circular
           backgroundColor="transparent"
           borderWidth={0}
-          hoverStyle={{ 
-            backgroundColor: '#f5f5f5'
+          hoverStyle={{
+            backgroundColor: '#f5f5f5',
           }}
           pressStyle={{
-            backgroundColor: '#e8e8e8'
+            backgroundColor: '#e8e8e8',
           }}
           icon={<Bell size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
           {...notificationLink}
@@ -166,11 +161,11 @@ export const AppHeader = () => {
           circular
           backgroundColor="transparent"
           borderWidth={0}
-          hoverStyle={{ 
-            backgroundColor: '#f5f5f5'
+          hoverStyle={{
+            backgroundColor: '#f5f5f5',
           }}
           pressStyle={{
-            backgroundColor: '#e8e8e8'
+            backgroundColor: '#e8e8e8',
           }}
           icon={<ShoppingCart size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
           {...cartLink}
@@ -189,17 +184,17 @@ export const AppHeader = () => {
             borderRadius={8}
             paddingHorizontal={Platform.OS === 'web' ? 20 : 16}
             borderWidth={0}
-            hoverStyle={{ 
+            hoverStyle={{
               backgroundColor: primary,
-              opacity: 0.9
+              opacity: 0.9,
             }}
             {...loginLink}
           >
             Login
           </Button>
         ) : (
-          <ProfilePopUp 
-            handleSignOut={handleSignOut} 
+          <ProfilePopUp
+            handleSignOut={handleSignOut}
             Name={getDisplayName()}
             accountLink="/account"
           />

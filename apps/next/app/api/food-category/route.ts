@@ -143,6 +143,7 @@ export async function DELETE(req: NextRequest) {
       await session.abortTransaction()
       session.endSession()
     }
+    console.log(error)
     return NextResponse.json({ error: 'Failed to delete category' }, { status: 400 })
   }
 }

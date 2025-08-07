@@ -6,6 +6,8 @@ import { FoodCard } from '../cards/FoodCard'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 import { IListResponse } from 'app/types/common'
 import { Dimensions } from 'react-native'
+import { apiAddFoodItemToCart } from 'app/services/CartService'
+import { useToast } from '@my/ui/src/useToast'
 
 export interface FoodItem {
   _id: string
@@ -53,18 +55,34 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
       } else {
         newQuantities[id] -= 1
       }
-      return newQuantalities
+      return newQuantities
     })
   }
 
   const handleAddButtonClick = (item: FoodItem) => {
+    
     setSelectedFoodItem(item)
     setIsDatePopupOpen(true)
   }
   
-  const handleDateSelection = (selectedDates: any) => {
+  const { showMessage } = useToast()
+
+  const handleDateSelection = async (selectedDates: any) => {
     console.log(selectedDates)
-    if (selectedFoodItem) handleAdd(selectedFoodItem._id)
+    try {
+      const data = await apiAddFoodItemToCart({
+        foodItemId: selectedFoodItem?._id,
+        days: selectedDates,
+        quantity: 1,
+      })
+      showMessage('Item Added to Cart', 'success')
+
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+    // if (selectedFoodItem) handleAdd(selectedFoodItem._id)
+      setIsDatePopupOpen(false)
     // Add API call for cart here if needed
   }
 
@@ -73,7 +91,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
   const horizontalPadding = 40 // 20px on each side
   const minCardWidth = 160 // Minimum card width for readability
   const maxCardWidth = 200 // Maximum card width (original design)
-  const gap = 16
+  const gap = 40
   
   const availableWidth = screenWidth - horizontalPadding
   
@@ -98,7 +116,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
 
   return (
     <YStack  style={{ paddingTop: 20, paddingBottom: 20 }}>
-      <Text fontSize={28} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
+      <Text fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
         {displayLabel}
       </Text>
       <YStack style={{ paddingHorizontal: 30, paddingBottom: 20,paddingLeft:0 }}>
@@ -112,6 +130,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
               gap: row.length === actualItemsPerRow ? 0 : gap,
             }}
           >
+            
             {row.map((item, itemIndex) => (
               <YStack key={item._id} style={{ width: cardWidth }}>
                 <FoodCard
