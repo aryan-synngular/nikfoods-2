@@ -7,7 +7,6 @@ import { IListResponse, IResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
 import { IFoodItem } from 'app/types/foodItem'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
-import { useToast } from '../useToast'
 interface DessertItem {
   id: string
   name: string
@@ -24,7 +23,6 @@ interface DessertDealsProps {
 
 export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps) {
   const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem | null>(null)
-  const { showMessage } = useToast()
 
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
 
@@ -40,8 +38,6 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
         days: selectedDates,
         quantity: 1,
       })
-      showMessage('Item Added to Cart', 'success')
-
       console.log(data)
       onAddItem?.()
     } catch (error) {
@@ -83,7 +79,7 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
       </XStack>
 
       <YStack style={{ gap: 12 }}>
-        {desserts.items.map((item) => (
+        {desserts.items.slice(0, 3).map((item) => (
           <XStack
             key={item._id}
             style={{
@@ -113,9 +109,7 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
               </Text>
 
               <Text style={{ fontSize: 13, color: '#666', marginBottom: 8 }}>
-                {item.description.length > 40
-                  ? item.description.slice(0, 37) + '...'
-                  : item.description}
+                {item.description.substring(0, 60)}....
               </Text>
 
               <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>

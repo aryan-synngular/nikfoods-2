@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Order from 'models/Orders'
+import DeliveryBoy from 'models/DeliveryBoy'
 import Review from 'models/Review'
 import { verifyAuth } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
@@ -78,7 +79,7 @@ export async function GET(req: NextRequest) {
         model: 'FoodItem',
         select: 'name price',
       })
-      .populate('deliveryBoy', 'name phone email vehicleNumber')
+      // .populate('deliveryBoy', 'name phone email vehicleNumber')
       .lean()
 
     const total = await Order.countDocuments({ user: id })
@@ -255,8 +256,8 @@ export async function POST(req: NextRequest) {
         code: 'TRYNEW',
       },
       taxes,
-      deliveryAddress: deliveryAddress || '',
-      paymentMethod: paymentMethod || 'Credit Card',
+      address: deliveryAddress || '',
+      paymentMethod: 'Credit Card',
       status: 'pending', // Start with pending status
     })
 

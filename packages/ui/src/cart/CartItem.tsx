@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { Text, XStack, YStack } from 'tamagui'
 import { Minus, Plus } from '@tamagui/lucide-icons'
@@ -15,22 +15,32 @@ interface CartItemProps {
   onDecrement?: () => void
 }
 
-export function CartItem({ imageUrl, name, description, price, quantity, onIncrement, onDecrement }: CartItemProps) {
+export function CartItem({
+  imageUrl,
+  name,
+  description,
+  price,
+  quantity,
+  onIncrement,
+  onDecrement,
+}: CartItemProps) {
   return (
-    <XStack style={{
-      paddingBottom: 8,
-      paddingTop: 8,
-      paddingRight: 8,
-      paddingLeft: 8,
-      borderWidth: 1,
-      borderColor: '#F0F0F0',
-      alignItems: 'center',
-      marginBottom: 16,
-      backgroundColor: '#FFFFFF',
-      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-      borderRadius: 8,
-      elevation: 2,
-    }}>
+    <XStack
+      style={{
+        paddingBottom: 8,
+        paddingTop: 8,
+        paddingRight: 8,
+        paddingLeft: 8,
+        borderWidth: 1,
+        borderColor: '#F0F0F0',
+        alignItems: 'center',
+        marginBottom: 16,
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        borderRadius: 8,
+        elevation: 2,
+      }}
+    >
       {/* Product image */}
       <YStack
         style={{
@@ -39,7 +49,7 @@ export function CartItem({ imageUrl, name, description, price, quantity, onIncre
           borderRadius: 4,
           marginRight: 16,
           backgroundColor: '#F5F5F5',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         {Platform.OS === 'web' ? (
@@ -63,24 +73,26 @@ export function CartItem({ imageUrl, name, description, price, quantity, onIncre
         </Text>
 
         {description && (
-          <Text style={{ fontSize: 14, color: '#666666' }}>
-            {description}
-          </Text>
+          <Text style={{ fontSize: 14, color: '#666666' }}>{description.substring(0, 60)}...</Text>
         )}
       </YStack>
 
       {/* Quantity selector */}
-      <XStack style={{
-        alignItems: 'center',
-        marginRight: 24
-      }}>
-        <XStack style={{
-          borderWidth: 1,
-          borderColor: '#EEEEEE',
-          borderRadius: 4,
+      <XStack
+        style={{
           alignItems: 'center',
-          height: 32
-        }}>
+          marginRight: 24,
+        }}
+      >
+        <XStack
+          style={{
+            borderWidth: 1,
+            borderColor: '#EEEEEE',
+            borderRadius: 4,
+            alignItems: 'center',
+            height: 32,
+          }}
+        >
           <XStack
             onPress={onDecrement}
             style={{
@@ -89,18 +101,20 @@ export function CartItem({ imageUrl, name, description, price, quantity, onIncre
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FFF8EE',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             <Minus size={16} color="#FFB648" />
           </XStack>
-          <Text style={{
-            width: 32,
-            textAlign: 'center',
-            fontSize: 16,
-            fontWeight: '500',
-            color: '#000000'
-          }}>
+          <Text
+            style={{
+              width: 32,
+              textAlign: 'center',
+              fontSize: 16,
+              fontWeight: '500',
+              color: '#000000',
+            }}
+          >
             {quantity}
           </Text>
           <XStack
@@ -111,7 +125,7 @@ export function CartItem({ imageUrl, name, description, price, quantity, onIncre
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FFF8EE',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             <Plus size={16} color="#FFB648" />
@@ -120,13 +134,15 @@ export function CartItem({ imageUrl, name, description, price, quantity, onIncre
       </XStack>
 
       {/* Price */}
-      <Text style={{
-        fontSize: 18,
-        fontWeight: '700',
-        color: '#000000',
-        minWidth: 80,
-        textAlign: 'right'
-      }}>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: '700',
+          color: '#000000',
+          minWidth: 80,
+          textAlign: 'right',
+        }}
+      >
         ${price.toFixed(2)}
       </Text>
     </XStack>
