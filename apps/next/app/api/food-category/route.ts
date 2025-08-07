@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const totalCategories = await FoodCategory.countDocuments()
 
-    const categories = await FoodCategory.find().sort({ createdAt: -1 })
+    const categories = await FoodCategory.find().sort({ createdAt: 1 })
 
     return NextResponse.json({
       data: {
