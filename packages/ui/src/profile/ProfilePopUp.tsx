@@ -1,3 +1,4 @@
+'use client'
 import { Adapt, Button, Popover, PopoverProps, Sheet, Text, YStack, XStack } from 'tamagui'
 import { User, ChevronDown } from '@tamagui/lucide-icons'
 import { tabs } from 'app/constants/account.constant'

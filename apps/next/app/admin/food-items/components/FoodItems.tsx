@@ -213,7 +213,7 @@ export default function FoodItems() {
             Description
           </Text>
           <Text width={90} fontWeight="700" color="#4F8CFF">
-            Price (₹)
+            Price ($)
           </Text>
           <Text width={120} fontWeight="700" color="#4F8CFF">
             Category
@@ -262,10 +262,12 @@ export default function FoodItems() {
               {item.name}
             </Text>
             <Text width={250} color="#555">
-              {item.description}
+              {item.description.length > 40
+                ? item.description.slice(0, 37) + '...'
+                : item.description}
             </Text>
             <Text width={60} color="#222">
-              ₹{item.price}
+              ${item.price}
             </Text>
             <YStack width={150} gap={'$1'}>
               {Array.isArray(item.category) &&

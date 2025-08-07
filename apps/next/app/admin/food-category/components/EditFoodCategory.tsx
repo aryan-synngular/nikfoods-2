@@ -41,7 +41,7 @@ export default function EditCategoryForm({
     setErrors(err)
     return !err
   }
-
+  console.log(clientEnv.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME)
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!validate()) return

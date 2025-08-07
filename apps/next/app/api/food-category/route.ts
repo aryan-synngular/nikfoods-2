@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const totalCategories = await FoodCategory.countDocuments()
 
-    const categories = await FoodCategory.find().sort({ createdAt: -1 })
+    const categories = await FoodCategory.find().sort({ createdAt: 1 })
 
     return NextResponse.json({
       data: {
@@ -143,6 +143,7 @@ export async function DELETE(req: NextRequest) {
       await session.abortTransaction()
       session.endSession()
     }
+    console.log(error)
     return NextResponse.json({ error: 'Failed to delete category' }, { status: 400 })
   }
 }

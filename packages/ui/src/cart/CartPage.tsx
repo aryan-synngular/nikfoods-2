@@ -292,7 +292,6 @@ export function CartPage({
       <YStack
         style={{
           flex: 1,
-          backgroundColor: '#FAFAFA',
         }}
       >
         {/* Cart title - directly below header without container */}

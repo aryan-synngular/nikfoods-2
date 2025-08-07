@@ -437,7 +437,11 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                             {item.name}
                           </Text>
                           <Text fontSize={12} color="#999" numberOfLines={1}>
-                            {item.description || item.category?.name || 'No description available'}
+                            {item.description.length > 40
+                              ? item.description.slice(0, 37) + '...'
+                              : item.description ||
+                                item.category?.name ||
+                                'No description available'}
                           </Text>
                         </YStack>
 

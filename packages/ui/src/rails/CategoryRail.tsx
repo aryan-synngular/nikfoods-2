@@ -96,7 +96,7 @@ export function CategoryRail({ categories }: CategoryRailProps) {
         style={{ height: 250, minHeight: 250, width: '100%' }}
         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 } as any}
       >
-        <XStack gap="$3" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <XStack justify='center' items="center" gap="$10" style={{ paddingTop: 20, paddingBottom: 20 }}>
           {categories?.items?.map((category) => (
             <CategoryCard
               key={category._id}

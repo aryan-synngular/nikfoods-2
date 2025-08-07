@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Text, YStack, XStack, Button, Sheet, Image, Checkbox, useMedia, ScrollView } from 'tamagui'
 import { X, Check } from '@tamagui/lucide-icons'
 import { Platform } from 'react-native'
@@ -14,70 +14,83 @@ interface DeliveryDateOption {
 interface DeliveryDatePopupProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSelect: (selectedDates: {day_name:string,date:string}[]) => void
-  item:any
+  onSelect: (selectedDates: { day_name: string; date: string }[]) => void
+  item: any
 }
 
-export function DeliveryDatePopup({
-  open,
-  onOpenChange,
-  onSelect,
-  item
-}: DeliveryDatePopupProps) {
+export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: DeliveryDatePopupProps) {
   // Generate date options for the next 5 days
   const generateDateOptions = (): DeliveryDateOption[] => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const options: DeliveryDateOption[] = []
-    
-    for (let i = 0; i < 5; i++) {
-      const date = new Date()
-      date.setDate(date.getDate() + i)
-      
-      const day = days[date.getDay()]
-      const dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`
-      const fullDate = date.toISOString().split('T')[0] // YYYY-MM-DD format
-      
-      options.push({ day, date: dateStr, fullDate })
+
+    const now = new Date()
+    const isBefore1PM = now.getHours() < 13
+
+    let startDate = new Date()
+    if (!isBefore1PM) {
+      // Start from tomorrow
+      startDate.setDate(startDate.getDate() + 1)
     }
-    
+
+    let count = 0
+    let dayOffset = 0
+
+    while (count < 6) {
+      const date = new Date(startDate)
+      date.setDate(date.getDate() + dayOffset)
+
+      if (date.getDay() !== 0) {
+        // Exclude Sunday
+        const day = days[date.getDay()]
+        const dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`
+        const fullDate = date.toISOString().split('T')[0]
+        options.push({ day, date: dateStr, fullDate })
+        count++
+      }
+
+      dayOffset++
+    }
+
     return options
   }
-  
+
+  useEffect(() => {
+    if (open) {
+      setSelectedDates([])
+    }
+  }, [open])
   const media = useMedia()
   const dateOptions = generateDateOptions()
-  const [selectedDates, setSelectedDates] = useState<{day_name:string,date:string}[]>([])
-  
-  const handleToggleDate = (val:DeliveryDateOption) => {
+  const [selectedDates, setSelectedDates] = useState<{ day_name: string; date: string }[]>([])
+
+  const handleToggleDate = (val: DeliveryDateOption) => {
     console.log(val)
-    setSelectedDates(prev => {
-      const data = prev.filter(date => date.day_name !== val.day)
-      if(data.length === prev.length) {
-        return [...prev, {day_name:val.day, date:val.fullDate}]
+    setSelectedDates((prev) => {
+      const data = prev.filter((date) => date.day_name !== val.day)
+      if (data.length === prev.length) {
+        return [...prev, { day_name: val.day, date: val.fullDate }]
       } else {
         return data
       }
     })
   }
-  
+
   const handleSelect = () => {
     console.log(selectedDates)
     onSelect(selectedDates)
     onOpenChange(false)
   }
-  
+
   const formattedPrice = `$${item?.price?.toFixed(2)}`
-  
+
   // Use Sheet for native, Dialog for web
   if (Platform.OS === 'web') {
     // Web implementation with Dialog
     const { Dialog } = require('tamagui')
-    
+
     return (
-      <Dialog
-        modal
-        open={open}
-        onOpenChange={onOpenChange}
-      >
+      <Dialog modal open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
           <Dialog.Overlay
             backgroundColor="rgba(0,0,0,0.5)"
@@ -101,8 +114,8 @@ export function DeliveryDatePopup({
                 {/* Header */}
                 <XStack justifyContent="space-between" alignItems="center">
                   <Text fontSize={18} fontWeight="600" color="#2A1A0C">
-                    Choose Delivery date 
-                  </Text> 
+                    Choose Delivery date
+                  </Text>
                   <Button
                     size="$2"
                     circular
@@ -112,7 +125,7 @@ export function DeliveryDatePopup({
                     onPress={() => onOpenChange(false)}
                   />
                 </XStack>
-                
+
                 {/* Food item info */}
                 <XStack justifyContent="space-between" alignItems="center">
                   <YStack
@@ -138,12 +151,12 @@ export function DeliveryDatePopup({
                     </Text>
                   </YStack>
                 </XStack>
-                
+
                 {/* Date options */}
                 <YStack space={8}>
                   {dateOptions.map((option) => {
-                    const isSelected = selectedDates.some(day => day.day_name === option.day)
-                    
+                    const isSelected = selectedDates.some((day) => day.day_name === option.day)
+
                     return (
                       <XStack
                         key={option.fullDate}
@@ -161,8 +174,8 @@ export function DeliveryDatePopup({
                           <Checkbox
                             id={`date-${option.fullDate}`}
                             checked={isSelected}
-                            backgroundColor={isSelected ? "#FF9F0D" : "transparent"}
-                            borderColor={isSelected ? "#FF9F0D" : "#E0E0E0"}
+                            backgroundColor={isSelected ? '#FF9F0D' : 'transparent'}
+                            borderColor={isSelected ? '#FF9F0D' : '#E0E0E0'}
                           />
                           <Text fontSize={15} fontWeight="500" color="#2A1A0C">
                             {option.day}
@@ -175,7 +188,7 @@ export function DeliveryDatePopup({
                     )
                   })}
                 </YStack>
-                
+
                 {/* Select button */}
                 <Button
                   onPress={handleSelect}
@@ -199,7 +212,7 @@ export function DeliveryDatePopup({
       </Dialog>
     )
   }
-  
+
   // Native implementation with Sheet
   return (
     <Sheet
@@ -232,8 +245,8 @@ export function DeliveryDatePopup({
             {/* Header */}
             <XStack justifyContent="space-between" alignItems="center">
               <Text fontSize={20} fontWeight="600" color="#2A1A0C">
-                Choose Delivery date 
-              </Text> 
+                Choose Delivery date
+              </Text>
               <Button
                 size="$3"
                 circular
@@ -243,7 +256,7 @@ export function DeliveryDatePopup({
                 onPress={() => onOpenChange(false)}
               />
             </XStack>
-            
+
             {/* Food item info */}
             <XStack
               backgroundColor="#F8F8F8"
@@ -259,12 +272,7 @@ export function DeliveryDatePopup({
                 overflow="hidden"
                 backgroundColor="#F5F5F5"
               >
-                <Image
-                  source={{ uri: item?.url }}
-                  width="100%"
-                  height="100%"
-                  resizeMode="cover"
-                />
+                <Image source={{ uri: item?.url }} width="100%" height="100%" resizeMode="cover" />
               </YStack>
               <YStack flex={1}>
                 <Text fontSize={18} fontWeight="600" color="#2A1A0C" numberOfLines={2}>
@@ -275,15 +283,15 @@ export function DeliveryDatePopup({
                 </Text>
               </YStack>
             </XStack>
-            
+
             {/* Date options */}
             <YStack space={12} flex={1}>
               <Text fontSize={16} fontWeight="500" color="#2A1A0C">
                 Select delivery days:
               </Text>
               {dateOptions.map((option) => {
-                const isSelected = selectedDates.some(day => day.day_name === option.day)
-                
+                const isSelected = selectedDates.some((day) => day.day_name === option.day)
+
                 return (
                   <XStack
                     key={option.fullDate}
@@ -303,8 +311,8 @@ export function DeliveryDatePopup({
                       <Checkbox
                         id={`date-${option.fullDate}`}
                         checked={isSelected}
-                        backgroundColor={isSelected ? "#FF9F0D" : "transparent"}
-                        borderColor={isSelected ? "#FF9F0D" : "#E0E0E0"}
+                        backgroundColor={isSelected ? '#FF9F0D' : 'transparent'}
+                        borderColor={isSelected ? '#FF9F0D' : '#E0E0E0'}
                         size="$5"
                       />
                       <Text fontSize={17} fontWeight="500" color="#2A1A0C" flex={1}>
@@ -318,7 +326,7 @@ export function DeliveryDatePopup({
                 )
               })}
             </YStack>
-            
+
             {/* Select button */}
             <Button
               onPress={handleSelect}
