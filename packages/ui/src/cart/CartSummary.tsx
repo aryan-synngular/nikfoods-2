@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Button, Input, Text, XStack, YStack } from 'tamagui'
+import { Button, Input, Spinner, Text, XStack, YStack } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 
 interface CartSummaryProps {
@@ -9,6 +9,7 @@ interface CartSummaryProps {
   deliveryFee?: number
   tax?: number
   buttonTitle: string
+  loading?: { itemId: string; change: number }
 }
 
 export function CartSummary({
@@ -17,6 +18,7 @@ export function CartSummary({
   buttonTitle = '',
   deliveryFee = 2.99,
   tax = 0,
+  loading,
 }: CartSummaryProps) {
   const [couponCode, setCouponCode] = useState('')
   const total = Math.round(subtotal) // Simplified for the example to match the image
@@ -116,9 +118,14 @@ export function CartSummary({
           fontWeight: 600,
           color: 'white',
         }}
-        iconAfter={<ArrowRight fontWeight={600} color="white" />}
-      >
-        {buttonTitle}
+        iconAfter={loading?.itemId === "" && loading?.change === 0 ? (
+                                 <ArrowRight fontWeight={600} color="white" />
+                               ) : (
+                                 <Spinner color="white" />
+                               )}
+                               disabled={loading?.itemId !== "" || loading.change !== 0}
+                                 >
+        {buttonTitle} 
       </Button>
 
       {/* Credit card acceptance text */}

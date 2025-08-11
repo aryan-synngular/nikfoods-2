@@ -1,10 +1,12 @@
 'use client'
 
-import { ScrollView, XStack, YStack, Text, View } from 'tamagui'
+import { ScrollView, XStack, YStack, Text, View, useMedia } from 'tamagui'
 import { Calendar } from '@tamagui/lucide-icons'
 import { useState } from 'react'
+import { Platform } from 'react-native'
 
 export function DateSelectionRail() {
+  const media = useMedia()
   const [selectedDate, setSelectedDate] = useState<string>('')
   const days = () => {
     const today = new Date()
@@ -47,9 +49,11 @@ export function DateSelectionRail() {
 
     return days
   }
+ const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
+
   return (
     // <ScrollView width={"100%"} horizontal showsHorizontalScrollIndicator={false}>
-    <XStack width={'100%'} mt={20} p="$4" justify="center">
+    <XStack     mt={20} mb={"$4"}  px={isSmallScreen?"$0":"$4"} justify="center">
       <YStack
         items="center"
         p="$3"
@@ -64,19 +68,28 @@ export function DateSelectionRail() {
           fontWeight="600"
           style={{
             color: 'black',
-          }}
+          }} 
         >
           All days
         </Text>
         <Text fontSize="$2">Available</Text>
         <Calendar size={14} />
       </YStack>
+      <ScrollView
+       horizontal
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        style={{  width: '100%'}}
+      >
+        <XStack  >
+
       {days().map((day, index) => {
         const isSelected = selectedDate === day.label
         const isDisabled = day.disabled
         const isAllDays = day.label === 'All days'
-
+        
         return (
+          
           <YStack
             key={index}
             items="center"
@@ -91,13 +104,13 @@ export function DateSelectionRail() {
             opacity={isDisabled ? 0.4 : 1}
             borderBottomWidth={isSelected ? 2 : 1}
             cursor={isDisabled ? 'not-allowed' : 'pointer'}
-          >
+            >
             <Text
               fontWeight="600"
               style={{
                 color: isSelected ? 'orange' : 'black',
               }}
-            >
+              >
               {day.label}
             </Text>
             <Text fontSize="$2">{day.date || 'available'}</Text>
@@ -105,6 +118,8 @@ export function DateSelectionRail() {
           </YStack>
         )
       })}
+      </XStack>
+    </ScrollView>
     </XStack>
     // </ScrollView>
   )

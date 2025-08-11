@@ -15,32 +15,41 @@ import {
   DateSelectionRail,
   XStack,
   Text,
+  useMedia,
+  CategoryDialog,
 } from '@my/ui'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Platform, ScrollView, StatusBar } from 'react-native'
-import { useLink } from 'solito/navigation'
-import { CategoryShimmerLoader, FoodListShimmerLoader } from '@my/ui'
-import { apiGetCategory, apiGetFoodItemsByCategory } from 'app/services/FoodService'
-import { IListResponse, IResponse } from 'app/types/common'
+import { CategoryShimmerLoader, FoodListShimmerLoader,CartSidebarShimmer } from '@my/ui'
+import { IListResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
-import { IFoodItem } from 'app/types/foodItem'
 import { useAuth } from 'app/provider/auth-context'
 import { useToast } from '@my/ui/src/useToast'
+import CartSidebar from '@my/ui/src/cart/CartSidebar'
+import { useStore } from 'app/src/store/useStore'
+
 
 export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
+  const media=useMedia()
   const { showMessage } = useToast()
   const { loginSuccess, clearLoginSuccess } = useAuth()
-  const linkTarget = pagesMode ? '/pages-example-user' : '/user'
-  const linkProps = useLink({
-    href: `${linkTarget}/nate`,
-  })
-
+  const [popupOpen, setPopupOpen] = useState(false)
+  const [popupCategory, setPopupCategory] = useState<IFoodCategory | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [vegOnly, setVegOnly] = useState(false)
-  const [categories, setCategories] = useState<IListResponse<IFoodCategory> | null>(null)
-  const [foodItemsByCategory, setFoodItemsByCategory] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchLoading, setSearchLoading] = useState(false)
+ const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
+  const {
+    categories,
+    categoriesLoading,
+    foodItemsByCategory,
+    foodItemsLoading,
+    fetchFoodItemsByCategory,
+    fetchCategories,
+    fetchCart
+  } = useStore()
 
   // Toast after Successful login
   useEffect(() => {
@@ -50,16 +59,17 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
     }
   }, [loginSuccess, clearLoginSuccess, showMessage])
 
+  // Initial data load
   useEffect(() => {
     setLoading(true)
-
+ 
     Promise.all([
-      apiGetCategory<IResponse<IListResponse<IFoodCategory>>>(),
-      apiGetFoodItemsByCategory<IResponse<IListResponse<IFoodItem>>>(),
+     fetchCategories(), 
+      fetchFoodItemsByCategory(),
+      fetchCart()
     ])
-      .then(([catRes, foodRes]) => {
-        console.log('Cat Items:', catRes.data)
-        console.log('Food Items By Category:', foodRes.data)
+      .then(([catRes]) => {
+        // console.log('Cat Items:', catRes.data)
 
         // Dummy categories fallback
         const dummyCategories: IListResponse<IFoodCategory> = {
@@ -94,71 +104,7 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
           pageSize: 0,
         }
 
-        // Dummy foodItems by category fallback
-        const dummyFoodItemsByCategory: any[] = [
-          {
-            _id: '687df76422289651c03f6697',
-            name: 'Category 4 ',
-            description: 'fnwef',
-            url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
-            createdAt: '2025-07-21T08:16:36.712Z',
-            updatedAt: '2025-07-21T08:17:42.417Z',
-            foodItems: [
-              {
-                _id: '688af6075e39c47f4d258446',
-                name: 'Paneer Wrap',
-                description: 'Spicy paneer wrap with veggies',
-                price: 150,
-                veg: true,
-                available: true,
-                public_id: '',
-                url: '',
-                category: [dummyCategories.items[0]],
-                createdAt: '2025-07-31T04:50:15.513Z',
-                updatedAt: '2025-07-31T04:50:15.513Z',
-              },
-              {
-                _id: '688af6075e39c47f4d28446',
-                name: 'Paneer Wrap 2',
-                description: 'Spicy paneer wrap with veggies',
-                price: 150,
-                veg: true,
-                available: true,
-                public_id: '',
-                url: '',
-                category: [dummyCategories.items[0]],
-                createdAt: '2025-07-31T04:50:15.513Z',
-                updatedAt: '2025-07-31T04:50:15.513Z',
-              },
-            ],
-          },
-          {
-            _id: '687de83622289651c03f6655',
-            name: 'categor3',
-            description: 'sfsfsdf sd fsd fs dfs df',
-            url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085619/nikfoods/hfgy7a5u2n49hnh70ufn.png',
-            createdAt: '2025-07-21T07:11:50.021Z',
-            updatedAt: '2025-07-30T13:07:41.085Z',
-            foodItems: [
-              {
-                _id: '6881dfd3e2950f3c1d186c32',
-                name: 'Ice Cream',
-                description: 'Classic vanilla scoop with toppings',
-                price: 99,
-                veg: true,
-                available: true,
-                public_id: '',
-                url: '',
-                category: [dummyCategories.items[2]],
-                createdAt: '2025-07-24T07:25:07.182Z',
-                updatedAt: '2025-07-30T14:42:42.751Z',
-              },
-            ],
-          },
-        ]
-
-        setCategories(catRes?.data ?? dummyCategories)
-        setFoodItemsByCategory(foodRes?.data?.items ?? dummyFoodItemsByCategory)
+        // setCategories(catRes?.data ?? dummyCategories)
       })
       .catch((err) => {
         console.log('API fetch error, using fallback data:', err)
@@ -167,7 +113,7 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
         const dummyCategories: IListResponse<IFoodCategory> = {
           items: [
             {
-              _id: '687df76422289651c03f6697',
+              _id: '687CartSidebarShimmerdf76422289651c03f6697',
               name: 'Category 4 ',
               description: 'fnwef',
               url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
@@ -180,50 +126,29 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
           pageSize: 0,
         }
 
-        const dummyFoodItemsByCategory: any[] = [
-          {
-            _id: '687df76422289651c03f6697',
-            name: 'Category 4 ',
-            description: 'fnwef',
-            url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
-            createdAt: '2025-07-21T08:16:36.712Z',
-            updatedAt: '2025-07-21T08:17:42.417Z',
-            foodItems: [
-              {
-                _id: '6881dfd3e2950f3c1d186c32',
-                name: 'Ice Cream',
-                description: 'Classic vanilla scoop with toppings',
-                price: 99,
-                veg: true,
-                available: true,
-                public_id: '',
-                url: '',
-                category: [dummyCategories.items[0]],
-                createdAt: '2025-07-24T07:25:07.182Z',
-                updatedAt: '2025-07-30T14:42:42.751Z',
-              },
-            ],
-          },
-        ]
-
-        setCategories(dummyCategories)
-        setFoodItemsByCategory(dummyFoodItemsByCategory)
+        // setCategories(dummyCategories)
       })
       .finally(() => setLoading(false))
-  }, [])
+  }, [fetchFoodItemsByCategory])
 
-  // Handle search and filter actions
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-    console.log('Searching for:', query)
-    // Here you would typically fetch or filter data based on the query
-  }
+  // For search/filter:
+  const handleSearch = useCallback(
+    (query: string) => {
+      setSearchQuery(query)
+      setSearchLoading(true)
+      fetchFoodItemsByCategory(query, vegOnly).finally(() => setSearchLoading(false))
+    },
+    [fetchFoodItemsByCategory, vegOnly]
+  )
 
-  const handleVegToggle = (isVegOnly: boolean) => {
-    setVegOnly(isVegOnly)
-    console.log('Veg only:', isVegOnly)
-    // Here you would typically filter data to show only vegetarian items
-  }
+  const handleVegToggle = useCallback(
+    (isVegOnly: boolean) => {
+      setVegOnly(isVegOnly)
+      setSearchLoading(true)
+      fetchFoodItemsByCategory(searchQuery, isVegOnly).finally(() => setSearchLoading(false))
+    },
+    [fetchFoodItemsByCategory, searchQuery]
+  )
 
   // Calculate header height based on platform
   const getHeaderHeight = () => {
@@ -234,40 +159,46 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   }
 
   const headerHeight = getHeaderHeight()
-
+const handleCardPress = (category: IFoodCategory) => {
+      setPopupCategory(category)
+      setPopupOpen(true)
+  }
   return (
     <YStack flex={1} bg="$background">
       {/* Fixed AppHeader */}
       <AppHeader />
-
-      {/* Scrollable content with proper top margin for mobile */}
-      <ScrollView
-        bounces={false}
-        showsVerticalScrollIndicator={Platform.OS === 'web'}
-        style={{
-          flex: 1,
-          marginTop: Platform.OS === 'web' ? 0 : headerHeight,
-        }}
+      
+      <XStack flex={1}> 
+        {/* Main Content Area */}
+        <YStack flex={Platform.OS === 'web' ? 3 : 1}>
+          {/* Scrollable content with proper top margin for mobile */}
+          <ScrollView
+            bounces={false}
+            showsVerticalScrollIndicator={Platform.OS === 'web'}
+            style={{
+              flex: 1,
+              marginTop: Platform.OS === 'web' ? 0 : headerHeight,
+            }}
         contentContainerStyle={{
           paddingTop: Platform.OS === 'web' ? 0 : 0, // No additional padding needed since we use marginTop
         }}
-      >
+        >
         {Platform.OS === 'web' && <HeroBanner />}
         <SearchFood
           onSearch={handleSearch}
           onVegToggle={handleVegToggle}
           initialQuery={searchQuery}
           initialVegOnly={vegOnly}
-        />
+          />
 
         {/* Category List */}
-        <YStack px={60} gap={10} mt={20}>
-          {loading ? <CategoryShimmerLoader /> : <CategoryRail categories={categories} />}
-          <XStack width={'100%'} justify="center" items="center">
+        <YStack px={isSmallScreen ? 0 : 60} gap={isSmallScreen?4:10} mt={isSmallScreen?8:20}>
+          {loading ? <CategoryShimmerLoader /> : <CategoryRail handleCardPress={handleCardPress} categories={categories} />}
+          <XStack width={'100%'}  justify="center" items="center">
             <DateSelectionRail></DateSelectionRail>
           </XStack>
           {/* Food List by Category */}
-          {loading ? (
+          {loading || searchLoading ? (
             <FoodListShimmerLoader />
           ) : (
             <YStack>
@@ -279,19 +210,19 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
                 fontSize={20}
                 fontWeight="600"
                 color="black"
-              >
-                Thursday's Menu
+                >
+                {searchQuery ? `Search Results for "${searchQuery}"` : "Thursday's Menu"}
               </Text>
               {foodItemsByCategory.map((category) => (
                 <FoodListingRail
-                  key={category._id}
-                  displayLabel={category.name}
-                  foodItems={{
-                    items: category.foodItems,
-                    page: 0,
-                    total: category.foodItems.length,
-                    pageSize: category.foodItems.length,
-                  }}
+                key={category._id}
+                displayLabel={category.name}
+                foodItems={{
+                  items: category.foodItems,
+                  page: 0,
+                  total: category.foodItems.length,
+                  pageSize: category.foodItems.length,
+                }}
                 />
               ))}
             </YStack>
@@ -306,8 +237,27 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
           <WhyChooseUs />
           <FAQSection />
         </YStack>
-        <AppFooter />
-      </ScrollView>
+            <AppFooter />
+          </ScrollView>
+        </YStack>
+        
+        {/* Cart Sidebar - Only show on web */}
+        {Platform.OS === 'web'&&media.sm && (
+          <YStack  style={{ maxWidth: '250px', minWidth: '150px' }}>
+            {loading ? (
+              <CartSidebarShimmer />
+            ) : (
+              <CartSidebar />
+            )}
+          </YStack>
+        )}
+      </XStack>
+       <CategoryDialog
+       popupCategory={popupCategory}
+        open={popupOpen}
+        onOpenChange={setPopupOpen}
+        category={popupCategory}
+      />
     </YStack>
   )
 }

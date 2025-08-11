@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Text, YStack, XStack, Switch } from 'tamagui'
 import { Platform, useWindowDimensions, StyleSheet, View, TextInput } from 'react-native'
 import { Search } from '@tamagui/lucide-icons'
@@ -71,6 +71,7 @@ export interface SearchFoodProps {
   onVegToggle?: (vegOnly: boolean) => void
   initialQuery?: string
   initialVegOnly?: boolean
+  isTitleVisible?: boolean
 }
 
 export function SearchFood({
@@ -78,6 +79,7 @@ export function SearchFood({
   onVegToggle,
   initialQuery = '',
   initialVegOnly = false,
+  isTitleVisible = true,
 }: SearchFoodProps) {
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [vegOnly, setVegOnly] = useState(initialVegOnly)
@@ -99,10 +101,24 @@ export function SearchFood({
     }
   }
 
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    (() => {
+      let timeoutId: NodeJS.Timeout
+      return (query: string) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+          onSearch?.(query)
+        }, 300) // 300ms debounce
+      }
+    })(),
+    [onSearch]
+  )
+
   // Handle search input change
   const handleSearch = (text: string) => {
     setSearchQuery(text)
-    onSearch?.(text)
+    debouncedSearch(text)
   }
 
   // Handle veg toggle
@@ -111,9 +127,19 @@ export function SearchFood({
     onVegToggle?.(checked)
   }
 
+  // Update search query when initialQuery changes
+  useEffect(() => {
+    setSearchQuery(initialQuery)
+  }, [initialQuery])
+
+  // Update veg only when initialVegOnly changes
+  useEffect(() => {
+    setVegOnly(initialVegOnly)
+  }, [initialVegOnly])
+
   return (
     <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600 }]}>
-      <Text style={styles.title}>Search Your Favorite Food</Text>
+      {isTitleVisible && <Text style={styles.title}>Search Your Favorite Food</Text>}
 
       <XStack
         style={{

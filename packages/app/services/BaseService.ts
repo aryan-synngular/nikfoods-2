@@ -95,15 +95,19 @@ BaseService.interceptors.response.use(
           if (refreshTokenPrev) {
             try {
               const res = await axios.post(`${BASE_URL}${REFRESH_ENDPOINT}`, {
-                refreshTokenPrev,
+                refreshToken:refreshTokenPrev,
               })
-              const { token, refreshToken } = res.data
+              const { token, refreshToken } = res.data.data
+              console.log('New Token:', token)
+              console.log('New Refresh Token:', refreshToken)
               await saveAccessToken(token, refreshToken)
-
+ 
               // Retry original request
               originalRequest.headers[REQUEST_HEADER_AUTH_KEY] = `${TOKEN_TYPE}${token}`
+              console.log('Retrying original request with new token')
               return BaseService(originalRequest)
             } catch (refreshError) {
+              console.error('Token refresh failed:', refreshError)
               await clearTokens()
 
               // Dynamically import navigation service

@@ -16,6 +16,8 @@ import { useToast } from '../useToast'
 import { CartItemsShimmerLoader } from '../loaders/CartItemsShimmerLoader'
 import { CartSummaryShimmerLoader } from '../loaders/CartSummaryShimmerLoader'
 import { DessertDealsShimmerLoader } from '../loaders/DessertDealsShimmerLoader'
+import { useStore } from 'app/src/store/useStore'
+import { Platform } from 'react-native'
 
 interface CartItemData {
   id: string
@@ -52,10 +54,13 @@ export function CartPage({
     href: '/',
   })
 
+  const {cart,fetchCart,cartRecommendations,cartTotalAmount,fetchCartRecommendations,fetchCartTotalAmount,addToCart, updateCartItemQuantity }=useStore()
   const { showMessage } = useToast()
-
+const [loading, setLoading] = useState({ itemId: "", change: 0 })
+console.log(loading)
+  const isDesktop = Platform.OS === 'web'
   // State to track if we're on desktop or mobile - initialize properly
-  const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  // const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false)
 
@@ -64,20 +69,21 @@ export function CartPage({
   })
 
   // Effect to handle window resize and initial detection - fixed
-  useEffect(() => {
-    if (typeof window === 'undefined') return
+  // useEffect(() => {
+    
+  //   if (!(Platform.OS==="web")) return
 
-    const checkIfDesktop = () => {
-      const newIsDesktop = window.innerWidth >= 768
-      setIsDesktop(newIsDesktop)
-    }
+  //   const checkIfDesktop = () => {
+  //     const newIsDesktop = window.innerWidth >= 768
+  //     setIsDesktop(newIsDesktop)
+  //   }
 
-    // Set initial value immediately
-    checkIfDesktop()
+  //   // Set initial value immediately
+  //   checkIfDesktop()
 
-    window.addEventListener('resize', checkIfDesktop)
-    return () => window.removeEventListener('resize', checkIfDesktop)
-  }, [])
+  //   window.addEventListener('resize', checkIfDesktop)
+  //   return () => window.removeEventListener('resize', checkIfDesktop)
+  // }, [])
 
   // Sample cart data organized by day - in a real app, this would come from props or context
   const [cartDays, setCartDays] = useState<CartDayData[]>([
@@ -179,18 +185,16 @@ export function CartPage({
   ]
 
   const handleQuantityChange = async (change: number, itemId: string) => {
-    console.log(change)
-    console.log(itemId)
-    // setIsUpdatingQuantity(true)
+    if (change === 0) return // No change needed
+      setLoading({ itemId, change })
     try {
-      const data = await apiUpdateCartItemQuantity({ cartItemId: itemId, change })
-      console.log(data)
-      await getCartData()
+       await updateCartItemQuantity({ cartItemId: itemId, change })
       showMessage('Quantity Updated Successfully', 'success')
     } catch (error) {
       console.log(error)
     } finally {
-      // setIsUpdatingQuantity(false)
+          setLoading({ itemId: "", change: 0 })
+
     }
   }
 
@@ -204,15 +208,13 @@ export function CartPage({
   }
 
   // Check if cart is empty
-  const [cart, setCart] = useState<ICart>({} as ICart)
+  // const [cart, setCart] = useState<ICart>({} as ICart)
   const [dessert, setDessert] = useState([])
-
+console.log(cart)
   const getCartData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const data = await apiGetCart<ICartResponse>()
-      console.log(data?.data)
-      setCart(data?.data)
+       await fetchCart()
     } catch (error) {
       console.log(error)
     } finally {
@@ -238,7 +240,7 @@ export function CartPage({
   }, [cart])
 
   const isCartEmpty =
-    !isLoading && (!cart?.days || cart.days.every((day) => !day.items || day.items.length === 0))
+    !isLoading && (!cart?.days || !(cart.days.length > 0))
 
   // Don't render the layout until we know if we're on desktop or mobile
   if (isDesktop === null) {
@@ -279,16 +281,16 @@ export function CartPage({
   }
   return (
     <YStack
+    
       style={{
         width: '100%',
-        minHeight: '100vh',
+        minHeight: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center', 
       }}
     >
       {/* Add the header */}
       <AppHeader />
-
       <YStack
         style={{
           flex: 1,
@@ -303,6 +305,7 @@ export function CartPage({
           }}
         >
           <XStack
+          
             style={{
               maxWidth: 1200,
               width: '100%',
@@ -310,6 +313,7 @@ export function CartPage({
               paddingHorizontal: 16,
               alignItems: 'center',
               justifyContent: 'space-between',
+              marginTop:isDesktop ? 0 : 100,
             }}
           >
             <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Your Cart</Text>
@@ -333,6 +337,7 @@ export function CartPage({
             style={{
               maxWidth: 1200,
               width: '100%',
+              height: '100%',
               marginHorizontal: 'auto',
               paddingHorizontal: 24,
             }}
@@ -340,6 +345,7 @@ export function CartPage({
             <XStack
               style={{
                 width: '100%',
+                height:"100%",
                 flexDirection: isDesktop ? 'row' : 'column',
                 gap: isDesktop ? 24 : 0,
                 paddingVertical: 24,
@@ -352,7 +358,7 @@ export function CartPage({
                   width: isDesktop ? '65%' : '100%',
                 }}
               >
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView height={"100%"}  style={{ flex: 1 }}>
                   {/* Cart sections by day */}
                   {isLoading || isUpdatingQuantity ? (
                     <CartItemsShimmerLoader />
@@ -364,6 +370,7 @@ export function CartPage({
                           day={day.day}
                           date={day?.date}
                           items={day.items}
+                          isItemLoading={loading}
                           deliveryLabel={'Some Lable'}
                           onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
                           onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
@@ -438,6 +445,7 @@ export function CartPage({
                             buttonTitle="Checkout"
                             subtotal={totalAmount}
                             onCheckout={handleCheckout}
+                            loading={loading}
                           />
                         )}
                       </YStack>
@@ -504,6 +512,7 @@ export function CartPage({
                         buttonTitle="Checkout"
                         subtotal={totalAmount}
                         onCheckout={handleCheckout}
+                        loading={loading}
                       />
                     )}
                   </YStack>

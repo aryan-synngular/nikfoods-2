@@ -7,6 +7,8 @@ import { IListResponse, IResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
 import { IFoodItem } from 'app/types/foodItem'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
+import { useToast } from '../useToast'
+import { useStore } from 'app/src/store/useStore'
 interface DessertItem {
   id: string
   name: string
@@ -22,28 +24,38 @@ interface DessertDealsProps {
 }
 
 export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps) {
+const {addToCart}=useStore()
+const [loading, setLoading] = useState(false)
   const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem | null>(null)
-
+   
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
 
   const handleAddButtonClick = (item: any) => {
     setSelectedFoodItem(item)
     setIsDatePopupOpen(true)
   }
-  const handleDateSelection = async (selectedDates: any) => {
-    console.log(selectedDates)
-    try {
-      const data = await apiAddFoodItemToCart({
-        foodItemId: selectedFoodItem?._id,
-        days: selectedDates,
-        quantity: 1,
-      })
-      console.log(data)
-      onAddItem?.()
-    } catch (error) {
-      console.log(error)
+    const { showMessage } = useToast()
+  
+    const handleDateSelection = async (selectedDates: any) => {
+      console.log(selectedDates)
+      
+      try {
+        setLoading(true)
+        const data = await addToCart({
+          foodItemId: selectedFoodItem?._id,
+          ...selectedDates,
+        })
+        showMessage('Item Added to Cart', 'success')
+  
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+      finally{
+        setLoading(false)
+      }
+        setIsDatePopupOpen(false)
     }
-  }
   const [desserts, setDesserts] = useState<IListResponse<IFoodItem>>({
     items: [],
     page: 1,
@@ -145,6 +157,7 @@ export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps)
       <DeliveryDatePopup
         item={selectedFoodItem}
         open={isDatePopupOpen}
+        loading={loading}
         onOpenChange={setIsDatePopupOpen}
         onSelect={handleDateSelection}
       />

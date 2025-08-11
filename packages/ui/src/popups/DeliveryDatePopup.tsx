@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Text, YStack, XStack, Button, Sheet, Image, Checkbox, useMedia, ScrollView } from 'tamagui'
-import { X, Check } from '@tamagui/lucide-icons'
+import { Text, YStack, XStack, Button, Sheet, Image, Checkbox, useMedia, ScrollView, Spinner } from 'tamagui'
+import { X, Check, Plus, Minus } from '@tamagui/lucide-icons'
 import { Platform } from 'react-native'
 
 interface DeliveryDateOption {
@@ -14,11 +14,36 @@ interface DeliveryDateOption {
 interface DeliveryDatePopupProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSelect: (selectedDates: { day_name: string; date: string }[]) => void
+  onSelect: (payload: {
+    removed: string[]
+    edited: { cartItemId: string; quantity: number }[]
+    added: { day_name: string; date: string; quantity: number }[]
+  }) => void
   item: any
+  loading?: boolean
 }
 
-export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: DeliveryDatePopupProps) {
+export function DeliveryDatePopup({ open,loading, onOpenChange, onSelect, item }: DeliveryDatePopupProps) {
+  // Build initial selected state from item.days
+  const media = useMedia()
+  const initialSelected = (item?.days || []).map((d) => ({
+    day_name: d.day.day,
+    date: d.day.date,
+    quantity: d.quantity,
+    cartItemId: d._id, // include cartItemId for edit/remove/unchanged
+  }))
+
+  // State: [{ day_name, date, quantity }]
+  const [selectedDates, setSelectedDates] = useState<{ day_name: string; date: string; quantity: number; cartItemId?: string }[]>(initialSelected)
+
+  // Reset on open
+  useEffect(() => {
+    if (open) {
+      setSelectedDates(initialSelected)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, item])
+
   // Generate date options for the next 5 days
   const generateDateOptions = (): DeliveryDateOption[] => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -55,31 +80,80 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
     return options
   }
 
-  useEffect(() => {
-    if (open) {
-      setSelectedDates([])
-    }
-  }, [open])
-  const media = useMedia()
   const dateOptions = generateDateOptions()
-  const [selectedDates, setSelectedDates] = useState<{ day_name: string; date: string }[]>([])
 
+  // Toggle selection
   const handleToggleDate = (val: DeliveryDateOption) => {
-    console.log(val)
     setSelectedDates((prev) => {
-      const data = prev.filter((date) => date.day_name !== val.day)
-      if (data.length === prev.length) {
-        return [...prev, { day_name: val.day, date: val.fullDate }]
+      const idx = prev.findIndex((d) => d.day_name === val.day)
+      if (idx === -1) {
+        // Not selected, add with quantity 1
+        return [...prev, { day_name: val.day, date: val.fullDate, quantity: 1 }]
       } else {
-        return data
+        // Already selected, remove
+        return prev.filter((d) => d.day_name !== val.day)
       }
     })
   }
 
+  // Increment quantity
+  const handleIncrement = (day: string) => {
+    setSelectedDates((prev) =>
+      prev.map((d) =>
+        d.day_name === day ? { ...d, quantity: d.quantity + 1 } : d
+      )
+    )
+  }
+
+  // Decrement quantity
+  const handleDecrement = (day: string) => {
+    setSelectedDates((prev) =>
+      prev
+        .map((d) =>
+          d.day_name === day
+            ? { ...d, quantity: d.quantity - 1 }
+            : d
+        )
+        .filter((d) => d.quantity > 0) // Remove if quantity is now 0
+    )
+  }
+
+  // On select, pass selectedDates (with quantity)
   const handleSelect = () => {
-    console.log(selectedDates)
-    onSelect(selectedDates)
-    onOpenChange(false)
+    // 1. Build maps for easier comparison
+    const initialMap = new Map(initialSelected.map(d => [d.day_name, d]))
+    const selectedMap = new Map(selectedDates.map(d => [d.day_name, d]))
+
+    // 2. Removed: in initial but not in selected
+    const removed = initialSelected
+      .filter(d => !selectedMap.has(d.day_name) && d.cartItemId)
+      .map(d => d.cartItemId)
+
+    // 3. Edited: in both, but quantity changed
+    const edited = initialSelected
+      .filter(d => selectedMap.has(d.day_name) && d.quantity !== selectedMap.get(d.day_name)?.quantity && d.cartItemId)
+      .map(d => ({
+        cartItemId: d.cartItemId,
+        quantity: selectedMap.get(d.day_name)?.quantity,
+      }))
+
+    // 4. Added: in selected but not in initial
+    const added = selectedDates
+      .filter(d => !initialMap.has(d.day_name))
+      .map(d => ({
+        day_name: d.day_name,
+        date: d.date,
+        quantity: d.quantity,
+      }))
+
+
+    // 6. Send all four arrays
+    onSelect({
+      removed,    // array of cartItemIds
+      edited,     // array of {cartItemId, quantity}
+      added,      // array of {day_name, date, quantity}
+    })
+    // onOpenChange(false)
   }
 
   const formattedPrice = `$${item?.price?.toFixed(2)}`
@@ -110,9 +184,9 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
             animation="medium"
           >
             <ScrollView showsVerticalScrollIndicator={false}>
-              <YStack padding={16} space={14}>
+              <YStack p={16} space={14}>
                 {/* Header */}
-                <XStack justifyContent="space-between" alignItems="center">
+                <XStack justify="space-between" items="center">
                   <Text fontSize={18} fontWeight="600" color="#2A1A0C">
                     Choose Delivery date
                   </Text>
@@ -120,14 +194,14 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
                     size="$2"
                     circular
                     icon={<X size={18} />}
-                    backgroundColor="transparent"
+                    background="transparent"
                     pressStyle={{ opacity: 0.7 }}
                     onPress={() => onOpenChange(false)}
                   />
                 </XStack>
 
                 {/* Food item info */}
-                <XStack justifyContent="space-between" alignItems="center">
+                <XStack justify="space-between" items="center">
                   <YStack
                     width={60}
                     height={60}
@@ -155,7 +229,9 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
                 {/* Date options */}
                 <YStack space={8}>
                   {dateOptions.map((option) => {
-                    const isSelected = selectedDates.some((day) => day.day_name === option.day)
+                    const selected = selectedDates.find((d) => d.day_name === option.day)
+                    const isSelected = !!selected
+                    const quantity = selected?.quantity || 1
 
                     return (
                       <XStack
@@ -177,34 +253,101 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
                             backgroundColor={isSelected ? '#FF9F0D' : 'transparent'}
                             borderColor={isSelected ? '#FF9F0D' : '#E0E0E0'}
                           />
-                          <Text fontSize={15} fontWeight="500" color="#2A1A0C">
-                            {option.day}
-                          </Text>
+                          <XStack>
+                            <Text minW={"80%"} fontSize={15} fontWeight="500" color="#2A1A0C">
+                              {option.day}
+                            </Text>
+                            <Text minW={"80%"} fontSize={13} color="#666">
+                              {option.date}
+                            </Text>
+                          </XStack>
                         </XStack>
-                        <Text fontSize={13} color="#666">
-                          {option.date}
-                        </Text>
+                        {isSelected && (
+                          <XStack
+                            style={{
+                              borderWidth: 1,
+                              borderColor: '#EEEEEE',
+                              borderRadius: 4,
+                              alignItems: 'center',
+                              height: 32,
+                            }}
+                            onPress={e => e.stopPropagation && e.stopPropagation()} // Prevent parent toggle
+                          >
+                            <XStack
+                              onPress={(e) => {
+                                e.stopPropagation && e.stopPropagation()
+                                handleDecrement(option.day)
+                              }}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: '#FFF8EE',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <Minus size={16} color="#FFB648" />
+                            </XStack>
+                            <Text
+                              style={{
+                                width: 32,
+                                textAlign: 'center',
+                                fontSize: 16,
+                                fontWeight: '500',
+                                color: '#000000',
+                              }}
+                            >
+                              {quantity}
+                            </Text>
+                            <XStack
+                              onPress={(e) => {
+                                e.stopPropagation && e.stopPropagation()
+                                handleIncrement(option.day)
+                              }}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: '#FFF8EE',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <Plus size={16} color="#FFB648" />
+                            </XStack>
+                          </XStack>
+                        )}
                       </XStack>
                     )
                   })}
                 </YStack>
 
                 {/* Select button */}
-                <Button
-                  onPress={handleSelect}
-                  color="white"
-                  height={46}
-                  fontSize={15}
-                  fontWeight="600"
-                  pressStyle={{ opacity: 0.8 }}
-                  backgroundColor="#FF9F0D"
-                  borderRadius={8}
-                  marginTop={8}
-                  disabled={selectedDates.length === 0}
-                  opacity={selectedDates.length === 0 ? 0.7 : 1}
-                >
-                  Select
-                </Button>
+             <Button
+              onPress={handleSelect}
+              color="white"
+              height={54}
+              fontSize={17}
+              fontWeight="600"
+              pressStyle={{ opacity: 0.8, scale: 0.98 }}
+              background="#FF9F0D"
+              marginTop={16}
+              disabled={loading}
+              hoverStyle={{
+                background: '#FFB648',
+                borderRadius: 12
+              }}
+              // opacity={selectedDates.length === 0 ? 0.7 : 1}
+              shadowColor="#FF9F0D"
+              shadowOffset={{ width: 0, height: 4 }}
+              shadowOpacity={0.3}
+              shadowRadius={8}
+              elevation={8}
+              
+            >
+              {loading ? <Spinner color="white" /> : "Select"}
+            </Button>
               </YStack>
             </ScrollView>
           </Dialog.Content>
@@ -290,7 +433,9 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
                 Select delivery days:
               </Text>
               {dateOptions.map((option) => {
-                const isSelected = selectedDates.some((day) => day.day_name === option.day)
+                const selected = selectedDates.find((d) => d.day_name === option.day)
+                const isSelected = !!selected
+                const quantity = selected?.quantity || 1
 
                 return (
                   <XStack
@@ -318,10 +463,66 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
                       <Text fontSize={17} fontWeight="500" color="#2A1A0C" flex={1}>
                         {option.day}
                       </Text>
-                    </XStack>
                     <Text fontSize={14} color="#666" textAlign="right">
                       {option.date}
                     </Text>
+                    </XStack>
+                    {isSelected && (
+                      <XStack
+                                style={{
+                                  borderWidth: 1,
+                                  borderColor: '#EEEEEE',
+                                  borderRadius: 4,
+                                  alignItems: 'center',
+                                  height: 32,
+                                }}
+                                onPress={e => e.stopPropagation && e.stopPropagation()} // Prevent parent toggle
+                              >
+                                <XStack
+                                  onPress={(e) => {
+                                    e.stopPropagation && e.stopPropagation()
+                                    handleDecrement(option.day)
+                                  }}
+                                  style={{
+                                    width: 32,
+                                    height: 32,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: '#FFF8EE',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  <Minus size={16} color="#FFB648" />
+                                </XStack>
+                                <Text
+                                  style={{
+                                    width: 32,
+                                    textAlign: 'center',
+                                    fontSize: 16,
+                                    fontWeight: '500',
+                                    color: '#000000',
+                                  }}
+                                >
+                                  {quantity}
+                                </Text>
+                                <XStack
+                                  onPress={(e) => {
+                                    e.stopPropagation && e.stopPropagation()
+                                    handleIncrement(option.day)
+                                  }}
+                                  style={{
+                                    width: 32,
+                                    height: 32,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: '#FFF8EE',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  <Plus size={16} color="#FFB648" />
+                                </XStack>
+                              </XStack>
+                    )}
                   </XStack>
                 )
               })}
@@ -335,18 +536,22 @@ export function DeliveryDatePopup({ open, onOpenChange, onSelect, item }: Delive
               fontSize={17}
               fontWeight="600"
               pressStyle={{ opacity: 0.8, scale: 0.98 }}
-              backgroundColor="#FF9F0D"
-              borderRadius={12}
+              background="#FF9F0D"
               marginTop={16}
-              disabled={selectedDates.length === 0}
-              opacity={selectedDates.length === 0 ? 0.7 : 1}
+              disabled={loading}
+              hoverStyle={{
+                background: '#FFB648',
+                borderRadius: 12
+              }}
+              // opacity={selectedDates.length === 0 ? 0.7 : 1}
               shadowColor="#FF9F0D"
               shadowOffset={{ width: 0, height: 4 }}
               shadowOpacity={0.3}
               shadowRadius={8}
               elevation={8}
+              
             >
-              Select
+              {loading ? <Spinner color="white" /> : "Select"}
             </Button>
           </YStack>
         </ScrollView>
