@@ -1,6 +1,5 @@
 import { YStack, XStack, Circle } from 'tamagui'
 import { useWindowDimensions } from 'react-native'
-import React from 'react'
 
 function Shimmer({ style }: { style?: any }) {
   return (

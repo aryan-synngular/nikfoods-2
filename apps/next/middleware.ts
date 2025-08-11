@@ -1,8 +1,10 @@
 import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
+import { Platform } from 'react-native'
 
 export default withAuth(
   function middleware(req) {
+    if(!(Platform.OS === 'web'))return NextResponse.next()
     const token = req.nextauth.token
     const { pathname } = req.nextUrl
 
@@ -10,7 +12,10 @@ export default withAuth(
     console.log('Path:', pathname)
 
     // Always allow NextAuth API routes
-    if (pathname.startsWith('/api/auth')) return NextResponse.next()
+    // if (pathname.startsWith('/api/auth')) return NextResponse.next()
+
+    // Allow all API routes to bypass middleware
+    if (pathname.startsWith('/api/')) return NextResponse.next()
 
     // Define public routes
     const publicRoutes = ['/login', '/signup']

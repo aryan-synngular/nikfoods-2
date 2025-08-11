@@ -56,6 +56,7 @@ export const AppHeader = () => {
     width: '100%',
     backgroundColor: background,
     borderBottomWidth: 0.5,
+    borderTopWidth: 0,
     borderBottomColor: border,
     paddingHorizontal: Platform.OS === 'web' ? 20 : 16,
     justifyContent: 'space-between',
@@ -68,7 +69,7 @@ export const AppHeader = () => {
     shadowOffset: Platform.OS !== 'web' ? { width: 0, height: 2 } : undefined,
     shadowOpacity: Platform.OS !== 'web' ? 0.1 : undefined,
     shadowRadius: Platform.OS !== 'web' ? 4 : undefined,
-    elevation: Platform.OS === 'android' ? 4 : undefined,
+    // elevation: Platform.OS === 'android' ? 4 : undefined,
     fontFamily: 'Nunito',
   } as any
 

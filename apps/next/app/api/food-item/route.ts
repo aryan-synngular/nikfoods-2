@@ -23,6 +23,8 @@ export async function GET(req: NextRequest) {
     await connectToDatabase()
     const { searchParams } = new URL(req.url)
     const search = searchParams.get('search')
+    const vegOnly = searchParams.get('vegOnly')
+    console.log('Search:', search, 'Veg Only:', vegOnly)
     const category = searchParams.get('category')
     const page = searchParams.get('page')
     const limit = searchParams.get('limit')
@@ -32,6 +34,12 @@ export async function GET(req: NextRequest) {
 
     if (category !== 'all') {
       filter.category = category
+    }
+    if (vegOnly === 'true') {
+      filter.veg = true
+    }
+    if (vegOnly === 'false') {
+      filter.veg = false
     }
 
     // ✅ Get total count without pagination

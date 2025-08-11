@@ -9,6 +9,7 @@ import { apiCheckout, apiCreateOrder } from 'app/services/OrderService'
 import { apiGetCart, apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
 import { useLink } from 'solito/navigation'
+import { IResponse } from 'app/types/common'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -206,7 +207,7 @@ const CheckoutLoggedIn = ({
   const fetchCartData = useCallback(async () => {
     try {
       setIsLoadingCart(true)
-      const response = await apiGetCart<ICartResponse>()
+      const response = await apiGetCart<IResponse<Cart>>()
       setCart(response.data)
     } catch (error) {
       console.error('Error fetching cart:', error)

@@ -1,5 +1,6 @@
 import { connectToDatabase } from 'lib/db'
 import { verifyAuth } from 'lib/verifyJwt'
+import CartDay from 'models/CartDay'
 import CartItem from 'models/CartItem'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -31,13 +32,25 @@ export async function PUT(req: NextRequest) {
 
     // Update quantity
     const newQuantity = item.quantity + change
+    console.log('New Quantity:', newQuantity)
     if (newQuantity < 1) {
+      console.log('Removing item due to non-positive quantity')
+       // Remove from CartDay.items
+                await CartDay.updateOne(
+                  { _id: item.day },
+                  { $pull: { items: item._id } },
+                 
+                )
+                // Remove CartItem
+                await CartItem.deleteOne({ _id: item._id })
       // If quantity is 0 or negative, remove the item
-      return NextResponse.json({ error: 'Quantity cannot be less then 1' }, { status: 400 })
+      await CartItem.deleteOne({ _id: item._id  })
+      return NextResponse.json({ data: null, message: 'Cart Item deleted Successfully' })
+
     } else {
       item.quantity = newQuantity
       await item.save()
-      return NextResponse.json({ data: item, message: 'Qunatity Updated Successfully' })
+      return NextResponse.json({ data: item, message: 'Quantity Updated Successfully' })
     }
   } catch (error) {
     console.error(error)

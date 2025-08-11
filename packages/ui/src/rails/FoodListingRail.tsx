@@ -6,8 +6,9 @@ import { FoodCard } from '../cards/FoodCard'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 import { IListResponse } from 'app/types/common'
 import { Dimensions } from 'react-native'
-import { apiAddFoodItemToCart } from 'app/services/CartService'
 import { useToast } from '@my/ui/src/useToast'
+import { useStore } from 'app/src/store/useStore'
+import { colors } from '@my/ui'
 
 export interface FoodItem {
   _id: string
@@ -29,6 +30,7 @@ export interface FoodListingRailProps {
 }
 
 export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProps) {
+  const {addToCart} =useStore()
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null)
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
@@ -66,28 +68,31 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
   }
   
   const { showMessage } = useToast()
-
+const [loading, setLoading] = useState(false)
   const handleDateSelection = async (selectedDates: any) => {
     console.log(selectedDates)
+    
     try {
-      const data = await apiAddFoodItemToCart({
+      setLoading(true)
+      const data = await addToCart({
         foodItemId: selectedFoodItem?._id,
-        days: selectedDates,
-        quantity: 1,
+        ...selectedDates,
       })
-      showMessage('Item Added to Cart', 'success')
+      showMessage('Cart Updated Successfully', 'success')
 
-      console.log(data)
     } catch (error) {
       console.log(error)
+      showMessage(`Cart Updation Failed: ${error}`, 'error')
+
     }
-    // if (selectedFoodItem) handleAdd(selectedFoodItem._id)
+    finally{
+      setLoading(false)
+    }
       setIsDatePopupOpen(false)
-    // Add API call for cart here if needed
   }
 
   // Calculate responsive layout
-  const screenWidth = Dimensions.get('window').width
+  const screenWidth = Dimensions.get('window').width 
   const horizontalPadding = 40 // 20px on each side
   const minCardWidth = 160 // Minimum card width for readability
   const maxCardWidth = 200 // Maximum card width (original design)
@@ -108,7 +113,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
   const actualItemsPerRow = Math.max(2, finalItemsPerRow)
 
   // Group items into rows
-  const groupedItems = []
+  const groupedItems: FoodItem[][] = []
   const items = foodItems?.items || []
   for (let i = 0; i < items.length; i += actualItemsPerRow) {
     groupedItems.push(items.slice(i, i + actualItemsPerRow))
@@ -116,25 +121,29 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
 
   return (
     <YStack  style={{ paddingTop: 20, paddingBottom: 20 }}>
-      <Text fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
+      <Text text={"center"} fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
         {displayLabel}
       </Text>
+     { foodItems?.items.length === 0?(<XStack mt={20} justify='center'  >
+        <Text fontSize={24} fontWeight={600} style={{color:colors.primary}}>No Food Items found</Text>
+      </XStack>) : null}  
       <YStack style={{ paddingHorizontal: 30, paddingBottom: 20,paddingLeft:0 }}>
         {groupedItems.map((row, rowIndex) => (
           <XStack 
             key={rowIndex}
             style={{ 
-              justifyContent: row.length === actualItemsPerRow ? 'space-between' : 'flex-start',
+              justifyContent: row.length === actualItemsPerRow ? 'flex-start' : 'flex-start',
               alignItems: 'flex-start',
               marginBottom: 16,
-              gap: row.length === actualItemsPerRow ? 0 : gap,
+              gap: row.length === actualItemsPerRow ? 40 : gap,
+              flexWrap: 'wrap',
             }}
           >
             
-            {row.map((item, itemIndex) => (
+            { row?.map((item, itemIndex) => (
               <YStack key={item._id} style={{ width: cardWidth }}>
                 <FoodCard
-                  imageUrl={item.url || 'https://via.placeholder.com/100'}
+                  imageUrl={item.url}
                   name={item.name}
                   price={item.price}
                   quantity={quantities[item._id] || 0}
@@ -142,7 +151,6 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
                   onIncrement={() => handleIncrement(item._id)}
                   onDecrement={() => handleDecrement(item._id)}
                   handleAddButtonClick={() => handleAddButtonClick(item)}
-                  cardWidth={cardWidth}
                 />
               </YStack>
             ))}
@@ -152,6 +160,7 @@ export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProp
       <DeliveryDatePopup
         item={selectedFoodItem}
         open={isDatePopupOpen}
+        loading={loading}
         onOpenChange={setIsDatePopupOpen}
         onSelect={handleDateSelection}
       />

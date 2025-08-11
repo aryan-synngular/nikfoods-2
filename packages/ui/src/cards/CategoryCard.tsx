@@ -35,7 +35,7 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
         alignItems: 'center',
         gap: 8,
         maxHeight: 250,
-        width: 150,
+        minWidth: 150,
         // Box shadow for React Native (mobile)
         shadowColor: '#AEAEC066',
         shadowOffset: { width: 10, height: 10 },
@@ -51,7 +51,7 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
       }}
     >
       <YStack>
-        <Circle size={100} overflow="hidden">
+        <Circle background={"white"} size={100} overflow="hidden">
           <Image source={{ uri: imageUrl }} width="100%" height="100%" resizeMode="cover" />
         </Circle>
       </YStack>

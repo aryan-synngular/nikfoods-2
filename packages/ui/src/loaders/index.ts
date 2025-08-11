@@ -1,3 +1,4 @@
+export  { CartSidebarShimmer } from './CartSidebarShimmer'
 export { CategoryShimmerLoader } from './CategoryShimmerLoader'
 export { FoodListShimmerLoader } from './FoodListShimmerLoader'
 export { CartItemsShimmerLoader } from './CartItemsShimmerLoader'

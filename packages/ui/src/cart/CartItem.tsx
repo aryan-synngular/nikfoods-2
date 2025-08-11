@@ -1,11 +1,14 @@
 'use client'
 
-import { Text, XStack, YStack } from 'tamagui'
+import { Button, Spinner, Text, XStack, YStack } from 'tamagui'
 import { Minus, Plus } from '@tamagui/lucide-icons'
 import { Image } from 'react-native'
 import { Platform } from 'react-native'
+import { colors } from '../colors'
 
 interface CartItemProps {
+  key: string
+  id: string
   name: string
   description?: string
   price: number
@@ -13,9 +16,12 @@ interface CartItemProps {
   imageUrl: string
   onIncrement?: () => void
   onDecrement?: () => void
+  isLoading?: {itemId:string, change:number} // Add this prop
+
 }
 
 export function CartItem({
+  id,
   imageUrl,
   name,
   description,
@@ -23,7 +29,11 @@ export function CartItem({
   quantity,
   onIncrement,
   onDecrement,
+  isLoading,
+  key
 }: CartItemProps) {
+  console.log(isLoading)
+  console.log(key)
   return (
     <XStack
       style={{
@@ -84,53 +94,57 @@ export function CartItem({
           marginRight: 24,
         }}
       >
-        <XStack
-          style={{
-            borderWidth: 1,
-            borderColor: '#EEEEEE',
-            borderRadius: 4,
-            alignItems: 'center',
-            height: 32,
-          }}
-        >
-          <XStack
-            onPress={onDecrement}
-            style={{
-              width: 32,
-              height: 32,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFF8EE',
-              cursor: 'pointer',
-            }}
-          >
-            <Minus size={16} color="#FFB648" />
+       <XStack style={{ alignItems: "center" }}>
+            <Button
+              size="$2"
+              circular
+              style={{
+                width: 24,
+                height: 24,
+                backgroundColor: "#f5f5f5",
+                borderWidth: 1,
+                borderColor: "#e0e0e0"
+              }}
+              onPress={() => onDecrement?.()}
+              disabled={isLoading?.itemId === id && isLoading?.change === -1}
+            >
+              {isLoading?.itemId === id && isLoading?.change === -1 ? (
+                <Spinner   color={colors.primary} />
+              ) : (
+                <Minus size={12} color="#666" />
+              )}
+            </Button>
+            <Text
+              style={{
+                marginHorizontal: 12,
+                fontSize: 16,
+                fontWeight: "500",
+                minWidth: 20,
+                textAlign: "center"
+              }}
+            >
+              {quantity}
+            </Text>
+            <Button
+              size="$2"
+              circular
+              style={{
+                width: 24,
+                height: 24,
+                backgroundColor: "#f5f5f5",
+                borderWidth: 1,
+                borderColor: "#e0e0e0"
+              }}
+              onPress={() => onIncrement?.()}
+              disabled={isLoading?.itemId === id && isLoading?.change === 1}
+            >
+             {isLoading?.itemId === id && isLoading?.change === 1 ? (
+               <Spinner color={colors.primary} />
+             ) : (
+               <Plus size={12} color="#666" />
+             )}
+            </Button>
           </XStack>
-          <Text
-            style={{
-              width: 32,
-              textAlign: 'center',
-              fontSize: 16,
-              fontWeight: '500',
-              color: '#000000',
-            }}
-          >
-            {quantity}
-          </Text>
-          <XStack
-            onPress={onIncrement}
-            style={{
-              width: 32,
-              height: 32,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFF8EE',
-              cursor: 'pointer',
-            }}
-          >
-            <Plus size={16} color="#FFB648" />
-          </XStack>
-        </XStack>
       </XStack>
 
       {/* Price */}

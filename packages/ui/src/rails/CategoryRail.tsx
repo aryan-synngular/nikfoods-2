@@ -1,25 +1,26 @@
 'use client'
 
-import { XStack, ScrollView, YStack, Circle, Button } from 'tamagui'
+import { XStack, ScrollView, YStack, Circle, Sheet, Dialog } from 'tamagui'
 import { CategoryCard } from '../cards/CategoryCard'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { IFoodCategory } from 'app/types/category'
 import { IListResponse } from 'app/types/common'
 
 export interface CategoryRailProps {
   categories: IListResponse<IFoodCategory> | null
+  handleCardPress: (categoryId: IFoodCategory) => void
+  selectedId?: string
 }
 
-export function CategoryRail({ categories }: CategoryRailProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+export function CategoryRail({selectedId, categories, handleCardPress }: CategoryRailProps) {
+ 
   const scrollViewRef = useRef<any>(null)
 
-  const handleCardPress = (id: string) => {
-    setSelectedId(selectedId === id ? null : id)
-    console.log('Card pressed:', id)
-  }
+  
 
+  // Optionally, open dialog if URL already has categoryId on mount
+ 
   const scrollLeft = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({
@@ -96,18 +97,20 @@ export function CategoryRail({ categories }: CategoryRailProps) {
         style={{ height: 250, minHeight: 250, width: '100%' }}
         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 } as any}
       >
-        <XStack justify='center' items="center" gap="$10" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <XStack justify='center' items="center" gap="$4" style={{ paddingTop: 20, paddingBottom: 20 }}>
           {categories?.items?.map((category) => (
             <CategoryCard
               key={category._id}
               imageUrl={category.url}
               name={category.name}
+              onPress={() => handleCardPress(category)} // Pass the whole object!
               selected={selectedId === category._id}
-              onPress={() => handleCardPress(category._id)}
             />
           ))}
         </XStack>
       </ScrollView>
+
+     
     </YStack>
   )
 }

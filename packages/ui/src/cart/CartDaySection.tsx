@@ -9,20 +9,21 @@ interface CartDaySectionProps {
   day: string
   date: string
   deliveryLabel?: string
+  isItemLoading : {itemId:string, change:number} // Add this prop
   items: ICartItem[]
   onIncrement?: (id: string, change: number) => void
   onDecrement?: (id: string, change: number) => void
-  isItemLoading?: boolean // Add this prop
 }
 export function CartDaySection({
   day,
   date,
   deliveryLabel,
+  isItemLoading,
   items,
   onIncrement,
   onDecrement,
-  isItemLoading,
 }: CartDaySectionProps) {
+  console.log(isItemLoading)
   const [deliveryDay, setDeliveryDay] = useState<string>('') // client-only
   const [isSameDay, setIsSameDay] = useState<boolean>(false)
 
@@ -93,14 +94,10 @@ export function CartDaySection({
 
       {/* Items */}
       <YStack>
-        {isItemLoading
-          ? // Show skeleton for individual items when updating quantities
-            Array.from({ length: items.length || 2 }).map((_, index) => (
-              <CartItemSkeleton key={index} />
-            ))
-          : items.map((item) => (
+        { items.map((item) => (
               <CartItem
                 key={item?._id}
+                id={item?._id}
                 name={item?.food?.name}
                 description={item?.food?.description}
                 price={Number(item?.food?.price)}
@@ -108,6 +105,7 @@ export function CartDaySection({
                 imageUrl={item?.food?.url}
                 onIncrement={() => onIncrement?.(item._id, 1)}
                 onDecrement={() => onDecrement?.(item._id, -1)}
+                isLoading={ isItemLoading}
               />
             ))}
       </YStack>

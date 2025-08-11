@@ -4853,7 +4853,7 @@ var require_Platform = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.default = void 0;
-    var Platform16 = {
+    var Platform18 = {
       OS: "web",
       select: /* @__PURE__ */ __name((obj) => "web" in obj ? obj.web : obj.default, "select"),
       get isTesting() {
@@ -4863,7 +4863,7 @@ var require_Platform = __commonJS({
         return false;
       }
     };
-    var _default = exports2.default = Platform16;
+    var _default = exports2.default = Platform18;
     module2.exports = exports2.default;
   }
 });
@@ -6911,7 +6911,7 @@ var require_ScrollView = __commonJS({
     var _excluded = ["contentContainerStyle", "horizontal", "onContentSizeChange", "refreshControl", "stickyHeaderIndices", "pagingEnabled", "forwardedRef", "keyboardDismissMode", "onScroll", "centerContent"];
     var emptyObject = {};
     var IS_ANIMATING_TOUCH_START_THRESHOLD_MS = 16;
-    var ScrollView5 = class extends _react.default.Component {
+    var ScrollView6 = class extends _react.default.Component {
       static {
         __name(this, "ScrollView");
       }
@@ -7477,7 +7477,7 @@ var require_ScrollView = __commonJS({
       }
     });
     var ForwardedScrollView = /* @__PURE__ */ _react.default.forwardRef((props, forwardedRef) => {
-      return /* @__PURE__ */ _react.default.createElement(ScrollView5, (0, _extends2.default)({}, props, {
+      return /* @__PURE__ */ _react.default.createElement(ScrollView6, (0, _extends2.default)({}, props, {
         forwardedRef
       }));
     });
@@ -19181,16 +19181,16 @@ var require_StatusBar = __commonJS({
     exports2.default = void 0;
     var emptyFunction = /* @__PURE__ */ __name(() => {
     }, "emptyFunction");
-    function StatusBar2() {
+    function StatusBar3() {
       return null;
     }
-    __name(StatusBar2, "StatusBar");
-    StatusBar2.setBackgroundColor = emptyFunction;
-    StatusBar2.setBarStyle = emptyFunction;
-    StatusBar2.setHidden = emptyFunction;
-    StatusBar2.setNetworkActivityIndicatorVisible = emptyFunction;
-    StatusBar2.setTranslucent = emptyFunction;
-    var _default = exports2.default = StatusBar2;
+    __name(StatusBar3, "StatusBar");
+    StatusBar3.setBackgroundColor = emptyFunction;
+    StatusBar3.setBarStyle = emptyFunction;
+    StatusBar3.setHidden = emptyFunction;
+    StatusBar3.setNetworkActivityIndicatorVisible = emptyFunction;
+    StatusBar3.setTranslucent = emptyFunction;
+    var _default = exports2.default = StatusBar3;
     module2.exports = exports2.default;
   }
 });
@@ -24771,7 +24771,7 @@ var require_NextThemeProvider = __commonJS({
     var import_constants210 = require_constants2();
     var import_helpers38 = require_helpers();
     var import_ThemeSettingContext = require_ThemeSettingContext();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var NextThemeProvider = (0, import_react126.memo)(
       ({
         forcedTheme,
@@ -24866,8 +24866,8 @@ var require_NextThemeProvider = __commonJS({
           themes2,
           systemTheme
         ]);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_ThemeSettingContext.ThemeSettingContext.Provider, { value: contextValue, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
             ThemeScript,
             {
               forcedTheme,
@@ -24900,7 +24900,7 @@ var require_NextThemeProvider = __commonJS({
           name2 = value?.[name2] || name2;
           const val = literal ? name2 : `'${name2}'`;
           return attribute === "class" ? `d.add(${val})` : `d.setAttribute('${attribute}', ${val})`;
-        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        }, "updateDOM"), defaultSystem = defaultTheme === "system", contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, { children: forcedTheme ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24909,7 +24909,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        ) : enableSystem ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24919,7 +24919,7 @@ var require_NextThemeProvider = __commonJS({
             }
           },
           "next-themes-script"
-        ) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        ) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
           "script",
           {
             dangerouslySetInnerHTML: {
@@ -24930,7 +24930,7 @@ var require_NextThemeProvider = __commonJS({
           },
           "next-themes-script"
         ) });
-        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_head.default, { children: contents });
+        return skipNextHead ? contents : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_head.default, { children: contents });
       },
       (prevProps, nextProps) => prevProps.forcedTheme === nextProps.forcedTheme
     );
@@ -39915,11 +39915,11 @@ var require_PresenceContext = __commonJS({
     });
     module2.exports = __toCommonJS2(PresenceContext_exports);
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var PresenceContext2 = React93.createContext(null);
     var ResetPresence2 = /* @__PURE__ */ __name((props) => {
       const parent = React93.useContext(PresenceContext2);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PresenceContext2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PresenceContext2.Provider, {
         value: props.disable ? parent : null,
         children: props.children
       });
@@ -40077,7 +40077,7 @@ var require_PresenceChild = __commonJS({
     var import_use_presence4 = require_cjs7();
     var React93 = __toESM2(require("react"));
     var import_react126 = require("react");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var PresenceChild2 = React93.memo(({
       children,
       initial,
@@ -40117,7 +40117,7 @@ var require_PresenceChild = __commonJS({
         presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
       }, [isPresent2]), React93.useEffect(() => {
         !isPresent2 && !presenceChildren.size && onExitComplete?.();
-      }, [isPresent2]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_use_presence4.PresenceContext.Provider, {
+      }, [isPresent2]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_use_presence4.PresenceContext.Provider, {
         value: context2,
         children
       });
@@ -40161,7 +40161,7 @@ var require_AnimatePresence = __commonJS({
     var import_react126 = require("react");
     var import_LayoutGroupContext2 = require_LayoutGroupContext();
     var import_PresenceChild2 = require_PresenceChild();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var getChildKey2 = /* @__PURE__ */ __name((child) => child.key || "", "getChildKey");
     function updateChildLookup2(children, allChildren) {
       children.forEach((child) => {
@@ -40193,11 +40193,11 @@ var require_AnimatePresence = __commonJS({
       const filteredChildren = onlyElements2(children), presentChildren = (0, import_react126.useRef)(filteredChildren), allChildren = (0, import_react126.useRef)(/* @__PURE__ */ new Map()).current, exiting = (0, import_react126.useRef)(/* @__PURE__ */ new Set()).current;
       updateChildLookup2(filteredChildren, allChildren);
       const isInitialRender = (0, import_react126.useRef)(true);
-      if (passThrough) return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      if (passThrough) return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children
       });
-      if (isInitialRender.current) return isInitialRender.current = false, /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
-        children: filteredChildren.map((child) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_PresenceChild2.PresenceChild, {
+      if (isInitialRender.current) return isInitialRender.current = false, /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
+        children: filteredChildren.map((child) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_PresenceChild2.PresenceChild, {
           isPresent: true,
           enterExitVariant,
           exitVariant,
@@ -40218,7 +40218,7 @@ var require_AnimatePresence = __commonJS({
         if (targetKeys.indexOf(key) !== -1) return;
         const child = allChildren.get(key);
         if (!child) return;
-        const insertionIndex = presentKeys.indexOf(key), exitingComponent = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_PresenceChild2.PresenceChild, {
+        const insertionIndex = presentKeys.indexOf(key), exitingComponent = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_PresenceChild2.PresenceChild, {
           isPresent: false,
           onExitComplete: /* @__PURE__ */ __name(() => {
             allChildren.delete(key), exiting.delete(key);
@@ -40235,7 +40235,7 @@ var require_AnimatePresence = __commonJS({
         childrenToRender.splice(insertionIndex, 0, exitingComponent);
       }), childrenToRender = childrenToRender.map((child) => {
         const key = child.key;
-        return exiting.has(key) ? child : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_PresenceChild2.PresenceChild, {
+        return exiting.has(key) ? child : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_PresenceChild2.PresenceChild, {
           isPresent: true,
           exitVariant,
           enterVariant,
@@ -40244,7 +40244,7 @@ var require_AnimatePresence = __commonJS({
           custom,
           children: child
         }, getChildKey2(child));
-      }), presentChildren.current = childrenToRender, /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }), presentChildren.current = childrenToRender, /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children: exiting.size ? childrenToRender : (
           // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
           childrenToRender.map((child) => (0, import_react126.cloneElement)(child))
@@ -41247,7 +41247,7 @@ var require_Collapsible = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_web25 = require("@tamagui/core");
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var COLLAPSIBLE_NAME2 = "Collapsible";
     var {
       Provider: CollapsibleProvider2,
@@ -41266,13 +41266,13 @@ var require_Collapsible = __commonJS({
         defaultProp: defaultOpen,
         onChange: onOpenChange
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(CollapsibleProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(CollapsibleProvider2, {
         scope: __scopeCollapsible,
         disabled,
         contentId: React93.useId(),
         open,
         onOpenToggle: React93.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_web25.Stack, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_web25.Stack, {
           "data-state": getState8(open),
           "data-disabled": disabled ? "" : void 0,
           ...collapsibleProps,
@@ -41292,7 +41292,7 @@ var require_Collapsible = __commonJS({
         children,
         ...triggerProps
       } = props, context2 = useCollapsibleContext2(__scopeCollapsible);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(CollapsibleTriggerFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(CollapsibleTriggerFrame2, {
         "aria-controls": context2.contentId,
         "aria-expanded": context2.open || false,
         "data-state": getState8(context2.open),
@@ -41319,12 +41319,12 @@ var require_Collapsible = __commonJS({
         __scopeCollapsible,
         ...contentProps
       } = props, context2 = useCollapsibleContext2(__scopeCollapsible);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.AnimatePresence, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.AnimatePresence, {
         ...contentProps,
-        children: forceMount || context2.open ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(CollapsibleContentFrame2, {
+        children: forceMount || context2.open ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(CollapsibleContentFrame2, {
           ref: forwardedRef,
           ...contentProps,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.ResetPresence, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.ResetPresence, {
             children
           })
         }) : null
@@ -41494,7 +41494,7 @@ var require_Collection = __commonJS({
     var import_constants57 = require_cjs2();
     var import_core72 = require("@tamagui/core");
     var import_react126 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function createCollection2(name2) {
       const {
         Provider: CollectionProviderImpl,
@@ -41509,7 +41509,7 @@ var require_Collection = __commonJS({
           scope,
           children
         } = props, ref = import_react126.default.useRef(void 0), itemMap = import_react126.default.useRef(/* @__PURE__ */ new Map()).current;
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(CollectionProviderImpl, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(CollectionProviderImpl, {
           scope,
           itemMap,
           collectionRef: ref,
@@ -41522,7 +41522,7 @@ var require_Collection = __commonJS({
           scope,
           children
         } = props, context2 = useCollectionContext(scope), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.collectionRef);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Slot, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Slot, {
           ref: composedRefs,
           children
         });
@@ -41537,7 +41537,7 @@ var require_Collection = __commonJS({
         return import_react126.default.useEffect(() => (context2.itemMap.set(ref, {
           ref,
           ...itemData
-        }), () => void context2.itemMap.delete(ref))), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Slot, {
+        }), () => void context2.itemMap.delete(ref))), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Slot, {
           [ITEM_DATA_ATTR]: "",
           ref: composedRefs,
           children
@@ -42524,7 +42524,7 @@ var require_wrapChildrenInText = __commonJS({
     });
     module2.exports = __toCommonJS2(wrapChildrenInText_exports);
     var import_react126 = __toESM2(require("react"));
-    var import_jsx_runtime159 = (
+    var import_jsx_runtime160 = (
       // so "data-disable-theme" is a hack to fix themeInverse, don't ask me why
       require("react/jsx-runtime")
     );
@@ -42547,7 +42547,7 @@ var require_wrapChildrenInText = __commonJS({
       const props = {
         ...extraProps
       };
-      return color && (props.color = color), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size6 && (props.size = size6), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react126.default.Children.toArray(children).map((child, index4) => typeof child == "string" ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(TextComponent, {
+      return color && (props.color = color), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size6 && (props.size = size6), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react126.default.Children.toArray(children).map((child, index4) => typeof child == "string" ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(TextComponent, {
         ...props,
         ...textProps,
         children: child
@@ -42651,14 +42651,14 @@ var require_useDirection = __commonJS({
     });
     module2.exports = __toCommonJS2(useDirection_exports);
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var DirectionContext2 = React93.createContext(void 0);
     var DirectionProvider = /* @__PURE__ */ __name((props) => {
       const {
         dir,
         children
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DirectionContext2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DirectionContext2.Provider, {
         value: dir,
         children
       });
@@ -42748,7 +42748,7 @@ var require_Accordion = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_use_direction6 = require_cjs21();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ACCORDION_NAME2 = "Accordion";
     var ACCORDION_KEYS2 = ["Home", "End", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
     var [Collection4, useCollection4] = (0, import_collection4.createCollection)(ACCORDION_NAME2);
@@ -42758,12 +42758,12 @@ var require_Accordion = __commonJS({
         type,
         ...accordionProps
       } = props, singleProps = accordionProps, multipleProps = accordionProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.Provider, {
         scope: props.__scopeAccordion || ACCORDION_CONTEXT2,
-        children: type === "multiple" ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionImplMultiple2, {
+        children: type === "multiple" ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionImplMultiple2, {
           ...multipleProps,
           ref: forwardedRef
-        }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionImplSingle2, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionImplSingle2, {
           ...singleProps,
           ref: forwardedRef
         })
@@ -42798,15 +42798,15 @@ var require_Accordion = __commonJS({
         defaultProp: defaultValue2 || "",
         onChange: onValueChange
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionValueProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionValueProvider2, {
         scope: props.__scopeAccordion,
         value: value ? [value] : [],
         onItemOpen: setValue,
         onItemClose: React93.useCallback(() => collapsible && setValue(""), [setValue, collapsible]),
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionCollapsibleProvider2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionCollapsibleProvider2, {
           scope: props.__scopeAccordion,
           collapsible,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionImpl2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionImpl2, {
             ...accordionSingleProps,
             ref: forwardedRef
           })
@@ -42825,15 +42825,15 @@ var require_Accordion = __commonJS({
         defaultProp: defaultValue2 || [],
         onChange: onValueChange
       }), handleItemOpen = React93.useCallback((itemValue) => setValue((prevValue = []) => [...prevValue, itemValue]), [setValue]), handleItemClose = React93.useCallback((itemValue) => setValue((prevValue = []) => prevValue.filter((value2) => value2 !== itemValue)), [setValue]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionValueProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionValueProvider2, {
         scope: props.__scopeAccordion,
         value: value || [],
         onItemOpen: handleItemOpen,
         onItemClose: handleItemClose,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionCollapsibleProvider2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionCollapsibleProvider2, {
           scope: props.__scopeAccordion,
           collapsible: true,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionImpl2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionImpl2, {
             ...accordionMultipleProps,
             ref: forwardedRef
           })
@@ -42885,14 +42885,14 @@ var require_Accordion = __commonJS({
         const clampedIndex = nextIndex % triggerCount;
         triggerCollection[clampedIndex].ref.current?.focus();
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionImplProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionImplProvider2, {
         scope: __scopeAccordion,
         disabled,
         direction: dir,
         orientation,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.Slot, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.Slot, {
           scope: __scopeAccordion || ACCORDION_CONTEXT2,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
             "data-orientation": orientation,
             ref: composedRef,
             ...accordionProps,
@@ -42914,12 +42914,12 @@ var require_Accordion = __commonJS({
         value,
         ...accordionItemProps
       } = props, accordionContext = useAccordionContext2(__scopeAccordion), valueContext = useAccordionValueContext2(__scopeAccordion), triggerId = React93.useId(), open = value && valueContext.value.includes(value) || false, disabled = accordionContext.disabled || props.disabled;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionItemProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionItemProvider2, {
         scope: __scopeAccordion,
         open,
         disabled,
         triggerId,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_collapsible2.Collapsible, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_collapsible2.Collapsible, {
           "data-orientation": accordionContext.orientation,
           "data-state": open ? "open" : "closed",
           __scopeCollapsible: __scopeAccordion || ACCORDION_CONTEXT2,
@@ -42940,7 +42940,7 @@ var require_Accordion = __commonJS({
         __scopeAccordion,
         ...headerProps
       } = props, accordionContext = useAccordionContext2(__scopeAccordion), itemContext = useAccordionItemContext2(__scopeAccordion);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_text11.H1, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_text11.H1, {
         "data-orientation": accordionContext.orientation,
         "data-state": getState8(itemContext.open),
         "data-disabled": itemContext.disabled ? "" : void 0,
@@ -42979,9 +42979,9 @@ var require_Accordion = __commonJS({
         __scopeAccordion,
         ...triggerProps
       } = props, accordionContext = useAccordionContext2(__scopeAccordion), itemContext = useAccordionItemContext2(__scopeAccordion), collapsibleContext = useAccordionCollapsibleContext2(__scopeAccordion);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.ItemSlot, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.ItemSlot, {
         scope: __scopeAccordion || ACCORDION_CONTEXT2,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionTriggerFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionTriggerFrame2, {
           __scopeCollapsible: __scopeAccordion || ACCORDION_CONTEXT2,
           "aria-disabled": itemContext.open && !collapsibleContext.collapsible || void 0,
           "data-orientation": accordionContext.orientation,
@@ -43009,7 +43009,7 @@ var require_Accordion = __commonJS({
         __scopeAccordion,
         ...contentProps
       } = props, accordionContext = useAccordionContext2(__scopeAccordion), itemContext = useAccordionItemContext2(__scopeAccordion);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AccordionContentFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AccordionContentFrame2, {
         role: "region",
         "aria-labelledby": itemContext.triggerId,
         "data-orientation": accordionContext.orientation,
@@ -43023,11 +43023,11 @@ var require_Accordion = __commonJS({
         children,
         ...rest
       } = props, [height, setHeight] = React93.useState(0);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
         ref,
         height: itemContext.open ? height : 0,
         ...rest,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
           position: "absolute",
           width: "100%",
           onLayout: /* @__PURE__ */ __name(({
@@ -43216,17 +43216,17 @@ var require_StackZIndex = __commonJS({
     module2.exports = __toCommonJS2(StackZIndex_exports);
     var import_react126 = require("react");
     var import_context11 = require_context();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var StackZIndexContext2 = /* @__PURE__ */ __name(({
       children,
       zIndex: zIndex2
     }) => {
       const existing = (0, import_react126.useContext)(import_context11.ZIndexStackContext);
-      let content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.ZIndexStackContext.Provider, {
+      let content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.ZIndexStackContext.Provider, {
         value: existing + 1,
         children
       });
-      return typeof zIndex2 < "u" && (content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.ZIndexHardcodedContext.Provider, {
+      return typeof zIndex2 < "u" && (content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.ZIndexHardcodedContext.Provider, {
         value: zIndex2,
         children: content
       })), content;
@@ -43345,7 +43345,7 @@ var require_Portal = __commonJS({
     var React93 = __toESM2(require("react"));
     var import_react_dom9 = require("react-dom");
     var import_helpers38 = require_helpers2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var Portal2 = React93.memo((propsIn) => {
       if (import_constants57.isServer) return null;
       const body = globalThis.document?.body;
@@ -43354,7 +43354,7 @@ var require_Portal = __commonJS({
         children,
         passThrough
       } = propsIn, zIndex2 = (0, import_z_index_stack7.useStackedZIndex)((0, import_helpers38.getStackedZIndexProps)(propsIn));
-      return passThrough ? children : (0, import_react_dom9.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime159.jsx)("span", {
+      return passThrough ? children : (0, import_react_dom9.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime160.jsx)("span", {
         style: {
           zIndex: zIndex2,
           position: "fixed",
@@ -43478,7 +43478,7 @@ var require_GorhomPortal = __commonJS({
     var import_start_transition8 = require_cjs11();
     var import_react126 = __toESM2(require("react"));
     var import_constants210 = require_constants3();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ACTIONS2 = /* @__PURE__ */ ((ACTIONS22) => (ACTIONS22[ACTIONS22.REGISTER_HOST = 0] = "REGISTER_HOST", ACTIONS22[ACTIONS22.DEREGISTER_HOST = 1] = "DEREGISTER_HOST", ACTIONS22[ACTIONS22.ADD_UPDATE_PORTAL = 2] = "ADD_UPDATE_PORTAL", ACTIONS22[ACTIONS22.REMOVE_PORTAL = 3] = "REMOVE_PORTAL", ACTIONS22))(ACTIONS2 || {});
     var INITIAL_STATE2 = {};
     var registerHost2 = /* @__PURE__ */ __name((state, hostName) => (hostName in state || (state[hostName] = []), state), "registerHost");
@@ -43573,11 +43573,11 @@ var require_GorhomPortal = __commonJS({
           dispatch(value);
         });
       }, [dispatch]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PortalDispatchContext2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PortalDispatchContext2.Provider, {
         value: transitionDispatch,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(PortalStateContext2.Provider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(PortalStateContext2.Provider, {
           value: state,
-          children: [children, shouldAddRootHost && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PortalHost2, {
+          children: [children, shouldAddRootHost && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PortalHost2, {
             name: rootHostName
           })]
         })
@@ -43585,20 +43585,20 @@ var require_GorhomPortal = __commonJS({
     }, "PortalProviderComponent");
     var PortalProvider2 = (0, import_react126.memo)(PortalProviderComponent2);
     PortalProvider2.displayName = "PortalProvider";
-    var defaultRenderer2 = /* @__PURE__ */ __name((children) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+    var defaultRenderer2 = /* @__PURE__ */ __name((children) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
       children
     }), "defaultRenderer");
     var PortalHost2 = (0, import_react126.memo)(function(props) {
-      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PortalHostWeb2, {
+      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PortalHostWeb2, {
         ...props
-      }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PortalHostNonNative2, {
+      }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PortalHostNonNative2, {
         ...props
       });
     });
     function PortalHostWeb2(props) {
       return (0, import_constants57.useIsomorphicLayoutEffect)(() => () => {
         import_constants210.allPortalHosts.delete(props.name);
-      }, [props.name]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+      }, [props.name]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
         style: {
           display: "contents"
         },
@@ -43778,7 +43778,7 @@ var require_Adapt = __commonJS({
     var import_portal12 = require_cjs24();
     var import_z_index_stack7 = require_cjs23();
     var import_react126 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var AdaptContext2 = (0, import_core72.createStyledContext)({
       Contents: null,
       scopeName: "",
@@ -43797,9 +43797,9 @@ var require_Adapt = __commonJS({
       ...context2
     }) => {
       const scope = context2.scopeName || "", lastScope = (0, import_react126.useContext)(LastAdaptContextScope2);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(LastAdaptContextScope2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(LastAdaptContextScope2.Provider, {
         value: lastScope || context2.lastScope || "",
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AdaptContext2.Provider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AdaptContext2.Provider, {
           scope,
           lastScope: lastScope || context2.lastScope,
           ...context2,
@@ -43821,7 +43821,7 @@ var require_Adapt = __commonJS({
       const id = (0, import_react126.useId)(), portalName = `AdaptPortal${scope}${id}`, FinalContents = (0, import_react126.useMemo)(() => {
         if (Contents) return Contents;
         if (AdaptPortals2.has(portalName)) return AdaptPortals2.get(portalName);
-        const element = /* @__PURE__ */ __name(() => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.PortalHost, {
+        const element = /* @__PURE__ */ __name(() => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.PortalHost, {
           name: portalName,
           forwardProps: typeof portal == "boolean" ? void 0 : portal?.forwardProps
         }, id), "element");
@@ -43831,9 +43831,9 @@ var require_Adapt = __commonJS({
         AdaptPortals2.delete(portalName);
       }), [portalName]);
       const [when, setWhen] = import_react126.default.useState(null), [platform2, setPlatform] = import_react126.default.useState(null), [children2, setChildren] = import_react126.default.useState(null);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(LastAdaptContextScope2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(LastAdaptContextScope2.Provider, {
         value: scope,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ProvideAdaptContext2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ProvideAdaptContext2, {
           Contents: FinalContents,
           when,
           platform: platform2,
@@ -43873,11 +43873,11 @@ var require_Adapt = __commonJS({
       let output;
       if (typeof children == "function") {
         const Component = context2?.Contents;
-        output = children(Component ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Component, {}) : null);
+        output = children(Component ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Component, {}) : null);
       } else output = children;
       return (0, import_constants57.useIsomorphicLayoutEffect)(() => {
         typeof children == "function" && output !== void 0 && context2?.setChildren(output);
-      }, [output]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_z_index_stack7.StackZIndexContext, {
+      }, [output]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_z_index_stack7.StackZIndexContext, {
         children: enabled ? output : null
       });
     }, {
@@ -43887,7 +43887,7 @@ var require_Adapt = __commonJS({
       const isActive = useAdaptIsActive2(props.scope), {
         portalName
       } = useAdaptContext2(props.scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.PortalItem, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.PortalItem, {
         passThrough: !isActive,
         hostName: portalName,
         children: props.children
@@ -43977,7 +43977,7 @@ var require_create_context = __commonJS({
     });
     module2.exports = __toCommonJS2(create_context_exports);
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function createContext18(rootComponentName, defaultContext) {
       const Context = React93.createContext(defaultContext);
       function Provider(props) {
@@ -43985,7 +43985,7 @@ var require_create_context = __commonJS({
           children,
           ...context2
         } = props, value = React93.useMemo(() => context2, Object.values(context2));
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Context.Provider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Context.Provider, {
           value,
           children
         });
@@ -44012,7 +44012,7 @@ var require_create_context = __commonJS({
             children,
             ...context2
           } = props, Context = scope?.[scopeName]?.[index4] || BaseContext, value = React93.useMemo(() => context2, Object.values(context2));
-          return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Context.Provider, {
+          return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Context.Provider, {
             value,
             children
           });
@@ -44258,7 +44258,7 @@ var require_Dismissable = __commonJS({
     var import_use_event5 = require_cjs3();
     var React93 = __toESM2(require("react"));
     var ReactDOM6 = __toESM2(require("react-dom"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function dispatchDiscreteCustomEvent2(target, event) {
       target && ReactDOM6.flushSync(() => target.dispatchEvent(event));
     }
@@ -44305,7 +44305,7 @@ var require_Dismissable = __commonJS({
           force({});
         }, "handleUpdate");
         return document.addEventListener(CONTEXT_UPDATE2, handleUpdate), () => document.removeEventListener(CONTEXT_UPDATE2, handleUpdate);
-      }, []), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+      }, []), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
         ...layerProps,
         ref: composedRefs,
         style: {
@@ -44328,7 +44328,7 @@ var require_Dismissable = __commonJS({
         if (node) return context2.branches.add(node), () => {
           context2.branches.delete(node);
         };
-      }, [context2.branches]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+      }, [context2.branches]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
         style: {
           display: "contents"
         },
@@ -44706,7 +44706,7 @@ var require_FocusScopeController = __commonJS({
     var import_create_context9 = require_cjs26();
     var import_use_event5 = require_cjs3();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var FOCUS_SCOPE_CONTROLLER_NAME2 = "FocusScopeController";
     var [createFocusScopeControllerContext2, createFocusScopeControllerScope2] = (0, import_create_context9.createContextScope)(FOCUS_SCOPE_CONTROLLER_NAME2);
     var [FocusScopeControllerProvider2, useFocusScopeControllerContext2] = createFocusScopeControllerContext2(FOCUS_SCOPE_CONTROLLER_NAME2);
@@ -44730,7 +44730,7 @@ var require_FocusScopeController = __commonJS({
         forceUnmount,
         focusOnIdle
       }), [enabled, loop, trapped, stableOnMountAutoFocus, stableOnUnmountAutoFocus, forceUnmount, focusOnIdle]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(FocusScopeControllerProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(FocusScopeControllerProvider2, {
         scope: __scopeFocusScope,
         ...contextValue,
         children
@@ -44789,7 +44789,7 @@ var require_FocusScope = __commonJS({
     var import_use_event5 = require_cjs3();
     var React93 = __toESM2(require("react"));
     var import_FocusScopeController2 = require_FocusScopeController();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var AUTOFOCUS_ON_MOUNT2 = "focusScope.autoFocusOnMount";
     var AUTOFOCUS_ON_UNMOUNT2 = "focusScope.autoFocusOnUnmount";
     var EVENT_OPTIONS3 = {
@@ -44813,7 +44813,7 @@ var require_FocusScope = __commonJS({
         forceUnmount: context2.forceUnmount ?? props.forceUnmount,
         focusOnIdle: context2.focusOnIdle ?? props.focusOnIdle
       }, childProps = useFocusScope2(mergedProps, forwardedRef);
-      return typeof mergedProps.children == "function" ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      return typeof mergedProps.children == "function" ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children: mergedProps.children(childProps)
       }) : React93.cloneElement(React93.Children.only(mergedProps.children), childProps);
     });
@@ -45192,12 +45192,12 @@ var require_ClientOnly = __commonJS({
     });
     module2.exports = __toCommonJS2(ClientOnly_exports);
     var import_react126 = require("react");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ClientOnlyContext2 = (0, import_react126.createContext)(false);
     var ClientOnly2 = /* @__PURE__ */ __name(({
       children,
       value = true
-    }) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ClientOnlyContext2.Provider, {
+    }) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ClientOnlyContext2.Provider, {
       value,
       children
     }), "ClientOnly");
@@ -45572,11 +45572,11 @@ var require_nativeSheet = __commonJS({
     module2.exports = __toCommonJS2(nativeSheet_exports);
     var import_stacks31 = require_cjs18();
     var import_react126 = require("react");
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_SheetContext7 = require_SheetContext();
     var import_useSheetOpenState3 = require_useSheetOpenState();
     var import_useSheetProviderProps3 = require_useSheetProviderProps();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var nativeSheets2 = {
       ios: null
     };
@@ -45601,23 +45601,23 @@ var require_nativeSheet = __commonJS({
           props.onOpenChange?.(open), setOpen(next);
         }
         __name(setOpenInternal, "setOpenInternal");
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_SheetContext7.SheetProvider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_SheetContext7.SheetProvider, {
             setHasScrollView: emptyFn2,
             ...providerProps,
             onlyShowFrame: true,
-            children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ModalSheetView, {
+            children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ModalSheetView, {
               ref,
               onModalDidDismiss: /* @__PURE__ */ __name(() => setOpenInternal(false), "onModalDidDismiss"),
-              children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ModalSheetViewMainContent, {
-                children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.View, {
+              children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ModalSheetViewMainContent, {
+                children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.View, {
                   style: {
                     flex: 1
                   },
                   children: props.children
                 })
               })
-            }), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+            }), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
               position: "absolute",
               opacity: 0,
               pointerEvents: "none",
@@ -45770,13 +45770,13 @@ var require_SheetImplementationCustom = __commonJS({
     var import_core72 = require("@tamagui/core");
     var import_portal12 = require_cjs24();
     var import_react126 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_contexts2 = require_contexts();
     var import_helpers38 = require_helpers3();
     var import_SheetContext7 = require_SheetContext();
     var import_useSheetOpenState3 = require_useSheetOpenState();
     var import_useSheetProviderProps3 = require_useSheetProviderProps();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var hiddenSize2 = 10000.1;
     var sheetHiddenStyleSheet2 = null;
     var relativeDimensionTo2 = import_constants57.isWeb ? "window" : "screen";
@@ -45920,7 +45920,7 @@ var require_SheetImplementationCustom = __commonJS({
           animatedNumber.setValue((0, import_helpers38.resisted)(to, minY), {
             type: "direct"
           });
-        }, scrollBridge.release = release, import_react_native19.PanResponder.create({
+        }, scrollBridge.release = release, import_react_native21.PanResponder.create({
           onMoveShouldSetPanResponder: onMoveShouldSet,
           onPanResponderGrant: grant,
           onPanResponderMove: /* @__PURE__ */ __name((_e, {
@@ -45936,10 +45936,10 @@ var require_SheetImplementationCustom = __commonJS({
           onPanResponderRelease: finish
         });
       }, [disableDrag, isShowingInnerSheet, animateTo, frameSize, positions, setPosition]), handleAnimationViewLayout = import_react126.default.useCallback((e6) => {
-        const next = Math.min(e6.nativeEvent?.layout.height, import_react_native19.Dimensions.get(relativeDimensionTo2).height);
+        const next = Math.min(e6.nativeEvent?.layout.height, import_react_native21.Dimensions.get(relativeDimensionTo2).height);
         next && setFrameSize(next);
       }, []), handleMaxContentViewLayout = import_react126.default.useCallback((e6) => {
-        const next = Math.min(e6.nativeEvent?.layout.height, import_react_native19.Dimensions.get(relativeDimensionTo2).height);
+        const next = Math.min(e6.nativeEvent?.layout.height, import_react_native21.Dimensions.get(relativeDimensionTo2).height);
         next && setMaxContentSize(next);
       }, []), animatedStyle = useAnimatedNumberStyle2(animatedNumber, (val) => {
         "worklet";
@@ -45951,12 +45951,12 @@ var require_SheetImplementationCustom = __commonJS({
       }), sizeBeforeKeyboard = import_react126.default.useRef(null);
       import_react126.default.useEffect(() => {
         if (import_constants57.isWeb || !moveOnKeyboardChange) return;
-        const keyboardShowListener = import_react_native19.Keyboard.addListener(import_constants57.currentPlatform === "ios" ? "keyboardWillShow" : "keyboardDidShow", (e6) => {
+        const keyboardShowListener = import_react_native21.Keyboard.addListener(import_constants57.currentPlatform === "ios" ? "keyboardWillShow" : "keyboardDidShow", (e6) => {
           sizeBeforeKeyboard.current === null && (sizeBeforeKeyboard.current = isHidden2 || position === -1 ? screenSize : positions[position], animatedNumber.setValue(Math.max(sizeBeforeKeyboard.current - e6.endCoordinates.height, 0), {
             type: "timing",
             duration: 250
           }));
-        }), keyboardDidHideListener = import_react_native19.Keyboard.addListener("keyboardDidHide", () => {
+        }), keyboardDidHideListener = import_react_native21.Keyboard.addListener("keyboardDidHide", () => {
           sizeBeforeKeyboard.current !== null && (animatedNumber.setValue(sizeBeforeKeyboard.current, {
             type: "timing",
             duration: 250
@@ -45980,17 +45980,17 @@ var require_SheetImplementationCustom = __commonJS({
       const forcedContentHeight = hasFit ? void 0 : snapPointsMode === "percent" ? `${maxSnapPoint}${import_constants57.isWeb ? "dvh" : "%"}` : maxSnapPoint, setHasScrollView = import_react126.default.useCallback((val) => {
         hasScrollView.current = val;
       }, []);
-      let contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_contexts2.ParentSheetContext.Provider, {
+      let contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_contexts2.ParentSheetContext.Provider, {
         value: nextParentContext,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_SheetContext7.SheetProvider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_SheetContext7.SheetProvider, {
           ...providerProps,
           setHasScrollView,
-          children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.AnimatePresence, {
+          children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.AnimatePresence, {
             custom: {
               open
             },
             children: shouldHideParentSheet || !open ? null : overlayComponent
-          }), snapPointsMode !== "percent" && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.View, {
+          }), snapPointsMode !== "percent" && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.View, {
             style: {
               opacity: 0,
               position: "absolute",
@@ -46001,7 +46001,7 @@ var require_SheetImplementationCustom = __commonJS({
               pointerEvents: "none"
             },
             onLayout: handleMaxContentViewLayout
-          }), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AnimatedView2, {
+          }), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AnimatedView2, {
             ref,
             ...panResponder?.panHandlers,
             onLayout: handleAnimationViewLayout,
@@ -46024,11 +46024,11 @@ var require_SheetImplementationCustom = __commonJS({
       });
       const shouldMountChildren = unmountChildrenWhenHidden ? !!opacity : true;
       if (modal) {
-        const modalContents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.Portal, {
+        const modalContents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.Portal, {
           stackZIndex: zIndex2,
           ...portalProps,
-          children: shouldMountChildren && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ContainerComponent, {
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Theme, {
+          children: shouldMountChildren && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ContainerComponent, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Theme, {
               contain: true,
               forceClassName: true,
               name: themeName,
@@ -46036,7 +46036,7 @@ var require_SheetImplementationCustom = __commonJS({
             })
           })
         });
-        return import_constants57.isWeb ? modalContents : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_contexts2.SheetInsideSheetContext.Provider, {
+        return import_constants57.isWeb ? modalContents : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_contexts2.SheetInsideSheetContext.Provider, {
           value: onInnerSheet,
           children: modalContents
         });
@@ -46088,13 +46088,13 @@ var require_ScrollView2 = __commonJS({
     }), mod), "__toCommonJS");
     var ScrollView_exports = {};
     __export2(ScrollView_exports, {
-      ScrollView: /* @__PURE__ */ __name(() => ScrollView5, "ScrollView")
+      ScrollView: /* @__PURE__ */ __name(() => ScrollView6, "ScrollView")
     });
     module2.exports = __toCommonJS2(ScrollView_exports);
     var import_stacks31 = require_cjs18();
     var import_web25 = require("@tamagui/core");
-    var import_react_native19 = require_cjs();
-    var ScrollView5 = (0, import_web25.styled)(import_react_native19.ScrollView, {
+    var import_react_native21 = require_cjs();
+    var ScrollView6 = (0, import_web25.styled)(import_react_native21.ScrollView, {
       name: "ScrollView",
       scrollEnabled: true,
       variants: {
@@ -46181,7 +46181,7 @@ var require_SheetScrollView = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_react126 = __toESM2(require("react"));
     var import_SheetContext7 = require_SheetContext();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SHEET_SCROLL_VIEW_NAME2 = "SheetScrollView";
     var SheetScrollView2 = import_react126.default.forwardRef(({
       __scopeSheet,
@@ -46248,7 +46248,7 @@ var require_SheetScrollView = __commonJS({
       }, "setIsScrollable");
       return (0, import_react126.useEffect)(() => {
         scrollBridge.hasScrollableContent = hasScrollableContent;
-      }, [hasScrollableContent]), /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_scroll_view3.ScrollView, {
+      }, [hasScrollableContent]), /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_scroll_view3.ScrollView, {
         onLayout: /* @__PURE__ */ __name((e6) => {
           parentHeight.current = Math.ceil(e6.nativeEvent.layout.height), setIsScrollable();
         }, "onLayout"),
@@ -46287,7 +46287,7 @@ var require_SheetScrollView = __commonJS({
           }
         }, "onResponderMove"),
         ...props,
-        children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+        children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
@@ -46390,7 +46390,7 @@ var require_createSheet = __commonJS({
     var import_use_did_finish_ssr2 = require_cjs33();
     var import_z_index_stack7 = require_cjs23();
     var import_react126 = require("react");
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_constants210 = require_constants4();
     var import_nativeSheet = require_nativeSheet();
     var import_SheetContext7 = require_SheetContext();
@@ -46398,7 +46398,7 @@ var require_createSheet = __commonJS({
     var import_SheetScrollView2 = require_SheetScrollView();
     var import_useSheetController4 = require_useSheetController();
     var import_useSheetOffscreenSize2 = require_useSheetOffscreenSize();
-    var import_jsx_runtime159 = (
+    var import_jsx_runtime160 = (
       // @ts-ignore
       require("react/jsx-runtime")
     );
@@ -46412,7 +46412,7 @@ var require_createSheet = __commonJS({
         ...props
       }, forwardedRef) => {
         const context2 = (0, import_SheetContext7.useSheetContext)(import_constants210.SHEET_HANDLE_NAME, __scopeSheet), composedRef = (0, import_compose_refs28.useComposedRefs)(context2.handleRef, forwardedRef);
-        return context2.onlyShowFrame ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Handle2, {
+        return context2.onlyShowFrame ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Handle2, {
           ref: composedRef,
           onPress: /* @__PURE__ */ __name(() => {
             const max2 = context2.snapPoints.length + (context2.dismissOnSnapToBottom ? -1 : 0), nextPos = (context2.position + 1) % max2;
@@ -46427,7 +46427,7 @@ var require_createSheet = __commonJS({
           ...props
         } = propsIn, context2 = (0, import_SheetContext7.useSheetContext)(import_constants210.SHEET_OVERLAY_NAME, __scopeSheet), element = (0, import_react126.useMemo)(() => (
           // @ts-ignore
-          /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Overlay2, {
+          /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Overlay2, {
             ...props,
             onPress: (0, import_helpers38.composeEventHandlers)(props.onPress, context2.dismissOnOverlayPress ? () => {
               context2.setOpen(false);
@@ -46452,28 +46452,28 @@ var require_createSheet = __commonJS({
           open
         } = context2, composedContentRef = (0, import_compose_refs28.useComposedRefs)(forwardedRef, contentRef), offscreenSize = (0, import_useSheetOffscreenSize2.useSheetOffscreenSize)(context2), sheetContents = (0, import_react126.useMemo)(() => (
           // @ts-expect-error
-          /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(Frame2, {
+          /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(Frame2, {
             ref: composedContentRef,
             flex: hasFit ? 0 : 1,
             height: hasFit ? void 0 : frameSize,
             pointerEvents: open ? "auto" : "none",
             ...props,
-            children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_z_index_stack7.StackZIndexContext, {
+            children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_z_index_stack7.StackZIndexContext, {
               zIndex: (0, import_portal12.resolveViewZIndex)(props.zIndex),
               children
-            }), adjustPaddingForOffscreenContent && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Stack, {
+            }), adjustPaddingForOffscreenContent && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Stack, {
               "data-sheet-offscreen-pad": true,
               height: offscreenSize,
               width: "100%"
             })]
           })
         ), [open, props, frameSize, offscreenSize, adjustPaddingForOffscreenContent, hasFit]);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-          children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_remove_scroll4.RemoveScroll, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+          children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_remove_scroll4.RemoveScroll, {
             enabled: removeScrollEnabled && context2.open,
             children: sheetContents
           }), !disableHideBottomOverflow && // @ts-ignore
-          /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Frame2, {
+          /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Frame2, {
             ...props,
             "data-testid": "ensure-sheet-cover-not-overlapping",
             componentName: "SheetCover",
@@ -46489,12 +46489,12 @@ var require_createSheet = __commonJS({
             shadowOpacity: 0
           })]
         });
-      })), Sheet2 = (0, import_react126.forwardRef)(function(props, ref) {
+      })), Sheet3 = (0, import_react126.forwardRef)(function(props, ref) {
         const hydrated = (0, import_use_did_finish_ssr2.useDidFinishSSR)(), {
           isShowingNonSheet
         } = (0, import_useSheetController4.useSheetController)();
         let SheetImplementation = import_SheetImplementationCustom2.SheetImplementationCustom;
-        return props.native && import_react_native19.Platform.OS, isShowingNonSheet || !hydrated ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SheetImplementation, {
+        return props.native && import_react_native21.Platform.OS, isShowingNonSheet || !hydrated ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SheetImplementation, {
           ref,
           ...props
         });
@@ -46503,8 +46503,8 @@ var require_createSheet = __commonJS({
         Overlay: SheetOverlay,
         Handle: SheetHandle,
         ScrollView: import_SheetScrollView2.SheetScrollView
-      }, Controlled = (0, import_helpers38.withStaticProperties)(Sheet2, components);
-      return (0, import_helpers38.withStaticProperties)(Sheet2, {
+      }, Controlled = (0, import_helpers38.withStaticProperties)(Sheet3, components);
+      return (0, import_helpers38.withStaticProperties)(Sheet3, {
         ...components,
         Controlled
       });
@@ -46564,7 +46564,7 @@ var require_Sheet = __commonJS({
       Frame: /* @__PURE__ */ __name(() => Frame2, "Frame"),
       Handle: /* @__PURE__ */ __name(() => Handle2, "Handle"),
       Overlay: /* @__PURE__ */ __name(() => Overlay2, "Overlay"),
-      Sheet: /* @__PURE__ */ __name(() => Sheet2, "Sheet"),
+      Sheet: /* @__PURE__ */ __name(() => Sheet3, "Sheet"),
       SheetHandleFrame: /* @__PURE__ */ __name(() => SheetHandleFrame2, "SheetHandleFrame"),
       SheetOverlayFrame: /* @__PURE__ */ __name(() => SheetOverlayFrame2, "SheetOverlayFrame"),
       createSheetScope: /* @__PURE__ */ __name(() => import_SheetContext7.createSheetScope, "createSheetScope")
@@ -46652,7 +46652,7 @@ var require_Sheet = __commonJS({
         unstyled: process.env.TAMAGUI_HEADLESS === "1"
       }
     });
-    var Sheet2 = (0, import_createSheet2.createSheet)({
+    var Sheet3 = (0, import_createSheet2.createSheet)({
       Frame: Frame2,
       Handle: Handle2,
       Overlay: Overlay2
@@ -46739,7 +46739,7 @@ var require_SheetController = __commonJS({
     var import_react126 = __toESM2(require("react"));
     var import_core72 = require("@tamagui/core");
     var import_useSheetController4 = require_useSheetController();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SheetController2 = /* @__PURE__ */ __name(({
       children,
       onOpenChange: onOpenChangeProp,
@@ -46754,7 +46754,7 @@ var require_SheetController = __commonJS({
         disableDrag,
         onOpenChange
       }), [id, onOpenChange, open, hidden, disableDrag]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_useSheetController4.SheetControllerContext.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_useSheetController4.SheetControllerContext.Provider, {
         value: memoValue,
         children
       });
@@ -46834,7 +46834,7 @@ var require_Dialog = __commonJS({
     }), mod), "__toCommonJS");
     var Dialog_exports = {};
     __export2(Dialog_exports, {
-      Dialog: /* @__PURE__ */ __name(() => Dialog2, "Dialog"),
+      Dialog: /* @__PURE__ */ __name(() => Dialog3, "Dialog"),
       DialogClose: /* @__PURE__ */ __name(() => DialogClose2, "DialogClose"),
       DialogContent: /* @__PURE__ */ __name(() => DialogContent2, "DialogContent"),
       DialogContext: /* @__PURE__ */ __name(() => DialogContext2, "DialogContext"),
@@ -46867,7 +46867,7 @@ var require_Dialog = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_z_index_stack7 = require_cjs23();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var DialogContext2 = (0, import_core72.createStyledContext)(
       // since we always provide this we can avoid setting here
       {},
@@ -46885,9 +46885,9 @@ var require_Dialog = __commonJS({
         scope,
         ...triggerProps
       } = props, isInsideButton = React93.useContext(import_stacks31.ButtonNestingContext), context2 = useDialogContext2(scope), composedTriggerRef = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.triggerRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.ButtonNestingContext.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.ButtonNestingContext.Provider, {
         value: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogTriggerFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogTriggerFrame2, {
           tag: isInsideButton ? "span" : "button",
           "aria-haspopup": "dialog",
           "aria-expanded": context2.open,
@@ -46934,20 +46934,20 @@ var require_Dialog = __commonJS({
       children
     }) => {
       const themeName = (0, import_core72.useThemeName)(), isAdapted = (0, import_adapt6.useAdaptIsActive)(context2.adaptScope), adaptContext = (0, import_adapt6.useAdaptContext)(context2.adaptScope);
-      let content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Theme, {
+      let content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Theme, {
         name: themeName,
         children
       });
-      return needsRepropagation4 && (content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.ProvideAdaptContext, {
+      return needsRepropagation4 && (content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.ProvideAdaptContext, {
         ...adaptContext,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogProvider2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogProvider2, {
           ...context2,
           children: content
         })
-      })), isAdapted ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptPortalContents, {
+      })), isAdapted ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptPortalContents, {
         scope: context2.adaptScope,
         children: content
-      }) : context2.modal ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.PortalItem, {
+      }) : context2.modal ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.PortalItem, {
         hostName: context2.modal ? "root" : context2.adaptScope,
         children: content
       }) : content;
@@ -46965,16 +46965,16 @@ var require_Dialog = __commonJS({
       }, [isVisible]), isMountedOrOpen && isFullyHidden && setIsFullyHidden(false);
       const handleExitComplete = React93.useCallback(() => {
         setIsFullyHidden(true);
-      }, []), zIndex2 = (0, import_core72.getExpandedShorthand)("zIndex", props), contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_z_index_stack7.StackZIndexContext, {
+      }, []), zIndex2 = (0, import_core72.getExpandedShorthand)("zIndex", props), contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_z_index_stack7.StackZIndexContext, {
         zIndex: (0, import_portal12.resolveViewZIndex)(zIndex2),
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.AnimatePresence, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.AnimatePresence, {
           passThrough: isAdapted,
           onExitComplete: handleExitComplete,
           children: isMountedOrOpen || isAdapted ? children : null
         })
       });
       if (isFullyHidden && !isAdapted) return null;
-      const framedContents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogPortalFrame2, {
+      const framedContents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogPortalFrame2, {
         ref,
         ...import_constants57.isWeb && isMountedOrOpen && {
           "aria-modal": true
@@ -46984,15 +46984,15 @@ var require_Dialog = __commonJS({
         className: "_no_backdrop " + (frameProps.className || ""),
         children: contents
       });
-      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.Portal, {
+      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.Portal, {
         zIndex: zIndex2,
         stackZIndex: 1e3,
         passThrough: isAdapted,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PassthroughTheme2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PassthroughTheme2, {
           passThrough: isAdapted,
           children: framedContents
         })
-      }) : isAdapted ? framedContents : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogPortalItem2, {
+      }) : isAdapted ? framedContents : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogPortalItem2, {
         context: context2,
         children: framedContents
       });
@@ -47002,7 +47002,7 @@ var require_Dialog = __commonJS({
       passThrough
     }) => {
       const themeName = (0, import_core72.useThemeName)();
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Theme, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Theme, {
         passThrough,
         name: themeName,
         forceClassName: true,
@@ -47021,7 +47021,7 @@ var require_Dialog = __commonJS({
         forceMount = context2.forceMount,
         ...overlayProps
       } = props, isAdapted = (0, import_adapt6.useAdaptIsActive)(context2.adaptScope);
-      return !forceMount && (!context2.modal || isAdapted) ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogOverlayFrame2, {
+      return !forceMount && (!context2.modal || isAdapted) ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogOverlayFrame2, {
         "data-state": getState8(context2.open),
         pointerEvents: context2.open ? "auto" : "none",
         ...overlayProps,
@@ -47058,20 +47058,20 @@ var require_Dialog = __commonJS({
       const context2 = useDialogContext2(scope), {
         forceMount = context2.forceMount,
         ...contentProps
-      } = props, contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
-        children: context2.modal ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogContentModal2, {
+      } = props, contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
+        children: context2.modal ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogContentModal2, {
           context: context2,
           ...contentProps,
           ref: forwardedRef
-        }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogContentNonModal2, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogContentNonModal2, {
           context: context2,
           ...contentProps,
           ref: forwardedRef
         })
       });
-      return !import_constants57.isWeb || context2.disableRemoveScroll ? contents : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_remove_scroll4.RemoveScroll, {
+      return !import_constants57.isWeb || context2.disableRemoveScroll ? contents : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_remove_scroll4.RemoveScroll, {
         enabled: context2.open,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
           "data-remove-scroll-container": true,
           className: "_dsp_contents",
           children: contents
@@ -47084,7 +47084,7 @@ var require_Dialog = __commonJS({
       ...props
     }, forwardedRef) => {
       const contentRef = React93.useRef(null), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.contentRef, contentRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogContentImpl2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogContentImpl2, {
         ...props,
         context: context2,
         ref: composedRefs,
@@ -47106,7 +47106,7 @@ var require_Dialog = __commonJS({
     });
     var DialogContentNonModal2 = React93.forwardRef((props, forwardedRef) => {
       const hasInteractedOutsideRef = React93.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogContentImpl2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogContentImpl2, {
         ...props,
         ref: forwardedRef,
         trapFocus: false,
@@ -47138,19 +47138,19 @@ var require_Dialog = __commonJS({
         // TODO react 19 type workaround
         void 0
       ), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, contentRef);
-      if ((0, import_adapt6.useAdaptIsActive)(context2.adaptScope)) return !import_constants57.isWeb && !context2.open ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogPortalItem2, {
+      if ((0, import_adapt6.useAdaptIsActive)(context2.adaptScope)) return !import_constants57.isWeb && !context2.open ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogPortalItem2, {
         context: context2,
         children: contentProps.children
       });
-      const contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogContentFrame2, {
+      const contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogContentFrame2, {
         id: context2.contentId,
         "aria-describedby": context2.descriptionId,
         "aria-labelledby": context2.titleId,
         "data-state": getState8(context2.open),
         ...contentProps
       });
-      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-        children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dismissable3.Dismissable, {
+      return import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+        children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dismissable3.Dismissable, {
           disableOutsidePointerEvents: context2.open && disableOutsidePointerEvents,
           forceUnmount: !context2.open,
           onEscapeKeyDown,
@@ -47159,7 +47159,7 @@ var require_Dialog = __commonJS({
           onInteractOutside,
           ref: composedRefs,
           onDismiss: /* @__PURE__ */ __name(() => context2?.onOpenChange?.(false), "onDismiss"),
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_focus_scope5.FocusScope, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_focus_scope5.FocusScope, {
             loop: true,
             enabled: context2.open,
             trapped: trapFocus,
@@ -47168,10 +47168,10 @@ var require_Dialog = __commonJS({
             onUnmountAutoFocus: onCloseAutoFocus,
             children: contents
           })
-        }), process.env.NODE_ENV === "development" && /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-          children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(TitleWarning2, {
+        }), process.env.NODE_ENV === "development" && /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+          children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(TitleWarning2, {
             titleId: context2.titleId
-          }), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DescriptionWarning3, {
+          }), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DescriptionWarning3, {
             contentRef,
             descriptionId: context2.descriptionId
           })]
@@ -47186,7 +47186,7 @@ var require_Dialog = __commonJS({
         scope,
         ...titleProps
       } = props, context2 = useDialogContext2(scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogTitleFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogTitleFrame2, {
         id: context2.titleId,
         ...titleProps,
         ref: forwardedRef
@@ -47200,7 +47200,7 @@ var require_Dialog = __commonJS({
         scope,
         ...descriptionProps
       } = props, context2 = useDialogContext2(scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogDescriptionFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogDescriptionFrame2, {
         id: context2.descriptionId,
         ...descriptionProps,
         ref: forwardedRef
@@ -47217,7 +47217,7 @@ var require_Dialog = __commonJS({
         displayWhenAdapted,
         ...closeProps
       } = props, context2 = useDialogContext2(scope), isAdapted = (0, import_adapt6.useAdaptIsActive)(context2.adaptScope), isInsideButton = React93.useContext(import_stacks31.ButtonNestingContext);
-      return isAdapted && !displayWhenAdapted ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogCloseFrame2, {
+      return isAdapted && !displayWhenAdapted ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogCloseFrame2, {
         accessibilityLabel: "Dialog Close",
         tag: isInsideButton ? "span" : "button",
         ...closeProps,
@@ -47265,7 +47265,7 @@ var require_Dialog = __commonJS({
       }
       return null;
     }, "DescriptionWarning");
-    var Dialog2 = (0, import_helpers38.withStaticProperties)(React93.forwardRef(function(props, ref) {
+    var Dialog3 = (0, import_helpers38.withStaticProperties)(React93.forwardRef(function(props, ref) {
       const {
         scope = "",
         children,
@@ -47296,15 +47296,15 @@ var require_Dialog = __commonJS({
       };
       return React93.useImperativeHandle(ref, () => ({
         open: setOpen
-      }), [setOpen]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptParent, {
+      }), [setOpen]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptParent, {
         scope: adaptScope,
         portal: {
           forwardProps: props
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogProvider2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogProvider2, {
           scope,
           ...context2,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DialogSheetController2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DialogSheetController2, {
             onOpenChange: setOpen,
             scope,
             children
@@ -47325,7 +47325,7 @@ var require_Dialog = __commonJS({
     });
     var DialogSheetController2 = /* @__PURE__ */ __name((props) => {
       const context2 = useDialogContext2(props.scope), isAdapted = (0, import_adapt6.useAdaptIsActive)(context2.adaptScope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_sheet4.SheetController, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_sheet4.SheetController, {
         onOpenChange: /* @__PURE__ */ __name((val) => {
           isAdapted && props.onOpenChange?.(val);
         }, "onOpenChange"),
@@ -47417,8 +47417,8 @@ var require_AlertDialog = __commonJS({
     var import_helpers38 = require_cjs10();
     var import_use_controllable_state20 = require_cjs12();
     var React93 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_react_native21 = require_cjs();
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var AlertScopePrefix2 = "Alert__";
     var getAlertDialogScope2 = /* @__PURE__ */ __name((scope) => AlertScopePrefix2 + scope, "getAlertDialogScope");
     var ROOT_NAME2 = "AlertDialog";
@@ -47434,7 +47434,7 @@ var require_AlertDialog = __commonJS({
           __onPress,
           ...rest
         } = props;
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(NativeAlertDialogTriggerFrame2, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(NativeAlertDialogTriggerFrame2, {
           ...rest,
           onPress: (0, import_helpers38.composeEventHandlers)(onPress, __onPress)
         });
@@ -47443,7 +47443,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...triggerProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogTrigger, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogTrigger, {
         scope: getAlertDialogScope2(scope),
         ...triggerProps,
         ref: forwardedRef
@@ -47454,7 +47454,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...portalProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogPortal, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogPortal, {
         scope: getAlertDialogScope2(scope),
         ...portalProps
       });
@@ -47468,7 +47468,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...overlayProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogOverlay, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogOverlay, {
         scope: getAlertDialogScope2(scope),
         ...overlayProps,
         ref: forwardedRef
@@ -47485,14 +47485,14 @@ var require_AlertDialog = __commonJS({
         children,
         ...contentProps
       } = props, dialogScope = getAlertDialogScope2(scope), contentRef = React93.useRef(null), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, contentRef), cancelRef = React93.useRef(null);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogWarningProvider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogWarningProvider, {
         contentName: CONTENT_NAME5,
         titleName: TITLE_NAME3,
         docsSlug: "alert-dialog",
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AlertDialogContextProvider2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AlertDialogContextProvider2, {
           scope,
           cancelRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_dialog2.DialogContent, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_dialog2.DialogContent, {
             role: "alertdialog",
             scope: dialogScope,
             ...contentProps,
@@ -47504,9 +47504,9 @@ var require_AlertDialog = __commonJS({
             }),
             onPointerDownOutside: /* @__PURE__ */ __name((event) => event.preventDefault(), "onPointerDownOutside"),
             onInteractOutside: /* @__PURE__ */ __name((event) => event.preventDefault(), "onInteractOutside"),
-            children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Slottable, {
+            children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Slottable, {
               children
-            }), process.env.NODE_ENV === "development" && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(DescriptionWarning3, {
+            }), process.env.NODE_ENV === "development" && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(DescriptionWarning3, {
               contentRef
             })]
           })
@@ -47519,7 +47519,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...titleProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogTitle, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogTitle, {
         scope: getAlertDialogScope2(scope),
         ...titleProps,
         ref: forwardedRef
@@ -47531,7 +47531,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...descriptionProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogDescription, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogDescription, {
         scope: getAlertDialogScope2(scope),
         ...descriptionProps,
         ref: forwardedRef
@@ -47542,7 +47542,7 @@ var require_AlertDialog = __commonJS({
         scope,
         ...actionProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogClose, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogClose, {
         scope: getAlertDialogScope2(scope),
         ...actionProps,
         ref: forwardedRef
@@ -47555,7 +47555,7 @@ var require_AlertDialog = __commonJS({
       } = props, {
         cancelRef
       } = useAlertDialogContentContext2(scope), ref = (0, import_compose_refs28.useComposedRefs)(forwardedRef, cancelRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.DialogClose, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.DialogClose, {
         scope: getAlertDialogScope2(scope),
         ...cancelProps,
         ref
@@ -47582,7 +47582,7 @@ var require_AlertDialog = __commonJS({
         native,
         ...alertDialogProps
       } = props, dialogScope = getAlertDialogScope2(scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_dialog2.Dialog, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_dialog2.Dialog, {
         scope: dialogScope,
         ...alertDialogProps,
         modal: true
@@ -47670,9 +47670,9 @@ var require_Image2 = __commonJS({
     var import_react126 = __toESM2(require("react"));
     var import_constants57 = require_cjs2();
     var import_core72 = require("@tamagui/core");
-    var import_react_native19 = require_cjs();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
-    var StyledImage2 = (0, import_core72.styled)(import_react_native19.Image, {
+    var import_react_native21 = require_cjs();
+    var import_jsx_runtime160 = require("react/jsx-runtime");
+    var StyledImage2 = (0, import_core72.styled)(import_react_native21.Image, {
       name: "Image"
     });
     var hasWarned2 = false;
@@ -47703,7 +47703,7 @@ var require_Image2 = __commonJS({
         }
         __name(run, "run");
         run();
-      }, [src]), finalSource.default && (finalSource = finalSource.default)), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.Image, {
+      }, [src]), finalSource.default && (finalSource = finalSource.default)), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.Image, {
         resizeMode: objectFit,
         ref,
         source: finalSource,
@@ -47711,12 +47711,12 @@ var require_Image2 = __commonJS({
         ...rest
       });
     });
-    Image6.getSize = import_react_native19.Image.getSize;
-    Image6.getSizeWithHeaders = import_react_native19.Image.getSizeWithHeaders;
-    Image6.prefetch = import_react_native19.Image.prefetch;
-    Image6.prefetchWithMetadata = import_react_native19.Image.prefetchWithMetadata;
-    Image6.abortPrefetch = import_react_native19.Image.abortPrefetch;
-    Image6.queryCache = import_react_native19.Image.queryCache;
+    Image6.getSize = import_react_native21.Image.getSize;
+    Image6.getSizeWithHeaders = import_react_native21.Image.getSizeWithHeaders;
+    Image6.prefetch = import_react_native21.Image.prefetch;
+    Image6.prefetchWithMetadata = import_react_native21.Image.prefetchWithMetadata;
+    Image6.abortPrefetch = import_react_native21.Image.abortPrefetch;
+    Image6.queryCache = import_react_native21.Image.queryCache;
   }
 });
 
@@ -47951,7 +47951,7 @@ var require_Avatar = __commonJS({
     var import_shapes2 = require_cjs39();
     var import_stacks31 = require_cjs18();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var AVATAR_NAME2 = "Avatar";
     var [createAvatarContext2, createAvatarScope2] = (0, import_create_context9.createContextScope)(AVATAR_NAME2);
     var [AvatarProvider2, useAvatarContext2] = createAvatarContext2(AVATAR_NAME2);
@@ -47974,10 +47974,10 @@ var require_Avatar = __commonJS({
         setStatus("idle");
       }, [JSON.stringify(src)]), React93.useEffect(() => {
         onLoadingStatusChange(status), context2.onImageLoadingStatusChange(status);
-      }, [status]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+      }, [status]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
         fullscreen: true,
         zIndex: 1,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_image2.Image, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_image2.Image, {
           fullscreen: true,
           ...typeof shapeSize == "number" && !Number.isNaN(shapeSize) && {
             width: shapeSize,
@@ -48014,7 +48014,7 @@ var require_Avatar = __commonJS({
           const timerId = setTimeout(() => setCanRender(true), delayMs);
           return () => clearTimeout(timerId);
         }
-      }, [delayMs]), canRender && context2.imageLoadingStatus !== "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AvatarFallbackFrame2, {
+      }, [delayMs]), canRender && context2.imageLoadingStatus !== "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AvatarFallbackFrame2, {
         ...fallbackProps,
         ref: forwardedRef
       }) : null;
@@ -48031,12 +48031,12 @@ var require_Avatar = __commonJS({
         size: size6 = "$true",
         ...avatarProps
       } = props, [imageLoadingStatus, setImageLoadingStatus] = React93.useState("idle");
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AvatarProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AvatarProvider2, {
         size: size6,
         scope: __scopeAvatar,
         imageLoadingStatus,
         onImageLoadingStatusChange: setImageLoadingStatus,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AvatarFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AvatarFrame2, {
           size: size6,
           ...avatarProps,
           ref: forwardedRef
@@ -48342,7 +48342,7 @@ var require_Button2 = __commonJS({
     var import_text11 = require_cjs20();
     var import_web25 = require("@tamagui/core");
     var import_react126 = require("react");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ButtonContext2 = (0, import_web25.createStyledContext)({
       // keeping these here means they work with styled() passing down color to text
       color: void 0,
@@ -48455,7 +48455,7 @@ var require_Button2 = __commonJS({
       const {
         props: buttonProps
       } = useButton2(props);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ButtonFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ButtonFrame2, {
         "data-disable-theme": true,
         ...buttonProps,
         ref
@@ -48539,7 +48539,7 @@ var require_Button2 = __commonJS({
           propsActive.accessibilityRole === "link" || propsActive.role === "link" ? "a" : "button"
         )),
         ...restProps,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.ButtonNestingContext.Provider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.ButtonNestingContext.Provider, {
           value: true,
           children: inner3
         }),
@@ -49090,7 +49090,7 @@ var require_Label = __commonJS({
     var import_text11 = require_cjs20();
     var import_web25 = require("@tamagui/core");
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var NAME4 = "Label";
     var [LabelProvider2, useLabelContextImpl2] = (0, import_create_context9.createContext)(NAME4, {
       id: void 0,
@@ -49148,10 +49148,10 @@ var require_Label = __commonJS({
             };
           }
         }
-      }, [id, htmlFor]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(LabelProvider2, {
+      }, [id, htmlFor]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(LabelProvider2, {
         id,
         controlRef,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(LabelFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(LabelFrame2, {
           id,
           htmlFor,
           ...labelProps,
@@ -49345,7 +49345,7 @@ var require_BubbleInput = __commonJS({
     var import_use_previous4 = require_cjs47();
     var React93 = __toESM2(require("react"));
     var import_utils39 = require_utils3();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var BubbleInput4 = /* @__PURE__ */ __name((props) => {
       const {
         checked,
@@ -49362,7 +49362,7 @@ var require_BubbleInput = __commonJS({
           });
           input.indeterminate = (0, import_utils39.isIndeterminate)(checked), setChecked.call(input, (0, import_utils39.isIndeterminate)(checked) ? false : checked), input.dispatchEvent(event);
         }
-      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("input", {
+      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("input", {
         type: "checkbox",
         defaultChecked: (0, import_utils39.isIndeterminate)(checked) ? false : checked,
         ...inputProps,
@@ -49435,7 +49435,7 @@ var require_useCheckbox = __commonJS({
     var import_react126 = __toESM2(require("react"));
     var import_BubbleInput3 = require_BubbleInput();
     var import_utils39 = require_utils3();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function useCheckbox2(props, [checked, setChecked], ref) {
       const {
         labelledBy: ariaLabelledby,
@@ -49451,7 +49451,7 @@ var require_useCheckbox = __commonJS({
         setChecked((prevChecked) => (0, import_utils39.isIndeterminate)(prevChecked) ? true : !prevChecked), isFormControl && "isPropagationStopped" in event && (hasConsumerStoppedPropagationRef.current = event.isPropagationStopped(), hasConsumerStoppedPropagationRef.current || event.stopPropagation());
       }), [isFormControl]);
       return {
-        bubbleInput: import_constants57.isWeb && isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_BubbleInput3.BubbleInput, {
+        bubbleInput: import_constants57.isWeb && isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_BubbleInput3.BubbleInput, {
           isHidden: true,
           control: button,
           bubbles: !hasConsumerStoppedPropagationRef.current,
@@ -49560,7 +49560,7 @@ var require_createCheckbox = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_Checkbox3 = require_Checkbox();
     var import_CheckboxStyledContext3 = require_CheckboxStyledContext();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var CheckboxContext2 = import_react126.default.createContext({
       checked: false,
       disabled: false
@@ -49605,7 +49605,7 @@ var require_createCheckbox = __commonJS({
           [checked, setChecked],
           forwardedRef
         );
-        if ((0, import_core72.shouldRenderNativePlatform)(native) === "web") return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("input", {
+        if ((0, import_core72.shouldRenderNativePlatform)(native) === "web") return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("input", {
           type: "checkbox",
           defaultChecked: (0, import_checkbox_headless2.isIndeterminate)(checked) ? false : checked,
           tabIndex: -1,
@@ -49622,12 +49622,12 @@ var require_createCheckbox = __commonJS({
           checked,
           disabled: checkboxProps.disabled
         }), [checked, checkboxProps.disabled]);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(CheckboxContext2.Provider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(CheckboxContext2.Provider, {
           value: memoizedContext,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_CheckboxStyledContext3.CheckboxStyledContext.Provider, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_CheckboxStyledContext3.CheckboxStyledContext.Provider, {
             size: propsActive.size ?? styledContext?.size ?? "$true",
             scaleIcon: scaleIcon ?? styledContext?.scaleIcon ?? 1,
-            children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Frame2, {
+            children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Frame2, {
               ...!unstyled && {
                 width: size6,
                 height: size6
@@ -49665,7 +49665,7 @@ var require_createCheckbox = __commonJS({
           children = import_react126.default.Children.toArray(childrenProp).map((child) => disablePassStyles || !import_react126.default.isValidElement(child) ? child : getThemedIcon(child));
         }
         const context2 = import_react126.default.useContext(CheckboxContext2);
-        return forceMount || (0, import_checkbox_headless2.isIndeterminate)(context2.checked) || context2.checked === true ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Indicator, {
+        return forceMount || (0, import_checkbox_headless2.isIndeterminate)(context2.checked) || context2.checked === true ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Indicator, {
           pointerEvents: "none",
           ...indicatorProps,
           ref: forwardedRef,
@@ -49756,7 +49756,7 @@ var require_Form = __commonJS({
     var import_core72 = require("@tamagui/core");
     var import_create_context9 = require_cjs26();
     var import_helpers38 = require_cjs10();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var FORM_NAME2 = "Form";
     var FormFrame2 = (0, import_core72.styled)(import_core72.Stack, {
       name: FORM_NAME2,
@@ -49775,7 +49775,7 @@ var require_Form = __commonJS({
         onPress,
         ...triggerProps
       } = props, context2 = useFormContext2(TRIGGER_NAME6, __scopeForm);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(FormTriggerFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(FormTriggerFrame2, {
         tag: "button",
         ...triggerProps,
         ref: forwardedRef,
@@ -49787,10 +49787,10 @@ var require_Form = __commonJS({
       onSubmit,
       ...props
     }) {
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(FormProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(FormProvider2, {
         scope: props.__scopeForm,
         onSubmit,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(FormFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(FormFrame2, {
           ...props,
           onSubmit: /* @__PURE__ */ __name((e6) => e6.preventDefault(), "onSubmit")
         })
@@ -49869,7 +49869,7 @@ var require_useIndexedChildren = __commonJS({
     });
     module2.exports = __toCommonJS2(useIndexedChildren_exports);
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var MaxIndexContext2 = React93.createContext([]);
     var IndexContext2 = React93.createContext(null);
     function useIndex2() {
@@ -49893,9 +49893,9 @@ var require_useIndexedChildren = __commonJS({
     __name(useIndex2, "useIndex");
     function useIndexedChildren2(children) {
       const parentMaxIndexPath = React93.useContext(MaxIndexContext2), indexPathString = React93.useContext(IndexContext2), childrenCount = React93.Children.count(children), maxIndexPath = React93.useMemo(() => parentMaxIndexPath.concat(childrenCount - 1), [childrenCount]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(MaxIndexContext2.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(MaxIndexContext2.Provider, {
         value: maxIndexPath,
-        children: React93.Children.map(children, (child, index4) => React93.isValidElement(child) ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(IndexContext2.Provider, {
+        children: React93.Children.map(children, (child, index4) => React93.isValidElement(child) ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(IndexContext2.Provider, {
           value: indexPathString ? `${indexPathString}.${index4.toString()}` : index4.toString(),
           children: child
         }, child.key) : child)
@@ -49960,9 +49960,9 @@ var require_Group = __commonJS({
     var import_stacks31 = require_cjs18();
     var import_use_controllable_state20 = require_cjs12();
     var import_react126 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_useIndexedChildren2 = require_useIndexedChildren();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var GROUP_NAME4 = "Group";
     var [createGroupContext2, createGroupScope2] = (0, import_create_context9.createContextScope)(GROUP_NAME4);
     var [GroupProvider2, useGroupContext2] = createGroupContext2(GROUP_NAME4);
@@ -50022,7 +50022,7 @@ var require_Group = __commonJS({
           space: space2,
           children
         })), onItemMount = import_react126.default.useCallback(() => setItemChildrenCount((prev) => prev + 1), []), onItemUnmount = import_react126.default.useCallback(() => setItemChildrenCount((prev) => prev - 1), []);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(GroupProvider2, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(GroupProvider2, {
           disablePassBorderRadius,
           vertical: orientation === "vertical",
           radius: radius2,
@@ -50030,7 +50030,7 @@ var require_Group = __commonJS({
           onItemMount,
           onItemUnmount,
           scope: __scopeGroup,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(GroupFrame2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(GroupFrame2, {
             ref,
             size: size6,
             flexDirection: orientation === "horizontal" ? "row" : "column",
@@ -50088,7 +50088,7 @@ var require_Group = __commonJS({
       scrollable,
       orientation,
       showScrollIndicator = false
-    }, children) => scrollable ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.ScrollView, {
+    }, children) => scrollable ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.ScrollView, {
       ...orientation === "vertical" && {
         showsVerticalScrollIndicator: showScrollIndicator
       },
@@ -50357,7 +50357,7 @@ var require_ListItem = __commonJS({
     var import_stacks31 = require_cjs18();
     var import_text11 = require_cjs20();
     var import_web25 = require("@tamagui/core");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var NAME4 = "ListItem";
     var ListItemFrame2 = (0, import_web25.styled)(import_stacks31.ThemeableStack, {
       name: NAME4,
@@ -50502,29 +50502,29 @@ var require_ListItem = __commonJS({
       return {
         props: {
           ...rest,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-            children: [themedIcon ? /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-              children: [themedIcon, /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_web25.Spacer, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+            children: [themedIcon ? /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+              children: [themedIcon, /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_web25.Spacer, {
                 size: spaceSize
               })]
-            }) : null, title || subTitle ? /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_stacks31.YStack, {
+            }) : null, title || subTitle ? /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_stacks31.YStack, {
               flex: 1,
-              children: [noTextWrap === "all" ? title : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Title, {
+              children: [noTextWrap === "all" ? title : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Title, {
                 size: size6,
                 children: title
-              }), subTitle ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+              }), subTitle ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
                 children: typeof subTitle == "string" && noTextWrap !== "all" ? (
                   // TODO can use theme but we need to standardize to alt themes
                   // or standardize on subtle colors in themes
-                  /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Subtitle, {
+                  /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Subtitle, {
                     unstyled,
                     size: size6,
                     children: subTitle
                   })
                 ) : subTitle
               }) : null, contents]
-            }) : contents, themedIconAfter ? /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-              children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_web25.Spacer, {
+            }) : contents, themedIconAfter ? /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+              children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_web25.Spacer, {
                 size: spaceSize
               }), themedIconAfter]
             }) : null]
@@ -50536,7 +50536,7 @@ var require_ListItem = __commonJS({
       const {
         props: listItemProps
       } = useListItem3(props);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ListItemFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ListItemFrame2, {
         ref,
         ...listItemProps
       });
@@ -50603,7 +50603,7 @@ var require_Animate = __commonJS({
     module2.exports = __toCommonJS2(Animate_exports);
     var import_animate_presence10 = require_cjs8();
     var import_react126 = require("react");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function Animate2({
       children,
       lazyMount,
@@ -50619,7 +50619,7 @@ var require_Animate = __commonJS({
         });
       }, [lazyMount, present]);
       const mounted = present ? lazyMount ? lazyMounted : present : false;
-      return type === "presence" ? props.keepChildrenMounted ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.PresenceChild, {
+      return type === "presence" ? props.keepChildrenMounted ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.PresenceChild, {
         isPresent: true,
         ...!passThrough && {
           initial: props.initial ? void 0 : false,
@@ -50634,11 +50634,11 @@ var require_Animate = __commonJS({
           custom: props.custom
         },
         children
-      }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.AnimatePresence, {
+      }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.AnimatePresence, {
         passThrough,
         ...props,
         children: mounted || passThrough ? children : null
-      }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children
       });
     }
@@ -51193,8 +51193,8 @@ var require_Popper = __commonJS({
     var import_stacks31 = require_cjs18();
     var import_start_transition8 = require_cjs11();
     var React93 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_react_native21 = require_cjs();
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var PopperContextFast2 = (0, import_core72.createStyledContext)(
       // since we always provide this we can avoid setting here
       {},
@@ -51220,10 +51220,10 @@ var require_Popper = __commonJS({
       ...context2
     }) => {
       const slowContext = getContextSlow2(context2);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperProviderFast2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperProviderFast2, {
         scope,
         ...context2,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperProviderSlow2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperProviderSlow2, {
           scope,
           ...slowContext,
           children
@@ -51318,7 +51318,7 @@ var require_Popper = __commonJS({
         hasFloating: middlewareData.checkFloating?.hasFloating,
         ...floating
       }), [size6, floating.x, floating.y, floating.placement, JSON.stringify(middlewareData.arrow || null), floating.isPositioned]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperProvider2, {
         scope,
         ...popperContext,
         children
@@ -51344,7 +51344,7 @@ var require_Popper = __commonJS({
         // web handles this onMouseEnter below so it can support multiple targets + hovering
         shouldHandleInHover ? void 0 : refs.setReference
       );
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
         ...stackProps,
         ...refProps,
         ref: composedRefs,
@@ -51426,12 +51426,12 @@ var require_Popper = __commonJS({
         style,
         ...floatingProps
       } = getFloatingProps ? getFloatingProps(frameProps) : frameProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
         passThrough,
         ref: contentRefs,
         contain: "layout style",
         ...passThrough ? null : floatingProps,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperContentFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperContentFrame2, {
           passThrough,
           ...!passThrough && {
             "data-placement": placement,
@@ -51510,10 +51510,10 @@ var require_Popper = __commonJS({
           context2.onArrowSize?.(size6);
         }, [size6, context2.onArrowSize]);
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperArrowOuterFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperArrowOuterFrame2, {
         ref: refs,
         ...arrowStyle,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopperArrowFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopperArrowFrame2, {
           width: size6,
           height: size6,
           ...arrowProps,
@@ -55984,7 +55984,7 @@ var require_Popover = __commonJS({
     var import_z_index_stack7 = require_cjs23();
     var React93 = __toESM2(require("react"));
     var import_useFloatingContext2 = require_useFloatingContext();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var needsRepropagation4 = import_constants57.isAndroid || import_constants57.isIos && !import_portal12.USE_NATIVE_PORTAL;
     var PopoverContext2 = (0, import_core72.createStyledContext)(
       // since we always provide this we can avoid setting here
@@ -56000,7 +56000,7 @@ var require_Popover = __commonJS({
         onCustomAnchorAdd,
         onCustomAnchorRemove
       } = context2 || {};
-      return React93.useEffect(() => (onCustomAnchorAdd(), () => onCustomAnchorRemove()), [onCustomAnchorAdd, onCustomAnchorRemove]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.PopperAnchor, {
+      return React93.useEffect(() => (onCustomAnchorAdd(), () => onCustomAnchorRemove()), [onCustomAnchorAdd, onCustomAnchorRemove]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.PopperAnchor, {
         scope,
         ...rest,
         ref: forwardedRef
@@ -56012,7 +56012,7 @@ var require_Popover = __commonJS({
         ...rest
       } = props, context2 = usePopoverContext2(scope), anchorTo = context2.anchorTo, composedTriggerRef = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.triggerRef);
       if (!props.children) return null;
-      const trigger = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.View, {
+      const trigger = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.View, {
         "aria-expanded": context2.open,
         "data-state": getState8(context2.open),
         ...rest,
@@ -56027,7 +56027,7 @@ var require_Popover = __commonJS({
           }
         }
       } : null, [context2.anchorTo, anchorTo?.x, anchorTo?.y, anchorTo?.x, anchorTo?.height, anchorTo?.width]);
-      return context2.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.PopperAnchor, {
+      return context2.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.PopperAnchor, {
         ...virtualRef && {
           virtualRef
         },
@@ -56047,14 +56047,14 @@ var require_Popover = __commonJS({
         scope,
         ...contentImplProps
       } = props, context2 = usePopoverContext2(scope), contentRef = React93.useRef(null), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, contentRef), isRightClickOutsideRef = React93.useRef(false), [isFullyHidden, setIsFullyHidden] = React93.useState(!context2.open);
-      return context2.open && isFullyHidden && setIsFullyHidden(false), !context2.keepChildrenMounted && isFullyHidden ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverPortal2, {
+      return context2.open && isFullyHidden && setIsFullyHidden(false), !context2.keepChildrenMounted && isFullyHidden ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverPortal2, {
         passThrough: context2.breakpointActive,
         context: context2,
         zIndex: zIndex2,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Stack, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Stack, {
           passThrough: context2.breakpointActive,
           pointerEvents: context2.open ? contentImplProps.pointerEvents ?? "auto" : "none",
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverContentImpl2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverContentImpl2, {
             ...contentImplProps,
             context: context2,
             enableRemoveScroll,
@@ -56093,12 +56093,12 @@ var require_Popover = __commonJS({
       context: context2,
       popperContext
     }) {
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.PopperProvider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.PopperProvider, {
         scope: context2.popoverScope,
         ...popperContext,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverContext2.Provider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverContext2.Provider, {
           ...context2,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.ProvideAdaptContext, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.ProvideAdaptContext, {
             ...adaptContext,
             children
           })
@@ -56112,15 +56112,15 @@ var require_Popover = __commonJS({
     }) => {
       if (needsRepropagation4) {
         const parentContexts = useParentContexts2(context2.popoverScope);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptPortalContents, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptPortalContents, {
           scope: context2.adaptScope,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RepropagateParentContexts2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RepropagateParentContexts2, {
             ...parentContexts,
             children
           })
         });
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptPortalContents, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptPortalContents, {
         scope: context2.adaptScope,
         children
       });
@@ -56135,21 +56135,21 @@ var require_Popover = __commonJS({
       let content = children;
       if (needsRepropagation4) {
         const parentContexts = useParentContexts2(context2.popoverScope);
-        content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RepropagateParentContexts2, {
+        content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RepropagateParentContexts2, {
           ...parentContexts,
           children: content
         });
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.Portal, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.Portal, {
         passThrough,
         stackZIndex: true,
         zIndex: zIndex2,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Theme, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Theme, {
           passThrough,
           contain: true,
           forceClassName: true,
           name: themeName,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_z_index_stack7.StackZIndexContext, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_z_index_stack7.StackZIndexContext, {
             zIndex: (0, import_portal12.resolveViewZIndex)(zIndex2),
             children: content
           })
@@ -56182,38 +56182,38 @@ var require_Popover = __commonJS({
       } = context2, handleExitComplete = React93.useCallback(() => {
         setIsFullyHidden?.(true);
       }, [setIsFullyHidden]);
-      let contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.ResetPresence, {
+      let contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.ResetPresence, {
         disable: context2.breakpointActive,
         children
       });
-      return context2.breakpointActive || (contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_remove_scroll4.RemoveScroll, {
+      return context2.breakpointActive || (contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_remove_scroll4.RemoveScroll, {
         enabled: context2.breakpointActive ? false : enableRemoveScroll ? open : false,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_focus_scope5.FocusScope, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_focus_scope5.FocusScope, {
           loop: true,
           enabled: context2.breakpointActive || disableFocusScope ? false : open,
           trapped: context2.breakpointActive ? false : trapFocus,
           onMountAutoFocus: onOpenAutoFocus,
           onUnmountAutoFocus: onCloseAutoFocus === false ? void 0 : onCloseAutoFocus,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
             style: dspContentsStyle2,
             children: contents
           })
         })
-      })), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate2.Animate, {
+      })), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate2.Animate, {
         type: "presence",
         present: !!open,
         keepChildrenMounted: !!keepChildrenMounted,
         onExitComplete: handleExitComplete,
         lazyMount,
         passThrough: context2.breakpointActive,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.PopperContent, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.PopperContent, {
           scope,
           "data-state": getState8(open),
           id: context2.contentId,
           ref: forwardedRef,
           passThrough: context2.breakpointActive,
           ...contentProps,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PortalAdaptSafe2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PortalAdaptSafe2, {
             context: context2,
             children: contents
           })
@@ -56228,7 +56228,7 @@ var require_Popover = __commonJS({
         scope,
         ...rest
       } = props, context2 = usePopoverContext2(scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
         ...rest,
         ref: forwardedRef,
         componentName: "PopoverClose",
@@ -56240,7 +56240,7 @@ var require_Popover = __commonJS({
         scope,
         ...rest
       } = props, context2 = usePopoverContext2(scope);
-      return (0, import_adapt6.useAdaptIsActive)(context2.adaptScope) ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.PopperArrow, {
+      return (0, import_adapt6.useAdaptIsActive)(context2.adaptScope) ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.PopperArrow, {
         scope,
         componentName: "PopoverArrow",
         ...rest,
@@ -56252,7 +56252,7 @@ var require_Popover = __commonJS({
       ...props
     }, ref) => {
       const context2 = usePopoverContext2(scope);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_scroll_view3.ScrollView, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_scroll_view3.ScrollView, {
         ref,
         pointerEvents: context2.breakpointActive ? "none" : void 0,
         scrollEnabled: !context2.breakpointActive,
@@ -56266,10 +56266,10 @@ var require_Popover = __commonJS({
       ...props
     }, ref) {
       const id = React93.useId(), adaptScope = `PopoverAdapt${scope}`;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptParent, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptParent, {
         scope: adaptScope,
         portal: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverInner2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverInner2, {
           adaptScope,
           ref,
           id,
@@ -56344,15 +56344,15 @@ var require_Popover = __commonJS({
         onCustomAnchorAdd: React93.useCallback(() => setHasCustomAnchor(true), []),
         onCustomAnchorRemove: React93.useCallback(() => setHasCustomAnchor(false), []),
         keepChildrenMounted
-      }, memoizedChildren = React93.useMemo(() => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverContext2.Provider, {
+      }, memoizedChildren = React93.useMemo(() => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverContext2.Provider, {
         scope,
         ...popoverContext,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PopoverSheetController2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PopoverSheetController2, {
           context: popoverContext,
           onOpenChange: setOpen,
           children
         })
-      }), [scope, setOpen, children, ...Object.values(popoverContext)]), contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.Popper, {
+      }), [scope, setOpen, children, ...Object.values(popoverContext)]), contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.Popper, {
         open,
         passThrough: isAdapted,
         scope,
@@ -56360,8 +56360,8 @@ var require_Popover = __commonJS({
         ...restProps,
         children: memoizedChildren
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
-        children: import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_floating4.FloatingOverrideContext.Provider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
+        children: import_constants57.isWeb ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_floating4.FloatingOverrideContext.Provider, {
           value: floatingContext,
           children: contents
         }) : contents
@@ -56376,7 +56376,7 @@ var require_Popover = __commonJS({
       ...props
     }) => {
       const showSheet = useShowPopoverSheet2(context2), breakpointActive = context2.breakpointActive, getShowSheet = (0, import_core72.useGet)(showSheet);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_sheet4.SheetController, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_sheet4.SheetController, {
         onOpenChange: /* @__PURE__ */ __name((val) => {
           getShowSheet() && props.onOpenChange?.(val);
         }, "onOpenChange"),
@@ -56468,7 +56468,7 @@ var require_Progress = __commonJS({
     var import_helpers38 = require_cjs10();
     var import_stacks31 = require_cjs18();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var PROGRESS_NAME2 = "Progress";
     var [createProgressContext2, createProgressScope2] = (0, import_create_context9.createContextScope)(PROGRESS_NAME2);
     var [ProgressProvider2, useProgressContext2] = createProgressContext2(PROGRESS_NAME2);
@@ -56494,7 +56494,7 @@ var require_Progress = __commonJS({
         animation,
         ...indicatorProps
       } = props, context2 = useProgressContext2(INDICATOR_NAME3, __scopeProgress), pct = context2.max - (context2.value ?? 0), x4 = -(context2.width === 0 ? 300 : context2.width) * (pct / 100);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ProgressIndicatorFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ProgressIndicatorFrame2, {
         "data-state": getProgressState2(context2.value, context2.max),
         "data-value": context2.value ?? void 0,
         "data-max": context2.max,
@@ -56565,12 +56565,12 @@ var require_Progress = __commonJS({
         size: size6 = "$true",
         ...progressProps
       } = props, max2 = isValidMaxNumber2(maxProp) ? maxProp : DEFAULT_MAX2, value = isValidValueNumber2(valueProp, max2) ? valueProp : null, valueLabel = isNumber3(value) ? getValueLabel(value, max2) : void 0, [width, setWidth] = React93.useState(0);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ProgressProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ProgressProvider2, {
         scope: __scopeProgress,
         value,
         max: max2,
         width,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ProgressFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ProgressFrame2, {
           "aria-valuemax": max2,
           "aria-valuemin": 0,
           "aria-valuenow": isNumber3(value) ? value : void 0,
@@ -56800,7 +56800,7 @@ var require_BubbleInput2 = __commonJS({
     module2.exports = __toCommonJS2(BubbleInput_exports);
     var import_react126 = __toESM2(require("react"));
     var import_use_previous4 = require_cjs47();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var BubbleInput4 = /* @__PURE__ */ __name((props) => {
       const {
         checked,
@@ -56818,7 +56818,7 @@ var require_BubbleInput2 = __commonJS({
           });
           setChecked.call(input, checked), input.dispatchEvent(event);
         }
-      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("input", {
+      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("input", {
         type: "radio",
         defaultChecked: checked,
         ...inputProps,
@@ -56917,7 +56917,7 @@ var require_useRadioGroup = __commonJS({
     var import_react126 = require("react");
     var import_BubbleInput3 = require_BubbleInput2();
     var import_utils39 = require_utils4();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function useRadioGroup2(params) {
       const {
         value: valueProp,
@@ -56997,7 +56997,7 @@ var require_useRadioGroup = __commonJS({
         },
         checked,
         isFormControl,
-        bubbleInput: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_BubbleInput3.BubbleInput, {
+        bubbleInput: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_BubbleInput3.BubbleInput, {
           isHidden: !native,
           control: button,
           bubbles: !hasConsumerStoppedPropagationRef.current,
@@ -57138,7 +57138,7 @@ var require_RovingFocusGroup = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_use_direction6 = require_cjs21();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ENTRY_FOCUS2 = "rovingFocusGroup.onEntryFocus";
     var EVENT_OPTIONS3 = {
       bubbles: false,
@@ -57163,7 +57163,7 @@ var require_RovingFocusGroup = __commonJS({
       return React93.useEffect(() => {
         const node = ref.current;
         if (node) return node.addEventListener(ENTRY_FOCUS2, handleEntryFocus), () => node.removeEventListener(ENTRY_FOCUS2, handleEntryFocus);
-      }, [handleEntryFocus]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RovingFocusProvider2, {
+      }, [handleEntryFocus]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RovingFocusProvider2, {
         scope: __scopeRovingFocusGroup,
         orientation,
         dir: direction,
@@ -57173,7 +57173,7 @@ var require_RovingFocusGroup = __commonJS({
         onItemShiftTab: React93.useCallback(() => setIsTabbingBackOut(true), []),
         onFocusableItemAdd: React93.useCallback(() => setFocusableItemsCount((prevCount) => prevCount + 1), []),
         onFocusableItemRemove: React93.useCallback(() => setFocusableItemsCount((prevCount) => prevCount - 1), []),
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Stack, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Stack, {
           tabIndex: isTabbingBackOut || focusableItemsCount === 0 ? -1 : 0,
           "data-orientation": orientation,
           ...groupProps,
@@ -57213,12 +57213,12 @@ var require_RovingFocusGroup = __commonJS({
       } = context2;
       return React93.useEffect(() => {
         if (focusable3) return onFocusableItemAdd(), () => onFocusableItemRemove();
-      }, [focusable3, onFocusableItemAdd, onFocusableItemRemove]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.ItemSlot, {
+      }, [focusable3, onFocusableItemAdd, onFocusableItemRemove]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.ItemSlot, {
         scope: __scopeRovingFocusGroup || ROVING_FOCUS_GROUP_CONTEXT2,
         id,
         focusable: focusable3,
         active,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Stack, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Stack, {
           tabIndex: isCurrentTabStop ? 0 : -1,
           "data-orientation": context2.orientation,
           ...itemProps,
@@ -57259,11 +57259,11 @@ var require_RovingFocusGroup = __commonJS({
       useStyledContext: useRovingFocusContext2
     } = (0, import_core72.createStyledContext)();
     var ROVING_FOCUS_GROUP_CONTEXT2 = "RovingFocusGroupContext";
-    var RovingFocusGroup2 = (0, import_helpers38.withStaticProperties)(React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.Provider, {
+    var RovingFocusGroup2 = (0, import_helpers38.withStaticProperties)(React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.Provider, {
       scope: props.__scopeRovingFocusGroup || ROVING_FOCUS_GROUP_CONTEXT2,
-      children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Collection4.Slot, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Collection4.Slot, {
         scope: props.__scopeRovingFocusGroup || ROVING_FOCUS_GROUP_CONTEXT2,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RovingFocusGroupImpl2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RovingFocusGroupImpl2, {
           ...props,
           ref: forwardedRef
         })
@@ -57373,7 +57373,7 @@ var require_createRadioGroup = __commonJS({
     var import_RadioGroup3 = require_RadioGroup();
     var import_radio_headless2 = require_cjs60();
     var import_roving_focus4 = require_cjs61();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ensureContext3 = /* @__PURE__ */ __name((x4) => {
       x4.context || (x4.context = RadioGroupContext2);
     }, "ensureContext");
@@ -57417,11 +57417,11 @@ var require_createRadioGroup = __commonJS({
           native,
           accentColor
         });
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RadioGroupContext2.Provider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RadioGroupContext2.Provider, {
           value: providerValue,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup, {
             ...rovingFocusGroupAttrs,
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_RadioGroup3.RadioGroupFrame, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_RadioGroup3.RadioGroupFrame, {
               ...frameAttrs,
               ref,
               ...rest
@@ -57454,12 +57454,12 @@ var require_createRadioGroup = __commonJS({
           onPress,
           onKeyDown
         });
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RadioGroupItemContext2.Provider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RadioGroupItemContext2.Provider, {
           value: providerValue,
-          children: import_core72.isWeb && native ? bubbleInput : /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-            children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
+          children: import_core72.isWeb && native ? bubbleInput : /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+            children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
               ...rovingFocusGroupAttrs,
-              children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_RadioGroup3.RadioGroupItemFrame, {
+              children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_RadioGroup3.RadioGroupItemFrame, {
                 ...frameAttrs,
                 ref,
                 ...rest
@@ -57481,7 +57481,7 @@ var require_createRadioGroup = __commonJS({
           radioGroupItemContext: RadioGroupItemContext2,
           disabled
         });
-        return forceMount || checked ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Indicator, {
+        return forceMount || checked ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Indicator, {
           ...useIndicatorRest,
           ref: forwardedRef,
           ...indicatorProps
@@ -57778,7 +57778,7 @@ var require_context2 = __commonJS({
     });
     module2.exports = __toCommonJS2(context_exports);
     var import_core72 = require("@tamagui/core");
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var {
       Provider: SelectProvider2,
       useStyledContext: useSelectContext2
@@ -57791,11 +57791,11 @@ var require_context2 = __commonJS({
       context: context2,
       itemContext,
       children
-    }) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectProvider2, {
+    }) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectProvider2, {
       isInSheet: true,
       scope: context2.scopeName,
       ...context2,
-      children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectItemParentProvider2, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectItemParentProvider2, {
         scope: context2.scopeName,
         ...itemContext,
         children
@@ -57887,14 +57887,14 @@ var require_SelectContent = __commonJS({
     var import_react210 = __toESM2(require("react"));
     var import_context11 = require_context2();
     var import_useSelectBreakpointActive3 = require_useSelectBreakpointActive();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SelectContent2 = /* @__PURE__ */ __name(({
       children,
       scope,
       zIndex: zIndex2 = 1e3,
       ...focusScopeProps
     }) => {
-      const context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), themeName = (0, import_core72.useThemeName)(), showSheet = (0, import_useSelectBreakpointActive3.useShowSelectSheet)(context2), contents = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.Theme, {
+      const context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), themeName = (0, import_core72.useThemeName)(), showSheet = (0, import_useSelectBreakpointActive3.useShowSelectSheet)(context2), contents = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.Theme, {
         forceClassName: true,
         name: themeName,
         children
@@ -57902,15 +57902,15 @@ var require_SelectContent = __commonJS({
         zIndex: zIndex2,
         pointerEvents: context2.open ? "auto" : "none"
       }), [context2.open]);
-      return itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      return itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children
-      }) : showSheet ? context2.open ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }) : showSheet ? context2.open ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children: contents
-      }) : null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react126.FloatingPortal, {
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react126.FloatingOverlay, {
+      }) : null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react126.FloatingPortal, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react126.FloatingOverlay, {
           style: overlayStyle,
           lockScroll: !context2.disablePreventBodyScroll && !!context2.open && !touch,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_focus_scope5.FocusScope, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_focus_scope5.FocusScope, {
             loop: true,
             enabled: !!context2.open,
             trapped: true,
@@ -58015,7 +58015,7 @@ var require_SelectImpl = __commonJS({
     var import_react_dom9 = require("react-dom");
     var import_constants210 = require_constants5();
     var import_context11 = require_context2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SelectInlineImpl2 = /* @__PURE__ */ __name((props) => {
       const {
         scope,
@@ -58190,7 +58190,7 @@ var require_SelectImpl = __commonJS({
         });
       }, [open, fallback, selectedIndex]), (0, import_constants57.useIsomorphicLayoutEffect)(() => {
         refs.floating.current && fallback && (refs.floating.current.style.maxHeight = "");
-      }, [refs, fallback]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.SelectProvider, {
+      }, [refs, fallback]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.SelectProvider, {
         scope,
         ...selectContext,
         setScrollTop,
@@ -58205,7 +58205,7 @@ var require_SelectImpl = __commonJS({
         upArrowRef,
         downArrowRef,
         update,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.SelectItemParentProvider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.SelectItemParentProvider, {
           scope,
           ...selectItemParentContext,
           allowMouseUpRef,
@@ -58270,7 +58270,7 @@ var require_SelectItem = __commonJS({
     var import_core72 = require("@tamagui/core");
     var React93 = __toESM2(require("react"));
     var import_context11 = require_context2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ITEM_NAME4 = "SelectItem";
     var {
       Provider: SelectItemContextProvider2,
@@ -58345,15 +58345,15 @@ var require_SelectItem = __commonJS({
       }) : {
         onPress: handleSelect
       }, [handleSelect]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectItemContextProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectItemContextProvider2, {
         scope,
         value,
         textId: textId || "",
         isSelected,
-        children: shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("option", {
+        children: shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("option", {
           value,
           children: props.children
-        }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_list_item4.ListItemFrame, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_list_item4.ListItemFrame, {
           tag: "div",
           componentName: ITEM_NAME4,
           ref: composedRefs,
@@ -58436,7 +58436,7 @@ var require_SelectItemText = __commonJS({
     var React93 = __toESM2(require("react"));
     var import_context11 = require_context2();
     var import_SelectItem3 = require_SelectItem();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var ITEM_TEXT_NAME2 = "SelectItemText";
     var SelectItemTextFrame2 = (0, import_core72.styled)(import_text11.SizableText, {
       name: ITEM_TEXT_NAME2,
@@ -58459,7 +58459,7 @@ var require_SelectItemText = __commonJS({
         className,
         ...itemTextProps
       } = props, context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), ref = React93.useRef(null), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, ref), itemContext = (0, import_SelectItem3.useSelectItemContext)(scope), contents = React93.useRef(null);
-      return contents.current = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectItemTextFrame2, {
+      return contents.current = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectItemTextFrame2, {
         className,
         size: itemParentContext.size,
         id: itemContext.textId,
@@ -58469,9 +58469,9 @@ var require_SelectItemText = __commonJS({
         itemParentContext.initialValue === itemContext.value && !context2.selectedIndex && context2.setSelectedItem(contents.current);
       }, []), (0, import_core72.useIsomorphicLayoutEffect)(() => itemParentContext.valueSubscribe((val) => {
         val === itemContext.value && context2.setSelectedItem(contents.current);
-      }), [itemContext.value]), itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }), [itemContext.value]), itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children: props.children
-      }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children: contents.current
       });
     });
@@ -58526,9 +58526,9 @@ var require_SelectScrollButton = __commonJS({
     var React93 = __toESM2(require("react"));
     var import_react_dom9 = require("react-dom");
     var import_context11 = require_context2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SCROLL_UP_BUTTON_NAME2 = "SelectScrollUpButton";
-    var SelectScrollUpButton2 = React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectScrollButtonImpl2, {
+    var SelectScrollUpButton2 = React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectScrollButtonImpl2, {
       componentName: SCROLL_UP_BUTTON_NAME2,
       ...props,
       dir: "up",
@@ -58536,7 +58536,7 @@ var require_SelectScrollButton = __commonJS({
     }));
     SelectScrollUpButton2.displayName = SCROLL_UP_BUTTON_NAME2;
     var SCROLL_DOWN_BUTTON_NAME2 = "SelectScrollDownButton";
-    var SelectScrollDownButton2 = React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectScrollButtonImpl2, {
+    var SelectScrollDownButton2 = React93.forwardRef((props, forwardedRef) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectScrollButtonImpl2, {
       componentName: SCROLL_DOWN_BUTTON_NAME2,
       ...props,
       dir: "down",
@@ -58580,7 +58580,7 @@ var require_SelectScrollButton = __commonJS({
         const floating = floatingRef;
         floating && (fallback ? floating.current && (floating.current.scrollTop -= amount, (0, import_react_dom9.flushSync)(() => setScrollTop(floating.current?.scrollTop ?? 0))) : (0, import_react_dom9.flushSync)(() => setInnerOffset((value) => value - amount)));
       }, "onScroll");
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
         ref: composedRef,
         componentName,
         "aria-hidden": true,
@@ -58659,7 +58659,7 @@ var require_SelectTrigger = __commonJS({
     var import_list_item4 = require_cjs54();
     var React93 = __toESM2(require("react"));
     var import_context11 = require_context2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TRIGGER_NAME6 = "SelectTrigger";
     var isPointerCoarse2 = import_core72.isWeb && import_core72.isClient ? window.matchMedia("(pointer:coarse)").matches : true;
     var SelectTrigger2 = React93.forwardRef(function(props, forwardedRef) {
@@ -58669,7 +58669,7 @@ var require_SelectTrigger = __commonJS({
         unstyled = false,
         ...triggerProps
       } = props, context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.floatingContext?.refs.setReference);
-      return itemParentContext.shouldRenderWebNative ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_list_item4.ListItem, {
+      return itemParentContext.shouldRenderWebNative ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_list_item4.ListItem, {
         componentName: TRIGGER_NAME6,
         unstyled,
         tag: "button",
@@ -58756,7 +58756,7 @@ var require_SelectViewport = __commonJS({
     var import_constants210 = require_constants5();
     var import_context11 = require_context2();
     var import_portal12 = require_cjs24();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SelectViewportFrame2 = (0, import_core72.styled)(import_stacks31.ThemeableStack, {
       name: import_constants210.VIEWPORT_NAME,
       variants: {
@@ -58796,16 +58796,16 @@ var require_SelectViewport = __commonJS({
       );
       if ((0, import_constants57.useIsomorphicLayoutEffect)(() => {
         context2.update && context2.update();
-      }, [isAdapted]), itemContext.shouldRenderWebNative) return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+      }, [isAdapted]), itemContext.shouldRenderWebNative) return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
         children
       });
       if (isAdapted || !import_constants57.isWeb) {
         let content = children;
-        return needsRepropagation4 && (content = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.ForwardSelectContext, {
+        return needsRepropagation4 && (content = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.ForwardSelectContext, {
           itemContext,
           context: context2,
           children: content
-        })), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptPortalContents, {
+        })), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptPortalContents, {
           scope: context2.adaptScope,
           children: content
         });
@@ -58817,16 +58817,16 @@ var require_SelectViewport = __commonJS({
         className,
         ...floatingProps
       } = itemContext.interactions.getFloatingProps();
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_jsx_runtime159.Fragment, {
-        children: [!disableScroll && !props.unstyled && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("style", {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_jsx_runtime160.Fragment, {
+        children: [!disableScroll && !props.unstyled && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("style", {
           dangerouslySetInnerHTML: {
             __html: selectViewportCSS2
           }
-        }), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_animate_presence10.AnimatePresence, {
-          children: context2.open ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react126.FloatingFocusManager, {
+        }), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_animate_presence10.AnimatePresence, {
+          children: context2.open ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react126.FloatingFocusManager, {
             context: context2.floatingContext,
             modal: false,
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectViewportFrame2, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectViewportFrame2, {
               size: itemContext.size,
               role: "presentation",
               ...viewportProps,
@@ -58839,7 +58839,7 @@ var require_SelectViewport = __commonJS({
               children
             }, "select-viewport")
           }) : null
-        }), !context2.open && /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("div", {
+        }), !context2.open && /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("div", {
           style: {
             display: "none"
           },
@@ -58930,7 +58930,7 @@ var require_Select = __commonJS({
     var import_SelectTrigger2 = require_SelectTrigger();
     var import_SelectViewport2 = require_SelectViewport();
     var import_useSelectBreakpointActive3 = require_useSelectBreakpointActive();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var VALUE_NAME2 = "SelectValue";
     var SelectValueFrame2 = (0, import_core72.styled)(import_text11.SizableText, {
       name: VALUE_NAME2,
@@ -58943,7 +58943,7 @@ var require_Select = __commonJS({
       ...props
     }, forwardedRef) {
       const context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, context2.onValueNodeChange), children = childrenProp ?? context2.selectedItem, selectValueChildren = context2.value == null || context2.value === "" ? placeholder ?? children : children;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectValueFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectValueFrame2, {
         ...!props.unstyled && {
           size: itemParentContext.size,
           ellipse: true,
@@ -58970,7 +58970,7 @@ var require_Select = __commonJS({
       name: "SelectIcon",
       // @ts-ignore
       "aria-hidden": true,
-      children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_text11.Paragraph, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_text11.Paragraph, {
         children: "\u25BC"
       })
     });
@@ -58982,7 +58982,7 @@ var require_Select = __commonJS({
         scope,
         ...itemIndicatorProps
       } = props, context2 = (0, import_context11.useSelectItemParentContext)(scope), itemContext = (0, import_SelectItem3.useSelectItemContext)(scope);
-      return context2.shouldRenderWebNative ? null : itemContext.isSelected ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectItemIndicatorFrame2, {
+      return context2.shouldRenderWebNative ? null : itemContext.isSelected ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectItemIndicatorFrame2, {
         "aria-hidden": true,
         ...itemIndicatorProps,
         ref: forwardedRef
@@ -59039,12 +59039,12 @@ var require_Select = __commonJS({
       const {
         scope,
         ...groupProps
-      } = props, groupId = React93.useId(), context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), size6 = itemParentContext.size ?? "$true", nativeSelectRef = React93.useRef(null), content = itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(NativeSelectFrame2, {
+      } = props, groupId = React93.useId(), context2 = (0, import_context11.useSelectContext)(scope), itemParentContext = (0, import_context11.useSelectItemParentContext)(scope), size6 = itemParentContext.size ?? "$true", nativeSelectRef = React93.useRef(null), content = itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(NativeSelectFrame2, {
         asChild: true,
         size: size6,
         value: context2.value,
         id: itemParentContext.id,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(NativeSelectTextFrame2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(NativeSelectTextFrame2, {
           onChange: /* @__PURE__ */ __name((event) => {
             itemParentContext.onChange(event.currentTarget.value);
           }, "onChange"),
@@ -59057,13 +59057,13 @@ var require_Select = __commonJS({
           },
           children: props.children
         })
-      }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectGroupFrame2, {
+      }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectGroupFrame2, {
         role: "group",
         "aria-labelledby": groupId,
         ...groupProps,
         ref: forwardedRef
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectGroupContextProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectGroupContextProvider2, {
         scope,
         id: groupId || "",
         children: content
@@ -59076,7 +59076,7 @@ var require_Select = __commonJS({
         scope,
         ...labelProps
       } = props, context2 = (0, import_context11.useSelectItemParentContext)(scope), groupContext = useSelectGroupContext2(scope);
-      return context2.shouldRenderWebNative ? null : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_list_item4.ListItem, {
+      return context2.shouldRenderWebNative ? null : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_list_item4.ListItem, {
         tag: "div",
         componentName: LABEL_NAME2,
         fontWeight: "800",
@@ -59092,7 +59092,7 @@ var require_Select = __commonJS({
     });
     var SelectSheetController2 = /* @__PURE__ */ __name((props) => {
       const context2 = (0, import_context11.useSelectContext)(props.scope), showSheet = (0, import_useSelectBreakpointActive3.useShowSelectSheet)(context2), isAdapted = (0, import_adapt6.useAdaptIsActive)(context2.adaptScope), getShowSheet = (0, import_core72.useGet)(showSheet);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_sheet4.SheetController, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_sheet4.SheetController, {
         onOpenChange: /* @__PURE__ */ __name((val) => {
           getShowSheet() && props.onOpenChange(val);
         }, "onOpenChange"),
@@ -59101,15 +59101,15 @@ var require_Select = __commonJS({
         children: props.children
       });
     }, "SelectSheetController");
-    var SelectSheetImpl2 = /* @__PURE__ */ __name((props) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_jsx_runtime159.Fragment, {
+    var SelectSheetImpl2 = /* @__PURE__ */ __name((props) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_jsx_runtime160.Fragment, {
       children: props.children
     }), "SelectSheetImpl");
     var Select3 = (0, import_helpers38.withStaticProperties)(function(props) {
       const adaptScope = `AdaptSelect${props.scope || ""}`;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_adapt6.AdaptParent, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_adapt6.AdaptParent, {
         scope: adaptScope,
         portal: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectInner2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectInner2, {
           scope: props.scope,
           adaptScope,
           ...props
@@ -59182,7 +59182,7 @@ var require_Select = __commonJS({
       const shouldRenderWebNative = import_constants57.isWeb && (native === true || native === "web" || Array.isArray(native) && native.includes("web")), setActiveIndexDebounced = (0, import_use_debounce2.useDebounce)((index4) => {
         setActiveIndex((prev) => prev !== index4 ? (typeof index4 == "number" && emitActiveIndex(index4), index4) : prev);
       }, 1, {}, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.SelectItemParentProvider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.SelectItemParentProvider, {
         scopeName: scope,
         scope,
         adaptScope,
@@ -59203,7 +59203,7 @@ var require_Select = __commonJS({
           listContentRef.current[index4] = value2;
         }, []),
         shouldRenderWebNative,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_context11.SelectProvider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_context11.SelectProvider, {
           scope,
           scopeName: scope,
           adaptScope,
@@ -59222,10 +59222,10 @@ var require_Select = __commonJS({
           value,
           open,
           native,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectSheetController2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectSheetController2, {
             onOpenChange: setOpen,
             scope,
-            children: shouldRenderWebNative ? children : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SelectImpl, {
+            children: shouldRenderWebNative ? children : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SelectImpl, {
               activeIndexRef,
               listContentRef,
               selectedIndexRef,
@@ -59476,7 +59476,7 @@ var require_SliderImpl = __commonJS({
     var import_stacks31 = require_cjs18();
     var React93 = __toESM2(require("react"));
     var import_constants210 = require_constants6();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SliderFrame2 = (0, import_core72.styled)(import_stacks31.YStack, {
       position: "relative",
       variants: {
@@ -59510,7 +59510,7 @@ var require_SliderImpl = __commonJS({
         onStepKeyDown,
         ...sliderProps
       } = props, context2 = (0, import_constants210.useSliderContext)(__scopeSlider);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SliderFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SliderFrame2, {
         size: "$4",
         ...sliderProps,
         "data-orientation": sliderProps.orientation,
@@ -59604,7 +59604,7 @@ var require_Slider = __commonJS({
     var import_constants210 = require_constants6();
     var import_helpers39 = require_helpers4();
     var import_SliderImpl3 = require_SliderImpl();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var activeSliderMeasureListeners2 = /* @__PURE__ */ new Set();
     import_constants57.isWeb && import_constants57.isClient && (process.env.TAMAGUI_DISABLE_SLIDER_INTERVAL || setInterval?.(
       () => {
@@ -59659,14 +59659,14 @@ var require_Slider = __commonJS({
         return io.observe(node), () => {
           activeSliderMeasureListeners2.delete(debouncedMeasure), io.disconnect();
         };
-      }, [])), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_constants210.SliderOrientationProvider, {
+      }, [])), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_constants210.SliderOrientationProvider, {
         scope: props.__scopeSlider,
         startEdge: isDirectionLTR ? "left" : "right",
         endEdge: isDirectionLTR ? "right" : "left",
         direction: isDirectionLTR ? 1 : -1,
         sizeProp: "width",
         size: state.size,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_SliderImpl3.SliderImpl, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_SliderImpl3.SliderImpl, {
           ref: (0, import_compose_refs28.composeRefs)(forwardedRef, sliderRef),
           dir: direction,
           ...sliderProps,
@@ -59732,14 +59732,14 @@ var require_Slider = __commonJS({
           });
         });
       }, "measure");
-      return import_constants57.isClient && useOnDebouncedWindowResize2(measure), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_constants210.SliderOrientationProvider, {
+      return import_constants57.isClient && useOnDebouncedWindowResize2(measure), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_constants210.SliderOrientationProvider, {
         scope: props.__scopeSlider,
         startEdge: "bottom",
         endEdge: "top",
         sizeProp: "height",
         size: state.size,
         direction: 1,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_SliderImpl3.SliderImpl, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_SliderImpl3.SliderImpl, {
           ref: (0, import_compose_refs28.composeRefs)(forwardedRef, sliderRef),
           ...sliderProps,
           orientation: "vertical",
@@ -59790,7 +59790,7 @@ var require_Slider = __commonJS({
         __scopeSlider,
         ...trackProps
       } = props, context2 = (0, import_constants210.useSliderContext)(__scopeSlider);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SliderTrackFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SliderTrackFrame2, {
         "data-disabled": context2.disabled ? "" : void 0,
         "data-orientation": context2.orientation,
         orientation: context2.orientation,
@@ -59812,7 +59812,7 @@ var require_Slider = __commonJS({
         __scopeSlider,
         ...rangeProps
       } = props, context2 = (0, import_constants210.useSliderContext)(__scopeSlider), orientation = (0, import_constants210.useSliderOrientationContext)(__scopeSlider), ref = React93.useRef(null), composedRefs = (0, import_compose_refs28.useComposedRefs)(forwardedRef, ref), valuesCount = context2.values.length, percentages = context2.values.map((value) => (0, import_helpers39.convertValueToPercentage)(value, context2.min, context2.max)), offsetStart = valuesCount > 1 ? Math.min(...percentages) : 0, offsetEnd = 100 - Math.max(...percentages);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SliderTrackActiveFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SliderTrackActiveFrame2, {
         orientation: context2.orientation,
         "data-orientation": context2.orientation,
         "data-disabled": context2.disabled ? "" : void 0,
@@ -59894,7 +59894,7 @@ var require_Slider = __commonJS({
           right: "auto"
         }
       };
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SliderThumbFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SliderThumbFrame2, {
         ref: composedRefs,
         role: "slider",
         "aria-label": props["aria-label"] || label,
@@ -59981,7 +59981,7 @@ var require_Slider = __commonJS({
       }
       __name(updateValues, "updateValues");
       const SliderOriented = isHorizontal ? SliderHorizontal2 : SliderVertical2;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_constants210.SliderProvider, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_constants210.SliderProvider, {
         scope: props.__scopeSlider,
         disabled,
         min: min2,
@@ -59991,7 +59991,7 @@ var require_Slider = __commonJS({
         values,
         orientation,
         size: sizeProp,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(SliderOriented, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(SliderOriented, {
           "aria-disabled": disabled,
           "data-disabled": disabled ? "" : void 0,
           ...sliderProps,
@@ -60116,7 +60116,7 @@ var require_useSwitch = __commonJS({
     var import_label4 = require_cjs46();
     var import_use_previous4 = require_cjs47();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = (
+    var import_jsx_runtime160 = (
       // @ts-ignore
       require("react/jsx-runtime")
     );
@@ -60139,7 +60139,7 @@ var require_useSwitch = __commonJS({
           });
           setChecked.call(input, checked), input.dispatchEvent(event);
         }
-      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)("input", {
+      }, [prevChecked, checked, bubbles]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("input", {
         type: "checkbox",
         "aria-hidden": true,
         defaultChecked: checked,
@@ -60182,7 +60182,7 @@ var require_useSwitch = __commonJS({
           /**
            * insert as a sibling of your switch (should not be inside the switch)
            */
-          bubbleInput: import_constants57.isWeb && isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(BubbleInput4, {
+          bubbleInput: import_constants57.isWeb && isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(BubbleInput4, {
             control: button,
             bubbles: !hasConsumerStoppedPropagationRef.current,
             name: name2,
@@ -60408,10 +60408,10 @@ var require_createSwitch = __commonJS({
     var import_switch_headless2 = require_cjs67();
     var import_use_controllable_state20 = require_cjs12();
     var React93 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_StyledContext3 = require_StyledContext();
     var import_Switch3 = require_Switch2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var SwitchContext2 = React93.createContext({
       checked: false,
       disabled: false,
@@ -60438,7 +60438,7 @@ var require_createSwitch = __commonJS({
           unstyled: unstyledContext,
           size: sizeContext
         } = styledContext, unstyled = process.env.TAMAGUI_HEADLESS === "1" ? true : unstyledProp ?? unstyledContext ?? false, size6 = sizeProp ?? sizeContext ?? "$true", initialChecked = React93.useRef(checked).current, initialWidth = (0, import_core72.getVariableValue)(props.width, "size"), [thumbWidth, setThumbWidth] = React93.useState(typeof initialWidth == "number" ? initialWidth : 0), distance = frameWidth - thumbWidth, x4 = initialChecked ? checked ? 0 : -distance : checked ? distance : 0;
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Thumb2, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Thumb2, {
           ref: forwardedRef,
           unstyled,
           ...unstyled === false && {
@@ -60488,7 +60488,7 @@ var require_createSwitch = __commonJS({
           // @ts-ignore TODO tamagui react 19 type error
           forwardedRef
         ), renderNative = (0, import_core72.shouldRenderNativePlatform)(native);
-        if (renderNative === "android" || renderNative === "ios") return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.Switch, {
+        if (renderNative === "android" || renderNative === "ios") return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.Switch, {
           value: checked,
           onValueChange: setChecked,
           ...nativeProps
@@ -60501,9 +60501,9 @@ var require_createSwitch = __commonJS({
           const next = e6.nativeEvent.layout.width;
           next !== frameWidth && setFrameInnerWidth(next);
         }, "handleLayout"), unstyled = styledContext.unstyled ?? props.unstyled ?? false;
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(SwitchContext2.Provider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(SwitchContext2.Provider, {
           value,
-          children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Frame2, {
+          children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(Frame2, {
             ref: switchRef,
             tag: "button",
             ...import_core72.isWeb && {
@@ -60520,7 +60520,7 @@ var require_createSwitch = __commonJS({
             },
             checked,
             disabled,
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.View, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.View, {
               style: measureContainerStyle2,
               onLayout: handleLayout,
               children: frameWidth ? props.children : null
@@ -60765,7 +60765,7 @@ var require_createTabs = __commonJS({
     var React93 = __toESM2(require("react"));
     var import_Tabs3 = require_Tabs();
     var import_StyledContext3 = require_StyledContext2();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     function createTabs2(createProps) {
       const {
         ContentFrame = import_Tabs3.DefaultTabsContentFrame,
@@ -60778,13 +60778,13 @@ var require_createTabs = __commonJS({
           children,
           ...listProps
         } = props, context2 = (0, import_StyledContext3.useTabsContext)(__scopeTabs);
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup, {
           __scopeRovingFocusGroup: __scopeTabs || TABS_CONTEXT,
           orientation: context2.orientation,
           dir: context2.dir,
           loop,
           asChild: true,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_group3.Group, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_group3.Group, {
             role: "tablist",
             componentName: TAB_LIST_NAME,
             "aria-orientation": context2.orientation,
@@ -60825,14 +60825,14 @@ var require_createTabs = __commonJS({
           };
         }, [context2.triggersCount]), React93.useEffect(() => {
           isSelected && layout && onInteraction?.("select", layout);
-        }, [isSelected, value, layout]), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_web25.Theme, {
+        }, [isSelected, value, layout]), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_web25.Theme, {
           name: isSelected && !disableActiveTheme ? "active" : null,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
             __scopeRovingFocusGroup: __scopeTabs || TABS_CONTEXT,
             asChild: true,
             focusable: !disabled,
             active: isSelected,
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(TabFrame, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(TabFrame, {
               onLayout: /* @__PURE__ */ __name((event) => {
                 import_constants57.isWeb || setLayout(event.nativeEvent.layout);
               }, "onLayout"),
@@ -60889,7 +60889,7 @@ var require_createTabs = __commonJS({
           children,
           ...contentProps
         } = props, context2 = (0, import_StyledContext3.useTabsContext)(__scopeTabs), isSelected = value === context2.value, show = forceMount || isSelected, triggerId = makeTriggerId2(context2.baseId, value), contentId = makeContentId2(context2.baseId, value);
-        return show ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ContentFrame, {
+        return show ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ContentFrame, {
           "data-state": isSelected ? "active" : "inactive",
           "data-orientation": context2.orientation,
           role: "tabpanel",
@@ -60917,7 +60917,7 @@ var require_createTabs = __commonJS({
           onChange: onValueChange,
           defaultProp: defaultValue2 ?? ""
         }), [triggersCount, setTriggersCount] = React93.useState(0), registerTrigger = (0, import_web25.useEvent)(() => setTriggersCount((v4) => v4 + 1)), unregisterTrigger = (0, import_web25.useEvent)(() => setTriggersCount((v4) => v4 - 1));
-        return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_StyledContext3.TabsProvider, {
+        return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_StyledContext3.TabsProvider, {
           scope: __scopeTabs,
           baseId: React93.useId(),
           value,
@@ -60929,7 +60929,7 @@ var require_createTabs = __commonJS({
           registerTrigger,
           triggersCount,
           unregisterTrigger,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(TabsFrame, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(TabsFrame, {
             direction,
             "data-orientation": orientation,
             ...tabsProps,
@@ -61349,7 +61349,7 @@ var require_Toggle = __commonJS({
     var import_use_controllable_state20 = require_cjs12();
     var import_web25 = require("@tamagui/core");
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var context2 = (0, import_web25.createStyledContext)({
       color: ""
     });
@@ -61426,7 +61426,7 @@ var require_Toggle = __commonJS({
         onChange: onPressedChange,
         defaultProp: defaultPressed
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleFrame2, {
         ...!props.unstyled && {
           theme: pressed ? "active" : null,
           themeShallow: true
@@ -61499,7 +61499,7 @@ var require_ToggleGroup = __commonJS({
     var import_web25 = require("@tamagui/core");
     var import_react126 = __toESM2(require("react"));
     var import_Toggle2 = require_Toggle();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TOGGLE_GROUP_NAME2 = "ToggleGroup";
     var TOGGLE_GROUP_ITEM_NAME2 = "ToggleGroupItem";
     var TOGGLE_GROUP_CONTEXT2 = "ToggleGroup";
@@ -61532,16 +61532,16 @@ var require_ToggleGroup = __commonJS({
         ...sizeProps,
         ...rest,
         children
-      }, inner3 = /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupItemImpl2, {
+      }, inner3 = /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupItemImpl2, {
         ...commonProps,
         ref: forwardedRef,
         tabIndex: disabled ? -1 : 0,
         disabled,
         ...groupItemProps
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupItemProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupItemProvider2, {
         scope: props.__scopeToggleGroup,
-        children: context2.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
+        children: context2.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup.Item, {
           asChild: "except-style",
           __scopeRovingFocusGroup: props.__scopeToggleGroup || TOGGLE_GROUP_CONTEXT2,
           focusable: !disabled,
@@ -61559,7 +61559,7 @@ var require_ToggleGroup = __commonJS({
       } = props, valueContext = useToggleGroupValueContext2(__scopeToggleGroup), singleProps = {
         "aria-pressed": void 0
       }, typeProps = valueContext.type === "single" ? singleProps : void 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_Toggle2.Toggle, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_Toggle2.Toggle, {
         ...typeProps,
         ...itemProps,
         ref: forwardedRef,
@@ -61580,11 +61580,11 @@ var require_ToggleGroup = __commonJS({
           focus: /* @__PURE__ */ __name(() => {
           }, "focus")
         });
-      }, [props.id]), type === "single") return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImplSingle2, {
+      }, [props.id]), type === "single") return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImplSingle2, {
         ...toggleGroupProps,
         ref: forwardedRef
       });
-      if (type === "multiple") return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImplMultiple2, {
+      if (type === "multiple") return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImplMultiple2, {
         ...toggleGroupProps,
         ref: forwardedRef
       });
@@ -61610,14 +61610,14 @@ var require_ToggleGroup = __commonJS({
         defaultProp: defaultValue2,
         onChange: onValueChange
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupValueProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupValueProvider2, {
         scope: props.__scopeToggleGroup,
         type: "single",
         value: value ? [value] : [],
         defaultValue: value,
         onItemActivate: setValue,
         onItemDeactivate: import_react126.default.useCallback(() => disableDeactivation ? null : setValue(""), [setValue, disableDeactivation]),
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImpl2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImpl2, {
           ...toggleGroupSingleProps,
           ref: forwardedRef
         })
@@ -61636,14 +61636,14 @@ var require_ToggleGroup = __commonJS({
         defaultProp: defaultValue2,
         onChange: onValueChange
       }), handleButtonActivate = import_react126.default.useCallback((itemValue) => setValue((prevValue = []) => [...prevValue, itemValue]), [setValue]), handleButtonDeactivate = import_react126.default.useCallback((itemValue) => setValue((prevValue = []) => prevValue.filter((value2) => value2 !== itemValue)), [setValue]);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupValueProvider2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupValueProvider2, {
         scope: props.__scopeToggleGroup,
         type: "multiple",
         value,
         defaultValue: value,
         onItemActivate: handleButtonActivate,
         onItemDeactivate: handleButtonDeactivate,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImpl2, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImpl2, {
           ...toggleGroupMultipleProps,
           ref: forwardedRef
         })
@@ -61692,18 +61692,18 @@ var require_ToggleGroup = __commonJS({
       }, adjustedSize = (0, import_web25.getVariableValue)((0, import_get_token16.getSize)(sizeProp, {
         shift: sizeAdjust
       })), size6 = Math.round(adjustedSize * 0.45);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupContext2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupContext2, {
         scope: __scopeToggleGroup,
         rovingFocus,
         disabled,
         size: size6,
-        children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_roving_focus4.RovingFocusGroup, {
+        children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_roving_focus4.RovingFocusGroup, {
           asChild: "except-style",
           __scopeRovingFocusGroup: __scopeToggleGroup || TOGGLE_GROUP_CONTEXT2,
           orientation,
           dir: direction,
           loop,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImplElementFrame2, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImplElementFrame2, {
             "aria-orientation": orientation,
             orientation,
             axis: orientation,
@@ -61712,7 +61712,7 @@ var require_ToggleGroup = __commonJS({
             unstyled,
             ...commonProps
           })
-        }) : /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(ToggleGroupImplElementFrame2, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(ToggleGroupImplElementFrame2, {
           "aria-orientation": orientation,
           ref: forwardedRef,
           orientation,
@@ -61802,11 +61802,11 @@ var require_Tooltip = __commonJS({
     var import_popper3 = require_cjs57();
     var import_use_controllable_state20 = require_cjs12();
     var React93 = __toESM2(require("react"));
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TOOLTIP_SCOPE2 = "";
     var TooltipContent2 = import_popper3.PopperContentFrame.extractable(React93.forwardRef((props, ref) => {
       const preventAnimation = React93.useContext(PreventTooltipAnimationContext2);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popover2.PopoverContent, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popover2.PopoverContent, {
         scope: props.scope || TOOLTIP_SCOPE2,
         componentName: "Tooltip",
         disableFocusScope: true,
@@ -61820,7 +61820,7 @@ var require_Tooltip = __commonJS({
         }
       });
     }));
-    var TooltipArrow2 = React93.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popover2.PopoverArrow, {
+    var TooltipArrow2 = React93.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popover2.PopoverArrow, {
       scope: props.scope || TOOLTIP_SCOPE2,
       componentName: "Tooltip",
       ref,
@@ -61832,9 +61832,9 @@ var require_Tooltip = __commonJS({
       delay,
       preventAnimation = false,
       timeoutMs
-    }) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(PreventTooltipAnimationContext2.Provider, {
+    }) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(PreventTooltipAnimationContext2.Provider, {
       value: preventAnimation,
-      children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react126.FloatingDelayGroup, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react126.FloatingDelayGroup, {
         timeoutMs,
         delay: React93.useMemo(() => delay, [JSON.stringify(delay)]),
         children
@@ -61904,16 +61904,16 @@ var require_Tooltip = __commonJS({
       });
       return (
         // TODO: FloatingOverrideContext might also need to be scoped
-        /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_floating4.FloatingOverrideContext.Provider, {
+        /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_floating4.FloatingOverrideContext.Provider, {
           value: useFloatingContext2,
-          children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popper3.Popper, {
+          children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popper3.Popper, {
             scope,
             size: smallerSize?.key,
             allowFlip: true,
             stayInFrame: true,
             open,
             ...restProps,
-            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popover2.PopoverContext.Provider, {
+            children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popover2.PopoverContext.Provider, {
               popoverScope: scope,
               scope,
               contentId,
@@ -61935,7 +61935,7 @@ var require_Tooltip = __commonJS({
         scope,
         ...rest
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popover2.PopoverTrigger, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popover2.PopoverTrigger, {
         ...rest,
         scope: scope || TOOLTIP_SCOPE2,
         ref
@@ -61946,7 +61946,7 @@ var require_Tooltip = __commonJS({
         scope,
         ...rest
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_popover2.PopoverAnchor, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_popover2.PopoverAnchor, {
         ...rest,
         scope: scope || TOOLTIP_SCOPE2,
         ref
@@ -62008,7 +62008,7 @@ var require_TooltipSimple = __commonJS({
     var import_text11 = require_cjs20();
     var React93 = __toESM2(require("react"));
     var import_Tooltip2 = require_Tooltip();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TooltipSimple2 = React93.forwardRef(({
       label,
       children,
@@ -62017,7 +62017,7 @@ var require_TooltipSimple = __commonJS({
       ...tooltipProps
     }, ref) => {
       const child = React93.Children.only(children);
-      return label ? /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_Tooltip2.Tooltip, {
+      return label ? /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_Tooltip2.Tooltip, {
         disableRTL: true,
         offset: 15,
         restMs: 40,
@@ -62026,7 +62026,7 @@ var require_TooltipSimple = __commonJS({
         ...disabled ? {
           open: false
         } : null,
-        children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_Tooltip2.Tooltip.Trigger, {
+        children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_Tooltip2.Tooltip.Trigger, {
           ...typeof label == "string" && {
             "aria-label": label
           },
@@ -62034,7 +62034,7 @@ var require_TooltipSimple = __commonJS({
           children: ref && React93.isValidElement(child) ? React93.cloneElement(child, {
             ref
           }) : child
-        }), /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(import_Tooltip2.Tooltip.Content, {
+        }), /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)(import_Tooltip2.Tooltip.Content, {
           zIndex: 1e9,
           enterStyle: {
             x: 0,
@@ -62064,7 +62064,7 @@ var require_TooltipSimple = __commonJS({
             }
           }],
           ...contentProps,
-          children: [/* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_Tooltip2.Tooltip.Arrow, {}), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_text11.Paragraph, {
+          children: [/* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_Tooltip2.Tooltip.Arrow, {}), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_text11.Paragraph, {
             size: "$3",
             children: label
           })]
@@ -62476,15 +62476,15 @@ var require_TamaguiProvider = __commonJS({
     var import_core72 = require("@tamagui/core");
     var import_portal12 = require_cjs24();
     var import_z_index_stack7 = require_cjs23();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TamaguiProvider2 = /* @__PURE__ */ __name(({
       children,
       ...props
-    }) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_core72.TamaguiProvider, {
+    }) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_core72.TamaguiProvider, {
       ...props,
-      children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_z_index_stack7.ZIndexStackContext.Provider, {
+      children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_z_index_stack7.ZIndexStackContext.Provider, {
         value: 1,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_portal12.PortalProvider, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_portal12.PortalProvider, {
           shouldAddRootHost: true,
           children
         })
@@ -62524,8 +62524,8 @@ var require_Anchor = __commonJS({
     var import_constants57 = require_cjs2();
     var import_core72 = require("@tamagui/core");
     var import_text11 = require_cjs20();
-    var import_react_native19 = require_cjs();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_react_native21 = require_cjs();
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var AnchorFrame2 = (0, import_core72.styled)(import_text11.SizableText, {
       name: "Anchor",
       tag: "a",
@@ -62535,14 +62535,14 @@ var require_Anchor = __commonJS({
       href,
       target,
       ...props
-    }, ref) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(AnchorFrame2, {
+    }, ref) => /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(AnchorFrame2, {
       ...props,
       ...import_constants57.isWeb ? {
         href,
         target
       } : {
         onPress: /* @__PURE__ */ __name((event) => {
-          props.onPress?.(event), href !== void 0 && import_react_native19.Linking.openURL(href);
+          props.onPress?.(event), href !== void 0 && import_react_native21.Linking.openURL(href);
         }, "onPress")
       },
       ref
@@ -62753,9 +62753,9 @@ var require_Input = __commonJS({
     var import_constants57 = require_cjs2();
     var import_core72 = require("@tamagui/core");
     var import_focusable4 = require_cjs45();
-    var import_react_native19 = require_cjs();
+    var import_react_native21 = require_cjs();
     var import_inputHelpers3 = require_inputHelpers();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var defaultStyles2 = {
       size: "$true",
       fontFamily: "$body",
@@ -62783,7 +62783,7 @@ var require_Input = __commonJS({
         outlineStyle: "solid"
       }
     };
-    var InputFrame2 = (0, import_core72.styled)(import_react_native19.TextInput, {
+    var InputFrame2 = (0, import_core72.styled)(import_react_native21.TextInput, {
       name: "Input",
       variants: {
         unstyled: {
@@ -62808,7 +62808,7 @@ var require_Input = __commonJS({
     });
     var Input2 = InputFrame2.styleable((propsIn, forwardedRef) => {
       const ref = import_react126.default.useRef(null), composedRefs = (0, import_core72.useComposedRefs)(forwardedRef, ref), props = useInputProps2(propsIn, composedRefs);
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(InputFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(InputFrame2, {
         ...props
       });
     });
@@ -62877,8 +62877,8 @@ var require_Spinner = __commonJS({
     var import_core72 = require("@tamagui/core");
     var import_stacks31 = require_cjs18();
     var React93 = __toESM2(require("react"));
-    var import_react_native19 = require_cjs();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_react_native21 = require_cjs();
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var Spinner2 = import_stacks31.YStack.extractable((0, import_core72.themeable)(React93.forwardRef((props, ref) => {
       const {
         size: size6,
@@ -62886,10 +62886,10 @@ var require_Spinner = __commonJS({
         ...stackProps
       } = props, theme = (0, import_core72.useTheme)();
       let color = colorProp;
-      return color && color[0] === "$" && (color = (0, import_core72.variableToString)(theme[color])), /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_stacks31.YStack, {
+      return color && color[0] === "$" && (color = (0, import_core72.variableToString)(theme[color])), /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_stacks31.YStack, {
         ref,
         ...stackProps,
-        children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_react_native19.ActivityIndicator, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_react_native21.ActivityIndicator, {
           size: size6,
           color
         })
@@ -62947,7 +62947,7 @@ var require_TextArea = __commonJS({
     var import_core72 = require("@tamagui/core");
     var import_inputHelpers3 = require_inputHelpers();
     var import_Input2 = require_Input();
-    var import_jsx_runtime159 = require("react/jsx-runtime");
+    var import_jsx_runtime160 = require("react/jsx-runtime");
     var TextAreaFrame2 = (0, import_core72.styled)(import_Input2.InputFrame, {
       name: "TextArea",
       multiline: true,
@@ -62973,7 +62973,7 @@ var require_TextArea = __commonJS({
         // web uses rows now, but native not caught up :/
         [import_constants57.isWeb ? "rows" : "numberOfLines"]: propsIn.unstyled ? void 0 : 4
       };
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(TextAreaFrame2, {
+      return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(TextAreaFrame2, {
         ...linesProp,
         ...props
       });
@@ -63221,8 +63221,10 @@ __export(src_exports, {
   CartItem: () => CartItem,
   CartItemsShimmerLoader: () => CartItemsShimmerLoader,
   CartPage: () => CartPage,
+  CartSidebarShimmer: () => CartSidebarShimmer,
   CartSummary: () => CartSummary,
   CartSummaryShimmerLoader: () => CartSummaryShimmerLoader,
+  CategoryDialog: () => CategoryDialog,
   CategoryRail: () => CategoryRail,
   CategoryShimmerLoader: () => CategoryShimmerLoader,
   Checkbox: () => Checkbox,
@@ -67095,7 +67097,7 @@ function createSheet({
         shadowOpacity: 0
       })]
     });
-  })), Sheet2 = (0, import_react27.forwardRef)(function(props, ref) {
+  })), Sheet3 = (0, import_react27.forwardRef)(function(props, ref) {
     const hydrated = useDidFinishSSR(), {
       isShowingNonSheet
     } = useSheetController();
@@ -67109,8 +67111,8 @@ function createSheet({
     Overlay: SheetOverlay,
     Handle: SheetHandle,
     ScrollView: SheetScrollView
-  }, Controlled = withStaticProperties(Sheet2, components);
-  return withStaticProperties(Sheet2, {
+  }, Controlled = withStaticProperties(Sheet3, components);
+  return withStaticProperties(Sheet3, {
     ...components,
     Controlled
   });
@@ -86068,6 +86070,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     width: "100%",
     backgroundColor: background,
     borderBottomWidth: 0.5,
+    borderTopWidth: 0,
     borderBottomColor: border,
     paddingHorizontal: import_react_native7.Platform.OS === "web" ? 20 : 16,
     justifyContent: "space-between",
@@ -86080,7 +86083,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
     shadowOffset: import_react_native7.Platform.OS !== "web" ? { width: 0, height: 2 } : void 0,
     shadowOpacity: import_react_native7.Platform.OS !== "web" ? 0.1 : void 0,
     shadowRadius: import_react_native7.Platform.OS !== "web" ? 4 : void 0,
-    elevation: import_react_native7.Platform.OS === "android" ? 4 : void 0,
+    // elevation: Platform.OS === 'android' ? 4 : undefined,
     fontFamily: "Nunito"
   };
   const handleSignOut = /* @__PURE__ */ __name(async () => {
@@ -86430,7 +86433,8 @@ function SearchFood({
   onSearch,
   onVegToggle,
   initialQuery = "",
-  initialVegOnly = false
+  initialVegOnly = false,
+  isTitleVisible = true
 }) {
   const [searchQuery, setSearchQuery] = (0, import_react97.useState)(initialQuery);
   const [vegOnly, setVegOnly] = (0, import_react97.useState)(initialVegOnly);
@@ -86471,7 +86475,7 @@ function SearchFood({
     setVegOnly(initialVegOnly);
   }, [initialVegOnly]);
   return /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(YStack, { style: [styles.container, { width: getResponsiveWidth(), maxWidth: 600 }], children: [
-    /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text5, { style: styles.title, children: "Search Your Favorite Food" }),
+    isTitleVisible && /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Text5, { style: styles.title, children: "Search Your Favorite Food" }),
     /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(
       XStack,
       {
@@ -86548,7 +86552,7 @@ function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
         alignItems: "center",
         gap: 8,
         maxHeight: 250,
-        width: 150,
+        minWidth: 150,
         // Box shadow for React Native (mobile)
         shadowColor: "#AEAEC066",
         shadowOffset: { width: 10, height: 10 },
@@ -86562,7 +86566,7 @@ function CategoryCard({ imageUrl, name: name2, selected = false, onPress }) {
         cursor: "pointer"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Circle, { background: "white", size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Image, { source: { uri: imageUrl }, width: "100%", height: "100%", resizeMode: "cover" }) }) }),
         /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Text5, { fontSize: 16, fontWeight: "400", color: textColor, children: name2 }),
         /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(XStack, { children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(Circle, { size: 24, bg: selected || isHovered ? "white" : "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(ArrowRight, { size: 14, color: selected || isHovered ? "#FF9F0D" : "white" }) }) })
       ]
@@ -86574,13 +86578,8 @@ __name(CategoryCard, "CategoryCard");
 // ../../packages/ui/src/rails/CategoryRail.tsx
 var import_react99 = require("react");
 var import_jsx_runtime118 = require("react/jsx-runtime");
-function CategoryRail({ categories }) {
-  const [selectedId, setSelectedId] = (0, import_react99.useState)(null);
+function CategoryRail({ selectedId, categories, handleCardPress }) {
   const scrollViewRef = (0, import_react99.useRef)(null);
-  const handleCardPress = /* @__PURE__ */ __name((id) => {
-    setSelectedId(selectedId === id ? null : id);
-    console.log("Card pressed:", id);
-  }, "handleCardPress");
   const scrollLeft = /* @__PURE__ */ __name(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({
@@ -86655,13 +86654,13 @@ function CategoryRail({ categories }) {
         bounces: false,
         style: { height: 250, minHeight: 250, width: "100%" },
         contentContainerStyle: { paddingLeft: 20, paddingRight: 20 },
-        children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(XStack, { justify: "center", items: "center", gap: "$10", style: { paddingTop: 20, paddingBottom: 20 }, children: categories?.items?.map((category) => /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(XStack, { justify: "center", items: "center", gap: "$4", style: { paddingTop: 20, paddingBottom: 20 }, children: categories?.items?.map((category) => /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
           CategoryCard,
           {
             imageUrl: category.url,
             name: category.name,
-            selected: selectedId === category._id,
-            onPress: () => handleCardPress(category._id)
+            onPress: () => handleCardPress(category),
+            selected: selectedId === category._id
           },
           category._id
         )) })
@@ -86842,7 +86841,7 @@ __name(FoodCard, "FoodCard");
 var import_react102 = require("react");
 var import_react_native11 = require("@tamagui/react-native-web-lite");
 var import_jsx_runtime123 = require("react/jsx-runtime");
-function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
+function DeliveryDatePopup({ open, loading, onOpenChange, onSelect, item }) {
   const media2 = (0, import_core61.useMedia)();
   const initialSelected = (item?.days || []).map((d3) => ({
     day_name: d3.day.day,
@@ -86929,14 +86928,13 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
       added
       // array of {day_name, date, quantity}
     });
-    onOpenChange(false);
   }, "handleSelect");
   const formattedPrice = `$${item?.price?.toFixed(2)}`;
   if (import_react_native11.Platform.OS === "web") {
-    const { Dialog: Dialog2 } = require_cjs75();
-    return /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(Dialog2, { modal: true, open, onOpenChange, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(Dialog2.Portal, { children: [
+    const { Dialog: Dialog3 } = require_cjs75();
+    return /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(Dialog3, { modal: true, open, onOpenChange, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(Dialog3.Portal, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
-        Dialog2.Overlay,
+        Dialog3.Overlay,
         {
           backgroundColor: "rgba(0,0,0,0.5)",
           animation: "lazy",
@@ -86946,7 +86944,7 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
-        Dialog2.Content,
+        Dialog3.Content,
         {
           backgroundColor: "white",
           borderRadius: 16,
@@ -86956,8 +86954,8 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
           maxHeight: media2.sm ? "80vh" : "90vh",
           padding: 0,
           animation: "medium",
-          children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(ScrollView, { showsVerticalScrollIndicator: false, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(YStack, { padding: 16, space: 14, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { justifyContent: "space-between", alignItems: "center", children: [
+          children: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(ScrollView, { showsVerticalScrollIndicator: false, children: /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(YStack, { p: 16, space: 14, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime123.jsxs)(XStack, { justify: "space-between", items: "center", children: [
               /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(Text5, { fontSize: 18, fontWeight: "600", color: "#2A1A0C", children: "Choose Delivery date" }),
               /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
                 Button2,
@@ -86965,7 +86963,7 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
                   size: "$2",
                   circular: true,
                   icon: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(X, { size: 18 }),
-                  backgroundColor: "transparent",
+                  background: "transparent",
                   pressStyle: { opacity: 0.7 },
                   onPress: () => onOpenChange(false)
                 }
@@ -87102,16 +87100,23 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
               {
                 onPress: handleSelect,
                 color: "white",
-                height: 46,
-                fontSize: 15,
+                height: 54,
+                fontSize: 17,
                 fontWeight: "600",
-                pressStyle: { opacity: 0.8 },
-                backgroundColor: "#FF9F0D",
-                borderRadius: 8,
-                marginTop: 8,
-                disabled: selectedDates.length === 0,
-                opacity: selectedDates.length === 0 ? 0.7 : 1,
-                children: "Select"
+                pressStyle: { opacity: 0.8, scale: 0.98 },
+                background: "#FF9F0D",
+                marginTop: 16,
+                disabled: loading,
+                hoverStyle: {
+                  background: "#FFB648",
+                  borderRadius: 12
+                },
+                shadowColor: "#FF9F0D",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+                children: loading ? /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(Spinner, { color: "white" }) : "Select"
               }
             )
           ] }) })
@@ -87308,17 +87313,19 @@ function DeliveryDatePopup({ open, onOpenChange, onSelect, item }) {
                       fontSize: 17,
                       fontWeight: "600",
                       pressStyle: { opacity: 0.8, scale: 0.98 },
-                      backgroundColor: "#FF9F0D",
-                      borderRadius: 12,
+                      background: "#FF9F0D",
                       marginTop: 16,
-                      disabled: selectedDates.length === 0,
-                      opacity: selectedDates.length === 0 ? 0.7 : 1,
+                      disabled: loading,
+                      hoverStyle: {
+                        background: "#FFB648",
+                        borderRadius: 12
+                      },
                       shadowColor: "#FF9F0D",
                       shadowOffset: { width: 0, height: 4 },
                       shadowOpacity: 0.3,
                       shadowRadius: 8,
                       elevation: 8,
-                      children: "Select"
+                      children: loading ? /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(Spinner, { color: "white" }) : "Select"
                     }
                   )
                 ] })
@@ -87539,6 +87546,75 @@ async function apiGetCartReccomendations({ page = 1, limit = 5 }) {
 }
 __name(apiGetCartReccomendations, "apiGetCartReccomendations");
 
+// ../../packages/app/services/FoodService.ts
+async function apiGetFoodItems({
+  search = "",
+  category = "all",
+  vegOnly = false,
+  page = 1,
+  limit = 7
+}) {
+  console.log("vegeOnly:", vegOnly);
+  const url2 = `food-item?category=${category}&page=${page}&limit=${limit}&search=${search}&vegOnly=${vegOnly}`;
+  const axiosConfig = {
+    url: url2,
+    method: "GET",
+    headers: {},
+    maxRedirects: 5
+  };
+  try {
+    const response = await ApiService_default.fetchData(axiosConfig);
+    console.log("FoodItems:", response.data);
+    return response.data;
+  } catch (error4) {
+    console.error("Error FoodItems:", error4);
+    throw error4;
+  }
+}
+__name(apiGetFoodItems, "apiGetFoodItems");
+async function apiGetCategory() {
+  const url2 = `food-category`;
+  const axiosConfig = {
+    url: url2,
+    method: "GET",
+    headers: {},
+    maxRedirects: 5
+  };
+  try {
+    const response = await ApiService_default.fetchData(axiosConfig);
+    console.log("Category:", response.data);
+    return response.data;
+  } catch (error4) {
+    console.error("Error Category:", error4);
+    throw error4;
+  }
+}
+__name(apiGetCategory, "apiGetCategory");
+async function apiGetFoodItemsByCategory({
+  search = "",
+  vegOnly = false
+} = {}) {
+  const params = new URLSearchParams();
+  if (search) params.append("search", search);
+  if (vegOnly) params.append("vegOnly", "true");
+  const url2 = `food-items-by-category${params.toString() ? `?${params.toString()}` : ""}`;
+  const axiosConfig = {
+    url: url2,
+    method: "GET",
+    headers: {},
+    maxRedirects: 5
+  };
+  try {
+    const response = await ApiService_default.fetchData(axiosConfig);
+    console.log("FoodItemsByCategory:", response.data);
+    return response.data;
+  } catch (error4) {
+    console.error("Error FoodItemsByCategory:", error4);
+    throw error4;
+  }
+}
+__name(apiGetFoodItemsByCategory, "apiGetFoodItemsByCategory");
+
 // ../../packages/app/src/store/useStore.ts
 var useStore2 = create((set, get) => ({
   count: 0,
@@ -87548,7 +87624,13 @@ var useStore2 = create((set, get) => ({
   cartRecommendations: [],
   increment: /* @__PURE__ */ __name(() => set((state) => ({ count: state.count + 1 })), "increment"),
   decrement: /* @__PURE__ */ __name(() => set((state) => ({ count: state.count - 1 })), "decrement"),
+  foodItemsByCategory: [],
+  foodItemsLoading: false,
   reset: /* @__PURE__ */ __name(() => set({ count: 0 }), "reset"),
+  categories: null,
+  categoriesLoading: false,
+  foodItems: [],
+  foodItemsByCategoryLoading: false,
   fetchCart: /* @__PURE__ */ __name(async () => {
     set({ cartLoading: true });
     try {
@@ -87563,8 +87645,10 @@ var useStore2 = create((set, get) => ({
     console.log(item);
     set({ cartLoading: true });
     try {
-      await apiAddFoodItemToCart(item);
+      const data = await apiAddFoodItemToCart(item);
+      console.log(data);
       await get().fetchCart();
+      await get().fetchFoodItemsByCategory();
     } catch (e6) {
       console.log(e6);
     } finally {
@@ -87587,6 +87671,7 @@ var useStore2 = create((set, get) => ({
     try {
       await apiUpdateCartItemQuantity(data);
       await get().fetchCart();
+      await get().fetchFoodItemsByCategory();
     } catch (e6) {
     } finally {
       set({ cartLoading: false });
@@ -87601,7 +87686,43 @@ var useStore2 = create((set, get) => ({
     } finally {
       set({ cartLoading: false });
     }
-  }, "fetchCartRecommendations")
+  }, "fetchCartRecommendations"),
+  fetchFoodItemsByCategory: /* @__PURE__ */ __name(async (search = "", vegOnly = false) => {
+    set({ foodItemsLoading: true });
+    try {
+      const res = await apiGetFoodItemsByCategory({
+        search,
+        vegOnly
+      });
+      set({ foodItemsByCategory: res.data.items ?? [] });
+    } catch (err) {
+      set({ foodItemsByCategory: [] });
+    } finally {
+      set({ foodItemsLoading: false });
+    }
+  }, "fetchFoodItemsByCategory"),
+  fetchCategories: /* @__PURE__ */ __name(async () => {
+    set({ categoriesLoading: true });
+    try {
+      const res = await apiGetCategory();
+      set({ categories: res.data ?? null });
+    } catch (err) {
+      set({ categories: null });
+    } finally {
+      set({ categoriesLoading: false });
+    }
+  }, "fetchCategories"),
+  fetchFoodItems: /* @__PURE__ */ __name(async (params) => {
+    set({ foodItemsLoading: true });
+    try {
+      const res = await apiGetFoodItems(params);
+      set({ foodItems: res.data?.items ?? [] });
+    } catch (err) {
+      set({ foodItems: [] });
+    } finally {
+      set({ foodItemsLoading: false });
+    }
+  }, "fetchFoodItems")
 }));
 
 // ../../packages/ui/src/rails/FoodListingRail.tsx
@@ -87639,19 +87760,21 @@ function FoodListingRail({ displayLabel, foodItems }) {
     setIsDatePopupOpen(true);
   }, "handleAddButtonClick");
   const { showMessage } = useToast2();
+  const [loading, setLoading] = (0, import_react104.useState)(false);
   const handleDateSelection = /* @__PURE__ */ __name(async (selectedDates) => {
     console.log(selectedDates);
-    return;
     try {
+      setLoading(true);
       const data = await addToCart({
         foodItemId: selectedFoodItem?._id,
-        days: selectedDates,
-        quantity: 1
+        ...selectedDates
       });
       showMessage("Item Added to Cart", "success");
       console.log(data);
     } catch (error4) {
       console.log(error4);
+    } finally {
+      setLoading(false);
     }
     setIsDatePopupOpen(false);
   }, "handleDateSelection");
@@ -87673,28 +87796,28 @@ function FoodListingRail({ displayLabel, foodItems }) {
     groupedItems.push(items.slice(i7, i7 + actualItemsPerRow));
   }
   return /* @__PURE__ */ (0, import_jsx_runtime124.jsxs)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(Text5, { fontSize: 24, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
+    /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(Text5, { text: "center", fontSize: 24, fontWeight: "600", style: { paddingLeft: 20, marginBottom: 16 }, children: displayLabel }),
     /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(YStack, { style: { paddingHorizontal: 30, paddingBottom: 20, paddingLeft: 0 }, children: groupedItems.map((row, rowIndex) => /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
       XStack,
       {
         style: {
-          justifyContent: row.length === actualItemsPerRow ? "space-between" : "flex-start",
+          justifyContent: row.length === actualItemsPerRow ? "flex-start" : "flex-start",
           alignItems: "flex-start",
           marginBottom: 16,
-          gap: row.length === actualItemsPerRow ? 0 : gap
+          gap: row.length === actualItemsPerRow ? 40 : gap,
+          flexWrap: "wrap"
         },
-        children: row.map((item, itemIndex) => /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(YStack, { style: { width: cardWidth }, children: /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
+        children: row?.map((item, itemIndex) => /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(YStack, { style: { width: cardWidth }, children: /* @__PURE__ */ (0, import_jsx_runtime124.jsx)(
           FoodCard,
           {
-            imageUrl: item.url || "https://via.placeholder.com/100",
+            imageUrl: item.url,
             name: item.name,
             price: item.price,
             quantity: quantities[item._id] || 0,
             onAdd: () => handleAdd(item._id),
             onIncrement: () => handleIncrement(item._id),
             onDecrement: () => handleDecrement(item._id),
-            handleAddButtonClick: () => handleAddButtonClick(item),
-            cardWidth
+            handleAddButtonClick: () => handleAddButtonClick(item)
           }
         ) }, item._id))
       },
@@ -87705,6 +87828,7 @@ function FoodListingRail({ displayLabel, foodItems }) {
       {
         item: selectedFoodItem,
         open: isDatePopupOpen,
+        loading,
         onOpenChange: setIsDatePopupOpen,
         onSelect: handleDateSelection
       }
@@ -90737,6 +90861,134 @@ function AccountCreatedPage() {
 }
 __name(AccountCreatedPage, "AccountCreatedPage");
 
+// ../../packages/ui/src/popups/CategoryDialog.tsx
+var import_react115 = require("react");
+var import_react_native14 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime139 = require("react/jsx-runtime");
+function CategoryDialog({ popupCategory, open, onOpenChange, category }) {
+  const media2 = (0, import_core61.useMedia)();
+  const [selectedCategory, setSelectedCategory] = (0, import_react115.useState)(null);
+  console.log("CategoryDialog rendered with category:", popupCategory);
+  const {
+    categories,
+    foodItems,
+    fetchFoodItems,
+    fetchCategories
+  } = useStore2();
+  const [searchQuery, setSearchQuery] = (0, import_react115.useState)("");
+  const [vegOnly, setVegOnly] = (0, import_react115.useState)(false);
+  const [loading, setLoading] = (0, import_react115.useState)(true);
+  const [searchLoading, setSearchLoading] = (0, import_react115.useState)(false);
+  (0, import_react115.useEffect)(() => {
+    setSelectedCategory(popupCategory);
+  }, [popupCategory]);
+  (0, import_react115.useEffect)(() => {
+    if (!selectedCategory?._id) return;
+    setLoading(true);
+    Promise.all([
+      fetchCategories(),
+      fetchFoodItems({
+        category: selectedCategory?._id ?? "",
+        search: searchQuery,
+        vegOnly
+      })
+    ]).then(([catRes, foodRes]) => {
+    }).catch((err) => {
+    }).finally(() => setLoading(false));
+  }, [selectedCategory?._id, searchQuery]);
+  const handleSearch = (0, import_react115.useCallback)(
+    (query) => {
+      setSearchQuery(query);
+      setSearchLoading(true);
+      fetchFoodItems({ search: query, category: selectedCategory?._id ?? "", vegOnly }).finally(() => setSearchLoading(false));
+    },
+    [fetchFoodItems, vegOnly]
+  );
+  const handleVegToggle = (0, import_react115.useCallback)(
+    (isVegOnly) => {
+      setVegOnly(isVegOnly);
+      setSearchLoading(true);
+      fetchFoodItems({ search: searchQuery, category: selectedCategory?._id ?? "", vegOnly: isVegOnly }).finally(() => setSearchLoading(false));
+    },
+    [fetchFoodItems, searchQuery, vegOnly]
+  );
+  const getHeaderHeight = /* @__PURE__ */ __name(() => {
+    if (import_react_native14.Platform.OS === "web") return 60;
+    const statusBarHeight = import_react_native14.StatusBar.currentHeight || 24;
+    return 60 + statusBarHeight;
+  }, "getHeaderHeight");
+  const headerHeight = getHeaderHeight();
+  return /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(Dialog, { modal: true, open, onOpenChange, children: /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(Dialog.Portal, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+      Dialog.Overlay,
+      {
+        backgroundColor: "rgba(0,0,0,0.5)",
+        animation: "lazy",
+        opacity: 1,
+        enterStyle: { opacity: 0 },
+        exitStyle: { opacity: 0 }
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+      Dialog.Content,
+      {
+        background: "white",
+        borderRadius: 16,
+        maxWidth: 1e3,
+        width: media2.sm ? "90%" : 1e3,
+        elevate: true,
+        maxHeight: media2.sm ? "80vh" : "90vh",
+        padding: 28,
+        animation: "medium",
+        children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(XStack, { flex: 1, children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(YStack, { flex: import_react_native14.Platform.OS === "web" ? 3 : 1, children: /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(
+          import_react_native14.ScrollView,
+          {
+            showsHorizontalScrollIndicator: false,
+            bounces: false,
+            showsVerticalScrollIndicator: import_react_native14.Platform.OS === "web",
+            style: {
+              flex: 1,
+              marginTop: import_react_native14.Platform.OS === "web" ? 0 : 0
+            },
+            contentContainerStyle: {
+              paddingTop: 0
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(XStack, { justify: "center", children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(Text5, { fontSize: 24, borderWidth: 1, color: colors2.primary, p: 4, px: 18, style: { borderRadius: 8, borderColor: colors2.primary }, fontWeight: 600, text: "center" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+                SearchFood,
+                {
+                  isTitleVisible: false,
+                  onSearch: handleSearch,
+                  onVegToggle: handleVegToggle,
+                  initialQuery: searchQuery,
+                  initialVegOnly: vegOnly
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(CategoryRail, { handleCardPress: (category2) => {
+                setSelectedCategory(category2);
+              }, selectedId: selectedCategory?._id ?? "", categories }),
+              loading || searchLoading ? /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(FoodListShimmerLoader, {}) : /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(YStack, { children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+                FoodListingRail,
+                {
+                  displayLabel: selectedCategory?.name ?? "Category",
+                  foodItems: {
+                    items: foodItems,
+                    page: 0,
+                    total: foodItems.length,
+                    pageSize: foodItems.length
+                  }
+                }
+              ) })
+            ]
+          }
+        ) }) })
+      }
+    )
+  ] }) });
+}
+__name(CategoryDialog, "CategoryDialog");
+
 // ../../packages/app/services/UserService.ts
 async function apiGetAllAddress() {
   const url2 = `address`;
@@ -90801,19 +91053,24 @@ async function apiCheckout(orderData) {
 __name(apiCheckout, "apiCheckout");
 
 // ../../packages/ui/src/cart/CartItem.tsx
-var import_react_native14 = require("@tamagui/react-native-web-lite");
 var import_react_native15 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime139 = require("react/jsx-runtime");
+var import_react_native16 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime140 = require("react/jsx-runtime");
 function CartItem({
+  id,
   imageUrl,
   name: name2,
   description,
   price,
   quantity,
   onIncrement,
-  onDecrement
+  onDecrement,
+  isLoading,
+  key
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(
+  console.log(isLoading);
+  console.log(key);
+  return /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
     XStack,
     {
       style: {
@@ -90831,7 +91088,7 @@ function CartItem({
         elevation: 2
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
           YStack,
           {
             style: {
@@ -90842,15 +91099,15 @@ function CartItem({
               backgroundColor: "#F5F5F5",
               overflow: "hidden"
             },
-            children: import_react_native15.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
-              import_react_native14.Image,
+            children: import_react_native16.Platform.OS === "web" ? /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+              import_react_native15.Image,
               {
                 source: { uri: imageUrl },
                 alt: name2,
                 style: { width: 60, height: 60, objectFit: "cover" }
               }
-            ) : /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
-              import_react_native14.Image,
+            ) : /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+              import_react_native15.Image,
               {
                 source: { uri: imageUrl },
                 style: { width: 60, height: 60, resizeMode: "cover" }
@@ -90858,80 +91115,72 @@ function CartItem({
             )
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(YStack, { style: { flex: 1 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#000000", marginBottom: 4 }, children: name2 }),
-          description && /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(Text5, { style: { fontSize: 14, color: "#666666" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(YStack, { style: { flex: 1 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#000000", marginBottom: 4 }, children: name2 }),
+          description && /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Text5, { style: { fontSize: 14, color: "#666666" }, children: [
             description.substring(0, 60),
             "..."
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
           XStack,
           {
             style: {
               alignItems: "center",
               marginRight: 24
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(
-              XStack,
-              {
-                style: {
-                  borderWidth: 1,
-                  borderColor: "#EEEEEE",
-                  borderRadius: 4,
-                  alignItems: "center",
-                  height: 32
-                },
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
-                    XStack,
-                    {
-                      onPress: onDecrement,
-                      style: {
-                        width: 32,
-                        height: 32,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#FFF8EE",
-                        cursor: "pointer"
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(Minus, { size: 16, color: "#FFB648" })
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
-                    Text5,
-                    {
-                      style: {
-                        width: 32,
-                        textAlign: "center",
-                        fontSize: 16,
-                        fontWeight: "500",
-                        color: "#000000"
-                      },
-                      children: quantity
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(
-                    XStack,
-                    {
-                      onPress: onIncrement,
-                      style: {
-                        width: 32,
-                        height: 32,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#FFF8EE",
-                        cursor: "pointer"
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime139.jsx)(Plus, { size: 16, color: "#FFB648" })
-                    }
-                  )
-                ]
-              }
-            )
+            children: /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(XStack, { style: { alignItems: "center" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                Button2,
+                {
+                  size: "$2",
+                  circular: true,
+                  style: {
+                    width: 24,
+                    height: 24,
+                    backgroundColor: "#f5f5f5",
+                    borderWidth: 1,
+                    borderColor: "#e0e0e0"
+                  },
+                  onPress: () => onDecrement?.(),
+                  disabled: isLoading?.itemId === id && isLoading?.change === -1,
+                  children: isLoading?.itemId === id && isLoading?.change === -1 ? /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Spinner, { color: colors2.primary }) : /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Minus, { size: 12, color: "#666" })
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                Text5,
+                {
+                  style: {
+                    marginHorizontal: 12,
+                    fontSize: 16,
+                    fontWeight: "500",
+                    minWidth: 20,
+                    textAlign: "center"
+                  },
+                  children: quantity
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                Button2,
+                {
+                  size: "$2",
+                  circular: true,
+                  style: {
+                    width: 24,
+                    height: 24,
+                    backgroundColor: "#f5f5f5",
+                    borderWidth: 1,
+                    borderColor: "#e0e0e0"
+                  },
+                  onPress: () => onIncrement?.(),
+                  disabled: isLoading?.itemId === id && isLoading?.change === 1,
+                  children: isLoading?.itemId === id && isLoading?.change === 1 ? /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Spinner, { color: colors2.primary }) : /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Plus, { size: 12, color: "#666" })
+                }
+              )
+            ] })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime139.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
           Text5,
           {
             style: {
@@ -90954,31 +91203,32 @@ function CartItem({
 __name(CartItem, "CartItem");
 
 // ../../packages/ui/src/cart/CartSummary.tsx
-var import_react115 = require("react");
-var import_jsx_runtime140 = require("react/jsx-runtime");
+var import_react116 = require("react");
+var import_jsx_runtime141 = require("react/jsx-runtime");
 function CartSummary({
   subtotal,
   onCheckout,
   buttonTitle = "",
   deliveryFee = 2.99,
-  tax = 0
+  tax = 0,
+  loading
 }) {
-  const [couponCode, setCouponCode] = (0, import_react115.useState)("");
+  const [couponCode, setCouponCode] = (0, import_react116.useState)("");
   const total = Math.round(subtotal);
-  return /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(YStack, { style: { padding: 24, gap: 20 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 24, fontWeight: "600", color: "#000000" }, children: "Summary" }),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 18, color: "#000000" }, children: "Subtotal" }),
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { style: { padding: 24, gap: 20 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { fontSize: 24, fontWeight: "600", color: "#000000" }, children: "Summary" }),
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { fontSize: 18, color: "#000000" }, children: "Subtotal" }),
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: [
         "$",
         subtotal
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 18, color: "#000000" }, children: "Other" }),
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: "0" })
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { fontSize: 18, color: "#000000" }, children: "Other" }),
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#000000" }, children: "0" })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(
       XStack,
       {
         style: {
@@ -90991,7 +91241,7 @@ function CartSummary({
           justifyContent: "space-between"
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(
             XStack,
             {
               style: {
@@ -91001,8 +91251,8 @@ function CartSummary({
                 backgroundColor: "white"
               },
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { color: "#AAAAAA", marginRight: 8 }, children: "\u{1F39F}\uFE0F" }),
-                /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { color: "#AAAAAA", marginRight: 8 }, children: "\u{1F39F}\uFE0F" }),
+                /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
                   Input,
                   {
                     flex: 1,
@@ -91024,7 +91274,7 @@ function CartSummary({
               ]
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
             XStack,
             {
               style: {
@@ -91036,21 +91286,21 @@ function CartSummary({
                 alignItems: "center",
                 justifyContent: "center"
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" })
+              children: /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { color: "#FFB648", fontWeight: "600", fontSize: 16 }, children: "Add" })
             }
           )
         ]
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(YStack, { style: { height: 1, backgroundColor: "#E0E0E0" } }),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Text5, { style: { fontSize: 20, fontWeight: "600", color: "#000000" }, children: "Item's Total" }),
-      /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(Text5, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(YStack, { style: { height: 1, backgroundColor: "#E0E0E0" } }),
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(XStack, { style: { justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { fontSize: 20, fontWeight: "600", color: "#000000" }, children: "Item's Total" }),
+      /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(Text5, { style: { fontSize: 28, fontWeight: "700", color: "#000000" }, children: [
         "$",
         total
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
       Button2,
       {
         onPress: () => {
@@ -91067,11 +91317,12 @@ function CartSummary({
           fontWeight: 600,
           color: "white"
         },
-        iconAfter: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(ArrowRight, { fontWeight: 600, color: "white" }),
+        iconAfter: loading?.itemId === "" && loading?.change === 0 ? /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(ArrowRight, { fontWeight: 600, color: "white" }) : /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Spinner, { color: "white" }),
+        disabled: loading?.itemId !== "" || loading.change !== 0,
         children: buttonTitle
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
       Text5,
       {
         style: {
@@ -91087,9 +91338,9 @@ function CartSummary({
 __name(CartSummary, "CartSummary");
 
 // ../../packages/ui/src/cart/EmptyCart.tsx
-var import_jsx_runtime141 = require("react/jsx-runtime");
+var import_jsx_runtime142 = require("react/jsx-runtime");
 function EmptyCart({ onBrowse }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime141.jsxs)(YStack, { style: {
+  return /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(YStack, { style: {
     padding: 24,
     alignItems: "center",
     justifyContent: "center",
@@ -91097,27 +91348,27 @@ function EmptyCart({ onBrowse }) {
     flex: 1,
     minHeight: 300
   }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(YStack, { style: {
+    /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(YStack, { style: {
       width: 80,
       height: 80,
       borderRadius: 40,
       backgroundColor: "#FFF8EE",
       alignItems: "center",
       justifyContent: "center"
-    }, children: /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(ShoppingBag, { size: 36, color: "#FF9F0D" }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: {
+    }, children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(ShoppingBag, { size: 36, color: "#FF9F0D" }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Text5, { style: {
       fontSize: 18,
       fontWeight: "600",
       color: "#2A1A0C",
       textAlign: "center"
     }, children: "Your cart is empty" }),
-    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: {
+    /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Text5, { style: {
       fontSize: 14,
       color: "#666",
       textAlign: "center",
       maxWidth: 300
     }, children: "Looks like you haven't added any items to your cart yet." }),
-    /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
       Button2,
       {
         onPress: onBrowse,
@@ -91128,7 +91379,7 @@ function EmptyCart({ onBrowse }) {
           paddingHorizontal: 24,
           marginTop: 8
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime141.jsx)(Text5, { style: { color: "white", fontSize: 15, fontWeight: "600" }, children: "Browse Foods" })
+        children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Text5, { style: { color: "white", fontSize: 15, fontWeight: "600" }, children: "Browse Foods" })
       }
     )
   ] });
@@ -91138,109 +91389,6 @@ __name(EmptyCart, "EmptyCart");
 // ../../packages/ui/src/cart/CartPage.tsx
 var import_react119 = require("react");
 
-// ../../packages/ui/src/loaders/CartItemSkeleton.tsx
-var import_react116 = require("react");
-var import_jsx_runtime142 = require("react/jsx-runtime");
-function CartItemSkeleton() {
-  const [shimmerOpacity, setShimmerOpacity] = (0, import_react116.useState)(0.3);
-  (0, import_react116.useEffect)(() => {
-    const interval = setInterval(() => {
-      setShimmerOpacity((prev) => prev === 0.3 ? 0.7 : 0.3);
-    }, 1e3);
-    return () => clearInterval(interval);
-  }, []);
-  const shimmerStyle = {
-    backgroundColor: "#E5E5E5",
-    opacity: shimmerOpacity,
-    borderRadius: 4,
-    transition: "opacity 1s ease-in-out"
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(
-    XStack,
-    {
-      style: {
-        paddingBottom: 8,
-        paddingTop: 8,
-        paddingRight: 8,
-        paddingLeft: 8,
-        borderWidth: 1,
-        borderColor: "#F0F0F0",
-        alignItems: "center",
-        marginBottom: 16,
-        backgroundColor: "#FFFFFF",
-        borderRadius: 8
-      },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-          import_core61.View,
-          {
-            style: {
-              width: 60,
-              height: 60,
-              borderRadius: 4,
-              marginRight: 16,
-              ...shimmerStyle
-            }
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(YStack, { style: { flex: 1, gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-            import_core61.View,
-            {
-              style: {
-                height: 16,
-                width: "70%",
-                ...shimmerStyle
-              }
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-            import_core61.View,
-            {
-              style: {
-                height: 14,
-                width: "90%",
-                ...shimmerStyle
-              }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-          XStack,
-          {
-            style: {
-              alignItems: "center",
-              marginRight: 24
-            },
-            children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-              import_core61.View,
-              {
-                style: {
-                  width: 96,
-                  height: 32,
-                  borderRadius: 4,
-                  ...shimmerStyle
-                }
-              }
-            )
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
-          import_core61.View,
-          {
-            style: {
-              height: 18,
-              width: 60,
-              ...shimmerStyle
-            }
-          }
-        )
-      ]
-    }
-  );
-}
-__name(CartItemSkeleton, "CartItemSkeleton");
-
 // ../../packages/ui/src/cart/CartDaySection.tsx
 var import_react117 = require("react");
 var import_jsx_runtime143 = require("react/jsx-runtime");
@@ -91248,11 +91396,12 @@ function CartDaySection({
   day,
   date,
   deliveryLabel,
+  isItemLoading,
   items,
   onIncrement,
-  onDecrement,
-  isItemLoading
+  onDecrement
 }) {
+  console.log(isItemLoading);
   const [deliveryDay, setDeliveryDay] = (0, import_react117.useState)("");
   const [isSameDay, setIsSameDay] = (0, import_react117.useState)(false);
   const dayTotal = items.reduce(
@@ -91315,19 +91464,18 @@ function CartDaySection({
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(YStack, { children: isItemLoading ? (
-          // Show skeleton for individual items when updating quantities
-          Array.from({ length: items.length || 2 }).map((_, index4) => /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(CartItemSkeleton, {}, index4))
-        ) : items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(YStack, { children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
           CartItem,
           {
+            id: item?._id,
             name: item?.food?.name,
             description: item?.food?.description,
             price: Number(item?.food?.price),
             quantity: item.quantity,
             imageUrl: item?.food?.url,
             onIncrement: () => onIncrement?.(item._id, 1),
-            onDecrement: () => onDecrement?.(item._id, -1)
+            onDecrement: () => onDecrement?.(item._id, -1),
+            isLoading: isItemLoading
           },
           item?._id
         )) }),
@@ -91396,25 +91544,31 @@ __name(AddMoreButton, "AddMoreButton");
 var import_react118 = require("react");
 var import_jsx_runtime145 = require("react/jsx-runtime");
 function DessertDeals({ items, onAddItem, onViewAll }) {
+  const { addToCart } = useStore2();
+  const [loading, setLoading] = (0, import_react118.useState)(false);
   const [selectedFoodItem, setSelectedFoodItem] = (0, import_react118.useState)(null);
   const [isDatePopupOpen, setIsDatePopupOpen] = (0, import_react118.useState)(false);
   const handleAddButtonClick = /* @__PURE__ */ __name((item) => {
     setSelectedFoodItem(item);
     setIsDatePopupOpen(true);
   }, "handleAddButtonClick");
+  const { showMessage } = useToast2();
   const handleDateSelection = /* @__PURE__ */ __name(async (selectedDates) => {
     console.log(selectedDates);
     try {
-      const data = await apiAddFoodItemToCart({
+      setLoading(true);
+      const data = await addToCart({
         foodItemId: selectedFoodItem?._id,
-        days: selectedDates,
-        quantity: 1
+        ...selectedDates
       });
+      showMessage("Item Added to Cart", "success");
       console.log(data);
-      onAddItem?.();
     } catch (error4) {
       console.log(error4);
+    } finally {
+      setLoading(false);
     }
+    setIsDatePopupOpen(false);
   }, "handleDateSelection");
   const [desserts, setDesserts] = (0, import_react118.useState)({
     items: [],
@@ -91499,6 +91653,7 @@ function DessertDeals({ items, onAddItem, onViewAll }) {
       {
         item: selectedFoodItem,
         open: isDatePopupOpen,
+        loading,
         onOpenChange: setIsDatePopupOpen,
         onSelect: handleDateSelection
       }
@@ -91763,6 +91918,7 @@ function DessertDealsShimmerLoader() {
 __name(DessertDealsShimmerLoader, "DessertDealsShimmerLoader");
 
 // ../../packages/ui/src/cart/CartPage.tsx
+var import_react_native17 = require("@tamagui/react-native-web-lite");
 var import_jsx_runtime149 = require("react/jsx-runtime");
 function CartPage({
   onBrowse,
@@ -91776,22 +91932,14 @@ function CartPage({
   });
   const { cart, fetchCart, cartRecommendations, cartTotalAmount, fetchCartRecommendations, fetchCartTotalAmount, addToCart, updateCartItemQuantity } = useStore2();
   const { showMessage } = useToast2();
-  const [isDesktop, setIsDesktop] = (0, import_react119.useState)(null);
+  const [loading, setLoading] = (0, import_react119.useState)({ itemId: "", change: 0 });
+  console.log(loading);
+  const isDesktop = import_react_native17.Platform.OS === "web";
   const [isLoading, setIsLoading] = (0, import_react119.useState)(true);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = (0, import_react119.useState)(false);
   const checkOutLink = useLink({
     href: "/checkout"
   });
-  (0, import_react119.useEffect)(() => {
-    if (typeof window === "undefined") return;
-    const checkIfDesktop = /* @__PURE__ */ __name(() => {
-      const newIsDesktop = window.innerWidth >= 768;
-      setIsDesktop(newIsDesktop);
-    }, "checkIfDesktop");
-    checkIfDesktop();
-    window.addEventListener("resize", checkIfDesktop);
-    return () => window.removeEventListener("resize", checkIfDesktop);
-  }, []);
   const [cartDays, setCartDays] = (0, import_react119.useState)([
     {
       day: "Wednesday",
@@ -91887,14 +92035,15 @@ function CartPage({
     }
   ];
   const handleQuantityChange = /* @__PURE__ */ __name(async (change, itemId) => {
-    console.log(change);
-    console.log(itemId);
+    if (change === 0) return;
+    setLoading({ itemId, change });
     try {
       await updateCartItemQuantity({ cartItemId: itemId, change });
       showMessage("Quantity Updated Successfully", "success");
     } catch (error4) {
       console.log(error4);
     } finally {
+      setLoading({ itemId: "", change: 0 });
     }
   }, "handleQuantityChange");
   const handleDecrement = /* @__PURE__ */ __name(async (dayIndex, itemId) => {
@@ -91910,7 +92059,7 @@ function CartPage({
   const getCartData = (0, import_react119.useCallback)(async () => {
     setIsLoading(true);
     try {
-      const data = await fetchCart();
+      await fetchCart();
     } catch (error4) {
       console.log(error4);
     } finally {
@@ -91930,7 +92079,7 @@ function CartPage({
       return dayAcc + dayTotal;
     }, 0);
   }, [cart]);
-  const isCartEmpty = !isLoading && (!cart?.days || cart.days.every((day) => !day.items || day.items.length === 0));
+  const isCartEmpty = !isLoading && (!cart?.days || !(cart.days.length > 0));
   if (isDesktop === null) {
     return /* @__PURE__ */ (0, import_jsx_runtime149.jsxs)(
       YStack,
@@ -91969,12 +92118,14 @@ function CartPage({
   const onAddMoreItems = /* @__PURE__ */ __name(() => {
     homeLink.onPress();
   }, "onAddMoreItems");
+  console.log("CART:", cart);
+  console.log("IEMoty:", isCartEmpty);
   return /* @__PURE__ */ (0, import_jsx_runtime149.jsxs)(
     YStack,
     {
       style: {
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "100%",
         justifyContent: "center",
         alignItems: "center"
       },
@@ -92029,6 +92180,7 @@ function CartPage({
                   style: {
                     maxWidth: 1200,
                     width: "100%",
+                    height: "100%",
                     marginHorizontal: "auto",
                     paddingHorizontal: 24
                   },
@@ -92037,6 +92189,7 @@ function CartPage({
                     {
                       style: {
                         width: "100%",
+                        height: "100%",
                         flexDirection: isDesktop ? "row" : "column",
                         gap: isDesktop ? 24 : 0,
                         paddingVertical: 24
@@ -92049,7 +92202,7 @@ function CartPage({
                               flex: isDesktop ? 0.65 : 1,
                               width: isDesktop ? "65%" : "100%"
                             },
-                            children: /* @__PURE__ */ (0, import_jsx_runtime149.jsxs)(ScrollView, { style: { flex: 1 }, children: [
+                            children: /* @__PURE__ */ (0, import_jsx_runtime149.jsxs)(ScrollView, { height: "100%", style: { flex: 1 }, children: [
                               isLoading || isUpdatingQuantity ? /* @__PURE__ */ (0, import_jsx_runtime149.jsx)(CartItemsShimmerLoader, {}) : cart?.days?.map(
                                 (day, index4) => day.items.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime149.jsx)(
                                   CartDaySection,
@@ -92057,6 +92210,7 @@ function CartPage({
                                     day: day.day,
                                     date: day?.date,
                                     items: day.items,
+                                    isItemLoading: loading,
                                     deliveryLabel: "Some Lable",
                                     onIncrement: (itemId, change) => handleQuantityChange(change, itemId),
                                     onDecrement: (itemId, change) => handleQuantityChange(change, itemId)
@@ -92120,7 +92274,8 @@ function CartPage({
                                             {
                                               buttonTitle: "Checkout",
                                               subtotal: totalAmount,
-                                              onCheckout: handleCheckout
+                                              onCheckout: handleCheckout,
+                                              loading
                                             }
                                           )
                                         }
@@ -92190,7 +92345,8 @@ function CartPage({
                                     {
                                       buttonTitle: "Checkout",
                                       subtotal: totalAmount,
-                                      onCheckout: handleCheckout
+                                      onCheckout: handleCheckout,
+                                      loading
                                     }
                                   )
                                 }
@@ -92332,12 +92488,12 @@ __name(CheckoutSteps, "CheckoutSteps");
 
 // ../../packages/app/hook/useAuth.ts
 var import_react120 = require("react");
-var import_react_native16 = require("@tamagui/react-native-web-lite");
+var import_react_native18 = require("@tamagui/react-native-web-lite");
 init_SecureStore();
 var useSession = null;
 var signIn = null;
 var signOut = null;
-if (import_react_native16.Platform.OS === "web") {
+if (import_react_native18.Platform.OS === "web") {
   const nextAuth = require_react();
   useSession = nextAuth.useSession;
   signIn = nextAuth.signIn;
@@ -92349,7 +92505,7 @@ function useAuth2() {
     isAuthenticated: false,
     loading: true
   });
-  if (import_react_native16.Platform.OS === "web" && useSession) {
+  if (import_react_native18.Platform.OS === "web" && useSession) {
     const { data: session, status } = useSession();
     (0, import_react120.useEffect)(() => {
       if (status === "loading") {
@@ -92392,7 +92548,7 @@ function useAuth2() {
     }, []);
   }
   const login = (0, import_react120.useCallback)(async (credentials) => {
-    if (import_react_native16.Platform.OS === "web" && signIn) {
+    if (import_react_native18.Platform.OS === "web" && signIn) {
       return signIn("credentials", {
         email: credentials?.email,
         password: credentials?.password,
@@ -92415,7 +92571,7 @@ function useAuth2() {
     }
   }, []);
   const logout = (0, import_react120.useCallback)(async () => {
-    if (import_react_native16.Platform.OS === "web" && signOut) {
+    if (import_react_native18.Platform.OS === "web" && signOut) {
       await signOut({ redirect: false });
     } else {
       await deleteItemAsync("auth_token");
@@ -94705,11 +94861,126 @@ function CheckoutPage({
 }
 __name(CheckoutPage, "CheckoutPage");
 
-// ../../packages/ui/src/loaders/CategoryShimmerLoader.tsx
-var import_react_native17 = require("@tamagui/react-native-web-lite");
+// ../../packages/ui/src/loaders/CartSidebarShimmer.tsx
 var import_jsx_runtime157 = require("react/jsx-runtime");
+function CartSidebarShimmer() {
+  return /* @__PURE__ */ (0, import_jsx_runtime157.jsxs)(
+    YStack,
+    {
+      style: {
+        backgroundColor: "#f8f9fa",
+        padding: 20,
+        width: "100%",
+        height: "calc(100vh - 80px)",
+        position: "sticky",
+        top: 60,
+        overflowY: "auto",
+        borderLeft: "1px solid #e0e0e0",
+        alignSelf: "flex-start"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+          import_core61.View,
+          {
+            style: {
+              width: 160,
+              height: 28,
+              borderRadius: 6,
+              background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+              marginBottom: 24,
+              animation: "shimmer 5.8s infinite linear"
+            }
+          }
+        ),
+        [...Array(8)].map((_, idx) => /* @__PURE__ */ (0, import_jsx_runtime157.jsxs)(XStack, { style: { marginBottom: 20, alignItems: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+            import_core61.View,
+            {
+              style: {
+                width: 60,
+                height: 60,
+                borderRadius: 8,
+                background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+                marginRight: 12,
+                animation: "shimmer 8s infinite linear"
+              }
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime157.jsxs)(YStack, { style: { flex: 1 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+              import_core61.View,
+              {
+                style: {
+                  width: "70%",
+                  height: 18,
+                  borderRadius: 4,
+                  background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+                  marginBottom: 8,
+                  animation: "shimmer 8s infinite linear"
+                }
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+              import_core61.View,
+              {
+                style: {
+                  width: "40%",
+                  height: 14,
+                  borderRadius: 4,
+                  background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+                  animation: "shimmer 8s infinite linear"
+                }
+              }
+            )
+          ] })
+        ] }, idx)),
+        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+          import_core61.View,
+          {
+            style: {
+              width: "60%",
+              height: 22,
+              borderRadius: 4,
+              background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+              marginTop: 32,
+              animation: "shimmer 8s infinite linear"
+            }
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+          import_core61.View,
+          {
+            style: {
+              width: "100%",
+              height: 40,
+              borderRadius: 8,
+              background: "linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%)",
+              marginTop: 16,
+              animation: "shimmer 8s infinite linear"
+            }
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)("style", { children: `
+          @keyframes shimmer {
+            0% { background-position: -400px 0; }
+            100% { background-position: 400px 0; }
+          }
+          [style*="linear-gradient"] {
+            background-size: 800px 104px;
+            background-repeat: no-repeat;
+          }
+        ` })
+      ]
+    }
+  );
+}
+__name(CartSidebarShimmer, "CartSidebarShimmer");
+
+// ../../packages/ui/src/loaders/CategoryShimmerLoader.tsx
+var import_react_native19 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime158 = require("react/jsx-runtime");
 function Shimmer4({ style }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(
     YStack,
     {
       bg: "#ececec",
@@ -94725,10 +94996,10 @@ function Shimmer4({ style }) {
 }
 __name(Shimmer4, "Shimmer");
 function CategoryShimmerLoader({ count: count3 = 13 }) {
-  const { width } = (0, import_react_native17.useWindowDimensions)();
+  const { width } = (0, import_react_native19.useWindowDimensions)();
   const isMobile = width < 600;
   const cardCount = count3 || (isMobile ? 8 : 13);
-  return /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(XStack, { gap: 16, style: { padding: 20, justifyContent: "flex-start", flexWrap: "nowrap" }, children: Array.from({ length: cardCount }).map((_, i7) => /* @__PURE__ */ (0, import_jsx_runtime157.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(XStack, { gap: 16, style: { padding: 20, justifyContent: "flex-start", flexWrap: "nowrap" }, children: Array.from({ length: cardCount }).map((_, i7) => /* @__PURE__ */ (0, import_jsx_runtime158.jsxs)(
     YStack,
     {
       bg: "#FFF4E4",
@@ -94744,9 +95015,9 @@ function CategoryShimmerLoader({ count: count3 = 13 }) {
         boxShadow: "3px 3px 10px 0px #AEAEC066"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(Shimmer4, { style: { width: "100%", height: "100%", borderRadius: 999 } }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(Shimmer4, { style: { width: 80, height: 16, borderRadius: 8 } }),
-        /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(Circle, { size: 24, bg: "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(Shimmer4, { style: { width: "100%", height: "100%", borderRadius: 999 } }) })
+        /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Circle, { size: 100, overflow: "hidden", children: /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer4, { style: { width: "100%", height: "100%", borderRadius: 999 } }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer4, { style: { width: 80, height: 16, borderRadius: 8 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Circle, { size: 24, bg: "#FF9F0D", children: /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer4, { style: { width: "100%", height: "100%", borderRadius: 999 } }) })
       ]
     },
     i7
@@ -94755,10 +95026,10 @@ function CategoryShimmerLoader({ count: count3 = 13 }) {
 __name(CategoryShimmerLoader, "CategoryShimmerLoader");
 
 // ../../packages/ui/src/loaders/FoodListShimmerLoader.tsx
-var import_react_native18 = require("@tamagui/react-native-web-lite");
-var import_jsx_runtime158 = require("react/jsx-runtime");
+var import_react_native20 = require("@tamagui/react-native-web-lite");
+var import_jsx_runtime159 = require("react/jsx-runtime");
 function Shimmer5({ style }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
     YStack,
     {
       bg: "#ececec",
@@ -94774,17 +95045,17 @@ function Shimmer5({ style }) {
 }
 __name(Shimmer5, "Shimmer");
 function FoodListShimmerLoader({ count: count3 = 16 }) {
-  const { width } = (0, import_react_native18.useWindowDimensions)();
+  const { width } = (0, import_react_native20.useWindowDimensions)();
   const isMobile = width < 600;
   const cardCount = count3 || (isMobile ? 6 : 16);
-  return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(YStack, { style: { paddingTop: 20, paddingBottom: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
     XStack,
     {
       flexWrap: "wrap",
       gap: 24,
       style: { justifyContent: "flex-start", paddingHorizontal: 20 },
-      children: Array.from({ length: cardCount }).map((_, i7) => /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(YStack, { width: 200, style: { alignItems: "center", marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime158.jsxs)(YStack, { width: 180, style: { alignItems: "center" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(
+      children: Array.from({ length: cardCount }).map((_, i7) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(YStack, { width: 200, style: { alignItems: "center", marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(YStack, { width: 180, style: { alignItems: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
           Circle,
           {
             size: 100,
@@ -94799,22 +95070,22 @@ function FoodListShimmerLoader({ count: count3 = 16 }) {
               zIndex: 2,
               marginBottom: -70
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer5, { style: { width: "100%", height: "100%", borderRadius: 999 } })
+            children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Shimmer5, { style: { width: "100%", height: "100%", borderRadius: 999 } })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime158.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(
           YStack,
           {
             width: 180,
             style: { borderRadius: 24, overflow: "hidden", backgroundColor: "white" },
             boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.1)",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(YStack, { height: 70 }),
-              /* @__PURE__ */ (0, import_jsx_runtime158.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer5, { style: { width: 100, height: 16, borderRadius: 8, marginBottom: 8 } }),
-                /* @__PURE__ */ (0, import_jsx_runtime158.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer5, { style: { width: 60, height: 16, borderRadius: 8 } }),
-                  /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(Shimmer5, { style: { width: 60, height: 24, borderRadius: 12 } })
+              /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(YStack, { height: 70 }),
+              /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(YStack, { style: { padding: 16, gap: 12 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Shimmer5, { style: { width: 100, height: 16, borderRadius: 8, marginBottom: 8 } }),
+                /* @__PURE__ */ (0, import_jsx_runtime159.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Shimmer5, { style: { width: 60, height: 16, borderRadius: 8 } }),
+                  /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(Shimmer5, { style: { width: 60, height: 24, borderRadius: 12 } })
                 ] })
               ] })
             ]
@@ -94873,8 +95144,10 @@ __name(FoodListShimmerLoader, "FoodListShimmerLoader");
   CartItem,
   CartItemsShimmerLoader,
   CartPage,
+  CartSidebarShimmer,
   CartSummary,
   CartSummaryShimmerLoader,
+  CategoryDialog,
   CategoryRail,
   CategoryShimmerLoader,
   Checkbox,

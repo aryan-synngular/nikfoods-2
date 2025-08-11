@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
     } catch (err) {
       return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 })
     }
+    console.log('Decoded Refresh Token:', decoded)
 
     if (!decoded || !decoded?.id) {
       return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 })
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 400 })
     }
 
+    console.log('Existing User:', existingUser)
     const newAccessToken = generateAccessToken({
       id: existingUser._id,
       email: existingUser.email,

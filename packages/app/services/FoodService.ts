@@ -4,10 +4,12 @@ import ApiServices from './ApiService'
 export async function apiGetFoodItems<T>({
   search = '',
   category = 'all',
+  vegOnly = false,
   page = 1,
   limit = 7,
 }): Promise<T> {
-  const url = `food-item?category=${category}&page=${page}&limit=${limit}&search=${search}`
+  console.log("vegeOnly:", vegOnly)
+  const url = `food-item?category=${category}&page=${page}&limit=${limit}&search=${search}&vegOnly=${vegOnly}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -44,8 +46,18 @@ export async function apiGetCategory<T>(): Promise<T> {
   }
 }
 
-export async function apiGetFoodItemsByCategory<T>(): Promise<T> {
-  const url = `food-items-by-category`
+export async function apiGetFoodItemsByCategory<T>({
+  search = '',
+  vegOnly = false,
+}: {
+  search?: string
+  vegOnly?: boolean
+} = {}): Promise<T> {
+  const params = new URLSearchParams()
+  if (search) params.append('search', search)
+  if (vegOnly) params.append('vegOnly', 'true')
+
+  const url = `food-items-by-category${params.toString() ? `?${params.toString()}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
