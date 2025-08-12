@@ -4,7 +4,7 @@
 npm create tamagui
 ```
 
-## 🔦 About
+## 🔦 About 
 
 This monorepo is a starter for an Expo + Next.js + Tamagui + Solito app.
 
