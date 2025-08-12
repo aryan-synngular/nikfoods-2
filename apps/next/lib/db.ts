@@ -12,8 +12,28 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null }
 }
 
-export async function connectToDatabase() {
+// Function to register all models - crucial for serverless environments
+async function registerModels() {
+  // Import all models to ensure they are registered
+  // This is critical for serverless deployments where models might not be
+  // registered across different function invocations
+  await import('../models/User')
+  await import('../models/Address')
+  await import('../models/Cart')
+  await import('../models/CartDay')
+  await import('../models/CartItem')
+  await import('../models/FoodCategory')
+  await import('../models/FoodItem')
+  await import('../models/Orders')
+  await import('../models/RefreshToken')
+  await import('../models/Review')
+  await import('../models/UpdateOrder')
+  await import('../models/DeliveryBoy')
 
+  console.log('✅ All models registered successfully')
+}
+
+export async function connectToDatabase() {
   if (cached.conn) {
     return cached.conn
   }
@@ -23,17 +43,19 @@ export async function connectToDatabase() {
       bufferCommands: true,
       maxPoolSize: 10,
     }
-     cached.promise = mongoose.connect(MONGODB_URI, opts).then(() => mongoose.connection)
-
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then(async () => {
+      // Register all models after connection is established
+      await registerModels()
+      return mongoose.connection
+    })
   }
 
   try {
     cached.conn = await cached.promise
-    console.log("✅ Connected to MongoDB successfully!");
-
+    console.log('✅ Connected to MongoDB successfully!')
   } catch (e) {
     cached.promise = null
-    console.error("❌ Failed to connect to MongoDB:", e);
+    console.error('❌ Failed to connect to MongoDB:', e)
 
     throw e
   }
