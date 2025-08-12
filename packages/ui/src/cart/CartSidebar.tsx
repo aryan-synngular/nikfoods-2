@@ -20,7 +20,7 @@ import { set } from "date-fns"
 import { colors } from "../colors"
 
 export default function CartSidebar() {
-  const { cart, updateCartItemQuantity } = useStore()
+  const { cart, updateCartItemQuantity,cartTotalAmount } = useStore()
   // const [isLoading, setIsLoading] = useState(true)
   const { showMessage } = useToast()
 const [loading, setLoading] = useState({ itemId: "", change: 0 })
@@ -208,7 +208,7 @@ const [loading, setLoading] = useState({ itemId: "", change: 0 })
           </YStack>
           
           </ScrollView>
-          <YStack style={{
+         {cartTotalAmount>0&& <YStack style={{
             position: "sticky",
             bottom: 0,
             backgroundColor: "white",
@@ -243,7 +243,7 @@ const [loading, setLoading] = useState({ itemId: "", change: 0 })
                   color: "#1a1a1a"
                 }}
               >
-                ${totalAmount}
+                ${cartTotalAmount}
               </Text>
             </XStack>
          
@@ -281,7 +281,7 @@ const [loading, setLoading] = useState({ itemId: "", change: 0 })
             >
               We accept all major credit cards
             </Text>
-          </YStack>
+          </YStack>}
         </>
     
     </YStack>

@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Button, Input, Spinner, Text, XStack, YStack } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
+import { useStore } from 'app/src/store/useStore'
 
 interface CartSummaryProps {
   subtotal: number
@@ -18,8 +19,9 @@ export function CartSummary({
   buttonTitle = '',
   deliveryFee = 2.99,
   tax = 0,
-  loading,
+  loading={ itemId: '', change: 0 },
 }: CartSummaryProps) {
+  const { cartTotalAmount} = useStore()
   const [couponCode, setCouponCode] = useState('')
   const total = Math.round(subtotal) // Simplified for the example to match the image
 
@@ -31,7 +33,7 @@ export function CartSummary({
       {/* Subtotal */}
       <XStack style={{ justifyContent: 'space-between' }}>
         <Text style={{ fontSize: 18, color: '#000000' }}>Subtotal</Text>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>${subtotal}</Text>
+        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>${cartTotalAmount}</Text>
       </XStack>
 
       {/* Other */}
@@ -99,7 +101,7 @@ export function CartSummary({
       {/* Total */}
       <XStack style={{ justifyContent: 'space-between' }}>
         <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>Item's Total</Text>
-        <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>${total}</Text>
+        <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>${cartTotalAmount}</Text>
       </XStack>
 
       {/* Checkout button */}

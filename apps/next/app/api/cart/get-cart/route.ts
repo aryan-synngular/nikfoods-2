@@ -16,24 +16,59 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDatabase()
+
     const today = new Date()
     today.setHours(0, 0, 0, 0)
+
     const cart = await Cart.findOne({ user: id }).populate({
       path: 'days',
-      match: { date: { $gte: today } },
+      // match: { date: { $gte: today } },
       populate: {
         path: 'items',
         model: CartItem,
         populate: {
           path: 'food',
-          model: FoodItem, // if you want details of food
+          model: FoodItem,
         },
       },
     })
 
-    if (!cart) return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
+    console.log('Cart fetched:', cart)
+    if (!cart) {
+      return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
+    }
 
-    return NextResponse.json({ message: 'Cart fetched successfully', data: cart }, { status: 201 })
+    // Filter items in each day just like in your second API
+    const now = new Date()
+    console.log('Cart days before filtering:', cart.days)
+    const filteredDays = cart.days.map(day => {
+      const filteredItems = day.items.filter(item => {
+        if (day.date) {
+          const cartDayDate = new Date(day.date)
+          const isToday =
+            cartDayDate.getFullYear() === now.getFullYear() &&
+            cartDayDate.getMonth() === now.getMonth() &&
+            cartDayDate.getDate() === now.getDate()
+
+          if (isToday) {
+            return now.getHours() < 13 // only before 1 PM
+          }
+        }
+        return true // keep all other days' items
+      })
+
+      return {
+        ...day.toObject(),
+        items: filteredItems,
+      }
+    })
+
+    console.log('Filtered days:', filteredDays )
+
+    return NextResponse.json(
+      { message: 'Cart fetched successfully', data: { ...cart.toObject(), days: filteredDays } },
+      { status: 201 }
+    )
   } catch (error) {
     console.error('Failed to fetch cart', error)
     return NextResponse.json({ error: 'Failed to fetch cart' }, { status: 500 })

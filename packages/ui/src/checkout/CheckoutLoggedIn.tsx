@@ -10,6 +10,8 @@ import { apiGetCart, apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
 import { useLink } from 'solito/navigation'
 import { IResponse } from 'app/types/common'
+import { useStore } from 'app/src/store/useStore'
+import PaymentPage from './PaymentPage'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -144,7 +146,7 @@ const FormField = styled(YStack, {
 })
 
 const OrderSummaryRow = styled(XStack, {
-  justifyContent: 'space-between',
+  justify: 'space-between',
   alignItems: 'center',
   marginBottom: '$2',
 
@@ -177,13 +179,14 @@ const CheckoutLoggedIn = ({
   onPaymentError?: (error: any) => void
   onOrderCreated?: (orderId: string) => void
 }) => {
+  const {cartTotalAmount,cart,fetchCart}=useStore()
+  console.log(cart)
   const ordersPage = useLink({
     href: '/account',
   })
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [cart, setCart] = useState<Cart | null>(null)
   const [isLoadingCart, setIsLoadingCart] = useState(true)
   const { showMessage } = useToast()
 
@@ -207,8 +210,7 @@ const CheckoutLoggedIn = ({
   const fetchCartData = useCallback(async () => {
     try {
       setIsLoadingCart(true)
-      const response = await apiGetCart<IResponse<Cart>>()
-      setCart(response.data)
+      await fetchCart()
     } catch (error) {
       console.error('Error fetching cart:', error)
       showMessage('Error loading cart data', 'error')
@@ -387,7 +389,7 @@ const CheckoutLoggedIn = ({
     return (
       <StepCard mobile={isMobile}>
         <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justifyContent="center" minHeight={200}>
+          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
             <Text fontSize="$4">Loading Address and cart details...</Text>
           </YStack>
         </ResponsiveContainer>
@@ -400,7 +402,7 @@ const CheckoutLoggedIn = ({
     return (
       <StepCard mobile={isMobile}>
         <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justifyContent="center" minHeight={200}>
+          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
             <Text fontSize="$4" color="$red10">
               Your cart is empty
             </Text>
@@ -538,193 +540,201 @@ const CheckoutLoggedIn = ({
         )}
 
         {currentStep === 'payment' && (
-          <View>
-            <XStack
-              justifyContent="space-between"
-              alignItems={isMobile ? 'flex-start' : 'center'}
-              marginBottom="$4"
-              flexWrap={isMobile ? 'wrap' : 'nowrap'}
-              gap={isMobile ? '$2' : '$0'}
-            >
-              <CheckoutStep
-                icon={<CreditCardIcon size={16} color="#FF6B00" />}
-                title="Payment Method"
-                description="Choose your preferred payment method to complete your order."
-              />
-              <Text
-                onPress={goBack}
-                hoverStyle={{ color: '#FF1F0D' }}
-                pressStyle={{ color: '#FF1F0D' }}
-                cursor="pointer"
-                color="#FF9F0D"
-                textDecorationLine="underline"
-                fontSize={isMobile ? '$3' : '$4'}
-                marginTop={isMobile ? '$2' : '$0'}
-              >
-                Edit address
-              </Text>
-            </XStack>
+          <PaymentPage
+            selectedAddress={selectedAddress}
+            handleAddressChange={handleAddressChange}
+            goBack={goBack}
+            onPaymentSuccess={onPaymentSuccess}
+            onPaymentError={onPaymentError}
+            onOrderCreated={onOrderCreated}
+          />
+          // <View>
+          //   <XStack
+          //     justify="space-between"
+          //     alignItems={isMobile ? 'flex-start' : 'center'}
+          //     marginBottom="$4"
+          //     flexWrap={isMobile ? 'wrap' : 'nowrap'}
+          //     gap={isMobile ? '$2' : '$0'}
+          //   >
+          //     <CheckoutStep
+          //       icon={<CreditCardIcon size={16} color="#FF6B00" />}
+          //       title="Payment Method"
+          //       description="Choose your preferred payment method to complete your order."
+          //     />
+          //     <Text
+          //       onPress={goBack}
+          //       hoverStyle={{ color: '#FF1F0D' }}
+          //       pressStyle={{ color: '#FF1F0D' }}
+          //       cursor="pointer"
+          //       color="#FF9F0D"
+          //       textDecorationLine="underline"
+          //       fontSize={isMobile ? '$3' : '$4'}
+          //       marginTop={isMobile ? '$2' : '$0'}
+          //     >
+          //       Edit address
+          //     </Text>
+          //   </XStack>
 
-            {/* Order Summary with Cart Items */}
-            <PaymentCard mobile={isMobile}>
-              <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$3">
-                Order Summary
-              </Text>
+          //   {/* Order Summary with Cart Items */}
+          //   <PaymentCard mobile={isMobile}>
+          //     <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$3">
+          //       Order Summary
+          //     </Text>
 
-              <OrderSummaryRow mobile={isMobile}>
-                <Text fontSize={isMobile ? '$3' : '$4'}>Delivery to:</Text>
-                <Text
-                  fontWeight="500"
-                  fontSize={isMobile ? '$3' : '$4'}
-                  textAlign={isMobile ? 'right' : 'left'}
-                >
-                  {selectedAddress?.location_remark || 'Selected Address'}
-                </Text>
-              </OrderSummaryRow>
+          //     <OrderSummaryRow mobile={isMobile}>
+          //       <Text fontSize={isMobile ? '$3' : '$4'}>Delivery to:</Text>
+          //       <Text
+          //         fontWeight="500"
+          //         fontSize={isMobile ? '$3' : '$4'}
+          //         textAlign={isMobile ? 'right' : 'left'}
+          //       >
+          //         {selectedAddress?.location_remark || 'Selected Address'}
+          //       </Text>
+          //     </OrderSummaryRow>
 
-              <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
-                {selectedAddress?.street_address
-                  ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
-                  : 'Address details'}
-              </Text>
+          //     <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
+          //       {selectedAddress?.street_address
+          //         ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
+          //         : 'Address details'}
+          //     </Text>
 
-              {/* Cart Items Summary */}
-              <YStack space="$2" marginBottom="$3">
-                {cart.days.map(
-                  (day) =>
-                    day.items.length > 0 && (
-                      <YStack key={day._id} space="$1">
-                        <Text fontSize="$3" fontWeight="600" color="#FF6B00">
-                          {day.day} ({new Date(day.date).toLocaleDateString()})
-                        </Text>
-                        {day.items.map((item) => (
-                          <XStack key={item._id} justifyContent="space-between" paddingLeft="$2">
-                            <Text fontSize="$3" color="#666">
-                              {item.quantity}x {item.food.name}
-                            </Text>
-                            <Text fontSize="$3" color="#666">
-                              ${(item.food.price * item.quantity).toFixed(2)}
-                            </Text>
-                          </XStack>
-                        ))}
-                      </YStack>
-                    )
-                )}
-              </YStack>
+          //     {/* Cart Items Summary */}
+          //     <YStack space="$2" marginBottom="$3">
+          //       {cart.days.map(
+          //         (day) =>
+          //           day.items.length > 0 && (
+          //             <YStack key={day._id} space="$1">
+          //               <Text fontSize="$3" fontWeight="600" color="#FF6B00">
+          //                 {day.day} ({new Date(day.date).toLocaleDateString()})
+          //               </Text>
+          //               {day.items.map((item) => (
+          //                 <XStack key={item._id} justify="space-between" paddingLeft="$2">
+          //                   <Text fontSize="$3" color="#666">
+          //                     {item.quantity}x {item.food.name}
+          //                   </Text>
+          //                   <Text fontSize="$3" color="#666">
+          //                     ${(item.food.price * item.quantity).toFixed(2)}
+          //                   </Text>
+          //                 </XStack>
+          //               ))}
+          //             </YStack>
+          //           )
+          //       )}
+          //     </YStack>
 
-              {/* Order Totals */}
-              <YStack space="$1" paddingTop="$2" borderTopWidth={1} borderTopColor="#EDEDED">
-                <XStack justifyContent="space-between">
-                  <Text fontSize="$3">Subtotal:</Text>
-                  <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
-                </XStack>
-                <XStack justifyContent="space-between">
-                  <Text fontSize="$3">Platform Fee:</Text>
-                  <Text fontSize="$3">${orderCalculations.platformFee.toFixed(2)}</Text>
-                </XStack>
-                <XStack justifyContent="space-between">
-                  <Text fontSize="$3">Delivery Fee:</Text>
-                  <Text fontSize="$3">${orderCalculations.deliveryFee.toFixed(2)}</Text>
-                </XStack>
-                <XStack justifyContent="space-between">
-                  <Text fontSize="$3" color="#00AA00">
-                    Discount:
-                  </Text>
-                  <Text fontSize="$3" color="#00AA00">
-                    -${orderCalculations.discountAmount.toFixed(2)}
-                  </Text>
-                </XStack>
-                <XStack justifyContent="space-between">
-                  <Text fontSize="$3">Taxes:</Text>
-                  <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
-                </XStack>
-                <XStack
-                  justifyContent="space-between"
-                  paddingTop="$2"
-                  borderTopWidth={1}
-                  borderTopColor="#EDEDED"
-                >
-                  <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold">
-                    Final Total:
-                  </Text>
-                  <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" color="#FF6B00">
-                    ${orderCalculations.total.toFixed(2)}
-                  </Text>
-                </XStack>
-              </YStack>
-            </PaymentCard>
+          //     {/* Order Totals */}
+          //     <YStack space="$1" paddingTop="$2" borderTopWidth={1} borderTopColor="#EDEDED">
+          //       <XStack justify="space-between">
+          //         <Text fontSize="$3">Subtotal:</Text>
+          //         <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
+          //       </XStack>
+          //       <XStack justify="space-between">
+          //         <Text fontSize="$3">Platform Fee:</Text>
+          //         <Text fontSize="$3">${orderCalculations.platformFee.toFixed(2)}</Text>
+          //       </XStack>
+          //       <XStack justify="space-between">
+          //         <Text fontSize="$3">Delivery Fee:</Text>
+          //         <Text fontSize="$3">${orderCalculations.deliveryFee.toFixed(2)}</Text>
+          //       </XStack>
+          //       <XStack justify="space-between">
+          //         <Text fontSize="$3" color="#00AA00">
+          //           Discount:
+          //         </Text>
+          //         <Text fontSize="$3" color="#00AA00">
+          //           -${orderCalculations.discountAmount.toFixed(2)}
+          //         </Text>
+          //       </XStack>
+          //       <XStack justify="space-between">
+          //         <Text fontSize="$3">Taxes:</Text>
+          //         <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
+          //       </XStack>
+          //       <XStack
+          //         justify="space-between"
+          //         paddingTop="$2"
+          //         borderTopWidth={1}
+          //         borderTopColor="#EDEDED"
+          //       >
+          //         <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold">
+          //           Final Total:
+          //         </Text>
+          //         <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" color="#FF6B00">
+          //           ${cartTotalAmount +31-10+1 }
+          //         </Text>
+          //       </XStack>
+          //     </YStack>
+          //   </PaymentCard>
 
-            {/* Payment Error Display */}
-            {paymentError && (
-              <View
-                padding="$3"
-                backgroundColor="#FEE"
-                borderRadius={8}
-                marginTop="$3"
-                borderWidth={1}
-                borderColor="#FCC"
-              >
-                <Text color="#C53030" fontSize={isMobile ? '$3' : '$4'}>
-                  {paymentError}
-                </Text>
-              </View>
-            )}
+          //   {/* Payment Error Display */}
+          //   {paymentError && (
+          //     <View
+          //       padding="$3"
+          //       backgroundColor="#FEE"
+          //       borderRadius={8}
+          //       marginTop="$3"
+          //       borderWidth={1}
+          //       borderColor="#FCC"
+          //     >
+          //       <Text color="#C53030" fontSize={isMobile ? '$3' : '$4'}>
+          //         {paymentError}
+          //       </Text>
+          //     </View>
+          //   )}
 
-            {/* Square Payment Form */}
-            <PaymentCard mobile={isMobile}>
-              <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$4">
-                Payment Details
-              </Text>
+          //   {/* Square Payment Form */}
+          //   <PaymentCard mobile={isMobile}>
+          //     <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$4">
+          //       Payment Details
+          //     </Text>
 
-              {isProcessingPayment && (
-                <View padding="$3" backgroundColor="#E6F3FF" borderRadius={8} marginBottom="$3">
-                  <Text color="#0066CC" fontSize={isMobile ? '$3' : '$4'}>
-                    Processing your order and payment...
-                  </Text>
-                </View>
-              )}
+          //     {isProcessingPayment && (
+          //       <View padding="$3" backgroundColor="#E6F3FF" borderRadius={8} marginBottom="$3">
+          //         <Text color="#0066CC" fontSize={isMobile ? '$3' : '$4'}>
+          //           Processing your order and payment...
+          //         </Text>
+          //       </View>
+          //     )}
 
-              <View opacity={isProcessingPayment ? 0.5 : 1}>
-                <PaymentForm
-                  applicationId={appId}
-                  locationId={locationId}
-                  cardTokenizeResponseReceived={handlePaymentToken}
-                  createPaymentRequest={() => ({
-                    countryCode: 'US',
-                    currencyCode: 'USD',
-                    total: {
-                      amount: (orderCalculations.total * 100).toString(),
-                      label: 'Total',
-                    },
-                  })}
-                >
-                  <View mt="$3">
-                    <GooglePay />
-                  </View>
-                  <View mt="$3">
-                    <ApplePay />
-                  </View>
+          //     <View opacity={isProcessingPayment ? 0.5 : 1}>
+          //       <PaymentForm
+          //         applicationId={appId}
+          //         locationId={locationId}
+          //         cardTokenizeResponseReceived={handlePaymentToken}
+          //         createPaymentRequest={() => ({
+          //           countryCode: 'US',
+          //           currencyCode: 'USD',
+          //           total: {
+          //             amount: (orderCalculations.total * 100).toString(),
+          //             label: 'Total',
+          //           },
+          //         })}
+          //       >
+          //         <View mt="$3">
+          //           <GooglePay />
+          //         </View>
+          //         <View mt="$3">
+          //           <ApplePay />
+          //         </View>
 
-                  <View mt="$3">
-                    <CreditCard />
-                  </View>
-                </PaymentForm>
-              </View>
-            </PaymentCard>
+          //         <View mt="$3">
+          //           <CreditCard />
+          //         </View>
+          //       </PaymentForm>
+          //     </View>
+          //   </PaymentCard>
 
-            {/* Security Notice */}
-            <View marginTop="$3" padding="$3" backgroundColor="#F8F9FA" borderRadius={8}>
-              <XStack space="$2" alignItems="center" flexWrap="wrap">
-                <Text
-                  fontSize={isMobile ? '$2' : '$3'}
-                  color="#6C757D"
-                  textAlign={isMobile ? 'center' : 'left'}
-                >
-                  🔒 Your payment information is secure and encrypted
-                </Text>
-              </XStack>
-            </View>
-          </View>
+          //   {/* Security Notice */}
+          //   <View marginTop="$3" padding="$3" backgroundColor="#F8F9FA" borderRadius={8}>
+          //     <XStack space="$2" alignItems="center" flexWrap="wrap">
+          //       <Text
+          //         fontSize={isMobile ? '$2' : '$3'}
+          //         color="#6C757D"
+          //         textAlign={isMobile ? 'center' : 'left'}
+          //       >
+          //         🔒 Your payment information is secure and encrypted
+          //       </Text>
+          //     </XStack>
+          //   </View>
+          // </View>
         )}
       </ResponsiveContainer>
     </StepCard>

@@ -152,19 +152,19 @@ console.log(foodItems)
         borderTopRightRadius={20}
         flex={1}
       >
-        <ScrollView
-          flex={1}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
+        
         <MainContent></MainContent>
-        </ScrollView>
       </Sheet.Frame>
     </Sheet>
  )
  
  function MainContent(){
    return (
+    <ScrollView
+          flex={1}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
       <XStack flex={1}>
  
              {/* Main Content Area */}
@@ -228,6 +228,8 @@ console.log(foodItems)
                {/* </ScrollView> */}
              </YStack>
            </XStack>
+        </ScrollView>
+
    )
  }
 }

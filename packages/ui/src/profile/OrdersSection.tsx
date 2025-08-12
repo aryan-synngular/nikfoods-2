@@ -292,6 +292,7 @@ export default function OrdersSection() {
         }>()
 
         if (response?.data?.items) {
+          console.log('Orders fetched:', response.data.items)
           setOrders(response.data.items || data.items)
           // setOrders(data.items)
           setPagination({

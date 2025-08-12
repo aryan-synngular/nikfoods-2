@@ -5,6 +5,8 @@ import DeliveryBoy from 'models/DeliveryBoy'
 import Review from 'models/Review'
 import { verifyAuth } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
+import FoodItem from 'models/FoodItem'
+import User from 'models/User'
 
 // Define interfaces for better type safety
 interface OrderItem {
@@ -76,8 +78,15 @@ export async function GET(req: NextRequest) {
       .skip(skip)
       .populate({
         path: 'items.items.food',
-        model: 'FoodItem',
+        model: FoodItem,
         select: 'name price',
+      }).populate({
+        path: 'user',
+        model: User,
+
+      }).populate({
+        path:"address",
+        model: 'Address',
       })
       // .populate('deliveryBoy', 'name phone email vehicleNumber')
       .lean()
@@ -157,7 +166,7 @@ export async function GET(req: NextRequest) {
           name: 'Nikfoods',
           location: 'San Francisco',
         },
-        deliveryAddress: 'Not specified', // Keep static to match old structure
+        deliveryAddress: order?.address, // Keep static to match old structure
         deliveryBoy: order.deliveryBoy
           ? {
               name: order.deliveryBoy.name,
@@ -225,7 +234,7 @@ export async function POST(req: NextRequest) {
       deliveryAddress?: string
       paymentMethod?: string
     } = body
-
+console.log("Delivery Address:", deliveryAddress)
     // Validate required fields
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -257,7 +266,7 @@ export async function POST(req: NextRequest) {
       },
       taxes,
       address: deliveryAddress || '',
-      paymentMethod: 'Credit Card',
+      paymentMethod: paymentMethod || 'Credit Card',
       status: 'pending', // Start with pending status
     })
 

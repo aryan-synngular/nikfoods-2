@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { YStack, XStack, Text, Button, ScrollView, Input } from 'tamagui'
+import { YStack, XStack, Text, Button, ScrollView, Input, Image } from 'tamagui'
 import { X } from '@tamagui/lucide-icons'
 import { QuantitySelector } from '@my/ui/src/buttons/QuantitySelector'
 import { apiGetFoodItems } from 'app/services/FoodService'
-
+import { IFoodItem } from 'app/types/foodItem'
+import { apiCreateUpdatingOrder } from 'app/services/OrderService'
+import { useLink } from 'solito/link'
 interface UpdateItemProps {
   orderId: string
   onClose: () => void
@@ -29,7 +31,7 @@ interface ApiResponse {
   pageSize: number
 }
 
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // Shimmer skeleton component for loading state
 const DishSkeleton = () => (
@@ -83,11 +85,22 @@ const DishSkeleton = () => (
 )
 
 export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemProps) {
-  const [selectedDay, setSelectedDay] = useState('Monday')
+  console.log('orderId', orderId)
+  const now = new Date()
+   // Determine default day
+  let defaultDay
+  if (now.getHours() < 13) {
+    // Before 1 PM → today
+    defaultDay = weekDays[now.getDay()-1]
+  } else {
+    // After 1 PM → tomorrow
+    defaultDay = weekDays[(now.getDay()) % 7]
+  }
+  const [selectedDay, setSelectedDay] = useState(defaultDay)
   const [searchText, setSearchText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([])
+  const [foodItems, setFoodItems] = useState<IFoodItem[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [hasMore, setHasMore] = useState(true)
@@ -98,6 +111,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     Wednesday: {},
     Thursday: {},
     Friday: {},
+    Saturday: {},
   })
 
   const pageSize = 7
@@ -121,6 +135,46 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
 
   const debouncedSearchText = useDebounce(searchText, 500)
 
+  // Helpers to compute current week's date for a weekday and disable state
+  const dayIndexMap: Record<string, number> = {
+    Sunday: 0,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+  }
+
+  const getCurrentWeekDateFor = (dayName: string): Date => {
+    const now = new Date()
+    const startOfToday = new Date(now)
+    startOfToday.setHours(0, 0, 0, 0)
+    const nowDay = startOfToday.getDay()
+    const monday = new Date(startOfToday)
+    const diffToMonday = (nowDay + 6) % 7
+    monday.setDate(monday.getDate() - diffToMonday)
+
+    const targetIndex = dayIndexMap[dayName] ?? 1
+    const offsetFromMonday = (targetIndex + 6) % 7
+
+    const result = new Date(monday)
+    result.setDate(monday.getDate() + offsetFromMonday)
+    result.setHours(0, 0, 0, 0)
+    return result
+  }
+
+  const isDayDisabled = (dayName: string): boolean => {
+    const now = new Date()
+    const startOfToday = new Date(now)
+    startOfToday.setHours(0, 0, 0, 0)
+    const target = getCurrentWeekDateFor(dayName)
+
+    if (target.getTime() < startOfToday.getTime()) return true
+    if (target.getTime() === startOfToday.getTime() && now.getHours() >= 13) return true
+    return false
+  }
+
   // Fetch food items from API
   const fetchFoodItems = useCallback(
     async (search = '', page = 1, loadMore = false) => {
@@ -138,12 +192,13 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
           limit: pageSize,
         })
 
+        console.log('Fetched food items:', response.data.items)
         const { items, total, page: currentPageFromApi, pageSize: pageSizeFromApi } = response.data
 
         if (loadMore) {
-          setFoodItems((prev) => [...prev, ...items])
+          setFoodItems((prev) => [...prev, ...items] as IFoodItem[])
         } else {
-          setFoodItems(items)
+          setFoodItems(items as unknown as IFoodItem[])
         }
 
         const totalPagesCalculated = Math.ceil(total / pageSizeFromApi)
@@ -250,34 +305,23 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
 
   const handleUpdateCart = async () => {
     setIsLoading(true)
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      const updatedItems = Object.entries(cartItems).reduce((acc, [day, dayCart]) => {
-        if (Object.keys(dayCart).length > 0) {
-          const newProducts = Object.entries(dayCart).map(([itemId, quantity]) => {
-            const item = foodItems.find((d) => d._id === itemId)
-            return {
-              id: itemId,
-              name: item?.name || '',
-              quantity: quantity,
-              price: item?.price || 0,
-              totalPrice: (item?.price || 0) * quantity,
-              category: item?.category?.name || '',
-            }
-          })
-
-          acc[day] = newProducts
-        }
-        return acc
-      }, {} as any)
-
-      onUpdate(orderId, updatedItems)
+      const payload = { orderId, cartItems }
+      const response = await apiCreateUpdatingOrder<{
+        success: boolean
+        data?: { updatingOrderId: string }
+      }>(payload)
+      console.log('Update order response:', response)
+      if (response?.success && response?.data?.updatingOrderId) {
+          const updatingOrderId = response.data.updatingOrderId
+          if (typeof window !== 'undefined') {
+            window.location.href = `/update-order?updatingOrderId=${updatingOrderId}`
+          }
+        
+      }
       onClose()
     } catch (error) {
-      console.error('Error updating cart:', error)
+      console.error('Error creating updating order:', error)
     } finally {
       setIsLoading(false)
     }
@@ -327,6 +371,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
               {weekDays.map((day) => {
                 const isSelected = selectedDay === day
                 const itemCount = getTotalItems(day)
+                const disabledDay = isDayDisabled(day)
 
                 return (
                   <Button
@@ -346,7 +391,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                     minWidth={itemCount > 0 ? 85 : 75}
                     paddingHorizontal={16}
                     paddingVertical={8}
-                    disabled={isLoading}
+                    disabled={isLoading || disabledDay}
                   >
                     {itemCount > 0 ? `${day} (${itemCount})` : day}
                   </Button>
@@ -389,6 +434,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
           <ScrollView
             flex={1}
             px={24}
+            height={500}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 16 }}
             onScroll={handleScroll}
@@ -399,7 +445,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                 ? // Show shimmer skeleton while loading initial data
                   Array.from({ length: 5 }).map((_, index) => <DishSkeleton key={index} />)
                 : foodItems.map((item) => {
-                    const quantity = cartItems[selectedDay][item._id] || 0
+                    const quantity = cartItems[selectedDay]?.[item?._id] || 0
 
                     return (
                       <XStack key={item._id} items="center" gap={12}>
@@ -412,18 +458,24 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                           justify="center"
                           items="center"
                         >
-                          {item.image ? (
+                          {item?.url ? (
                             <YStack
-                              width={64}
-                              height={64}
-                              borderRadius={8}
-                              overflow="hidden"
-                              bg="#F0F0F0"
+                              style={{
+                                width: 70,
+                                height: 70,
+                                borderRadius: 8,
+                                marginRight: 12,
+                                backgroundColor: '#F5F5F5',
+                                overflow: 'hidden',
+                              }}
                             >
-                              {/* You can add an Image component here if available */}
-                              <Text fontSize={10} color="#999">
-                                IMG
-                              </Text>
+                              <Image
+                                src={item?.url}
+                                alt={item.name}
+                                width={70}
+                                height={70}
+                                resizeMode="cover"
+                              />
                             </YStack>
                           ) : (
                             <Text fontSize={10} color="#999">
@@ -440,7 +492,8 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                             {item.description.length > 40
                               ? item.description.slice(0, 37) + '...'
                               : item.description ||
-                                item.category?.name ||
+                                // @ts-expect-error category type widening for display
+                                (item.category as any)?.name ||
                                 'No description available'}
                           </Text>
                         </YStack>

@@ -24,7 +24,8 @@ interface DessertDealsProps {
 }
 
 export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps) {
-const {addToCart}=useStore()
+const {addToCart,fetchCartRecommendations,cartRecommendations}=useStore()
+console.log(cartRecommendations)
 const [loading, setLoading] = useState(false)
   const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem | null>(null)
    
@@ -63,9 +64,9 @@ const [loading, setLoading] = useState(false)
     total: 0,
   })
   const getCartRecommendations = useCallback(async () => {
-    const data = await apiGetCartReccomendations<IResponse<IListResponse<IFoodItem>>>({})
-    console.log(data)
-    setDesserts(data?.data)
+   fetchCartRecommendations()
+    // console.log(data)
+    // setDesserts(data?.data)
   }, [])
   useEffect(() => {
     getCartRecommendations()
@@ -91,7 +92,7 @@ const [loading, setLoading] = useState(false)
       </XStack>
 
       <YStack style={{ gap: 12 }}>
-        {desserts.items.slice(0, 3).map((item) => (
+        {cartRecommendations?.items?.slice(0, 3).map((item) => (
           <XStack
             key={item._id}
             style={{

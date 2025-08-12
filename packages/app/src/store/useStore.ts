@@ -18,7 +18,7 @@ type CartState = {
   cart: ICart
   cartLoading: boolean
   cartTotalAmount: number
-  cartRecommendations: any[]
+  cartRecommendations: IListResponse<IFoodItem>
 }
 
 type CartActions = {
@@ -54,7 +54,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   cart: {} as ICart,
   cartLoading: false,
   cartTotalAmount: 0,
-  cartRecommendations: [],
+  cartRecommendations: {} as IListResponse<IFoodItem>,
   increment: () => set((state) => ({ count: state.count + 1 })),
   decrement: () => set((state) => ({ count: state.count - 1 })),
   foodItemsByCategory: [],
@@ -68,7 +68,10 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     set({ cartLoading: true })
     try {
       const res = await apiGetCart<IResponse<ICart>>()
-      set({ cart: res.data })
+      const totalAmount = res.data.days.reduce((total, day) =>
+    total + day.items.reduce((dayTotal, item) => dayTotal + (item.food.price * item.quantity), 0), 0
+  )
+      set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) })
     } catch (e) {
       // Optionally handle error
     } finally {
@@ -95,8 +98,6 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     set({ cartLoading: true })
     try {
       const res = await apiGetCartTotalAmount<IResponse<{ totalAmount: number }>>()
-      await get().fetchCartTotalAmount()
-
       set({ cartTotalAmount: res.data.totalAmount })
     } catch (e) {
       // Optionally handle error

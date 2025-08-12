@@ -3,7 +3,7 @@ import { format, parseISO } from 'date-fns'
 import { YStack, XStack, Text, Button, ScrollView, Circle, Card, Separator, Square } from 'tamagui'
 import { X, MapPin } from '@tamagui/lucide-icons'
 import { OrderDetailsSkeleton } from '../../loaders/OrdersSectionLoader'
-
+import { IAddress } from 'app/types/user'
 interface OrderDetailsProps {
   order: {
     id: string
@@ -24,7 +24,7 @@ interface OrderDetailsProps {
       name: string
       location: string
     }
-    deliveryAddress?: string
+    deliveryAddress?: IAddress
     paymentMethod?: string
     platformFee?: string
     deliveryFee?: string
@@ -39,6 +39,7 @@ interface OrderDetailsProps {
 }
 
 export default function OrderDetails({ order, onClose, loading = false }: OrderDetailsProps) {
+  console.log('Order Details:', order)
   const calculateItemTotal = () => {
     if (!order?.items) return 0
     return order.items.reduce((sum, item) => {
@@ -165,8 +166,8 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                         Delivery Address
                       </Text>
                       <Text fontSize="$2" color="#999" numberOfLines={2}>
-                        {order?.deliveryAddress && order.deliveryAddress !== 'Not specified'
-                          ? order.deliveryAddress
+                        {order?.deliveryAddress && order?.deliveryAddress !== 'Not specified'
+                          ? `${order.deliveryAddress?.street_address}, ${order?.deliveryAddress?.city}`
                           : '13th Street, 47 W 13th St, New York, NY 10011, USA'}
                       </Text>
                     </YStack>

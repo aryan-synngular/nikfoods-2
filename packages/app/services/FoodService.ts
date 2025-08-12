@@ -4,7 +4,7 @@ import ApiServices from './ApiService'
 export async function apiGetFoodItems<T>({
   search = '',
   category = 'all',
-  vegOnly = false,
+  vegOnly = null,
   page = 1,
   limit = 7,
 }): Promise<T> {

@@ -111,14 +111,14 @@ console.log('Request body:', { removed, edited, added, foodItemId })
 
         cartDay.items.push(newItem[0])
         await cartDay.save({ session })
-
+ console.log('New item added:', newItem[0])
         results.added.push(newItem[0])
       }
     }
 
     await session.commitTransaction()
     session.endSession()
-
+console.log('Cart updated successfully:', results)
     return NextResponse.json(
       { message: 'Cart updated', data: results },
       { status: 201 }
