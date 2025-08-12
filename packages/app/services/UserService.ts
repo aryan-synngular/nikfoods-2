@@ -99,3 +99,24 @@ export async function apiDeleteUserAddress<T, S>(id: string): Promise<T> {
     throw error
   }
 }
+
+
+export async function apiGetPlaces<T>(input:string): Promise<T> {
+  const url = `places?input=${input}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log(response)
+    console.log('All places:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error all places', error)
+    throw error?.response?.data
+  }
+}

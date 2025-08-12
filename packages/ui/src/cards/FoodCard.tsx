@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { Image } from 'react-native'
 import { Text, YStack, XStack, Circle, ZStack } from 'tamagui'
 import { QuantitySelector } from '../buttons/QuantitySelector'
-
+import {BadgeCheck, ShoppingCart} from '@tamagui/lucide-icons'
+import { colors } from '../colors'
 interface FoodCardProps {
   imageUrl: string
   name: string
@@ -14,6 +15,7 @@ interface FoodCardProps {
   onDecrement?: () => void
   quantity?: number
   handleAddButtonClick: () => void
+  isAdded?: boolean
 }
 
 export function FoodCard({
@@ -25,6 +27,7 @@ export function FoodCard({
   onDecrement,
   handleAddButtonClick,
   quantity = 0,
+  isAdded = false,
 }: FoodCardProps) {
   const formattedPrice = `$${price.toFixed(2)}`
 
@@ -36,10 +39,13 @@ export function FoodCard({
 
   return (
     <>
-      <YStack width={200} style={{ alignItems: 'center' }}>
+      <YStack minW={200} style={{ alignItems: 'center' }}>
         {/* Main container with relative positioning */}
-        <YStack width={180} style={{ alignItems: 'center' }}>
+        <YStack minW={180} style={{ alignItems: 'center',position: 'relative' }}>
           {/* Circle image that overlaps the card */}
+          {isAdded&&<XStack style={{ position: 'absolute', top: 40, right:10, zIndex: 1 }}>
+            <BadgeCheck color={colors.primary}></BadgeCheck>
+          </XStack>}
           <Circle
             size={100}
             overflow="hidden"
@@ -63,7 +69,7 @@ export function FoodCard({
 
           {/* Card content */}
           <YStack
-            width={180}
+            minW={180}
             style={{ borderRadius: 24, overflow: 'hidden', backgroundColor: 'white' }}
             boxShadow="10px 10px 20px rgba(0, 0, 0, 0.1)"
           >

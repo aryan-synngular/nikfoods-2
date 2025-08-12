@@ -22,7 +22,7 @@ export async function apiGetOrders<T>(): Promise<T> {
   }
 }
 
-export async function apiCreateOrder<T>(orderData : any): Promise<T> {
+export async function apiCreateOrder<T>(orderData: any): Promise<T> {
   const url = `orders`
 
   const axiosConfig: AxiosRequestConfig = {
@@ -71,7 +71,12 @@ export async function apiSubmitReview<T>(reviewData: {
   }
 }
 
-export async function apiCheckout<T>(orderData: { sourceId: string; amount: number,orderId : any, buyerVerificationToken  :any }): Promise<T> {
+export async function apiCheckout<T>(orderData: {
+  sourceId: string
+  amount: number
+  orderId: any
+  buyerVerificationToken: any
+}): Promise<T> {
   const url = 'checkout'
 
   const axiosConfig: AxiosRequestConfig = {
@@ -115,7 +120,9 @@ export async function apiGetOrderDetails<T>(orderId: string): Promise<T> {
   }
 }
 
-export async function apiUpdateOrderItems<T>(orderId: string, updatedItems: any): Promise<T> {
+export async function apiUpdateOrderItems<T>(
+  payload: { updatingOrderId: string } | { orderId: string; updatedItems: any }
+): Promise<T> {
   const url = `orders/update`
 
   const axiosConfig: AxiosRequestConfig = {
@@ -124,10 +131,7 @@ export async function apiUpdateOrderItems<T>(orderId: string, updatedItems: any)
     headers: {
       'Content-Type': 'application/json',
     },
-    data: {
-      orderId,
-      updatedItems,
-    },
+    data: payload as any,
     maxRedirects: 5,
   }
 
@@ -178,6 +182,75 @@ export async function apiReorder<T>(orderId: string): Promise<T> {
     return response.data
   } catch (error) {
     console.error('Error creating reorder::', error)
+    throw error?.response?.data
+  }
+}
+
+export async function apiCreateUpdatingOrder<T>(payload: {
+  orderId: string
+  cartItems: Record<string, Record<string, number>>
+}): Promise<T> {
+  const url = `updating-order`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: payload,
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    return response.data
+  } catch (error) {
+    throw error?.response?.data
+  }
+}
+
+export async function apiGetUpdatingOrderById<T>(updatingOrderId: string): Promise<T> {
+  const url = `updating-order/${updatingOrderId}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    return response.data
+  } catch (error) {
+    throw error?.response?.data
+  }
+}
+
+export async function apiGetAdminOrders<T>({
+  page = 1,
+  limit = 10,
+  status = 'all',
+}: {
+  page?: number
+  limit?: number
+  status?: string
+} = {}): Promise<T> {
+  const url = `orders/admin?page=${page}&limit=${limit}&status=${status}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching admin orders::', error)
     throw error?.response?.data
   }
 }

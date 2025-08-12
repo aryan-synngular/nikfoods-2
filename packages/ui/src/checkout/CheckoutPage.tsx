@@ -351,8 +351,8 @@ export function CheckoutPage({
               {/* Left column - Cart items */}
               <YStack
                 style={{
-                  flex: isDesktop ? 0.65 : 1,
-                  width: isDesktop ? '65%' : '100%',
+                  flex: isDesktop ? currentStep=="payment"?1: 0.65 : 1,
+                  width: isDesktop ?  currentStep=="payment"?"100%":'65%' : '100%',
                 }}
               >
                 <ScrollView style={{ flex: 1 }}>
@@ -380,7 +380,7 @@ export function CheckoutPage({
               </YStack>
 
               {/* Right column - Summary and Dessert deals (desktop only) */}
-              {isDesktop === true ? (
+              {currentStep==="delivery"&&( isDesktop === true ? (
                 <YStack
                   style={{
                     flex: 0.35,
@@ -481,7 +481,7 @@ export function CheckoutPage({
                     />
                   </YStack>
                 </YStack>
-              )}
+              ))}
             </XStack>
           </YStack>
         )}

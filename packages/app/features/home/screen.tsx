@@ -48,7 +48,8 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
     foodItemsLoading,
     fetchFoodItemsByCategory,
     fetchCategories,
-    fetchCart
+    fetchCart,
+    cartTotalAmount
   } = useStore()
 
   // Toast after Successful login
@@ -242,7 +243,7 @@ const handleCardPress = (category: IFoodCategory) => {
         </YStack>
         
         {/* Cart Sidebar - Only show on web */}
-        {Platform.OS === 'web'&&media.sm && (
+        {cartTotalAmount>0&&Platform.OS === 'web'&&media.sm && (
           <YStack  style={{ maxWidth: '250px', minWidth: '150px' }}>
             {loading ? (
               <CartSidebarShimmer />

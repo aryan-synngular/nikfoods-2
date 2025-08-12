@@ -9,6 +9,7 @@ import { IAddress } from 'app/types/user'
 import { apiAddAddress } from 'app/services/AuthService'
 import { apiAddUserAddress, apiEditUserAddress } from 'app/services/UserService'
 import { IResponse } from 'app/types/common'
+import { AddressSearch } from '../address/AddressSerach'
 
 export function AddAddressForm({
   initialData,
@@ -91,6 +92,7 @@ export function AddAddressForm({
         justifyContent: 'space-between',
       }}
     >
+      {/* <AddressSearch onSelect={(place) => console.log('Selected place:', place)} /> */}
       {/* Logo */}
       <YStack style={{ alignItems: 'center', width: '100%' }}>
         <Image

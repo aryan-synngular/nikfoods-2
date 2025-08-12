@@ -121,7 +121,7 @@ const [loading, setLoading] = useState(false)
 
   return (
     <YStack  style={{ paddingTop: 20, paddingBottom: 20 }}>
-      <Text text={"center"} fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
+      <Text  fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
         {displayLabel}
       </Text>
      { foodItems?.items.length === 0?(<XStack mt={20} justify='center'  >
@@ -140,7 +140,7 @@ const [loading, setLoading] = useState(false)
             }}
           >
             
-            { row?.map((item, itemIndex) => (
+            { row?.map((item:any, itemIndex) => (
               <YStack key={item._id} style={{ width: cardWidth }}>
                 <FoodCard
                   imageUrl={item.url}
@@ -151,6 +151,7 @@ const [loading, setLoading] = useState(false)
                   onIncrement={() => handleIncrement(item._id)}
                   onDecrement={() => handleDecrement(item._id)}
                   handleAddButtonClick={() => handleAddButtonClick(item)}
+                  isAdded={item?.days?.length > 0}
                 />
               </YStack>
             ))}

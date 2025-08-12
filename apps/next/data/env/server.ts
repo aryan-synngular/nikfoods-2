@@ -13,4 +13,5 @@ export const serverEnv = serverEnvSchema.parse({
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY!,
 })

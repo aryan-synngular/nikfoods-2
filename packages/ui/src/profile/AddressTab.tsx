@@ -78,7 +78,7 @@ export default function AddressTab() {
             style={{
               background: '#fff',
               borderRadius: 12,
-              padding: 24,
+              // padding: 24,
               width: 540,
               maxWidth: '90vw',
             }}

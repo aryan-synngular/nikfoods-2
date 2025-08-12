@@ -1,4 +1,4 @@
-import { View, Input, Label, Select, YStack, XStack, Text, styled, Button } from 'tamagui'
+import { View, Input, Label, Select, YStack, XStack, Text, styled, Button, Spinner } from 'tamagui'
 import { IAddress } from 'app/types/user'
 import Selectable from '../Selectable'
 import { MapPin, Plus, CreditCard as CreditCardIcon, Smartphone } from '@tamagui/lucide-icons'
@@ -8,10 +8,11 @@ import { PaymentForm, CreditCard, GooglePay, ApplePay } from 'react-square-web-p
 import { apiCheckout, apiCreateOrder } from 'app/services/OrderService'
 import { apiGetCart, apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
-import { useLink } from 'solito/navigation'
 import { IResponse } from 'app/types/common'
 import { useStore } from 'app/src/store/useStore'
-import PaymentPage from './PaymentPage'
+import { Dialog } from 'tamagui'
+import { colors } from '../colors'
+import PaymentStatusPopup from './PaymentStatusPopup'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -160,9 +161,7 @@ const OrderSummaryRow = styled(XStack, {
   },
 })
 
-const CheckoutLoggedIn = ({
-  currentStep,
-  addresses = [],
+export default function PaymentPage({
   selectedAddress,
   handleAddressChange,
   goBack,
@@ -170,24 +169,23 @@ const CheckoutLoggedIn = ({
   onPaymentError,
   onOrderCreated,
 }: {
-  currentStep: 'delivery' | 'payment'
-  addresses: IAddress[]
   selectedAddress: IAddress
   handleAddressChange: (val: string) => void
   goBack: () => void
   onPaymentSuccess?: (orderData: any) => void
   onPaymentError?: (error: any) => void
   onOrderCreated?: (orderId: string) => void
-}) => {
-  const {cartTotalAmount,cart,fetchCart}=useStore()
-  console.log(cart)
-  const ordersPage = useLink({
-    href: '/account',
-  })
+}) {
+  const { cartTotalAmount, cart } = useStore()
+
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [isLoadingCart, setIsLoadingCart] = useState(true)
+  const [paymentStatus, setPaymentStatus] = useState<'processing' | 'success' | 'failed' | null>(
+    null
+  )
+  const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
   const { showMessage } = useToast()
 
   // Mobile detection
@@ -207,21 +205,22 @@ const CheckoutLoggedIn = ({
   }, [checkMobile])
 
   // Fetch cart data
-  const fetchCartData = useCallback(async () => {
-    try {
-      setIsLoadingCart(true)
-      await fetchCart()
-    } catch (error) {
-      console.error('Error fetching cart:', error)
-      showMessage('Error loading cart data', 'error')
-    } finally {
-      setIsLoadingCart(false)
-    }
-  }, [showMessage])
+  // const fetchCartData = useCallback(async () => {
+  //   try {
+  //     setIsLoadingCart(true)
+  //     const response = await apiGetCart<IResponse<Cart>>()
+  //     setCart(response.data)
+  //   } catch (error) {
+  //     console.error('Error fetching cart:', error)
+  //     showMessage('Error loading cart data', 'error')
+  //   } finally {
+  //     setIsLoadingCart(false)
+  //   }
+  // }, [showMessage])
 
-  useEffect(() => {
-    fetchCartData()
-  }, [])
+  // useEffect(() => {
+  //   fetchCartData()
+  // }, [])
 
   // Calculate totals from cart data
   const orderCalculations = useMemo(() => {
@@ -296,6 +295,7 @@ const CheckoutLoggedIn = ({
 
       setIsProcessingPayment(true)
       setPaymentError(null)
+      setPaymentStatus('processing')
 
       try {
         // Step 1: Create order in pending status
@@ -305,12 +305,10 @@ const CheckoutLoggedIn = ({
           throw new Error('Unable to process cart data')
         }
 
-        showMessage('Creating order...', 'info')
         const orderResponse: any = await apiCreateOrder(orderData)
         const orderId = orderResponse?.data._id
 
         // Step 2: Process payment with Square
-        showMessage('Processing payment...', 'info')
         const paymentResponse: any = await apiCheckout({
           sourceId: token?.token || '',
           amount: Math.round(orderCalculations.total * 100), // Square expects cents
@@ -320,14 +318,14 @@ const CheckoutLoggedIn = ({
 
         if (paymentResponse.success) {
           // Step 3: Payment successful - clear cart
-          showMessage('Payment successfully...', 'success')
           try {
             await apiClearCart()
           } catch (clearError) {
             console.warn('Could not clear cart:', clearError)
           }
 
-          showMessage('Order placed successfully!', 'success')
+          setPaymentStatus('success')
+          setCompletedOrderId(orderId)
 
           if (onPaymentSuccess) {
             onPaymentSuccess({
@@ -337,7 +335,6 @@ const CheckoutLoggedIn = ({
             })
           }
 
-          ordersPage.onPress()
           if (onOrderCreated) {
             onOrderCreated(orderId)
           }
@@ -348,7 +345,8 @@ const CheckoutLoggedIn = ({
         console.error('Checkout process error:', error)
         const errorMessage = error?.message || 'Payment failed. Please try again.'
         setPaymentError(errorMessage)
-        showMessage(errorMessage, 'error')
+        setPaymentStatus('failed')
+        setCompletedOrderId('1293827237464236') // Mock order ID for demo
 
         if (onPaymentError) {
           onPaymentError(error)
@@ -384,175 +382,200 @@ const CheckoutLoggedIn = ({
     [onPaymentError, showMessage]
   )
 
-  // Show loading state while cart is being fetched
-  if (isLoadingCart) {
-    return (
-      <StepCard mobile={isMobile}>
-        <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-            <Text fontSize="$4">Loading Address and cart details...</Text>
-          </YStack>
-        </ResponsiveContainer>
-      </StepCard>
-    )
-  }
-
-  // Show error if no cart data
-  if (!cart || cart.days.length === 0) {
-    return (
-      <StepCard mobile={isMobile}>
-        <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-            <Text fontSize="$4" color="$red10">
-              Your cart is empty
-            </Text>
-            <Button onPress={() => (window.location.href = '/')}>Continue Shopping</Button>
-          </YStack>
-        </ResponsiveContainer>
-      </StepCard>
-    )
-  }
-
   return (
-    <StepCard mobile={isMobile}>
-      <ResponsiveContainer mobile={isMobile}>
-        {currentStep === 'delivery' && (
-          <View>
-            <CheckoutStep
-              icon={<MapPin size={16} color="#FF6B00" />}
-              title="Delivery Address"
-              description="We'll only use your address to deliver your order safely and on time."
-            />
+    <View>
+      <XStack
+        justify="space-between"
+        alignItems={isMobile ? 'flex-start' : 'center'}
+        marginBottom="$4"
+        flexWrap={isMobile ? 'wrap' : 'nowrap'}
+        gap={isMobile ? '$2' : '$0'}
+      >
+        <CheckoutStep
+          icon={<CreditCardIcon size={16} color="#FF6B00" />}
+          title="Payment Method"
+          description="Choose your preferred payment method to complete your order."
+        />
+        <Text
+          onPress={goBack}
+          hoverStyle={{ color: '#FF1F0D' }}
+          pressStyle={{ color: '#FF1F0D' }}
+          cursor="pointer"
+          color="#FF9F0D"
+          textDecorationLine="underline"
+          fontSize={isMobile ? '$3' : '$4'}
+          marginTop={isMobile ? '$2' : '$0'}
+        >
+          Edit address
+        </Text>
+      </XStack>
 
-            <AddressFormContainer mobile={isMobile}>
-              <Selectable
-                size={isMobile ? '$3' : '$4'}
-                value={selectedAddress?._id}
-                title="Saved Address"
-                placeholder="Select an address..."
-                options={addresses?.map((addr) => ({
-                  value: addr._id,
-                  label:
-                    `${addr.location_remark || ''} ${addr.street_address || ''} ${addr.city || ''} ${addr.province || ''} ${addr.postal_code || ''}`.trim(),
-                }))}
-                onValueChange={handleAddressChange}
-              >
-                <Button
-                  borderColor="#FF9F0D"
-                  color="#FF9F0D"
-                  fontWeight="bold"
-                  iconAfter={<Plus color="#FF9F0D" size={isMobile ? 16 : 20} />}
-                  borderWidth={1}
-                  margin="$3"
-                  chromeless
-                  variant="outlined"
-                  size={isMobile ? '$3' : '$4'}
-                >
-                  Add Address
-                </Button>
-              </Selectable>
+      {/* Order Summary with Cart Items */}
+      <PaymentCard mobile={isMobile}>
+        <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$3">
+          Order Summary
+        </Text>
 
-              {selectedAddress && (
-                <YStack space="$3" marginTop="$3">
-                  <Label fontSize={isMobile ? '$3' : '$4'}>Address</Label>
-                  <Input
-                    readOnly
-                    value={selectedAddress?.street_address || ''}
-                    size={isMobile ? '$3' : '$4'}
-                  />
+        <OrderSummaryRow mobile={isMobile}>
+          <Text fontSize={isMobile ? '$3' : '$4'}>Delivery to:</Text>
+          <Text
+            fontWeight="500"
+            fontSize={isMobile ? '$3' : '$4'}
+            textAlign={isMobile ? 'right' : 'left'}
+          >
+            {selectedAddress?.location_remark || 'Selected Address'}
+          </Text>
+        </OrderSummaryRow>
 
-                  <FormRow mobile={isMobile}>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Town/City</Label>
-                      <Input
-                        readOnly
-                        value={selectedAddress?.city || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Province</Label>
-                      <Input
-                        readOnly
-                        value={selectedAddress?.province || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                  </FormRow>
+        <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
+          {selectedAddress?.street_address
+            ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
+            : 'Address details'}
+        </Text>
 
-                  <Label fontSize={isMobile ? '$3' : '$4'}>Notes about your order</Label>
-                  <Input
-                    readOnly
-                    value={selectedAddress?.notes || ''}
-                    placeholder="E.g. special notes for delivery"
-                    size={isMobile ? '$3' : '$4'}
-                  />
-
-                  <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" marginTop="$4">
-                    Personal Details
+        {/* Cart Items Summary */}
+        <YStack space="$2" marginBottom="$3">
+          {cart?.days?.map(
+            (day) =>
+              day.items.length > 0 && (
+                <YStack key={day._id} space="$1">
+                  <Text fontSize="$3" fontWeight="600" color="#FF6B00">
+                    {day.day} ({new Date(day.date).toLocaleDateString()})
                   </Text>
-
-                  <FormRow mobile={isMobile}>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Name</Label>
-                      <Input
-                        readOnly
-                        placeholder="Name"
-                        value={selectedAddress?.name || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Email Address</Label>
-                      <Input
-                        readOnly
-                        placeholder="Email address"
-                        value={selectedAddress?.email || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                  </FormRow>
-
-                  <FormRow mobile={isMobile}>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Phone (optional)</Label>
-                      <Input
-                        readOnly
-                        placeholder="Phone (optional)"
-                        value={selectedAddress?.phone || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                    <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Location Remark</Label>
-                      <Input
-                        readOnly
-                        placeholder="e.g. home, office"
-                        value={selectedAddress?.location_remark || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField>
-                  </FormRow>
+                  {day.items.map((item) => (
+                    <XStack key={item._id} justify="space-between" paddingLeft="$2">
+                      <Text fontSize="$3" color="#666">
+                        {item.quantity}x {item.food.name}
+                      </Text>
+                      <Text fontSize="$3" color="#666">
+                        ${(item.food.price * item.quantity).toFixed(2)}
+                      </Text>
+                    </XStack>
+                  ))}
                 </YStack>
-              )}
-            </AddressFormContainer>
+              )
+          )}
+        </YStack>
+
+        {/* Order Totals */}
+        <YStack space="$1" paddingTop="$2" borderTopWidth={1} borderTopColor="#EDEDED">
+          <XStack justify="space-between">
+            <Text fontSize="$3">Subtotal:</Text>
+            <Text fontSize="$3">${orderCalculations?.subtotal?.toFixed(2)}</Text>
+          </XStack>
+          <XStack justify="space-between">
+            <Text fontSize="$3">Platform Fee:</Text>
+            <Text fontSize="$3">${orderCalculations?.platformFee?.toFixed(2)}</Text>
+          </XStack>
+          <XStack justify="space-between">
+            <Text fontSize="$3">Delivery Fee:</Text>
+            <Text fontSize="$3">${orderCalculations?.deliveryFee?.toFixed(2)}</Text>
+          </XStack>
+          <XStack justify="space-between">
+            <Text fontSize="$3" color="#00AA00">
+              Discount:
+            </Text>
+            <Text fontSize="$3" color="#00AA00">
+              -${orderCalculations?.discountAmount?.toFixed(2)}
+            </Text>
+          </XStack>
+          <XStack justify="space-between">
+            <Text fontSize="$3">Taxes:</Text>
+            <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
+          </XStack>
+          <XStack
+            justify="space-between"
+            paddingTop="$2"
+            borderTopWidth={1}
+            borderTopColor="#EDEDED"
+          >
+            <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold">
+              Final Total:
+            </Text>
+            <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" color="#FF6B00">
+              ${cartTotalAmount + 31 - 10 + 1}
+            </Text>
+          </XStack>
+        </YStack>
+      </PaymentCard>
+
+      {/* Payment Error Display */}
+      {paymentError && (
+        <View
+          padding="$3"
+          backgroundColor="#FEE"
+          borderRadius={8}
+          marginTop="$3"
+          borderWidth={1}
+          borderColor="#FCC"
+        >
+          <Text color="#C53030" fontSize={isMobile ? '$3' : '$4'}>
+            {paymentError}
+          </Text>
+        </View>
+      )}
+
+      {/* Square Payment Form */}
+      <PaymentCard mobile={isMobile}>
+        <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$4">
+          Payment Details
+        </Text>
+
+        {isProcessingPayment && (
+          <View padding="$3" backgroundColor="#E6F3FF" borderRadius={8} marginBottom="$3">
+            <Text color="#0066CC" fontSize={isMobile ? '$3' : '$4'}>
+              Processing your order and payment...
+            </Text>
           </View>
         )}
 
-        {currentStep === 'payment' && (
-          <PaymentPage
-            selectedAddress={selectedAddress}
-            handleAddressChange={handleAddressChange}
-            goBack={goBack}
-            onPaymentSuccess={onPaymentSuccess}
-            onPaymentError={onPaymentError}
-            onOrderCreated={onOrderCreated}
-          />
-        
-        )}
-      </ResponsiveContainer>
-    </StepCard>
+        <View opacity={isProcessingPayment ? 0.5 : 1}>
+          <PaymentForm
+            applicationId={appId}
+            locationId={locationId}
+            cardTokenizeResponseReceived={handlePaymentToken}
+            createPaymentRequest={() => ({
+              countryCode: 'US',
+              currencyCode: 'USD',
+              total: {
+                amount: (orderCalculations.total * 100).toString(),
+                label: 'Total',
+              },
+            })}
+          >
+            <View mt="$3">
+              <GooglePay />
+            </View>
+            <View mt="$3">
+              <ApplePay />
+            </View>
+
+            <View mt="$3">
+              <CreditCard />
+            </View>
+          </PaymentForm>
+        </View>
+      </PaymentCard>
+
+      {/* Security Notice */}
+      <View marginTop="$3" padding="$3" backgroundColor="#F8F9FA" borderRadius={8}>
+        <XStack space="$2" alignItems="center" flexWrap="wrap">
+          <Text
+            fontSize={isMobile ? '$2' : '$3'}
+            color="#6C757D"
+            textAlign={isMobile ? 'center' : 'left'}
+          >
+            🔒 Your payment information is secure and encrypted
+          </Text>
+        </XStack>
+      </View>
+
+      {/* Payment Status Modal */}
+      <PaymentStatusPopup
+        setPaymentStatus={setPaymentStatus}
+        completedOrderId={completedOrderId}
+        paymentStatus={paymentStatus}
+      ></PaymentStatusPopup>
+    </View>
   )
 }
-
-export default CheckoutLoggedIn
