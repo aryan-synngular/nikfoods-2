@@ -12,12 +12,20 @@ export interface IUser {
   isCompleted?: boolean
   createdAt?: Date
   updatedAt?: Date
+  provider?: string // 'credentials', 'google', 'facebook', etc.
 }
 
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: {
+  type: String,
+  required: function () {
+    // Only require password for Credentials (email/password) provider
+    return !this.provider || this.provider === 'credentials';
+  }
+},
+    provider: { type: String, default: 'credentials' }, // 'credentials', '
     role: { type: String, required: true, default: 'USER' },
     isCompleted: { type: Boolean, default: false },
     addresses: [{ type: Schema.Types.ObjectId, ref: Address }],

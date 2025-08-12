@@ -7,6 +7,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import AppleProvider from 'next-auth/providers/apple'
 import FacebookProvider from 'next-auth/providers/facebook'
 import { serverEnv } from 'data/env/server'
+import { console } from 'inspector'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -68,6 +69,7 @@ export const authOptions: NextAuthOptions = {
       await connectToDatabase()
 
       // Check if user already exists in DB
+      console.log("Account:", account)
       let existingUser = await UserModel.findOne({ email: user.email })
 
       if (!existingUser) {
@@ -77,6 +79,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name || profile?.name || '',
           isCompleted: false,
           role: 'USER',
+          provider: account?.provider || 'credentials',
         })
       }
 

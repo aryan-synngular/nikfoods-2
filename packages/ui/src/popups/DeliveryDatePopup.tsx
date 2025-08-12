@@ -65,6 +65,7 @@ export function DeliveryDatePopup({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, item])
 
+  console.log('Selected dates:', selectedDates)
   // Generate date options for the current week (Mon-Sat), excluding Sunday
   const generateDateOptions = (): DeliveryDateOption[] => {
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -77,9 +78,21 @@ export function DeliveryDatePopup({
     startOfToday.setHours(0, 0, 0, 0)
 
     // Find Monday of the current week
+    // If today is Sunday (0), we want next Monday
+    // If today is Monday (1), we want today
+    // If today is Tuesday (2), we want yesterday (Monday)
     const monday = new Date(startOfToday)
-    const diffToMonday = (nowDay + 6) % 7 // 0 if Monday, 6 if Sunday
-    monday.setDate(monday.getDate() - diffToMonday)
+    let daysToSubtract
+
+    if (nowDay === 0) {
+      // Sunday - get next Monday (add 1 day)
+      daysToSubtract = -1
+    } else {
+      // Monday to Saturday - subtract (day - 1) to get to Monday
+      daysToSubtract = nowDay - 1
+    }
+
+    monday.setDate(monday.getDate() - daysToSubtract)
 
     // Build options for Monday through Saturday
     const options: DeliveryDateOption[] = []
@@ -96,7 +109,7 @@ export function DeliveryDatePopup({
 
       const day = dayNames[date.getDay()]
       const dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`
-      const fullDate = date.toISOString().split('T')[0]
+      const fullDate = date.toISOString()
 
       options.push({ day, date: dateStr, fullDate, disabled })
     }
@@ -109,16 +122,19 @@ export function DeliveryDatePopup({
   // Toggle selection
   const handleToggleDate = (val: DeliveryDateOption) => {
     if (val.disabled) return
+    console.log('Toggling date:', val)
     setSelectedDates((prev) => {
       const idx = prev.findIndex((d) => d.day_name === val.day)
       if (idx === -1) {
         // Not selected, add with quantity 1
-        return [...prev, { day_name: val.day, date: val.fullDate, quantity: 1 }]
+        return [...prev, { day_name: val.day, date: val.date, quantity: 1 }]
       } else {
         // Already selected, remove
         return prev.filter((d) => d.day_name !== val.day)
       }
     })
+
+    console.log('Selected dates after toggle:', selectedDates)
   }
 
   // Increment quantity

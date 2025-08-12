@@ -88,10 +88,14 @@ console.log('Request body:', { removed, edited, added, foodItemId })
             ],
             { session }
           )
+          console.log('Created new CartDay:', date)
+          console.log('Created new CartDay:', cartDay)
           cartDay = Array.isArray(cartDay) ? cartDay[0] : cartDay
           cart.days.push(cartDay._id)
           await cart.save({ session })
         } else if (date) {
+          console.log('Created new CartDay:', date)
+          console.log('Created new CartDay:', cartDay)
           cartDay.date = new Date(date)
         }
 

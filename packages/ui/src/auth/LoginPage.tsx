@@ -6,6 +6,7 @@ import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 import {useAuth} from 'app/provider/auth-context'
 import { useToast } from '@my/ui/src/useToast'
+import { signIn as authSignIn, } from 'next-auth/react'
 
 export function LoginPage() {
 
@@ -73,9 +74,13 @@ export function LoginPage() {
     }
   }
   
-  const handleSocialLogin = (provider: string) => {
+  const handleSocialLogin = async (provider: string) => {
     console.log(provider)
-    signIn(provider)
+    await authSignIn("google", {
+      redirect: true,
+      callbackUrl: "http://localhost:3000", // Adjust this URL as needed
+      // You can pass additional parameters here if needed
+    })
     console.log(`Login with ${provider}`)
     // Here you would typically redirect to OAuth provider
   }
