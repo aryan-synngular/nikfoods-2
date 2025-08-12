@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import {
   apiGetUpdatingOrderById,
@@ -13,7 +13,7 @@ import { View, Text, YStack, XStack, Spinner, Button } from 'tamagui'
 import { CreditCard as CreditCardIcon } from '@tamagui/lucide-icons'
 import PaymentStatusPopup from '@my/ui/src/checkout/PaymentStatusPopup'
 
-export default function UpdateOrderPage() {
+function UpdateOrderContent() {
   const sp = useSearchParams()
   const router = useRouter()
   const updatingOrderId = sp?.get('updatingOrderId') || ''
@@ -240,7 +240,7 @@ export default function UpdateOrderPage() {
             <Text fontSize="$5" fontWeight="600" marginBottom="$4">
               Payment Details
             </Text>
-
+ 
             {isProcessingPayment && (
               <View padding="$3" backgroundColor="#E6F3FF" borderRadius="$3" marginBottom="$3">
                 <XStack space="$2" alignItems="center">
@@ -299,5 +299,25 @@ export default function UpdateOrderPage() {
         paymentStatus={paymentStatus}
       />
     </View>
+  )
+}
+
+// Loading fallback component
+function UpdateOrderLoading() {
+  return (
+    <View flex={1} justifyContent="center" alignItems="center" p="$4">
+      <YStack space="$3" alignItems="center">
+        <Spinner size="large" color="#FF6B00" />
+        <Text fontSize="$4">Loading...</Text>
+      </YStack>
+    </View>
+  )
+}
+
+export default function UpdateOrderPage() {
+  return (
+    <Suspense fallback={<UpdateOrderLoading />}>
+      <UpdateOrderContent />
+    </Suspense>
   )
 }
