@@ -177,7 +177,6 @@ export default function PaymentPage({
   onOrderCreated?: (orderId: string) => void
 }) {
   const { cartTotalAmount, cart } = useStore()
- 
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
@@ -558,48 +557,6 @@ export default function PaymentPage({
         </View>
       </PaymentCard>
 
-      {/* Demo Buttons for Testing Payment Status */}
-      <View marginTop="$3" padding="$3" backgroundColor="#F0F8FF" borderRadius={8}>
-        <Text fontSize="$3" fontWeight="600" marginBottom="$2" color="#0066CC">
-          Demo Payment Status (For Testing)
-        </Text>
-        <XStack space="$2" flexWrap="wrap">
-          <Button
-            size="$3"
-            backgroundColor="#FF6B00"
-            color="white"
-            onPress={() => {
-              setPaymentStatus('processing')
-              setCompletedOrderId(null)
-            }}
-          >
-            Show Processing
-          </Button>
-          <Button
-            size="$3"
-            backgroundColor="#22C55E"
-            color="white"
-            onPress={() => {
-              setPaymentStatus('success')
-              setCompletedOrderId('1293827237464236')
-            }}
-          >
-            Show Success
-          </Button>
-          <Button
-            size="$3"
-            backgroundColor="#EF4444"
-            color="white"
-            onPress={() => {
-              setPaymentStatus('failed')
-              setCompletedOrderId('1293827237464236')
-            }}
-          >
-            Show Failed
-          </Button>
-        </XStack>
-      </View>
-
       {/* Security Notice */}
       <View marginTop="$3" padding="$3" backgroundColor="#F8F9FA" borderRadius={8}>
         <XStack space="$2" alignItems="center" flexWrap="wrap">
@@ -614,7 +571,11 @@ export default function PaymentPage({
       </View>
 
       {/* Payment Status Modal */}
-      <PaymentStatusPopup setPaymentStatus={setPaymentStatus} completedOrderId={completedOrderId} paymentStatus={paymentStatus}></PaymentStatusPopup>
+      <PaymentStatusPopup
+        setPaymentStatus={setPaymentStatus}
+        completedOrderId={completedOrderId}
+        paymentStatus={paymentStatus}
+      ></PaymentStatusPopup>
     </View>
   )
 }

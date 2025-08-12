@@ -9,6 +9,9 @@ import {
 } from 'app/services/OrderService'
 import { PaymentForm, CreditCard, GooglePay, ApplePay } from 'react-square-web-payments-sdk'
 import { useToast } from '@my/ui/src/useToast'
+import { View, Text, YStack, XStack, Spinner, Button } from 'tamagui'
+import { CreditCard as CreditCardIcon } from '@tamagui/lucide-icons'
+import PaymentStatusPopup from '@my/ui/src/checkout/PaymentStatusPopup'
 
 export default function UpdateOrderPage() {
   const sp = useSearchParams()
@@ -21,6 +24,10 @@ export default function UpdateOrderPage() {
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
+  const [paymentStatus, setPaymentStatus] = useState<'processing' | 'success' | 'failed' | null>(
+    null
+  )
+  const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
   const { info, success, error: showError } = useToast()
 
   useEffect(() => {
@@ -84,6 +91,7 @@ export default function UpdateOrderPage() {
 
       setIsProcessingPayment(true)
       setPaymentError(null)
+      setPaymentStatus('processing')
 
       try {
         info('Processing payment...')
@@ -98,14 +106,17 @@ export default function UpdateOrderPage() {
           await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
             updatingOrderId,
           })
+          setPaymentStatus('success')
+          setCompletedOrderId(updatingOrder._id)
           success('Payment successful. Your order update will be applied shortly.')
-          router.push('/account')
         } else {
           throw new Error(paymentResponse?.message || 'Payment processing failed')
         }
       } catch (err: any) {
         const errorMessage = err?.message || 'Payment failed. Please try again.'
         setPaymentError(errorMessage)
+        setPaymentStatus('failed')
+        setCompletedOrderId(updatingOrder._id)
         showError(errorMessage)
       } finally {
         setIsProcessingPayment(false)
@@ -116,140 +127,177 @@ export default function UpdateOrderPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: 16, border: '1px solid #EDEDED', borderRadius: 8 }}>
-        <p style={{ fontSize: 16, margin: 0 }}>Loading updating order...</p>
-      </div>
+      <View flex={1} justifyContent="center" alignItems="center" p="$4">
+        <YStack space="$3" alignItems="center">
+          <Spinner size="large" color="#FF6B00" />
+          <Text fontSize="$4">Loading updating order...</Text>
+        </YStack>
+      </View>
     )
   }
 
   if (error || !updatingOrder) {
     return (
-      <div style={{ padding: 16, border: '1px solid #EDEDED', borderRadius: 8 }}>
-        <p style={{ fontSize: 16, margin: 0, color: '#C53030' }}>
+      <View flex={1} justifyContent="center" alignItems="center" p="$4">
+        <Text fontSize="$4" color="#C53030">
           {error || 'No updating order found'}
-        </p>
-      </div>
+        </Text>
+      </View>
     )
   }
 
   return (
-    <div style={{ padding: 16, height:"100%", background: '#F8F9FA', borderRadius: 8, display:"flex", justifyContent:"center", alignItems:"center" }}>
-      <div style={{ minWidth: 700, margin: '0 auto' }}>
+    <View flex={1} backgroundColor="#F8F9FA" justifyContent="center" alignItems="center" p="$4">
+      <View width="100%" maxWidth={700}>
+        <YStack space="$4">
+          {/* Header */}
+          <YStack space="$3" alignItems="center">
+            <CreditCardIcon size={32} color="#FF6B00" />
+            <Text fontSize="$6" fontWeight="bold" color="#1F2937" textAlign="center">
+              Complete Order Update Payment
+            </Text>
+            <Text fontSize="$4" color="#6B7280" textAlign="center">
+              Pay the difference to update your order
+            </Text>
+          </YStack>
 
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: 10,
-          padding: 16,
-          border: '1px solid #EDEDED',
-          marginTop: 16,
-        }}
-      >
-        <p style={{ fontSize: 18, fontWeight: 600, margin: 0, marginBottom: 12 }}>Order Summary</p>
+          {/* Order Summary */}
+          <View
+            backgroundColor="white"
+            borderRadius="$4"
+            p="$4"
+            borderWidth={1}
+            borderColor="#EDEDED"
+          >
+            <Text fontSize="$5" fontWeight="600" marginBottom="$3">
+              Order Summary
+            </Text>
 
-        <div style={{ paddingTop: 8, borderTop: '1px solid #EDEDED' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Subtotal:</span>
-            <span>${orderCalculations.subtotal.toFixed(2)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Platform Fee:</span>
-            <span>${orderCalculations.platformFee.toFixed(2)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Delivery Fee:</span>
-            <span>${orderCalculations.deliveryFee.toFixed(2)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', color: '#00AA00' }}>
-            <span>Discount:</span>
-            <span>-{orderCalculations.discountAmount.toFixed(2)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Taxes:</span>
-            <span>${orderCalculations.taxes.toFixed(2)}</span>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              paddingTop: 8,
-              borderTop: '1px solid #EDEDED',
-            }}
+            <YStack space="$1" paddingTop="$2" borderTopWidth={1} borderTopColor="#EDEDED">
+              <XStack justifyContent="space-between">
+                <Text fontSize="$3">Subtotal:</Text>
+                <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
+              </XStack>
+              <XStack justifyContent="space-between">
+                <Text fontSize="$3">Platform Fee:</Text>
+                <Text fontSize="$3">${orderCalculations.platformFee.toFixed(2)}</Text>
+              </XStack>
+              <XStack justifyContent="space-between">
+                <Text fontSize="$3">Delivery Fee:</Text>
+                <Text fontSize="$3">${orderCalculations.deliveryFee.toFixed(2)}</Text>
+              </XStack>
+              <XStack justifyContent="space-between">
+                <Text fontSize="$3" color="#00AA00">
+                  Discount:
+                </Text>
+                <Text fontSize="$3" color="#00AA00">
+                  -${orderCalculations.discountAmount.toFixed(2)}
+                </Text>
+              </XStack>
+              <XStack justifyContent="space-between">
+                <Text fontSize="$3">Taxes:</Text>
+                <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
+              </XStack>
+              <XStack
+                justifyContent="space-between"
+                paddingTop="$2"
+                borderTopWidth={1}
+                borderTopColor="#EDEDED"
+              >
+                <Text fontSize="$5" fontWeight="bold">
+                  Final Total:
+                </Text>
+                <Text fontSize="$5" fontWeight="bold" color="#FF6B00">
+                  ${orderCalculations.total.toFixed(2)}
+                </Text>
+              </XStack>
+            </YStack>
+          </View>
+
+          {/* Payment Error Display */}
+          {paymentError && (
+            <View
+              padding="$3"
+              backgroundColor="#FEE"
+              borderRadius="$3"
+              borderWidth={1}
+              borderColor="#FCC"
             >
-            <span style={{ fontSize: 18, fontWeight: 'bold' }}>Final Total:</span>
-            <span style={{ fontSize: 18, fontWeight: 'bold', color: '#FF6B00' }}>
-              ${orderCalculations.total.toFixed(2)}
-            </span>
-          </div>
-        </div>
-      </div>
+              <Text color="#C53030" fontSize="$4">
+                {paymentError}
+              </Text>
+            </View>
+          )}
 
-      {paymentError && (
-        <div
-        style={{
-          padding: 12,
-          background: '#FEE',
-          borderRadius: 8,
-          marginTop: 12,
-          border: '1px solid #FCC',
-        }}
-        >
-          <p style={{ color: '#C53030', margin: 0 }}>{paymentError}</p>
-        </div>
-      )}
+          {/* Payment Form */}
+          <View
+            backgroundColor="white"
+            borderRadius="$4"
+            p="$4"
+            borderWidth={1}
+            borderColor="#EDEDED"
+          >
+            <Text fontSize="$5" fontWeight="600" marginBottom="$4">
+              Payment Details
+            </Text>
 
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: 10,
-          padding: 16,
-          border: '1px solid #EDEDED',
-          marginTop: 16,
-        }}
-        >
-        <p style={{ fontSize: 18, fontWeight: 600, margin: 0, marginBottom: 16 }}>
-          Payment Details
-        </p>
+            {isProcessingPayment && (
+              <View padding="$3" backgroundColor="#E6F3FF" borderRadius="$3" marginBottom="$3">
+                <XStack space="$2" alignItems="center">
+                  <Spinner size="small" color="#0066CC" />
+                  <Text color="#0066CC" fontSize="$4">
+                    Processing your order and payment...
+                  </Text>
+                </XStack>
+              </View>
+            )}
 
-        {isProcessingPayment && (
-          <div style={{ padding: 12, background: '#E6F3FF', borderRadius: 8, marginBottom: 12 }}>
-            <p style={{ color: '#0066CC', margin: 0 }}>Processing your order and payment...</p>
-          </div>
-        )}
+            <View opacity={isProcessingPayment ? 0.5 : 1}>
+              <PaymentForm
+                applicationId={appId}
+                locationId={locationId}
+                cardTokenizeResponseReceived={handlePaymentToken}
+                createPaymentRequest={() => ({
+                  countryCode: 'US',
+                  currencyCode: 'USD',
+                  total: {
+                    amount: (orderCalculations.total * 100).toString(),
+                    label: 'Total',
+                  },
+                })}
+              >
+                <YStack space="$3">
+                  <View>
+                    <GooglePay />
+                  </View>
+                  <View>
+                    <ApplePay />
+                  </View>
+                  <View>
+                    <CreditCard />
+                  </View>
+                </YStack>
+              </PaymentForm>
+            </View>
+          </View>
 
-        <div style={{ opacity: isProcessingPayment ? 0.5 : 1 }}>
-          <PaymentForm
-            applicationId={appId}
-            locationId={locationId}
-            cardTokenizeResponseReceived={handlePaymentToken}
-            createPaymentRequest={() => ({
-              countryCode: 'US',
-              currencyCode: 'USD',
-              total: {
-                amount: (orderCalculations.total * 100).toString(),
-                label: 'Total',
-              },
-            })}
-            >
-            <div style={{ marginTop: 12 }}>
-              <GooglePay />
-            </div>
-            <div style={{ marginTop: 12 }}>
-              <ApplePay />
-            </div>
-            <div style={{ marginTop: 12 }}>
-              <CreditCard />
-            </div>
-          </PaymentForm>
-        </div>
-      </div>
+          {/* Security Notice */}
+          <View padding="$3" backgroundColor="#F8F9FA" borderRadius="$3">
+            <XStack space="$2" alignItems="center" justifyContent="center">
+              <Text fontSize="$3" color="#6C757D" textAlign="center">
+                🔒 Your payment information is secure and encrypted
+              </Text>
+            </XStack>
+          </View>
+        </YStack>
+      </View>
 
-      <div style={{ marginTop: 12, padding: 12, background: '#F8F9FA', borderRadius: 8 }}>
-        <p style={{ fontSize: 14, color: '#6C757D', margin: 0 }}>
-          🔒 Your payment information is secure and encrypted
-        </p>
-      </div>
-    </div>
-            </div>
+      {/* Payment Status Modal */}
+      <PaymentStatusPopup
+        setPaymentStatus={setPaymentStatus}
+        completedOrderId={completedOrderId}
+        paymentStatus={paymentStatus}
+      />
+    </View>
   )
 }
