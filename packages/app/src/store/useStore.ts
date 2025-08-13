@@ -26,7 +26,7 @@ type CartActions = {
   decrement: () => void
   reset: () => void
   fetchCart: () => Promise<void>
-  addToCart: (item:any) => Promise<void>
+  addToCart: (item: any) => Promise<void>
   fetchCartTotalAmount: () => Promise<void>
   updateCartItemQuantity: (data: any) => Promise<void>
   fetchCartRecommendations: (page?: number, limit?: number) => Promise<void>
@@ -68,9 +68,12 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     set({ cartLoading: true })
     try {
       const res = await apiGetCart<IResponse<ICart>>()
-      const totalAmount = res.data.days.reduce((total, day) =>
-    total + day.items.reduce((dayTotal, item) => dayTotal + (item.food.price * item.quantity), 0), 0
-  )
+      const totalAmount = res.data.days.reduce(
+        (total, day) =>
+          total +
+          day.items.reduce((dayTotal, item) => dayTotal + item.food.price * item.quantity, 0),
+        0
+      )
       set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) })
     } catch (e) {
       // Optionally handle error
@@ -82,13 +85,24 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     console.log(item)
     set({ cartLoading: true })
     try {
-      const data =await apiAddFoodItemToCart(item)
+      const data = await apiAddFoodItemToCart(item)
       console.log(data)
       await get().fetchCart()
       await get().fetchFoodItemsByCategory()
+
+      // Add notification when item is added to cart
+      const { addNotification } = require('./useNotificationStore').useNotificationStore.getState()
+      addNotification({
+        type: 'cart',
+        title: 'Item added to cart',
+        message: `${item.foodName || 'Food item'} has been added to your cart`,
+        priority: 'medium',
+        read: false,
+        actionType: 'navigate',
+        actionUrl: '/cart',
+      })
     } catch (e) {
       console.log(e)
-
       // Optionally handle error
     } finally {
       set({ cartLoading: false })
@@ -111,7 +125,6 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       await apiUpdateCartItemQuantity(data)
       await get().fetchCart()
       await get().fetchFoodItemsByCategory()
-
     } catch (e) {
       // Optionally handle error
     } finally {
@@ -121,7 +134,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   fetchCartRecommendations: async (page = 1, limit = 5) => {
     set({ cartLoading: true })
     try {
-      const res = await apiGetCartReccomendations<IResponse<any[]>>({ page, limit })
+      const res = await apiGetCartReccomendations<IResponse<IListResponse<IFoodItem>>>({ page, limit })
       set({ cartRecommendations: res.data })
     } catch (e) {
       // Optionally handle error
@@ -132,7 +145,9 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   fetchFoodItemsByCategory: async (search = '', vegOnly = false) => {
     set({ foodItemsLoading: true })
     try {
-      const res = await apiGetFoodItemsByCategory<IResponse<IListResponse<IFoodItem & { days: ICartItem[] }>>>({
+      const res = await apiGetFoodItemsByCategory<
+        IResponse<IListResponse<IFoodItem & { days: ICartItem[] }>>
+      >({
         search,
         vegOnly,
       })
@@ -155,7 +170,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       set({ categoriesLoading: false })
     }
   },
- fetchFoodItems: async (params) => {
+  fetchFoodItems: async (params) => {
     set({ foodItemsLoading: true })
     try {
       const res = await apiGetFoodItems<IResponse<IListResponse<IFoodItem>>>(params)
@@ -167,4 +182,3 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     }
   },
 }))
-

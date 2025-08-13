@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
     const cart = await Cart.findOne({ user: id }).populate({
       path: 'days',
-      // match: { date: { $gte: today } },
+      match: { date: { $gte: today } },
       populate: {
         path: 'items',
         model: CartItem,
@@ -63,10 +63,12 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    console.log('Filtered days:', filteredDays )
+    const newfilteredDays = filteredDays.filter(day => day.items.length > 0)
+
+    console.log('Filtered days:', newfilteredDays)
 
     return NextResponse.json(
-      { message: 'Cart fetched successfully', data: { ...cart.toObject(), days: filteredDays } },
+      { message: 'Cart fetched successfully', data: { ...cart.toObject(), days: newfilteredDays } },
       { status: 201 }
     )
   } catch (error) {

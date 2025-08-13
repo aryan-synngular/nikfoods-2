@@ -207,9 +207,6 @@ console.log(loading)
     }
   }
 
-  // Check if cart is empty
-  // const [cart, setCart] = useState<ICart>({} as ICart)
-  const [dessert, setDessert] = useState([])
 console.log(cart)
   const getCartData = useCallback(async () => {
     setIsLoading(true)

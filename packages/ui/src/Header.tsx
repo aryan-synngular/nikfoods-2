@@ -1,3 +1,4 @@
+"use client"
 import { XStack, Text, Button, YStack, View, Image } from 'tamagui'
 import { useLink } from 'solito/navigation'
 import { Platform, StatusBar, Dimensions } from 'react-native'
@@ -6,6 +7,11 @@ import { primary, shadow, background, border } from './colors'
 import { useAuth } from 'app/provider/auth-context'
 import { ProfilePopUp } from '@my/ui/src/profile/ProfilePopUp'
 import { useSession } from 'next-auth/react'
+import { useNotificationStore } from 'app/src/store/useNotificationStore'
+import { CartBadge, NotificationBellBadge } from './components/NotificationBadge'
+import { NotificationPanel } from './components/NotificationPanel'
+import { useStore } from 'app/src/store/useStore'
+import { useEffect, useState } from 'react'
 
 // Add shimmer loader for profile tab
 function ProfileTabShimmer() {
@@ -27,6 +33,25 @@ export const AppHeader = () => {
   const { user, signOut, loading } = useAuth()
   const { width } = Dimensions.get('window')
   const isSmallScreen = width < 768
+
+  // Notification store
+  const { badges, unreadCount, updateCartBadge } = useNotificationStore()
+
+  // Cart store
+  const { cart } = useStore()
+
+  // Notification panel state
+  const [notificationPanelOpen, setNotificationPanelOpen] = useState(false)
+
+  // Update cart badge when cart changes
+  useEffect(() => {
+    const totalItems =
+      cart?.days?.reduce(
+        (total, day) => total + day.items.reduce((dayTotal, item) => dayTotal + item.quantity, 0),
+        0
+      ) || 0
+    updateCartBadge(totalItems)
+  }, [cart, updateCartBadge])
 
   const loginLink = useLink({
     href: '/login',
@@ -141,36 +166,40 @@ export const AppHeader = () => {
         )}
 
         {/* Notification Bell */}
-        <Button
-          size={Platform.OS === 'web' ? '$3' : '$2'}
-          circular
-          backgroundColor="transparent"
-          borderWidth={0}
-          hoverStyle={{
-            backgroundColor: '#f5f5f5',
-          }}
-          pressStyle={{
-            backgroundColor: '#e8e8e8',
-          }}
-          icon={<Bell size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
-          {...notificationLink}
-        />
+        <NotificationBellBadge count={unreadCount}>
+          <Button
+            size={Platform.OS === 'web' ? '$3' : '$2'}
+            circular
+            backgroundColor="transparent"
+            borderWidth={0}
+            hoverStyle={{
+              backgroundColor: '#f5f5f5',
+            }}
+            pressStyle={{
+              backgroundColor: '#e8e8e8',
+            }}
+            icon={<Bell size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
+            onPress={() => setNotificationPanelOpen(true)}
+          />
+        </NotificationBellBadge>
 
         {/* Shopping Cart */}
-        <Button
-          size={Platform.OS === 'web' ? '$3' : '$2'}
-          circular
-          backgroundColor="transparent"
-          borderWidth={0}
-          hoverStyle={{
-            backgroundColor: '#f5f5f5',
-          }}
-          pressStyle={{
-            backgroundColor: '#e8e8e8',
-          }}
-          icon={<ShoppingCart size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
-          {...cartLink}
-        />
+        <CartBadge count={badges.cart}>
+          <Button
+            size={Platform.OS === 'web' ? '$3' : '$2'}
+            circular
+            backgroundColor="transparent"
+            borderWidth={0}
+            hoverStyle={{
+              backgroundColor: '#f5f5f5',
+            }}
+            pressStyle={{
+              backgroundColor: '#e8e8e8',
+            }}
+            icon={<ShoppingCart size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
+            {...cartLink}
+          />
+        </CartBadge>
 
         {/* Profile/Login Tab */}
         {loading ? (
@@ -201,6 +230,9 @@ export const AppHeader = () => {
           />
         )}
       </XStack>
+
+      {/* Notification Panel */}
+      <NotificationPanel open={notificationPanelOpen} onOpenChange={setNotificationPanelOpen} />
     </XStack>
   )
 }

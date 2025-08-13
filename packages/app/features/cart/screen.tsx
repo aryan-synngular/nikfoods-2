@@ -9,17 +9,19 @@ export function CartScreen() {
   const checkOutLink = useLink({
     href: '/checkout',
   })
+  const homeLink = useLink({
+    href: '/',
+  })
   const router = useRouter()
 
   const handleBrowse = () => {
     // Navigate to food listing page
-    router.push('/')
+    homeLink.onPress()
   }
 
   console.log('hel')
   const handleCheckout = () => {
     // Navigate to checkout page
-    console.log('Cjhekcouit sfjksfsf')
     checkOutLink.onPress()
   }
 

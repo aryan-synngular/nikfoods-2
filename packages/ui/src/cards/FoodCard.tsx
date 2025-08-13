@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Image } from 'react-native'
 import { Text, YStack, XStack, Circle, ZStack } from 'tamagui'
 import { QuantitySelector } from '../buttons/QuantitySelector'
-import {BadgeCheck, ShoppingCart} from '@tamagui/lucide-icons'
+import {BadgeCheck, Check, CheckCircle2, ShoppingCart} from '@tamagui/lucide-icons'
 import { colors } from '../colors'
 interface FoodCardProps {
   imageUrl: string
@@ -44,7 +44,7 @@ export function FoodCard({
         <YStack minW={180} style={{ alignItems: 'center',position: 'relative' }}>
           {/* Circle image that overlaps the card */}
           {isAdded&&<XStack style={{ position: 'absolute', top: 40, right:10, zIndex: 1 }}>
-            <BadgeCheck color={colors.primary}></BadgeCheck>
+           <CheckCircle2 color={colors.primary}></CheckCircle2>
           </XStack>}
           <Circle
             size={100}
@@ -58,6 +58,8 @@ export function FoodCard({
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
               zIndex: 2,
               marginBottom: -70, // Creates overlap effect
+              ...(isAdded?{borderWidth: 3,
+              borderColor: colors.primary,}: {} )
             }}
           >
             <Image

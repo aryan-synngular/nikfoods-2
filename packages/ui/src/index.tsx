@@ -45,3 +45,7 @@ export * from './cart/CartSidebar'
 export * from './checkout/CheckoutPage'
 export * from './checkout/CheckoutSteps'
 export * from './loaders'
+
+// Notification components
+export * from './components/NotificationBadge'
+export * from './components/NotificationPanel'
