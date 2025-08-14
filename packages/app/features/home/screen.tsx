@@ -19,7 +19,7 @@ import {
   CategoryDialog,
 } from '@my/ui'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, use } from 'react'
 import { Platform, ScrollView, StatusBar } from 'react-native'
 import { CategoryShimmerLoader, FoodListShimmerLoader,CartSidebarShimmer } from '@my/ui'
 import { IListResponse } from 'app/types/common'
@@ -34,23 +34,26 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   const media=useMedia()
   const { showMessage } = useToast()
   const { loginSuccess, clearLoginSuccess } = useAuth()
+  const {vegOnly}=useStore()
   const [popupOpen, setPopupOpen] = useState(false)
   const [popupCategory, setPopupCategory] = useState<IFoodCategory | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [vegOnly, setVegOnly] = useState(false)
+
+  // const [vegOnly, setVegOnly] = useState(false)
   const [loading, setLoading] = useState(true)
   const [searchLoading, setSearchLoading] = useState(false)
  const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
   const {
     categories,
-    categoriesLoading,
     foodItemsByCategory,
-    foodItemsLoading,
     fetchFoodItemsByCategory,
     fetchCategories,
     fetchCart,
-    cartTotalAmount
+    cartTotalAmount,
+    selectedWeekDay
   } = useStore()
+
+  console.log(foodItemsByCategory)
 
   // Toast after Successful login
   useEffect(() => {
@@ -70,63 +73,12 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
       fetchCart()
     ])
       .then(([catRes]) => {
-        // console.log('Cat Items:', catRes.data)
-
-        // Dummy categories fallback
-        const dummyCategories: IListResponse<IFoodCategory> = {
-          items: [
-            {
-              _id: '687df76422289651c03f6697',
-              name: 'Category 4 ',
-              description: 'fnwef',
-              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
-              createdAt: '2025-07-21T08:16:36.712Z',
-              updatedAt: '2025-07-21T08:17:42.417Z',
-            },
-            {
-              _id: '687df71422289651c03f668f',
-              name: 'Category 4',
-              description: '43',
-              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085742/nikfoods/qxllzs0zorjhug3qy01t.png',
-              createdAt: '2025-07-21T08:15:16.201Z',
-              updatedAt: '2025-07-21T08:15:45.544Z',
-            },
-            {
-              _id: '687de83622289651c03f6655',
-              name: 'categor3',
-              description: 'sfsfsdf sd fsd fs dfs df',
-              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085619/nikfoods/hfgy7a5u2n49hnh70ufn.png',
-              createdAt: '2025-07-21T07:11:50.021Z',
-              updatedAt: '2025-07-30T13:07:41.085Z',
-            },
-          ],
-          page: 0,
-          total: 0,
-          pageSize: 0,
-        }
-
-        // setCategories(catRes?.data ?? dummyCategories)
+        
       })
       .catch((err) => {
         console.log('API fetch error, using fallback data:', err)
 
-        // Set fallback data even on error
-        const dummyCategories: IListResponse<IFoodCategory> = {
-          items: [
-            {
-              _id: '687CartSidebarShimmerdf76422289651c03f6697',
-              name: 'Category 4 ',
-              description: 'fnwef',
-              url: 'https://res.cloudinary.com/dz30kdodd/image/upload/v1753085861/nikfoods/xjeuqod1jx1yplarilzf.png',
-              createdAt: '2025-07-21T08:16:36.712Z',
-              updatedAt: '2025-07-21T08:17:42.417Z',
-            },
-          ],
-          page: 0,
-          total: 0,
-          pageSize: 0,
-        }
-
+   
         // setCategories(dummyCategories)
       })
       .finally(() => setLoading(false))
@@ -137,19 +89,18 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
     (query: string) => {
       setSearchQuery(query)
       setSearchLoading(true)
-      fetchFoodItemsByCategory(query, vegOnly).finally(() => setSearchLoading(false))
+       fetchFoodItemsByCategory(query, vegOnly).finally(() => setSearchLoading(false))
     },
     [fetchFoodItemsByCategory, vegOnly]
   )
 
-  const handleVegToggle = useCallback(
-    (isVegOnly: boolean) => {
-      setVegOnly(isVegOnly)
+
+  useEffect(() => {
       setSearchLoading(true)
-      fetchFoodItemsByCategory(searchQuery, isVegOnly).finally(() => setSearchLoading(false))
-    },
-    [fetchFoodItemsByCategory, searchQuery]
-  )
+
+      fetchFoodItemsByCategory(searchQuery, vegOnly).finally(() => setSearchLoading(false))
+    
+    },[vegOnly])
 
   // Calculate header height based on platform
   const getHeaderHeight = () => {
@@ -187,9 +138,7 @@ const handleCardPress = (category: IFoodCategory) => {
         {Platform.OS === 'web' && <HeroBanner />}
         <SearchFood
           onSearch={handleSearch}
-          onVegToggle={handleVegToggle}
           initialQuery={searchQuery}
-          initialVegOnly={vegOnly}
           />
 
         {/* Category List */}
@@ -212,10 +161,11 @@ const handleCardPress = (category: IFoodCategory) => {
                 fontWeight="600"
                 color="black"
                 >
-                {searchQuery ? `Search Results for "${searchQuery}"` : "Thursday's Menu"}
+                {searchQuery ? `Search Results for "${searchQuery}"` : `${selectedWeekDay}'s Menu`}
               </Text>
               {foodItemsByCategory.map((category) => (
                 <FoodListingRail
+                listType={"weeklyMenu"}
                 key={category._id}
                 displayLabel={category.name}
                 foodItems={{

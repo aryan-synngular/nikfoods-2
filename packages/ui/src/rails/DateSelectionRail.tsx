@@ -2,12 +2,18 @@
 
 import { ScrollView, XStack, YStack, Text, View, useMedia } from 'tamagui'
 import { Calendar } from '@tamagui/lucide-icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Platform } from 'react-native'
+import { useStore } from 'app/src/store/useStore'
 
 export function DateSelectionRail() {
   const media = useMedia()
+  const { selectedWeekDay, setSelectedWeekDay } = useStore()
   const [selectedDate, setSelectedDate] = useState<string>('')
+
+  // Update local state when store state changes
+ 
+
   const days = () => {
     const today = new Date()
     const currentDay = today.getDay() // 0 (Sun) to 6 (Sat)
@@ -16,6 +22,14 @@ export function DateSelectionRail() {
     const days: any = []
 
     const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const dayKeys: Record<string, string> = {
+      Mon: 'Monday',
+      Tue: 'Tuesday',
+      Wed: 'Wednesday',
+      Thu: 'Thursday',
+      Fri: 'Friday',
+      Sat: 'Saturday',
+    }
 
     // Find the Monday of the current week
     const monday = new Date(today)
@@ -44,31 +58,44 @@ export function DateSelectionRail() {
         label,
         date: dateStr,
         disabled,
+        dayKey: dayKeys[label], // Add the day key for store integration
       })
     }
 
     return days
   }
- const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
+
+  const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
+
+
+  const handleDayClick = (day: any) => {
+    if (day.disabled) return
+console.log(day.dayKey)
+    if (day.dayKey) {
+      setSelectedWeekDay(day.dayKey)
+    }
+  }
 
   return (
     // <ScrollView width={"100%"} horizontal showsHorizontalScrollIndicator={false}>
-    <XStack     mt={20} mb={"$4"}  px={isSmallScreen?"$0":"$4"} justify="center">
+    <XStack mt={20} mb={'$4'} px={isSmallScreen ? '$0' : '$4'} justify="center">
       <YStack
         items="center"
         p="$3"
         px={'$6'}
         style={{
-          borderColor: 'black',
+          borderColor:'black',
+          backgroundColor: 'transparent',
         }}
         // borderRadius="$4"
-        borderBottomWidth={1}
+        borderBottomWidth={ 1}
+        cursor="pointer"
       >
         <Text
           fontWeight="600"
           style={{
             color: 'black',
-          }} 
+          }}
         >
           All days
         </Text>
@@ -76,50 +103,48 @@ export function DateSelectionRail() {
         <Calendar size={14} />
       </YStack>
       <ScrollView
-       horizontal
+        horizontal
         showsHorizontalScrollIndicator={false}
         bounces={false}
-        style={{  width: '100%'}}
+        style={{ width: '100%' }}
       >
-        <XStack  >
+        <XStack>
+          {days().map((day, index) => {
+            const isSelected = selectedWeekDay === day.dayKey
+            const isDisabled = day.disabled
+            const isAllDays = day.label === 'All days'
 
-      {days().map((day, index) => {
-        const isSelected = selectedDate === day.label
-        const isDisabled = day.disabled
-        const isAllDays = day.label === 'All days'
-        
-        return (
-          
-          <YStack
-            key={index}
-            items="center"
-            p="$3"
-            px={'$6'}
-            onPress={() => setSelectedDate(day.label)}
-            style={{
-              backgroundColor: isSelected ? '#FFF4E4' : isDisabled ? '#F8F8F8' : 'transparent',
-              borderColor: isSelected ? 'orange' : '#DFDFDF',
-            }}
-            // borderRadius="$4"
-            opacity={isDisabled ? 0.4 : 1}
-            borderBottomWidth={isSelected ? 2 : 1}
-            cursor={isDisabled ? 'not-allowed' : 'pointer'}
-            >
-            <Text
-              fontWeight="600"
-              style={{
-                color: isSelected ? 'orange' : 'black',
-              }}
+            return (
+              <YStack
+                key={index}
+                items="center"
+                p="$3"
+                px={'$6'}
+                onPress={() => handleDayClick(day)}
+                style={{
+                  backgroundColor: isSelected ? '#FFF4E4' : isDisabled ? '#F8F8F8' : 'transparent',
+                  borderColor: isSelected ? 'orange' : '#DFDFDF',
+                }}
+                // borderRadius="$4"
+                opacity={isDisabled ? 0.4 : 1}
+                borderBottomWidth={isSelected ? 2 : 1}
+                cursor={isDisabled ? 'not-allowed' : 'pointer'}
               >
-              {day.label}
-            </Text>
-            <Text fontSize="$2">{day.date || 'available'}</Text>
-            <Calendar size={14} />
-          </YStack>
-        )
-      })}
-      </XStack>
-    </ScrollView>
+                <Text
+                  fontWeight="600"
+                  style={{
+                    color: isSelected ? 'orange' : 'black',
+                  }}
+                >
+                  {day.label}
+                </Text>
+                <Text fontSize="$2">{day.date || 'available'}</Text>
+                <Calendar size={14} />
+              </YStack>
+            )
+          })}
+        </XStack>
+      </ScrollView>
     </XStack>
     // </ScrollView>
   )

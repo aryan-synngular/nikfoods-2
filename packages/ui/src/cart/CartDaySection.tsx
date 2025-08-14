@@ -76,7 +76,7 @@ export function CartDaySection({
 
         {shouldRenderDeliveryInfo && (
           <View
-            bg={isSameDay ? '#e6f3e6' : '#fff4e4'}
+            bg={ '#fff4e4'}
             p="$2"
             borderRadius="$2"
             flexDirection="row"
@@ -85,8 +85,8 @@ export function CartDaySection({
             flexShrink={1}
             mt="$2"
           >
-            <Text fontSize="$3" fontWeight="500" color={isSameDay ? 'green' : '#f55344'}>
-              {isSameDay ? 'Same day delivery' : `Delivery on ${deliveryDay}`}
+            <Text fontSize="$3" fontWeight="500" color={ '#f55344'}>
+              {`Delivery on ${deliveryDay}`}
             </Text>
           </View>
         )}

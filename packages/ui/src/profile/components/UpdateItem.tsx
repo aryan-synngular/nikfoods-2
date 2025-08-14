@@ -6,6 +6,8 @@ import { apiGetFoodItems } from 'app/services/FoodService'
 import { IFoodItem } from 'app/types/foodItem'
 import { apiCreateUpdatingOrder } from 'app/services/OrderService'
 import { useLink } from 'solito/link'
+import { useStore } from 'app/src/store/useStore'
+
 interface UpdateItemProps {
   orderId: string
   onClose: () => void
@@ -35,7 +37,7 @@ const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 
 // Shimmer skeleton component for loading state
 const DishSkeleton = () => (
-  <XStack items="center" gap={12}>
+  <XStack alignItems="center" gap={12}>
     <YStack
       width={64}
       height={64}
@@ -85,26 +87,25 @@ const DishSkeleton = () => (
 )
 
 export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemProps) {
+  const { weeklyMenuUnCategorized, fetchWeeklyMenu } = useStore()
   console.log('orderId', orderId)
   const now = new Date()
-   // Determine default day
+  // Determine default day
   let defaultDay
   if (now.getHours() < 13) {
     // Before 1 PM → today
-    defaultDay = weekDays[now.getDay()-1]
+    defaultDay = weekDays[now.getDay() - 1]
   } else {
     // After 1 PM → tomorrow
-    defaultDay = weekDays[(now.getDay()) % 7]
+    defaultDay = weekDays[now.getDay() % 7]
   }
   const [selectedDay, setSelectedDay] = useState(defaultDay)
   const [searchText, setSearchText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
   const [foodItems, setFoodItems] = useState<IFoodItem[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [searchResults, setSearchResults] = useState<IFoodItem[]>([])
+  const [isSearching, setIsSearching] = useState(false)
   const [cartItems, setCartItems] = useState<{ [day: string]: { [key: string]: number } }>({
     Monday: {},
     Tuesday: {},
@@ -114,26 +115,6 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     Saturday: {},
   })
 
-  const pageSize = 7
-
-  // Debounced search function
-  const useDebounce = (value: string, delay: number) => {
-    const [debouncedValue, setDebouncedValue] = useState(value)
-
-    useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(value)
-      }, delay)
-
-      return () => {
-        clearTimeout(handler)
-      }
-    }, [value, delay])
-
-    return debouncedValue
-  }
-
-  const debouncedSearchText = useDebounce(searchText, 500)
 
   // Helpers to compute current week's date for a weekday and disable state
   const dayIndexMap: Record<string, number> = {
@@ -175,83 +156,83 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     return false
   }
 
-  // Fetch food items from API
-  const fetchFoodItems = useCallback(
-    async (search = '', page = 1, loadMore = false) => {
-      try {
-        if (!loadMore) {
-          setDataLoading(true)
-        } else {
-          setIsLoadingMore(true)
-        }
-
-        const response = await apiGetFoodItems<{ data: ApiResponse }>({
-          search,
-          category: 'all',
-          page,
-          limit: pageSize,
-        })
-
-        console.log('Fetched food items:', response.data.items)
-        const { items, total, page: currentPageFromApi, pageSize: pageSizeFromApi } = response.data
-
-        if (loadMore) {
-          setFoodItems((prev) => [...prev, ...items] as IFoodItem[])
-        } else {
-          setFoodItems(items as unknown as IFoodItem[])
-        }
-
-        const totalPagesCalculated = Math.ceil(total / pageSizeFromApi)
-        setTotalPages(totalPagesCalculated)
-        setCurrentPage(currentPageFromApi)
-        setHasMore(currentPageFromApi < totalPagesCalculated)
-      } catch (error) {
-        console.error('Error fetching food items:', error)
-        // Fallback to empty array on error
-        if (!loadMore) {
-          setFoodItems([])
-        }
-      } finally {
-        setDataLoading(false)
-        setIsLoadingMore(false)
+  // Search through weekly menu locally
+  const searchWeeklyMenu = useCallback(
+    (searchTerm: string) => {
+      if (!searchTerm.trim()) {
+        setIsSearching(false)
+        setSelectedDay(defaultDay)
+        return
       }
+      else{
+        setSelectedDay("")
+      }
+    
+      setSearchResults([])
+
+      setIsSearching(true)
+      const searchLower = searchTerm.toLowerCase()
+      const allResults: IFoodItem[] = []
+ const now = new Date()
+    const todayIndex = now.getDay() === 0 ? 7 : now.getDay() // Sun=7, Mon=1...
+
+    // ✅ Filter only valid upcoming days
+    const validDays = weekDays.filter((dayName, idx) => {
+      const dayIndex = idx + 1 // Mon=1 ... Sat=6
+      if (dayIndex < todayIndex) return false
+      if (dayIndex === todayIndex && now.getHours() >= 13) return false
+      return true
+    })
+
+      // Search through all days in weekly menu
+      validDays.forEach((day) => {
+        const dayKey = day.toLowerCase()
+        const dayItems = weeklyMenuUnCategorized[dayKey] || []
+console.log("Search: ", searchLower)
+console.log("DayItems: ", day)
+console.log(dayItems)
+        const filteredItems = dayItems.filter(
+          (item: IFoodItem) =>
+            item.name?.toLowerCase().includes(searchLower) 
+        )
+        
+        // Add day information to items for display
+        const itemsWithDay = filteredItems.map((item: IFoodItem) => ({
+          ...item,
+          dayAvailable: day,
+        }))
+        console.log(itemsWithDay)
+
+        allResults.push(...itemsWithDay)
+      })
+console.log(allResults)
+      setSearchResults(()=>allResults)
     },
-    [pageSize]
+    [weeklyMenuUnCategorized]
   )
 
   // Initial load
   useEffect(() => {
-    fetchFoodItems('', 1, false)
-  }, [fetchFoodItems])
+    fetchWeeklyMenu()
+  }, [])
+
+  console.log(weeklyMenuUnCategorized)
+
+  // Set food items when day changes or weekly menu loads
+  useEffect(() => {
+    if (weeklyMenuUnCategorized[selectedDay?.toLowerCase()]) {
+      setFoodItems(weeklyMenuUnCategorized[selectedDay?.toLowerCase()])
+    }
+  }, [weeklyMenuUnCategorized, selectedDay])
+
+  console.log(foodItems)
 
   // Search effect
-  useEffect(() => {
-    if (debouncedSearchText !== searchText) return
-    setCurrentPage(1)
-    fetchFoodItems(debouncedSearchText, 1, false)
-  }, [debouncedSearchText, fetchFoodItems])
+  // useEffect(() => {
+  //   searchWeeklyMenu(searchText)
+  // }, [searchText, searchWeeklyMenu])
 
-  // Load more items
-  const loadMoreItems = useCallback(() => {
-    if (hasMore && !isLoadingMore && !dataLoading) {
-      const nextPage = currentPage + 1
-      fetchFoodItems(debouncedSearchText, nextPage, true)
-    }
-  }, [hasMore, isLoadingMore, dataLoading, currentPage, debouncedSearchText, fetchFoodItems])
-
-  // Handle scroll to load more
-  const handleScroll = useCallback(
-    (event: any) => {
-      const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent
-      const paddingToBottom = 20
-
-      if (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) {
-        loadMoreItems()
-      }
-    },
-    [loadMoreItems]
-  )
-
+  console.log(foodItems)
   const handleAddItem = (itemId: string) => {
     setCartItems((prev) => ({
       ...prev,
@@ -280,6 +261,34 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     })
   }
 
+  const handleAddItemFromSearch = (day:string,itemId: string) => {
+    setCartItems((prev) => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        [itemId]: (prev[day][itemId] || 0) + 1,
+      },
+    }))
+  }
+
+  const handleRemoveItemFromSearch = (day:string,itemId: string) => {
+    setCartItems((prev) => {
+      const newCart = { ...prev }
+      const dayCart = { ...newCart[day] }
+
+      if (dayCart[itemId] > 1) {
+        dayCart[itemId]--
+      } else {
+        delete dayCart[itemId]
+      }
+
+      return {
+        ...newCart,
+        [day]: dayCart,
+      }
+    })
+  }
+
   const getTotalItems = (day?: string) => {
     const targetDay = day || selectedDay
     return Object.values(cartItems[targetDay] || {}).reduce((sum, qty) => sum + qty, 0)
@@ -292,11 +301,12 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
   }
 
   const getTotalPrice = () => {
+    const currentItems = isSearching && searchText ? searchResults : foodItems
     return Object.entries(cartItems).reduce((total, [day, dayCart]) => {
       return (
         total +
         Object.entries(dayCart).reduce((dayTotal, [itemId, quantity]) => {
-          const item = foodItems.find((d) => d._id === itemId)
+          const item = currentItems.find((d) => d._id === itemId)
           return dayTotal + (item ? item.price * quantity : 0)
         }, 0)
       )
@@ -313,11 +323,10 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
       }>(payload)
       console.log('Update order response:', response)
       if (response?.success && response?.data?.updatingOrderId) {
-          const updatingOrderId = response.data.updatingOrderId
-          if (typeof window !== 'undefined') {
-            window.location.href = `/update-order?updatingOrderId=${updatingOrderId}`
-          }
-        
+        const updatingOrderId = response.data.updatingOrderId
+        if (typeof window !== 'undefined') {
+          window.location.href = `/update-order?updatingOrderId=${updatingOrderId}`
+        }
       }
       onClose()
     } catch (error) {
@@ -327,12 +336,31 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     }
   }
 
+  const handleSelect = (day: string) => {
+    setSearchResults([])
+    setIsSearching(false)
+    setSelectedDay(day)
+    setFoodItems(weeklyMenuUnCategorized[day?.toLowerCase()])
+    setSearchText("")
+  }
+
+  // Determine which items to display
+  console.log(foodItems)
+
+  console.log(searchResults)
+useEffect(() => {
+  const handler = setTimeout(() => {
+    searchWeeklyMenu(searchText)
+  }, 300) // wait 300ms after typing stops
+  return () => clearTimeout(handler)
+}, [searchText, searchWeeklyMenu])
+
   return (
-    <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
+    <YStack flex={1} bg="transparent" justifyContent="center" alignItems="center" p="$4">
       <YStack
         width="100%"
-        maxWidth={616}
-        maxHeight="90vh"
+        style={{ maxWidth: 616 }}
+        height="90vh"
         bg="white"
         borderRadius={24}
         overflow="hidden"
@@ -344,8 +372,8 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
       >
         <YStack flex={1}>
           <XStack
-            justify="space-between"
-            items="center"
+            justifyContent="space-between"
+            alignItems="center"
             px={24}
             py={20}
             borderBottomWidth={1}
@@ -384,7 +412,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                     borderRadius={8}
                     fontWeight="500"
                     fontSize={14}
-                    onPress={() => setSelectedDay(day)}
+                    onPress={() => handleSelect(day)}
                     pressStyle={{
                       bg: isSelected ? '#e8900c' : '#f8f8f8',
                     }}
@@ -404,7 +432,7 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
             <Input
               placeholder={getTotalAllDays() > 0 ? 'Search food items...' : 'Search Item'}
               value={searchText}
-              onChangeText={setSearchText}
+            onChangeText={setSearchText} 
               bg="#F8F8F8"
               borderColor="#E5E5E5"
               borderWidth={1}
@@ -419,9 +447,9 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
           </YStack>
 
           <YStack px={24} pb={16}>
-            <XStack justify="space-between" items="center">
+            <XStack justifyContent="space-between" alignItems="center">
               <Text fontSize={18} fontWeight="600" color="#000">
-                Food Items
+                {isSearching && searchText ? 'Search Results' : 'Food Items'}
               </Text>
               {getTotalAllDays() > 0 && (
                 <Text fontSize={14} fontWeight="600" color="#FF9F0D">
@@ -437,26 +465,24 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
             height={500}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 16 }}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
           >
             <YStack gap={16}>
-              {dataLoading && foodItems.length === 0
+              {!isSearching?( dataLoading && foodItems.length === 0
                 ? // Show shimmer skeleton while loading initial data
                   Array.from({ length: 5 }).map((_, index) => <DishSkeleton key={index} />)
-                : foodItems.map((item) => {
+                : foodItems?.map((item) => {
                     const quantity = cartItems[selectedDay]?.[item?._id] || 0
 
                     return (
-                      <XStack key={item._id} items="center" gap={12}>
+                      <XStack key={item._id} alignItems="center" gap={12}>
                         <YStack
                           width={64}
                           height={64}
                           borderRadius={8}
                           overflow="hidden"
                           bg="#F0F0F0"
-                          justify="center"
-                          items="center"
+                          justifyContent="center"
+                          alignItems="center"
                         >
                           {item?.url ? (
                             <YStack
@@ -487,12 +513,12 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                         <YStack flex={1} gap={4}>
                           <Text fontSize={16} fontWeight="600" color="#000">
                             {item.name}
+                            
                           </Text>
                           <Text fontSize={12} color="#999" numberOfLines={1}>
                             {item.description.length > 40
                               ? item.description.slice(0, 37) + '...'
                               : item.description ||
-                                // @ts-expect-error category type widening for display
                                 (item.category as any)?.name ||
                                 'No description available'}
                           </Text>
@@ -510,31 +536,88 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
                         />
                       </XStack>
                     )
-                  })}
+                  })):
+                      isSearching&&searchResults?.map((item) => {
+                    const quantity = cartItems[item?.dayAvailable]?.[item?._id] || 0
 
-              {/* Loading more indicator */}
-              {isLoadingMore && (
-                <YStack py={16} items="center">
-                  <Text fontSize={14} color="#999">
-                    Loading more items...
-                  </Text>
-                </YStack>
-              )}
+                    return (
+                    <XStack key={`${item._id}-${(item as any).dayAvailable}`} alignItems="center" gap={12}>
 
-              {/* No more items indicator */}
-              {!hasMore && foodItems.length > 0 && (
-                <YStack py={16} items="center">
-                  <Text fontSize={14} color="#999">
-                    No more items to load
-                  </Text>
-                </YStack>
-              )}
+                        <YStack
+                          width={64}
+                          height={64}
+                          borderRadius={8}
+                          overflow="hidden"
+                          bg="#F0F0F0"
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          {item?.url ? (
+                            <YStack
+                              style={{
+                                width: 70,
+                                height: 70,
+                                borderRadius: 8,
+                                marginRight: 12,
+                                backgroundColor: '#F5F5F5',
+                                overflow: 'hidden',
+                              }}
+                            >
+                              <Image
+                                src={item?.url}
+                                alt={item.name}
+                                width={70}
+                                height={70}
+                                resizeMode="cover"
+                              />
+                            </YStack>
+                          ) : (
+                            <Text fontSize={10} color="#999">
+                              IMG
+                            </Text>
+                          )}
+                        </YStack>
+
+                        <YStack flex={1} gap={4}>
+                          <Text fontSize={16} fontWeight="600" color="#000">
+                            {item.name}
+                            {isSearching && searchText && (item as any).dayAvailable && (
+                              <Text fontSize={12} color="#FF9F0D" ml={8}>
+                                ({(item as any).dayAvailable})
+                              </Text>
+                            )}
+                          </Text>
+                          <Text fontSize={12} color="#999" numberOfLines={1}>
+                            {item.description.length > 40
+                              ? item.description.slice(0, 37) + '...'
+                              : item.description ||
+                                (item.category as any)?.name ||
+                                'No description available'}
+                          </Text>
+                        </YStack>
+
+                        <Text fontSize={16} fontWeight="600" color="#000" mr={12}>
+                          ${item.price.toFixed(2)}
+                        </Text>
+
+                        <QuantitySelector
+                          quantity={quantity}
+                          onAdd={() => handleAddItemFromSearch((item as any).dayAvailable, item._id)}
+                          onIncrement={() => handleAddItemFromSearch((item as any).dayAvailable,item._id)}
+                          onDecrement={() => handleRemoveItemFromSearch((item as any).dayAvailable,item._id)}
+                        />
+                      </XStack>
+                    )
+                  })
+                  }
 
               {/* No items found */}
-              {!dataLoading && foodItems.length === 0 && (
-                <YStack py={32} items="center">
+              {!dataLoading && searchResults.length === 0 && (
+                <YStack py={32} alignItems="center">
                   <Text fontSize={16} color="#999" textAlign="center">
-                    No food items found
+                    {isSearching && searchText
+                      ? 'No items found for your search'
+                      : 'No more items to load'}
                   </Text>
                   {searchText && (
                     <Text fontSize={14} color="#999" textAlign="center" mt={8}>
@@ -556,7 +639,6 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
               fontSize={16}
               hoverStyle={{
                 bg: '#63533bff',
-                color: getTotalAllDays() > 0 ? 'white' : '#000',
               }}
               height={56}
               disabled={getTotalAllDays() === 0 || isLoading}

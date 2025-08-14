@@ -5,7 +5,7 @@ import { Text, YStack, XStack, Switch } from 'tamagui'
 import { Platform, useWindowDimensions, StyleSheet, View, TextInput } from 'react-native'
 import { Search } from '@tamagui/lucide-icons'
 import { success } from './colors'
-
+import { useStore } from 'app/src/store/useStore'
 // Light text color for placeholders and icons
 const textLight = '#9CA3AF'
 
@@ -68,21 +68,19 @@ const styles = StyleSheet.create({
 
 export interface SearchFoodProps {
   onSearch?: (query: string) => void
-  onVegToggle?: (vegOnly: boolean) => void
   initialQuery?: string
-  initialVegOnly?: boolean
   isTitleVisible?: boolean
 }
 
 export function SearchFood({
   onSearch,
-  onVegToggle,
   initialQuery = '',
-  initialVegOnly = false,
   isTitleVisible = true,
 }: SearchFoodProps) {
+const { vegOnly } = useStore()
+  
   const [searchQuery, setSearchQuery] = useState(initialQuery)
-  const [vegOnly, setVegOnly] = useState(initialVegOnly)
+  // const [vegOnly, setVegOnly] = useState(initialVegOnly)
   const { width } = useWindowDimensions()
 
   // Get responsive width based on screen size
@@ -122,10 +120,7 @@ export function SearchFood({
   }
 
   // Handle veg toggle
-  const handleVegToggle = (checked: boolean) => {
-    setVegOnly(checked)
-    onVegToggle?.(checked)
-  }
+
 
   // Update search query when initialQuery changes
   useEffect(() => {
@@ -133,9 +128,6 @@ export function SearchFood({
   }, [initialQuery])
 
   // Update veg only when initialVegOnly changes
-  useEffect(() => {
-    setVegOnly(initialVegOnly)
-  }, [initialVegOnly])
 
   return (
     <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600 }]}>
@@ -168,19 +160,7 @@ export function SearchFood({
           onChangeText={handleSearch}
           placeholderTextColor={textLight}
         />
-        <XStack style={{ alignItems: 'center', gap: 8 }}>
-          <Text fontSize={12} color={vegOnly ? '#4caf50' : textLight}>
-            Veg Only
-          </Text>
-          <Switch
-            size="$2"
-            checked={vegOnly}
-            onCheckedChange={handleVegToggle}
-            bg={vegOnly ? '#4caf50' : undefined}
-          >
-            <Switch.Thumb animation="bouncy" bg={vegOnly ? 'white' : '#f5f5f5'} />
-          </Switch>
-        </XStack>
+        
       </XStack>
     </YStack>
   )

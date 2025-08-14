@@ -6,12 +6,31 @@ import {
   apiUpdateCartItemQuantity,
   apiGetCartReccomendations,
 } from 'app/services/CartService'
-import { apiGetCategory, apiGetFoodItemsByCategory } from 'app/services/FoodService'
+import {
+  apiGetCategory,
+  apiGetFoodItemsByCategory,
+  apiGetWeeklyMenu,
+  apiSaveWeeklyMenu,
+} from 'app/services/FoodService'
 import { ICartItem, ICart } from 'app/types/cart'
 import { IFoodItem } from 'app/types/foodItem'
 import { IListResponse, IResponse } from 'app/types/common'
 import { IFoodCategory } from 'app/types/category'
 import { apiGetFoodItems } from 'app/services/FoodService'
+
+type DayKey = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday'
+
+interface WeeklyMenuData {
+  _id?: string
+  monday: string[]
+  tuesday: string[]
+  wednesday: string[]
+  thursday: string[]
+  friday: string[]
+  saturday: string[]
+  weekStartDate?: Date
+  active?: boolean
+}
 
 type CartState = {
   count: number
@@ -19,6 +38,10 @@ type CartState = {
   cartLoading: boolean
   cartTotalAmount: number
   cartRecommendations: IListResponse<IFoodItem>
+  weeklyMenu: {}
+  weeklyMenuLoading: boolean
+  selectedWeekDay: DayKey
+  weeklyMenuUnCategorized:{} 
 }
 
 type CartActions = {
@@ -38,6 +61,11 @@ type CartActions = {
   fetchCategories: () => Promise<void>
   fetchFoodItems: (params: any) => Promise<void>
   foodItems: IFoodItem[]
+  vegOnly: boolean
+  handleVegOnlyToggle: (vegOnly: boolean) => void
+  fetchWeeklyMenu: () => Promise<void>
+  saveWeeklyMenu: (weeklyMenuData: Record<DayKey, string[]>) => Promise<void>
+  setSelectedWeekDay: (day: DayKey | 'all-days') => void
 }
 
 type FoodState = {
@@ -48,13 +76,43 @@ type FoodState = {
 type FoodActions = {
   fetchFoodItemsByCategory: (search?: string, vegOnly?: boolean) => Promise<void>
 }
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const now = new Date();
+
+let dayIndex = now.getDay();
+
+// Check if it's after 1 PM
+if (now.getHours() >= 13) {
+  dayIndex = (dayIndex + 1) % 7; // Move to tomorrow, wrap around if Sunday
+}
+
+const weekDay = days[dayIndex];
 
 export const useStore = create<CartState & CartActions>((set, get) => ({
   count: 0,
   cart: {} as ICart,
   cartLoading: false,
+  vegOnly: false,
   cartTotalAmount: 0,
   cartRecommendations: {} as IListResponse<IFoodItem>,
+  weeklyMenu: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+  },
+    weeklyMenuUnCategorized: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+  },
+  weeklyMenuLoading: false,
+  selectedWeekDay: weekDay as DayKey,
   increment: () => set((state) => ({ count: state.count + 1 })),
   decrement: () => set((state) => ({ count: state.count - 1 })),
   foodItemsByCategory: [],
@@ -134,7 +192,10 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   fetchCartRecommendations: async (page = 1, limit = 5) => {
     set({ cartLoading: true })
     try {
-      const res = await apiGetCartReccomendations<IResponse<IListResponse<IFoodItem>>>({ page, limit })
+      const res = await apiGetCartReccomendations<IResponse<IListResponse<IFoodItem>>>({
+        page,
+        limit,
+      })
       set({ cartRecommendations: res.data })
     } catch (e) {
       // Optionally handle error
@@ -151,7 +212,11 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
         search,
         vegOnly,
       })
-      set({ foodItemsByCategory: res.data.items ?? [] })
+      console.log(res.data)
+      set({ weeklyMenu: res.data.items ?? [] })
+      const day=get().selectedWeekDay
+      console.log(res.data.items.filter(item=>item?.displayName===day)[0]?.foodItems)
+   set({foodItemsByCategory:res.data.items.filter(item=>item?.displayName===day)[0]?.foodItems})
     } catch (err) {
       set({ foodItemsByCategory: [] })
     } finally {
@@ -181,4 +246,62 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       set({ foodItemsLoading: false })
     }
   },
+  handleVegOnlyToggle: (vegOnly: boolean) => {
+    console.log('Toggling vegOnly:', vegOnly)
+    set({ vegOnly: vegOnly })
+  },
+  fetchWeeklyMenu: async () => {
+    set({ weeklyMenuLoading: true })
+    try {
+      const res = await apiGetWeeklyMenu<IResponse<WeeklyMenuData>>()
+      const menu = res.data
+      console.log(menu)
+      if (menu) {
+        set({ weeklyMenuUnCategorized:menu })
+      }
+    } catch (err) {
+      console.error('Error fetching weekly menu:', err)
+      set({
+        weeklyMenu: {
+          monday: [],
+          tuesday: [],
+          wednesday: [],
+          thursday: [],
+          friday: [],
+          saturday: [],
+        },
+      })
+    } finally {
+      set({ weeklyMenuLoading: false })
+    }
+  },
+  saveWeeklyMenu: async (weeklyMenuData: Record<DayKey, string[]>) => {
+    set({ weeklyMenuLoading: true })
+    try {
+      await apiSaveWeeklyMenu<IResponse<WeeklyMenuData>>(weeklyMenuData)
+      // set({ weeklyMenu: weeklyMenuData })
+
+      // Add notification when weekly menu is saved
+      const { addNotification } = require('./useNotificationStore').useNotificationStore.getState()
+      addNotification({
+        type: 'system',
+        title: 'Weekly menu saved',
+        message: 'Weekly menu has been saved successfully',
+        priority: 'medium',
+        read: false,
+        actionType: 'none',
+      })
+    } catch (err) {
+      console.error('Error saving weekly menu:', err)
+      throw err
+    } finally {
+      set({ weeklyMenuLoading: false })
+    }
+  },
+  setSelectedWeekDay: (day: DayKey ) => {
+    set({ selectedWeekDay: day })
+    console.log(get().weeklyMenu.filter(item=>item.displayName===day)[0]?.foodItems)
+   set({foodItemsByCategory:get().weeklyMenu.filter(item=>item.displayName===day)[0]?.foodItems??[]})
+  },
+ 
 }))

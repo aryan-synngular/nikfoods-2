@@ -33,6 +33,7 @@ interface DeliveryDatePopupProps {
   }) => void
   item: any
   loading?: boolean
+  listType?:string
 }
 
 export function DeliveryDatePopup({
@@ -41,6 +42,7 @@ export function DeliveryDatePopup({
   onOpenChange,
   onSelect,
   item,
+  listType
 }: DeliveryDatePopupProps) {
   // Build initial selected state from item.days
   const media = useMedia()
@@ -68,7 +70,7 @@ export function DeliveryDatePopup({
   console.log('Selected dates:', selectedDates)
   // Generate date options for the current week (Mon-Sat), excluding Sunday
   const generateDateOptions = (): DeliveryDateOption[] => {
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
     const now = new Date()
     const nowDay = now.getDay() // 0-6 (Sun-Sat)
@@ -105,9 +107,15 @@ export function DeliveryDatePopup({
       const isPastDay = date.getTime() < startOfToday.getTime()
 
       // Disable if day is gone, or current day after 1 PM
-      const disabled = isPastDay || (isCurrentDay && now.getHours() >= 13)
-
       const day = dayNames[date.getDay()]
+     
+     let disabled = (isPastDay || (isCurrentDay && now.getHours() >= 13)) 
+ if(listType==="weeklyMenu"&&!disabled)
+ {
+  disabled=!item?.availableWeekDays?.includes(day.toLowerCase())
+ }
+
+
       const dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`
       const fullDate = date.toISOString()
 

@@ -29,7 +29,7 @@ export function FoodCard({
   quantity = 0,
   isAdded = false,
 }: FoodCardProps) {
-  const formattedPrice = `$${price.toFixed(2)}`
+  const formattedPrice = `$${price?.toFixed(2)}`
 
   // Format price with dollar sign and two decimal places
 
@@ -43,9 +43,7 @@ export function FoodCard({
         {/* Main container with relative positioning */}
         <YStack minW={180} style={{ alignItems: 'center',position: 'relative' }}>
           {/* Circle image that overlaps the card */}
-          {isAdded&&<XStack style={{ position: 'absolute', top: 40, right:10, zIndex: 1 }}>
-           <CheckCircle2 color={colors.primary}></CheckCircle2>
-          </XStack>}
+          
           <Circle
             size={100}
             overflow="hidden"
@@ -58,8 +56,7 @@ export function FoodCard({
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
               zIndex: 2,
               marginBottom: -70, // Creates overlap effect
-              ...(isAdded?{borderWidth: 3,
-              borderColor: colors.primary,}: {} )
+          
             }}
           >
             <Image
@@ -79,9 +76,15 @@ export function FoodCard({
             <YStack height={70} />
 
             <YStack style={{ padding: 16, gap: 12 }}>
+              <XStack justify={"space-between"} items={"center"} >
+
               <Text fontSize={16} fontWeight="600" color="#2A1A0C">
                 {name}
               </Text>
+              {isAdded&&<XStack style={{borderRadius:20,backgroundColor:colors.info, padding:6, width:25, height:25, justifyContent: 'center', alignItems: 'center'}} >
+           <ShoppingCart  color={"white"}></ShoppingCart>
+          </XStack>}
+              </XStack>
               <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text fontSize={16} color="#FF9F0D">
                   {formattedPrice}

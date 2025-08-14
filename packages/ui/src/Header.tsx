@@ -1,5 +1,5 @@
 "use client"
-import { XStack, Text, Button, YStack, View, Image } from 'tamagui'
+import { XStack, Text, Button, YStack, View, Image, Switch } from 'tamagui'
 import { useLink } from 'solito/navigation'
 import { Platform, StatusBar, Dimensions } from 'react-native'
 import { ArrowRight, Bell, ShoppingCart, User2 } from '@tamagui/lucide-icons'
@@ -38,7 +38,7 @@ export const AppHeader = () => {
   const { badges, unreadCount, updateCartBadge } = useNotificationStore()
 
   // Cart store
-  const { cart } = useStore()
+  const { cart,vegOnly,handleVegOnlyToggle } = useStore()
 
   // Notification panel state
   const [notificationPanelOpen, setNotificationPanelOpen] = useState(false)
@@ -127,8 +127,8 @@ export const AppHeader = () => {
           <Image
             source={{ uri: '/images/logo.png' }}
             alt="nikfoods logo"
-            width={isSmallScreen ? 100 : 120}
-            height={isSmallScreen ? 32 : 40}
+            width={isSmallScreen ? 100 : 160}
+            height={isSmallScreen ? 32 : 80}
             resizeMode="contain"
           />
         ) : (
@@ -143,7 +143,8 @@ export const AppHeader = () => {
       </XStack>
 
       {/* Action Buttons */}
-      <XStack gap={Platform.OS === 'web' ? 12 : 8} alignItems="center" flexShrink={0}>
+      <XStack gap={Platform.OS === 'web' ? 16 : 8} items="center" flexShrink={0}>
+       
         {/* Admin Panel - Only show on web for admins */}
         {Platform.OS === 'web' && user && user.role === 'ADMIN' && !isSmallScreen && (
           <Button
@@ -164,7 +165,19 @@ export const AppHeader = () => {
             Admin Panel
           </Button>
         )}
-
+ <XStack style={{ alignItems: 'center', gap: 8 }}>
+          <Text fontSize={16} color={vegOnly ? '#4caf50' : "#a19e9eff"} >
+            Veg Only
+          </Text>
+          <Switch
+            size="$3"
+            checked={vegOnly}
+            onCheckedChange={()=>handleVegOnlyToggle(!vegOnly)}
+            bg={vegOnly ? '#4caf50' : undefined}
+          >
+            <Switch.Thumb animation="bouncy" bg={vegOnly ? 'white' : '#f5f5f5'} />
+          </Switch>
+        </XStack>
         {/* Notification Bell */}
         <NotificationBellBadge count={unreadCount}>
           <Button

@@ -8,7 +8,7 @@ export async function apiGetFoodItems<T>({
   page = 1,
   limit = 7,
 }): Promise<T> {
-  console.log("vegeOnly:", vegOnly)
+  console.log('vegeOnly:', vegOnly)
   const url = `food-item?category=${category}&page=${page}&limit=${limit}&search=${search}&vegOnly=${vegOnly}`
 
   const axiosConfig: AxiosRequestConfig = {
@@ -71,6 +71,47 @@ export async function apiGetFoodItemsByCategory<T>({
     return response.data
   } catch (error) {
     console.error('Error FoodItemsByCategory:', error)
+    throw error
+  }
+}
+
+export async function apiGetWeeklyMenu<T>(): Promise<T> {
+  const url = `weekly-menu`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('WeeklyMenu:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error WeeklyMenu:', error)
+    throw error
+  }
+}
+
+export async function apiSaveWeeklyMenu<T>(weeklyMenuData: any): Promise<T> {
+  const url = `weekly-menu`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: weeklyMenuData,
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('SaveWeeklyMenu:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error SaveWeeklyMenu:', error)
     throw error
   }
 }

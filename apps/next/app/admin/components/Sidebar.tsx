@@ -6,6 +6,7 @@ LayoutDashboard,
 User,
 Utensils,
 ShoppingCart,
+Calendar1
 
 
 } from '@tamagui/lucide-icons';
@@ -20,6 +21,11 @@ const sidebarItems: any = {
       href: '/admin/food-category',
       icon: List,
       label: 'Food Category',
+    },
+     {
+      href: '/admin/weekly-planner',
+      icon: Calendar1,
+      label: 'Weekly Planner',
     },
     {
       href: '/admin/orders',

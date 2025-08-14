@@ -36,13 +36,12 @@ const {
     categories,
    foodItems,
    fetchFoodItems,
-    fetchCategories
+    fetchCategories,
+    vegOnly
   } = useStore()
 
  
-console.log(foodItems)
   const [searchQuery, setSearchQuery] = useState('')
-  const [vegOnly, setVegOnly] = useState(true)
   const [loading, setLoading] = useState(true)
   const [searchLoading, setSearchLoading] = useState(false)
 
@@ -58,37 +57,25 @@ console.log(foodItems)
       fetchFoodItems({
         category: selectedCategory?._id ?? "",
         search: searchQuery,
-        vegOnly,
+        vegOnly:!vegOnly?null:vegOnly
       }),
     ])
-      .then(([catRes, foodRes]) => {
-        // setCategories(catRes?.data)
-        // You can set food items to state if you want, or use foodItemsByCategory from store
-      })
-      .catch((err) => {
-        // setCategories(null)
+      .catch((err) => {      setSearchLoading(true)
+
       })
       .finally(() => setLoading(false))
-  }, [selectedCategory?._id, searchQuery])
+  }, [selectedCategory?._id, searchQuery,vegOnly])
 
   // For search/filter:
   const handleSearch = useCallback(
     (query: string) => {
       setSearchQuery(query)
       setSearchLoading(true)
-      fetchFoodItems({search:query, category: selectedCategory?._id??"", vegOnly}).finally(() => setSearchLoading(false))
+      fetchFoodItems({search:query, category: selectedCategory?._id??"", vegOnly:!vegOnly?null:vegOnly}).finally(() => setSearchLoading(false))
     },
     [fetchFoodItems, vegOnly]
   )
 
-  const handleVegToggle = useCallback(
-    (isVegOnly: boolean) => {
-      setVegOnly(isVegOnly)
-      setSearchLoading(true)
-      fetchFoodItems({search:searchQuery, category: selectedCategory?._id??"", vegOnly: isVegOnly}).finally(() => setSearchLoading(false))
-    },
-    [fetchFoodItems, searchQuery,vegOnly]
-  )
 
   // Calculate header height based on platform
   const getHeaderHeight = () => {
@@ -203,9 +190,7 @@ console.log(foodItems)
                  <SearchFood
                    isTitleVisible={false}
                    onSearch={handleSearch}
-                   onVegToggle={handleVegToggle}
                    initialQuery={searchQuery}
-                   initialVegOnly={vegOnly}
                  />
  <CategoryRail handleCardPress={(category: IFoodCategory) => {setSelectedCategory(category)}} selectedId={selectedCategory?._id ?? ""} categories={categories} />
                  {/* Food List by Category */}

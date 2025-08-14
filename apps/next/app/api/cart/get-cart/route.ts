@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const cart = await Cart.findOne({ user: id }).populate({
+    let cart = await Cart.findOne({ user: id }).populate({
       path: 'days',
       match: { date: { $gte: today } },
       populate: {
@@ -35,7 +35,8 @@ export async function GET(req: NextRequest) {
 
     console.log('Cart fetched:', cart)
     if (!cart) {
-      return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
+      cart= await Cart.create({ user: id, days: [] })
+      // return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
     }
 
     // Filter items in each day just like in your second API

@@ -43,7 +43,7 @@ export function CartSummary({
       </XStack>
 
       {/* Coupon input */}
-      <XStack
+      {/* <XStack
         style={{
           borderWidth: 1,
           borderColor: '#E0E0E0',
@@ -93,7 +93,7 @@ export function CartSummary({
         >
           <Text style={{ color: '#FFB648', fontWeight: '600', fontSize: 16 }}>Add</Text>
         </XStack>
-      </XStack>
+      </XStack> */}
 
       {/* Divider */}
       <YStack style={{ height: 1, backgroundColor: '#E0E0E0' }} />

@@ -24,8 +24,8 @@ export default function CartSidebar() {
   // const [isLoading, setIsLoading] = useState(true)
   const { showMessage } = useToast()
 const [loading, setLoading] = useState({ itemId: "", change: 0 })
-  const checkOutLink = useLink({
-    href: '/checkout',
+  const cartLink = useLink({
+    href: '/cart',
   })
 
 
@@ -249,7 +249,7 @@ const [loading, setLoading] = useState({ itemId: "", change: 0 })
          
                  <Button
                        onPress={() => {
-                         checkOutLink.onPress()
+                         cartLink.onPress()
                        }}
                        style={{
                          backgroundColor: '#FF9F0D',
@@ -270,17 +270,9 @@ const [loading, setLoading] = useState({ itemId: "", change: 0 })
                        )}
                        disabled={loading.itemId !== "" || loading.change !== 0}
                      >
-                       Checkout
+                       View Cart
                      </Button>
-            <Text
-              style={{
-                fontSize: 12,
-                color: "#666",
-                textAlign: "center"
-              }}
-            >
-              We accept all major credit cards
-            </Text>
+            
           </YStack>}
         </>
     

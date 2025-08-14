@@ -27,9 +27,10 @@ export interface FoodItem {
 export interface FoodListingRailProps {
   displayLabel: string
   foodItems: IListResponse<FoodItem> | null
+  listType?:string
 }
 
-export function FoodListingRail({ displayLabel, foodItems }: FoodListingRailProps) {
+export function FoodListingRail({ displayLabel, foodItems,listType }: FoodListingRailProps) {
   const {addToCart} =useStore()
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null)
@@ -164,6 +165,7 @@ const [loading, setLoading] = useState(false)
         loading={loading}
         onOpenChange={setIsDatePopupOpen}
         onSelect={handleDateSelection}
+        listType={listType}
       />
     </YStack>
   )
