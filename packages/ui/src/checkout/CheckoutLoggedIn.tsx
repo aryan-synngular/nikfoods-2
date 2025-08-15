@@ -470,23 +470,23 @@ const CheckoutLoggedIn = ({
                         size={isMobile ? '$3' : '$4'}
                       />
                     </FormField>
-                    <FormField mobile={isMobile}>
+                    {/* <FormField mobile={isMobile}>
                       <Label fontSize={isMobile ? '$3' : '$4'}>Province</Label>
                       <Input
                         readOnly
                         value={selectedAddress?.province || ''}
                         size={isMobile ? '$3' : '$4'}
                       />
-                    </FormField>
+                    </FormField> */}
                   </FormRow>
 
-                  <Label fontSize={isMobile ? '$3' : '$4'}>Notes about your order</Label>
+                  {/* <Label fontSize={isMobile ? '$3' : '$4'}>Notes about your order</Label>
                   <Input
                     readOnly
                     value={selectedAddress?.notes || ''}
                     placeholder="E.g. special notes for delivery"
                     size={isMobile ? '$3' : '$4'}
-                  />
+                  /> */}
 
                   <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" marginTop="$4">
                     Personal Details
@@ -523,7 +523,7 @@ const CheckoutLoggedIn = ({
                         size={isMobile ? '$3' : '$4'}
                       />
                     </FormField>
-                    <FormField mobile={isMobile}>
+                    {/* <FormField mobile={isMobile}>
                       <Label fontSize={isMobile ? '$3' : '$4'}>Location Remark</Label>
                       <Input
                         readOnly
@@ -531,7 +531,7 @@ const CheckoutLoggedIn = ({
                         value={selectedAddress?.location_remark || ''}
                         size={isMobile ? '$3' : '$4'}
                       />
-                    </FormField>
+                    </FormField> */}
                   </FormRow>
                 </YStack>
               )}

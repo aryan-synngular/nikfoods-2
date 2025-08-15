@@ -24,7 +24,7 @@ const addressSchema = new Schema<IAddress>(
     email: { type: String, required: true },
     street_address: { type: String, required: true },
     city: { type: String, required: true },
-    province: { type: String, required: true },
+    province: { type: String},
     postal_code: { type: String, required: true },
     notes: { type: String },
   },

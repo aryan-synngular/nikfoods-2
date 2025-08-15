@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Text, YStack, XStack, Input, Button, Image, useMedia, Checkbox, TextArea, Spinner } from 'tamagui'
 import { ArrowRight, X } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
@@ -10,11 +10,12 @@ import { useToast } from '@my/ui/src/useToast'
 export function SignupStep2Page() {
   const { user, registerStep2 } = useAuth()
   const { showMessage } = useToast()
+  console.log("user--------------")
   console.log(user)
   const media = useMedia()
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(user?.email??"")
   const [locationRemark, setLocationRemark] = useState('')
   const [streetAddress, setStreetAddress] = useState('')
   const [city, setCity] = useState('')
@@ -76,10 +77,11 @@ const validateInputs = () => {
     return false
   }
 
-  if (!province.trim() || province.trim().length < 2) {
-    showMessage('Province is required', 'error')
-    return false
-  }
+
+  // if (!province.trim() || province.trim().length < 2) {
+  //   showMessage('Province is required', 'error')
+  //   return false
+  // }
 
   if (!postcode.trim() || postcode.trim().length < 4) {
     showMessage('Postcode is required', 'error')
@@ -95,6 +97,10 @@ const validateInputs = () => {
 }
 
 
+useEffect(()=>{
+  setEmail(user?.email??"")
+},[user])
+
   const handleSignup = async () => {
     if (!validateInputs()) {
       return
@@ -106,12 +112,12 @@ const validateInputs = () => {
       name: name.trim(),
       email: email.trim(),
       phone: phone.trim(),
-      locationRemark: locationRemark.trim(),
+      // locationRemark: locationRemark.trim(),
       streetAddress: streetAddress.trim(),
       city: city.trim(),
-      province: province.trim(),
+      // province: province.trim(),
       postcode: postcode.trim(),
-      notes: notes.trim(),
+      // notes: notes.trim(),
       agreedToTerms,
       agreedToMarketing
     }
@@ -216,7 +222,7 @@ const validateInputs = () => {
               fontSize={14}
             />
           </YStack>
-          <YStack style={{flex: 1}}>
+          {/* <YStack style={{flex: 1}}>
             <Input
               value={locationRemark}
               onChangeText={setLocationRemark}
@@ -227,7 +233,7 @@ const validateInputs = () => {
               borderColor="#E0E0E0"
               fontSize={14}
             />
-          </YStack>
+          </YStack> */}
         </XStack>
         
         {/* Phone and Email */}
@@ -289,7 +295,7 @@ const validateInputs = () => {
               fontSize={14}
             />
           </YStack>
-          <YStack style={{flex: 1, minWidth: media.sm ? '100%' : '30%', marginBottom: media.sm ? 16 : 0}}>
+          {/* <YStack style={{flex: 1, minWidth: media.sm ? '100%' : '30%', marginBottom: media.sm ? 16 : 0}}>
             <Input
               value={province}
               onChangeText={setProvince}
@@ -300,7 +306,7 @@ const validateInputs = () => {
               borderColor="#E0E0E0"
               fontSize={14}
             />
-          </YStack>
+          </YStack> */}
           <YStack style={{flex: 1, minWidth: media.sm ? '100%' : '30%'}}>
             <Input
               value={postcode}
@@ -316,7 +322,7 @@ const validateInputs = () => {
         </XStack>
         
         {/* Notes */}
-        <YStack style={{marginBottom: 24}}>
+        {/* <YStack style={{marginBottom: 24}}>
           <TextArea
             value={notes}
             onChangeText={setNotes}
@@ -327,7 +333,7 @@ const validateInputs = () => {
             borderColor="#E0E0E0"
             fontSize={14}
           />
-        </YStack>
+        </YStack> */}
         
         {/* Terms Checkbox */}
         <XStack style={{marginBottom: 16, alignItems: 'flex-start', gap: 8}}>

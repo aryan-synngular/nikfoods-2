@@ -358,7 +358,8 @@ export default function OrdersSection() {
 
   const getDayLabel = (status: string, dateStr: string): string => {
     const dayName = getDayName(dateStr)
-
+console.log(dateStr)
+console.log(dayName)
     if (status === 'delivered') return `Delivered on ${dayName}`
     if (status === 'cancelled') return `Cancelled on ${dayName}`
     return `Delivery on ${dayName}`
@@ -671,7 +672,7 @@ export default function OrdersSection() {
                       </Text>
                     </View>
                   ) : (
-                    <XStack gap="$2" flexShrink={1}>
+                    order.status==="pending"&&<XStack gap="$2" flexShrink={1}>
                       <Button
                         size="$3"
                         bg="white"
@@ -719,7 +720,7 @@ export default function OrdersSection() {
                               backgroundColor: statusColors.bg,
                             }}
                           >
-                            {getDayLabel(order.status, dayItem.deliveryDate)}
+                            Delivery on  {dayItem.day}
                           </Text>
                         </XStack>
 
@@ -802,7 +803,7 @@ export default function OrdersSection() {
                         </>
                       ) : (
                         <>
-                          <Button
+                        { order.status==="completed"&& <Button
                             bg="#FF9F0D"
                             color="white"
                             size="$3"
@@ -810,7 +811,7 @@ export default function OrdersSection() {
                             hoverStyle={{ background: '#FF9F0D' }}
                           >
                             Reorder
-                          </Button>
+                          </Button>}
                           <Button
                             borderWidth={1}
                             borderColor="#FF9F0D"

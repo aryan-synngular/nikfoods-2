@@ -63311,7 +63311,7 @@ var require_TextArea = __commonJS({
     }), mod), "__toCommonJS");
     var TextArea_exports = {};
     __export2(TextArea_exports, {
-      TextArea: /* @__PURE__ */ __name(() => TextArea2, "TextArea"),
+      TextArea: /* @__PURE__ */ __name(() => TextArea3, "TextArea"),
       TextAreaFrame: /* @__PURE__ */ __name(() => TextAreaFrame2, "TextAreaFrame")
     });
     module2.exports = __toCommonJS2(TextArea_exports);
@@ -63341,7 +63341,7 @@ var require_TextArea = __commonJS({
         unstyled: process.env.TAMAGUI_HEADLESS === "1"
       }
     });
-    var TextArea2 = TextAreaFrame2.styleable((propsIn, forwardedRef) => {
+    var TextArea3 = TextAreaFrame2.styleable((propsIn, forwardedRef) => {
       const ref = import_react135.default.useRef(null), composedRefs = (0, import_core72.useComposedRefs)(forwardedRef, ref), props = (0, import_Input2.useInputProps)(propsIn, composedRefs), linesProp = {
         // web uses rows now, but native not caught up :/
         [import_constants59.isWeb ? "rows" : "numberOfLines"]: propsIn.unstyled ? void 0 : 4
@@ -88068,6 +88068,14 @@ var useStore2 = create((set, get) => ({
     friday: [],
     saturday: []
   },
+  weeklyMenuUnCategorized: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: []
+  },
   weeklyMenuLoading: false,
   selectedWeekDay: weekDay,
   increment: /* @__PURE__ */ __name(() => set((state) => ({ count: state.count + 1 })), "increment"),
@@ -88200,15 +88208,9 @@ var useStore2 = create((set, get) => ({
     try {
       const res = await apiGetWeeklyMenu();
       const menu = res.data;
+      console.log(menu);
       if (menu) {
-        const weeklyMenuData = {
-          monday: (menu.monday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id),
-          tuesday: (menu.tuesday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id),
-          wednesday: (menu.wednesday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id),
-          thursday: (menu.thursday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id),
-          friday: (menu.friday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id),
-          saturday: (menu.saturday ?? []).map((i7) => typeof i7 === "string" ? i7 : i7._id)
-        };
+        set({ weeklyMenuUnCategorized: menu });
       }
     } catch (err) {
       console.error("Error fetching weekly menu:", err);
@@ -88344,8 +88346,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       {
         source: { uri: "/images/logo.png" },
         alt: "nikfoods logo",
-        width: isSmallScreen ? 100 : 120,
-        height: isSmallScreen ? 32 : 40,
+        width: isSmallScreen ? 100 : 160,
+        height: isSmallScreen ? 32 : 80,
         resizeMode: "contain"
       }
     ) : /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
@@ -88358,20 +88360,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
         resizeMode: "contain"
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { gap: import_react_native9.Platform.OS === "web" ? 12 : 8, items: "center", flexShrink: 0, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Text5, { fontSize: 16, color: vegOnly ? "#4caf50" : "#a19e9eff", children: "Veg Only" }),
-        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
-          Switch,
-          {
-            size: "$3",
-            checked: vegOnly,
-            onCheckedChange: () => handleVegOnlyToggle(!vegOnly),
-            bg: vegOnly ? "#4caf50" : void 0,
-            children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Switch.Thumb, { animation: "bouncy", bg: vegOnly ? "white" : "#f5f5f5" })
-          }
-        )
-      ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { gap: import_react_native9.Platform.OS === "web" ? 16 : 8, items: "center", flexShrink: 0, children: [
       import_react_native9.Platform.OS === "web" && user && user.role === "ADMIN" && !isSmallScreen && /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
         Button2,
         {
@@ -88391,6 +88380,19 @@ var AppHeader = /* @__PURE__ */ __name(() => {
           children: "Admin Panel"
         }
       ),
+      /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Text5, { fontSize: 16, color: vegOnly ? "#4caf50" : "#a19e9eff", children: "Veg Only" }),
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+          Switch,
+          {
+            size: "$3",
+            checked: vegOnly,
+            onCheckedChange: () => handleVegOnlyToggle(!vegOnly),
+            bg: vegOnly ? "#4caf50" : void 0,
+            children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Switch.Thumb, { animation: "bouncy", bg: vegOnly ? "white" : "#f5f5f5" })
+          }
+        )
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(NotificationBellBadge, { count: unreadCount, children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
         Button2,
         {
@@ -89079,7 +89081,8 @@ function DeliveryDatePopup({
   loading,
   onOpenChange,
   onSelect,
-  item
+  item,
+  listType
 }) {
   const media2 = (0, import_core61.useMedia)();
   const initialSelected = (item?.days || []).map((d3) => ({
@@ -89118,8 +89121,11 @@ function DeliveryDatePopup({
       date.setDate(monday.getDate() + offset5);
       const isCurrentDay = date.getTime() === startOfToday.getTime();
       const isPastDay = date.getTime() < startOfToday.getTime();
-      const disabled = isPastDay || isCurrentDay && now2.getHours() >= 13;
       const day = dayNames[date.getDay()];
+      let disabled = isPastDay || isCurrentDay && now2.getHours() >= 13;
+      if (listType === "weeklyMenu" && !disabled) {
+        disabled = !item?.availableWeekDays?.includes(day.toLowerCase());
+      }
       const dateStr = `${date.getDate()} ${date.toLocaleString("default", { month: "short" })}, ${date.getFullYear()}`;
       const fullDate = date.toISOString();
       options.push({ day, date: dateStr, fullDate, disabled });
@@ -89648,7 +89654,7 @@ var useToast2 = /* @__PURE__ */ __name(() => {
 
 // ../../packages/ui/src/rails/FoodListingRail.tsx
 var import_jsx_runtime131 = require("react/jsx-runtime");
-function FoodListingRail({ displayLabel, foodItems }) {
+function FoodListingRail({ displayLabel, foodItems, listType }) {
   const { addToCart } = useStore2();
   const [quantities, setQuantities] = (0, import_react111.useState)({});
   const [selectedFoodItem, setSelectedFoodItem] = (0, import_react111.useState)(null);
@@ -89753,7 +89759,8 @@ function FoodListingRail({ displayLabel, foodItems }) {
         open: isDatePopupOpen,
         loading,
         onOpenChange: setIsDatePopupOpen,
-        onSelect: handleDateSelection
+        onSelect: handleDateSelection,
+        listType
       }
     )
   ] });
@@ -92260,11 +92267,12 @@ var import_jsx_runtime144 = require("react/jsx-runtime");
 function SignupStep2Page() {
   const { user, registerStep2 } = useAuth();
   const { showMessage } = useToast2();
+  console.log("user--------------");
   console.log(user);
   const media2 = (0, import_core61.useMedia)();
   const [name2, setName] = (0, import_react122.useState)("");
   const [phone, setPhone] = (0, import_react122.useState)("");
-  const [email, setEmail] = (0, import_react122.useState)("");
+  const [email, setEmail] = (0, import_react122.useState)(user?.email ?? "");
   const [locationRemark, setLocationRemark] = (0, import_react122.useState)("");
   const [streetAddress, setStreetAddress] = (0, import_react122.useState)("");
   const [city, setCity] = (0, import_react122.useState)("");
@@ -92314,10 +92322,6 @@ function SignupStep2Page() {
       showMessage("City is required", "error");
       return false;
     }
-    if (!province.trim() || province.trim().length < 2) {
-      showMessage("Province is required", "error");
-      return false;
-    }
     if (!postcode.trim() || postcode.trim().length < 4) {
       showMessage("Postcode is required", "error");
       return false;
@@ -92337,12 +92341,12 @@ function SignupStep2Page() {
       name: name2.trim(),
       email: email.trim(),
       phone: phone.trim(),
-      locationRemark: locationRemark.trim(),
+      // locationRemark: locationRemark.trim(),
       streetAddress: streetAddress.trim(),
       city: city.trim(),
-      province: province.trim(),
+      // province: province.trim(),
       postcode: postcode.trim(),
-      notes: notes.trim(),
+      // notes: notes.trim(),
       agreedToTerms,
       agreedToMarketing
     };
@@ -92428,34 +92432,19 @@ function SignupStep2Page() {
                   }
                 )
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime144.jsxs)(XStack, { style: { gap: 16, marginBottom: 16 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-                  Input,
-                  {
-                    value: name2,
-                    onChangeText: setName,
-                    placeholder: "Name*",
-                    style: { borderRadius: 8 },
-                    height: 48,
-                    borderWidth: 1,
-                    borderColor: "#E0E0E0",
-                    fontSize: 14
-                  }
-                ) }),
-                /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-                  Input,
-                  {
-                    value: locationRemark,
-                    onChangeText: setLocationRemark,
-                    placeholder: "Location remark e.g. home, office",
-                    style: { borderRadius: 8 },
-                    height: 48,
-                    borderWidth: 1,
-                    borderColor: "#E0E0E0",
-                    fontSize: 14
-                  }
-                ) })
-              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(XStack, { style: { gap: 16, marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
+                Input,
+                {
+                  value: name2,
+                  onChangeText: setName,
+                  placeholder: "Name*",
+                  style: { borderRadius: 8 },
+                  height: 48,
+                  borderWidth: 1,
+                  borderColor: "#E0E0E0",
+                  fontSize: 14
+                }
+              ) }) }),
               /* @__PURE__ */ (0, import_jsx_runtime144.jsxs)(XStack, { style: { gap: 16, marginBottom: 16 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
                   Input,
@@ -92514,19 +92503,6 @@ function SignupStep2Page() {
                     fontSize: 14
                   }
                 ) }),
-                /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1, minWidth: media2.sm ? "100%" : "30%", marginBottom: media2.sm ? 16 : 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-                  Input,
-                  {
-                    value: province,
-                    onChangeText: setProvince,
-                    placeholder: "Province",
-                    style: { borderRadius: 8 },
-                    height: 48,
-                    borderWidth: 1,
-                    borderColor: "#E0E0E0",
-                    fontSize: 14
-                  }
-                ) }),
                 /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { flex: 1, minWidth: media2.sm ? "100%" : "30%" }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
                   Input,
                   {
@@ -92541,19 +92517,6 @@ function SignupStep2Page() {
                   }
                 ) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(YStack, { style: { marginBottom: 24 }, children: /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
-                TextArea,
-                {
-                  value: notes,
-                  onChangeText: setNotes,
-                  placeholder: "Notes about your order, e.g. special notes for delivery",
-                  style: { borderRadius: 8 },
-                  height: 80,
-                  borderWidth: 1,
-                  borderColor: "#E0E0E0",
-                  fontSize: 14
-                }
-              ) }),
               /* @__PURE__ */ (0, import_jsx_runtime144.jsxs)(XStack, { style: { marginBottom: 16, alignItems: "flex-start", gap: 8 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime144.jsx)(
                   Checkbox,
@@ -93380,7 +93343,7 @@ function CartDaySection({
               shouldRenderDeliveryInfo && /* @__PURE__ */ (0, import_jsx_runtime150.jsx)(
                 import_core61.View,
                 {
-                  bg: isSameDay ? "#e6f3e6" : "#fff4e4",
+                  bg: "#fff4e4",
                   p: "$2",
                   borderRadius: "$2",
                   flexDirection: "row",
@@ -93388,7 +93351,7 @@ function CartDaySection({
                   gap: "$2",
                   flexShrink: 1,
                   mt: "$2",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime150.jsx)(Text5, { fontSize: "$3", fontWeight: "500", color: isSameDay ? "green" : "#f55344", children: isSameDay ? "Same day delivery" : `Delivery on ${deliveryDay}` })
+                  children: /* @__PURE__ */ (0, import_jsx_runtime150.jsx)(Text5, { fontSize: "$3", fontWeight: "500", color: "#f55344", children: `Delivery on ${deliveryDay}` })
                 }
               )
             ]
@@ -96185,38 +96148,12 @@ function PaymentPage({
     [onPaymentError, showMessage]
   );
   return /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(import_core61.View, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(
-      XStack,
+    /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+      CheckoutStep,
       {
-        justify: "space-between",
-        alignItems: isMobile ? "flex-start" : "center",
-        marginBottom: "$4",
-        flexWrap: isMobile ? "wrap" : "nowrap",
-        gap: isMobile ? "$2" : "$0",
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
-            CheckoutStep,
-            {
-              icon: /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(CreditCard, { size: 16, color: "#FF6B00" }),
-              title: "Payment Method",
-              description: "Choose your preferred payment method to complete your order."
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
-            Text5,
-            {
-              onPress: goBack,
-              hoverStyle: { color: "#FF1F0D" },
-              pressStyle: { color: "#FF1F0D" },
-              cursor: "pointer",
-              color: "#FF9F0D",
-              textDecorationLine: "underline",
-              fontSize: isMobile ? "$3" : "$4",
-              marginTop: isMobile ? "$2" : "$0",
-              children: "Edit address"
-            }
-          )
-        ]
+        icon: /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(CreditCard, { size: 16, color: "#FF6B00" }),
+        title: "Payment Method",
+        description: "Choose your preferred payment method to complete your order."
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(PaymentCard, { mobile: isMobile, children: [

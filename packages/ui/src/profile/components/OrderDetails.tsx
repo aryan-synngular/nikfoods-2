@@ -166,9 +166,8 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                         Delivery Address
                       </Text>
                       <Text fontSize="$2" color="#999" numberOfLines={2}>
-                        {order?.deliveryAddress && order?.deliveryAddress !== 'Not specified'
-                          ? `${order.deliveryAddress?.street_address}, ${order?.deliveryAddress?.city}`
-                          : '13th Street, 47 W 13th St, New York, NY 10011, USA'}
+                        {order?.deliveryAddress
+                          ? `${order.deliveryAddress?.street_address}, ${order?.deliveryAddress?.city}`:"Not specified"}
                       </Text>
                     </YStack>
                   </XStack>
@@ -227,7 +226,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                           Day Total
                         </Text>
                         <Text fontSize="$3" color="#666" fontWeight="500">
-                          {dayItem?.dayTotal || '$0.00'}
+                          {dayItem?.dayTotal || '0.00'}
                         </Text>
                       </XStack>
                     </YStack>
@@ -290,7 +289,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                   <Separator borderColor="#f0f0f0" />
                   <XStack justify="space-between" items="center" py="$3">
                     <Text fontSize="$5" fontWeight="700" color="black">
-                      Bill Total
+                       Total
                     </Text>
                     <Text fontSize="$5" fontWeight="700" color="black">
                       {order?.totalPaid || '$0.00'}

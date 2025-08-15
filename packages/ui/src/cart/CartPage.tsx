@@ -207,6 +207,7 @@ console.log(loading)
     }
   }
 
+console.log("Cart----")
 console.log(cart)
   const getCartData = useCallback(async () => {
     setIsLoading(true)

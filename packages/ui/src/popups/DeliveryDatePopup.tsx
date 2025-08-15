@@ -194,7 +194,7 @@ export function DeliveryDatePopup({
         date: d.date,
         quantity: d.quantity,
       }))
-
+console.log(added)
     // 6. Send all four arrays
     onSelect({
       removed, // array of cartItemIds

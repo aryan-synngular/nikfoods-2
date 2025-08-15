@@ -15,14 +15,14 @@ const REFRESH_TOKEN_EXPIRES_IN = '7d'
 // ✅ Zod schema for validation
 const addressSchema = z.object({
   name: z.string().min(2, 'Name is required'),
-  locationRemark: z.string().optional(),
+  // locationRemark: z.string().optional(),
   phone: z.string().optional(),
   email: z.string().email('Invalid email'),
   streetAddress: z.string().min(5, 'Street Address is too short'),
   city: z.string().min(2, 'City is required'),
-  province: z.string().min(2, 'Province is required'),
+  // province: z.string().min(2, 'Province is required'),
   postcode: z.string().min(4, 'Postcode is required'),
-  notes: z.string().optional(),
+  // notes: z.string().optional(),
   agreedToTerms: z.boolean().refine((val) => val === true, 'You must agree to terms'),
   agreedToMarketing: z.boolean().optional(),
 })
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { name, locationRemark, phone, email, streetAddress, city, province, postcode, notes } =
+    const { name, phone, email, streetAddress, city, postcode } =
       parsedData.data
 
     // ✅ Check if user exists
@@ -68,14 +68,14 @@ export async function POST(req: NextRequest) {
         {
           user: id,
           name,
-          location_remark: locationRemark,
+          // location_remark: locationRemark,
           phone,
           email,
           street_address: streetAddress,
           city,
-          province,
+          // province,
           postal_code: postcode,
-          notes,
+          // notes,
         },
       ],
       { session } // important!
