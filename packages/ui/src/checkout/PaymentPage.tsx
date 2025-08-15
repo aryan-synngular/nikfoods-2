@@ -73,7 +73,7 @@ const PaymentCard = styled(View, {
   padding: '$4',
   borderWidth: 1,
   borderColor: '#EDEDED',
-  marginTop: '$4',
+  marginTop: '$1',
 
   variants: {
     mobile: {
@@ -384,14 +384,19 @@ export default function PaymentPage({
 
   return (
     <View>
-      {/* <YStack
+      <YStack
         justify="flex-start"
-        alignItems={"flex-start"}
+        alignItems={"flex-end"}
         marginBottom="$4"
         flexWrap={isMobile ? 'wrap' : 'nowrap'}
-        gap={isMobile ? '$2' : '$4'}
-      > */}
-        {/* <Text
+        gap={isMobile ? '$2' : '$0'}
+      >
+        <CheckoutStep
+          icon={<CreditCardIcon size={16} color="#FF6B00" />}
+          title="Payment Method"
+          description="Choose your preferred payment method to complete your order."
+        />
+        <Text
           onPress={goBack}
           hoverStyle={{ color: '#FF1F0D' }}
           pressStyle={{ color: '#FF1F0D' }}
@@ -402,13 +407,8 @@ export default function PaymentPage({
           marginTop={isMobile ? '$2' : '$0'}
         >
           Edit address
-        </Text> */}
-        <CheckoutStep
-          icon={<CreditCardIcon size={16} color="#FF6B00" />}
-          title="Payment Method"
-          description="Choose your preferred payment method to complete your order."
-        />
-      {/* </YStack> */}
+        </Text>
+      </YStack>
 
       {/* Order Summary with Cart Items */}
       <PaymentCard mobile={isMobile}>
@@ -418,20 +418,20 @@ export default function PaymentPage({
 
         <OrderSummaryRow mobile={isMobile}>
           <Text fontSize={isMobile ? '$3' : '$4'}>Delivery to:</Text>
-          <Text
+          {/* <Text
             fontWeight="500"
             fontSize={isMobile ? '$3' : '$4'}
             textAlign={isMobile ? 'right' : 'left'}
           >
             {selectedAddress?.location_remark || 'Selected Address'}
-          </Text>
-        </OrderSummaryRow>
-
+          </Text> */}
         <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
           {selectedAddress?.street_address
             ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
             : 'Address details'}
         </Text>
+        </OrderSummaryRow>
+
 
         {/* Cart Items Summary */}
         <YStack space="$2" marginBottom="$3">
