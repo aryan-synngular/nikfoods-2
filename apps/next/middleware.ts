@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 export default withAuth(
   function middleware(req) {
-    if(!(Platform.OS === 'web'))return NextResponse.next()
+    if (!(Platform.OS === 'web')) return NextResponse.next()
     const token = req.nextauth.token
     const { pathname } = req.nextUrl
 
@@ -18,10 +18,14 @@ export default withAuth(
     if (pathname.startsWith('/api/')) return NextResponse.next()
 
     // Define public routes
-    const publicRoutes = ['/login', '/signup']
+    const publicRoutePrefixes = ['/login', '/signup', '/forgot-password', '/checkout']
 
-    // Always allow public routes (even if no token)
-    if (publicRoutes.includes(pathname)) return NextResponse.next()
+    // Always allow public routes (including nested paths)
+    if (
+      publicRoutePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + '/'))
+    ) {
+      return NextResponse.next()
+    }
 
     // If user is not logged in, redirect to login
     if (!token) {

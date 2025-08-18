@@ -4,6 +4,7 @@ import { YStack, XStack, Text, Button, ScrollView, Circle, Card, Separator, Squa
 import { X, MapPin } from '@tamagui/lucide-icons'
 import { OrderDetailsSkeleton } from '../../loaders/OrdersSectionLoader'
 import { IAddress } from 'app/types/user'
+import { useScreen } from 'app/hook/useScreen'
 interface OrderDetailsProps {
   order: {
     id: string
@@ -39,6 +40,7 @@ interface OrderDetailsProps {
 }
 
 export default function OrderDetails({ order, onClose, loading = false }: OrderDetailsProps) {
+  const {isMobile}=useScreen()
   console.log('Order Details:', order)
   const calculateItemTotal = () => {
     if (!order?.items) return 0
@@ -107,8 +109,8 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
   const billTotal = parsePrice(order?.totalPaid || '$0.00')
 
   return (
-    <YStack flex={1} bg="transparent" justify="center" items="center" p="$4">
-      <Card width="100%" maxHeight="90vh" bg="white" borderRadius="$4" overflow="hidden" elevate>
+    <YStack flex={1} bg="transparent" justify="center" items="center" >
+      {/* <Card  maxHeight="90vh" bg="white" borderRadius="$4" overflow="hidden" elevate> */}
         <YStack flex={1}>
           {/* Header */}
           <XStack
@@ -116,6 +118,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
             items="center"
             p="$4"
             pb="$3"
+            width={"100%"}
             borderBottomWidth={1}
             borderBottomColor="#f0f0f0"
           >
@@ -124,7 +127,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
                 Loading...
               </Text>
             ) : (
-              <Text fontSize="$5" fontWeight="600" color="black">
+              <Text fontSize={isMobile?"$4":"$5"} fontWeight="600" color="black">
                 Order {order?.id || 'N/A'}
               </Text>
             )}
@@ -319,7 +322,7 @@ export default function OrderDetails({ order, onClose, loading = false }: OrderD
             </Button>
           </YStack>
         </YStack>
-      </Card>
+      {/* </Card> */}
     </YStack>
   )
 }

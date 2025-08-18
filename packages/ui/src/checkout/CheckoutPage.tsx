@@ -8,12 +8,16 @@ import { SavingsBanner } from '../cart/SavingsBanner'
 import { DessertDeals } from '../cart/DessertDeals'
 import { AppHeader } from '../Header'
 import CheckoutSteps from './CheckoutSteps'
-import { useAuth } from 'app/hook/useAuth'
+// import { useAuth } from 'app/hook/useAuth'
 import CheckoutLoggedIn from './CheckoutLoggedIn'
 import { IAddress } from 'app/types/user'
 import { apiGetAllAddress } from 'app/services/UserService'
 import { apiGetCartTotalAmount } from 'app/services/CartService'
 import { IListResponse, IResponse } from 'app/types/common'
+import { useScreen } from 'app/hook/useScreen'
+import { useAuth } from 'app/provider/auth-context'
+import { Platform } from 'react-native'
+
 interface CartItemData {
   id: string
   name: string
@@ -44,10 +48,13 @@ export function CheckoutPage({
   onViewAllDesserts,
   onAddDessert,
 }: CartPageProps) {
-  const { loading, isAuthenticated } = useAuth()
-  console.log(isAuthenticated)
+  const { loading, user } = useAuth()
+  console.log('isAuthenticated')
+  // console.log(isAuthenticated)
+  console.log(user)
+  const { isMobile, isMobileWeb } = useScreen()
   // State to track if we're on desktop or mobile
-  const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  // const [isMobile, setIsDesktop] = useState<boolean | null>(false)
   const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
   const [currentStep, setCurrentStep] = useState<'delivery' | 'payment'>('delivery')
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
@@ -55,26 +62,26 @@ export function CheckoutPage({
     setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
   }
   const [total, setTotal] = useState<{ total: number }>({ total: 0 })
-  // Effect to check window width and update isDesktop state
-  useEffect(() => {
-    // Function to check if we're on desktop
-    const checkIfDesktop = () => {
-      if (typeof window !== 'undefined') {
-        setIsDesktop(window.innerWidth >= 768) // 768px is a common breakpoint for tablet/desktop
-      }
-    }
+  // Effect to check window width and update isMobile state
+  // useEffect(() => {
+  //   // Function to check if we're on desktop
+  //   const checkIfDesktop = () => {
+  //     if (typeof window !== 'undefined') {
+  //       setIsDesktop(window.innerWidth >= 768) // 768px is a common breakpoint for tablet/desktop
+  //     }
+  //   }
 
-    // Check initially
-    checkIfDesktop()
+  //   // Check initially
+  //   checkIfDesktop()
 
-    // Add event listener for window resize
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', checkIfDesktop)
+  //   // Add event listener for window resize
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener('resize', checkIfDesktop)
 
-      // Cleanup
-      return () => window.removeEventListener('resize', checkIfDesktop)
-    }
-  }, [])
+  //     // Cleanup
+  //     return () => window.removeEventListener('resize', checkIfDesktop)
+  //   }
+  // }, [])
 
   const getAllAddress = useCallback(async () => {
     try {
@@ -208,44 +215,11 @@ export function CheckoutPage({
     return sum + day.items.reduce((daySum, item) => daySum + item.price * item.quantity, 0)
   }, 0)
 
-  // Handlers for cart item actions
-  const handleIncrement = (dayIndex: number, itemId: string) => {
-    setCartDays((days) =>
-      days.map((day, idx) => {
-        if (idx !== dayIndex) return day
-
-        return {
-          ...day,
-          items: day.items.map((item) =>
-            item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-          ),
-        }
-      })
-    )
-  }
-
-  const handleDecrement = (dayIndex: number, itemId: string) => {
-    setCartDays((days) =>
-      days.map((day, idx) => {
-        if (idx !== dayIndex) return day
-
-        return {
-          ...day,
-          items: day.items.map((item) =>
-            item.id === itemId && item.quantity > 1
-              ? { ...item, quantity: item.quantity - 1 }
-              : item
-          ),
-        }
-      })
-    )
-  }
-
   // Check if cart is empty
   const isCartEmpty = cartDays.every((day) => day.items.length === 0)
 
   // Don't render the layout until we know if we're on desktop or mobile
-  if (isDesktop === null && loading) {
+  if (!isMobile === null && loading) {
     return (
       <YStack
         style={{
@@ -272,11 +246,13 @@ export function CheckoutPage({
   }
   return (
     <YStack
+      justify={!isMobile ? 'center' : 'unset'}
+      items={!isMobile ? 'center' : 'unset'}
       style={{
         width: '100%',
-        minHeight: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center',
+        minHeight: '100%',
+        // justifyContent: 'center',
+        // alignItems: 'center',
       }}
     >
       {/* Add the header */}
@@ -290,17 +266,10 @@ export function CheckoutPage({
         {/* Cart title - directly below header without container */}
         <YStack
           style={{
-            paddingTop: 16,
-            paddingBottom: 16,
+            paddingTop: isMobile || isMobileWeb ? 8 : 16,
+            paddingBottom: isMobile || isMobileWeb ? 8 : 16,
             backgroundColor: 'white',
-            // borderBottomWidth: 1,
-            // borderBottomColor: '#F0F0F0',
-            // shadowColor: '#000',
-            // shadowOffset: { width: 0, height: 2 },
-            // shadowOpacity: 0.05,
-            // shadowRadius: 4,
-            // elevation: 2,
-            // zIndex: 5
+            marginBottom: isMobile || isMobileWeb ? 8 : 0,
           }}
         >
           <XStack
@@ -311,14 +280,20 @@ export function CheckoutPage({
               paddingHorizontal: 16,
               alignItems: 'center',
               justifyContent: 'space-between',
+              marginTop: Platform.OS == 'web' ? 0 : 100,
             }}
           >
-            <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Checkout </Text>
-            {/* Savings banner */}
-            {/* <SavingsBanner amount={15} /> */}
+            <Text
+              style={{
+                fontSize: isMobile || isMobileWeb ? 20 : 28,
+                fontWeight: '700',
+                color: '#000000',
+              }}
+            >
+              Checkout
+            </Text>
           </XStack>
         </YStack>
-
         {isCartEmpty ? (
           <YStack
             style={{
@@ -334,7 +309,7 @@ export function CheckoutPage({
         ) : (
           <YStack
             style={{
-              maxWidth: 1200,
+              maxWidth: isMobile ? 400 : 1200,
               width: '100%',
               marginHorizontal: 'auto',
               paddingHorizontal: 24,
@@ -343,20 +318,27 @@ export function CheckoutPage({
             <XStack
               style={{
                 width: '100%',
-                flexDirection: isDesktop ? 'row' : 'column',
-                gap: isDesktop ? 24 : 0,
+                height: '100%',
+                flexDirection: !isMobile ? 'row' : 'column',
+                gap: !isMobile ? 24 : 0,
                 paddingVertical: 24,
               }}
             >
               {/* Left column - Cart items */}
               <YStack
                 style={{
-                  flex: isDesktop ? currentStep=="payment"?1: 0.65 : 1,
-                  width: isDesktop ?  currentStep=="payment"?"100%":'65%' : '100%',
+                  flex: !isMobile ? (currentStep == 'payment' ? 1 : 0.65) : 1,
+                  width: !isMobile ? (currentStep == 'payment' ? '100%' : '65%') : '100%',
                 }}
               >
-                <ScrollView style={{ flex: 1 }}>
-                  {isAuthenticated ? (
+                {/* <YStack
+                style={{
+                  flex: isMobile || isMobileWeb ? 1 : 0.65,
+                  width: isMobile || isMobileWeb ? '100%' : '65%',
+                }}
+              > */}
+                <ScrollView height={'100%'} style={{ flex: 1 }}>
+                  {user && user?.email ? (
                     <CheckoutLoggedIn
                       addresses={address?.items ?? []}
                       goBack={() => setCurrentStep('delivery')}
@@ -365,11 +347,12 @@ export function CheckoutPage({
                       currentStep={currentStep}
                     />
                   ) : (
+                    // <Text>Yerlig</Text>
                     <CheckoutSteps />
                   )}
 
                   {/* Only show dessert deals in the left column on mobile */}
-                  {isDesktop === false && (
+                  {isMobile && (
                     <DessertDeals
                       items={dessertDeals}
                       onAddItem={refreshCartDetails}
@@ -380,108 +363,109 @@ export function CheckoutPage({
               </YStack>
 
               {/* Right column - Summary and Dessert deals (desktop only) */}
-              {currentStep==="delivery"&&( isDesktop === true ? (
-                <YStack
-                  style={{
-                    flex: 0.35,
-                    width: '35%',
-                    paddingRight: 0,
-                    paddingTop: 0,
-                    position: 'relative',
-                  }}
-                >
-                  <ScrollView
+              {currentStep === 'delivery' &&
+                (!isMobile && !isMobileWeb ? (
+                  <YStack
                     style={{
-                      height: '100%',
+                      flex: 0.35,
+                      width: '35%',
                       paddingRight: 0,
+                      paddingTop: 0,
+                      position: 'relative',
+                    }}
+                  >
+                    <ScrollView
+                      style={{
+                        height: '100%',
+                        paddingRight: 0,
+                      }}
+                    >
+                      <YStack
+                        style={{
+                          gap: 24,
+                          paddingBottom: 24,
+                        }}
+                      >
+                        {/* Fixed summary card */}
+                        <YStack
+                          style={{
+                            backgroundColor: 'white',
+                            borderRadius: 16,
+                            borderWidth: 1,
+                            borderColor: '#F0F0F0',
+                            overflow: 'hidden',
+                            position: 'sticky',
+                            top: 0,
+                            zIndex: 10,
+                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
+                          }}
+                        >
+                          <CartSummary
+                            subtotal={total.total}
+                            buttonTitle="Continue To Pay"
+                            onCheckout={onHandleClick}
+                          />
+                        </YStack>
+
+                        {/* Dessert deals section */}
+                        <YStack
+                          style={{
+                            backgroundColor: 'white',
+                            borderRadius: 16,
+                            borderWidth: 1,
+                            borderColor: '#F0F0F0',
+                            overflow: 'hidden',
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.05,
+                            shadowRadius: 8,
+                            elevation: 2,
+                          }}
+                        >
+                          <DessertDeals
+                            items={dessertDeals}
+                            onAddItem={refreshCartDetails}
+                            onViewAll={onViewAllDesserts}
+                          />
+                        </YStack>
+                      </YStack>
+                    </ScrollView>
+                  </YStack>
+                ) : (
+                  // On mobile, show summary at the bottom
+                  <YStack
+                    style={{
+                      position: 'sticky',
+                      bottom: 0,
+                      width: '100%',
+                      backgroundColor: '#FAFAFA',
+                      padding: 16,
+                      paddingTop: 0,
+                      zIndex: 10,
                     }}
                   >
                     <YStack
                       style={{
-                        gap: 24,
-                        paddingBottom: 24,
+                        backgroundColor: 'white',
+                        borderRadius: 16,
+                        borderWidth: 1,
+                        borderColor: '#F0F0F0',
+                        overflow: 'hidden',
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.05,
+                        shadowRadius: 8,
+                        elevation: 2,
                       }}
                     >
-                      {/* Fixed summary card */}
-                      <YStack
-                        style={{
-                          backgroundColor: 'white',
-                          borderRadius: 16,
-                          borderWidth: 1,
-                          borderColor: '#F0F0F0',
-                          overflow: 'hidden',
-                          position: 'sticky',
-                          top: 0,
-                          zIndex: 10,
-                          boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
-                        }}
-                      >
-                        <CartSummary
-                          subtotal={total.total}
-                          buttonTitle="Continue To Pay"
-                          onCheckout={onHandleClick}
-                        />
-                      </YStack>
-
-                      {/* Dessert deals section */}
-                      <YStack
-                        style={{
-                          backgroundColor: 'white',
-                          borderRadius: 16,
-                          borderWidth: 1,
-                          borderColor: '#F0F0F0',
-                          overflow: 'hidden',
-                          shadowColor: '#000',
-                          shadowOffset: { width: 0, height: 2 },
-                          shadowOpacity: 0.05,
-                          shadowRadius: 8,
-                          elevation: 2,
-                        }}
-                      >
-                        <DessertDeals
-                          items={dessertDeals}
-                          onAddItem={refreshCartDetails}
-                          onViewAll={onViewAllDesserts}
-                        />
-                      </YStack>
+                      <CartSummary
+                        subtotal={total.total}
+                        buttonTitle={isMobile?"sad":"Continuesc To Pay"}
+                        onCheckout={onHandleClick}
+                      />
                     </YStack>
-                  </ScrollView>
-                </YStack>
-              ) : (
-                // On mobile, show summary at the bottom
-                <YStack
-                  style={{
-                    position: 'sticky',
-                    bottom: 0,
-                    width: '100%',
-                    backgroundColor: '#FAFAFA',
-                    padding: 16,
-                    paddingTop: 0,
-                    zIndex: 10,
-                  }}
-                >
-                  <YStack
-                    style={{
-                      backgroundColor: 'white',
-                      borderRadius: 16,
-                      borderWidth: 1,
-                      borderColor: '#F0F0F0',
-                      overflow: 'hidden',
-                      shadowColor: '#000',
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.05,
-                      shadowRadius: 8,
-                      elevation: 2,
-                    }}
-                  >
-                    <CartSummary
-                      subtotal={total.total}
-                      buttonTitle="Continue To Pay"
-                      onCheckout={onHandleClick}
-                    />
                   </YStack>
-                </YStack>
-              ))}
+                ))}
             </XStack>
           </YStack>
         )}

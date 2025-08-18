@@ -13,6 +13,7 @@ import { useStore } from 'app/src/store/useStore'
 import { Dialog } from 'tamagui'
 import { colors } from '../colors'
 import PaymentStatusPopup from './PaymentStatusPopup'
+import { useScreen } from 'app/hook/useScreen'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -180,7 +181,8 @@ export default function PaymentPage({
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
+  const { isMobile } = useScreen()
+  // const [isMobile, setIsMobile] = useState(false)
   const [isLoadingCart, setIsLoadingCart] = useState(true)
   const [paymentStatus, setPaymentStatus] = useState<'processing' | 'success' | 'failed' | null>(
     null
@@ -189,20 +191,20 @@ export default function PaymentPage({
   const { showMessage } = useToast()
 
   // Mobile detection
-  const checkMobile = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth < 768)
-    }
-  }, [])
+  // const checkMobile = useCallback(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setIsMobile(window.innerWidth < 768)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      checkMobile()
-      const handleResize = () => checkMobile()
-      window.addEventListener('resize', handleResize)
-      return () => window.removeEventListener('resize', handleResize)
-    }
-  }, [checkMobile])
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     checkMobile()
+  //     const handleResize = () => checkMobile()
+  //     window.addEventListener('resize', handleResize)
+  //     return () => window.removeEventListener('resize', handleResize)
+  //   }
+  // }, [checkMobile])
 
   // Fetch cart data
   // const fetchCartData = useCallback(async () => {
@@ -386,7 +388,7 @@ export default function PaymentPage({
     <View>
       <YStack
         justify="flex-start"
-        alignItems={"flex-end"}
+        alignItems={'flex-end'}
         marginBottom="$4"
         flexWrap={isMobile ? 'wrap' : 'nowrap'}
         gap={isMobile ? '$2' : '$0'}
@@ -425,13 +427,12 @@ export default function PaymentPage({
           >
             {selectedAddress?.location_remark || 'Selected Address'}
           </Text> */}
-        <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
-          {selectedAddress?.street_address
-            ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
-            : 'Address details'}
-        </Text>
+          <Text fontSize={isMobile ? '$3' : '$4'} marginBottom="$3" color="#6C757D">
+            {selectedAddress?.street_address
+              ? `${selectedAddress.street_address}, ${selectedAddress.city || ''}`
+              : 'Address details'}
+          </Text>
         </OrderSummaryRow>
-
 
         {/* Cart Items Summary */}
         <YStack space="$2" marginBottom="$3">
@@ -517,7 +518,7 @@ export default function PaymentPage({
 
       {/* Square Payment Form */}
       <PaymentCard mobile={isMobile}>
-        <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" marginBottom="$4">
+        <Text fontSize={isMobile ? '$3' : '$5'} fontWeight="600" marginBottom="$4">
           Payment Details
         </Text>
 

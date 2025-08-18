@@ -7,12 +7,10 @@ import { Header } from './AccountHeader'
 import { AppHeader } from '../Header'
 import AddressTab from './AddressTab'
 import OrdersSection from './OrdersSection'
-
+import {useScreen} from "app/hook/useScreen"
 export default function AccountPage() {
   const [tab, setTab] = useState('Orders')
-  const { width } = Dimensions.get('window')
-  const isWeb = Platform.OS === 'web'
-  const isMobile = !isWeb || width < 768
+  const {isMobile,isMobileWeb}=useScreen()
 
   const renderTabContent = () => {
     switch (tab) {
@@ -30,7 +28,7 @@ export default function AccountPage() {
   }
 
   // Mobile Layout
-  if (isMobile) {
+  if (isMobile||isMobileWeb) {
     return (
       <YStack flex={1} backgroundColor="$background">
         {/* Fixed Header */}
@@ -39,7 +37,7 @@ export default function AccountPage() {
         {/* Content with proper top margin for fixed header */}
         <YStack
           flex={1}
-          marginTop={Platform.OS === 'web' ? 60 : 100} // Account for header height + status bar
+          mt={isMobileWeb?0:90} // Account for header height + status bar
         >
           {/* Horizontal Tabs */}
           <View borderBottomWidth={1} borderBottomColor="$borderColor">
@@ -47,13 +45,13 @@ export default function AccountPage() {
           </View>
 
           {/* Section Header */}
-          <View paddingVertical="$2" paddingHorizontal="$4">
+          {/* <View px="$2" py="$4">
             <Header title={tab} />
-          </View>
+          </View> */}
 
           {/* Tab Content */}
-          <ScrollView flex={1} backgroundColor="$background">
-            <View paddingHorizontal="$4" paddingBottom="$4">
+          <ScrollView flex={1} background="$background">
+            <View p={isMobile?"$0":"$4"}>
               {renderTabContent()}
             </View>
           </ScrollView>

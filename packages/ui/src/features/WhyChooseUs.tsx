@@ -1,3 +1,4 @@
+import { useScreen } from 'app/hook/useScreen'
 import { Text, YStack, XStack, Image } from 'tamagui'
 
 type FeatureCardProps = {
@@ -6,15 +7,23 @@ type FeatureCardProps = {
 }
 
 function FeatureCard({ imageUrl, title }: FeatureCardProps) {
+  const {isMobile}=useScreen()
   return (
     <YStack 
       alignItems="center"
-      width={150}
-      marginHorizontal={8}
+      width={isMobile?150:250}
+      // marginHorizontal={isMobile?2:8}
+      backgroundColor="#FFF9F2"
+      padding={isMobile?10:20}
+       style={{
+        borderRadius:16
+      }} 
+
+
     >
       <YStack 
-        width={150} 
-        height={150} 
+        width={isMobile?100:200} 
+        height={isMobile?100:200} 
         borderRadius={12}
         overflow="hidden"
         marginBottom={10}
@@ -29,7 +38,7 @@ function FeatureCard({ imageUrl, title }: FeatureCardProps) {
       <Text 
         color="#2A1A0C" 
         fontWeight="600"
-        fontSize={14}
+        fontSize={isMobile?12:14}
         textAlign="center"
       >
         {title}
@@ -39,6 +48,8 @@ function FeatureCard({ imageUrl, title }: FeatureCardProps) {
 }
 
 export function WhyChooseUs() {
+  const {isMobile}=useScreen()
+
   const features = [
     {
       id: 1,
@@ -64,26 +75,27 @@ export function WhyChooseUs() {
 
   return (
     <YStack 
-      padding={20} 
-      paddingTop={10}
+      paddingTop={isMobile?0:10}
       paddingBottom={40}
-      backgroundColor="#FFF9F2"
-      marginBottom={20}
+      marginBottom={isMobile?10:20}
+     
     >
       <Text 
-        fontSize={24} 
+        fontSize={isMobile?20:24} 
         fontWeight="700" 
         color="#2A1A0C"
-        marginBottom={24}
-        marginLeft={8}
+        marginBottom={isMobile?16:24}
+        marginLeft={isMobile?0:8}
+
       >
         Why Choose Us?
       </Text>
       
       <XStack 
         flexWrap="wrap" 
-        justifyContent="center"
+        justify={"flex-start"}
         gap={16}
+        // width={"100%"}
       >
         {features.map((feature) => (
           <FeatureCard 

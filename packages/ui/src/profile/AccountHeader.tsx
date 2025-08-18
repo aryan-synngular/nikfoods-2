@@ -1,11 +1,9 @@
 // app/components/Header.tsx
 import { Text, View } from 'tamagui'
-import { Platform, Dimensions } from 'react-native'
-
+import {useScreen} from "app/hook/useScreen"
 export const Header = ({ title }: { title: string }) => {
-  const { width } = Dimensions.get('window')
-  const isWeb = Platform.OS === 'web'
-  const isMobile = !isWeb || width < 768
+  
+  const {isMobile }=useScreen() 
 
   if (isMobile) {
     return (

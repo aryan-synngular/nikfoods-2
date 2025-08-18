@@ -2,21 +2,18 @@
 
 import { ScrollView, XStack, YStack, Text, View, useMedia } from 'tamagui'
 import { Calendar } from '@tamagui/lucide-icons'
-import { useState, useEffect } from 'react'
-import { Platform } from 'react-native'
+import { useState } from 'react'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
 
 export function DateSelectionRail() {
   const media = useMedia()
+  const {isMobile}=useScreen()
   const { selectedWeekDay, setSelectedWeekDay } = useStore()
-  const [selectedDate, setSelectedDate] = useState<string>('')
-
-  // Update local state when store state changes
  
 
   const days = () => {
     const today = new Date()
-    const currentDay = today.getDay() // 0 (Sun) to 6 (Sat)
     const isBefore1PM = today.getHours() < 13
 
     const days: any = []
@@ -65,7 +62,6 @@ export function DateSelectionRail() {
     return days
   }
 
-  const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
 
 
   const handleDayClick = (day: any) => {
@@ -78,11 +74,11 @@ console.log(day.dayKey)
 
   return (
     // <ScrollView width={"100%"} horizontal showsHorizontalScrollIndicator={false}>
-    <XStack mt={20} mb={'$4'} px={isSmallScreen ? '$0' : '$4'} justify="center">
+    <XStack mt={isMobile?10:20} mb={'$4'} px={isMobile ? '$0' : '$4'} justify="center">
       <YStack
         items="center"
-        p="$3"
-        px={'$6'}
+        p={"$3"}
+        px={isMobile?"$3":'$6'}
         style={{
           borderColor:'black',
           backgroundColor: 'transparent',
@@ -118,8 +114,8 @@ console.log(day.dayKey)
               <YStack
                 key={index}
                 items="center"
-                p="$3"
-                px={'$6'}
+                p={"$3"}
+        px={isMobile?"$4":'$6'}
                 onPress={() => handleDayClick(day)}
                 style={{
                   backgroundColor: isSelected ? '#FFF4E4' : isDisabled ? '#F8F8F8' : 'transparent',
@@ -138,7 +134,7 @@ console.log(day.dayKey)
                 >
                   {day.label}
                 </Text>
-                <Text fontSize="$2">{day.date || 'available'}</Text>
+                <Text fontSize={isMobile?"$1":"$2"}>{day.date || 'available'}</Text>
                 <Calendar size={14} />
               </YStack>
             )

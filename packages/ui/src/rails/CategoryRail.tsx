@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { IFoodCategory } from 'app/types/category'
 import { IListResponse } from 'app/types/common'
+import { useScreen } from 'app/hook/useScreen'
 
 export interface CategoryRailProps {
   categories: IListResponse<IFoodCategory> | null
@@ -14,7 +15,7 @@ export interface CategoryRailProps {
 }
 
 export function CategoryRail({selectedId, categories, handleCardPress }: CategoryRailProps) {
- 
+ const {isMobile}=useScreen()
   const scrollViewRef = useRef<any>(null)
 
   
@@ -40,9 +41,9 @@ export function CategoryRail({selectedId, categories, handleCardPress }: Categor
   }
 
   return (
-    <YStack position="relative" height={250}>
+    <YStack position="relative" height={isMobile?230:250}>
       {/* Left scroll button */}
-      <Circle
+   {!isMobile&&   <Circle
         size={40}
         bg="white"
         style={{
@@ -63,10 +64,10 @@ export function CategoryRail({selectedId, categories, handleCardPress }: Categor
         onPress={scrollLeft}
       >
         <ChevronLeft size={24} color="#FF9F0D" />
-      </Circle>
+      </Circle>}
 
       {/* Right scroll button */}
-      <Circle
+     {!isMobile&&  <Circle
         size={40}
         bg="white"
         style={{
@@ -88,7 +89,7 @@ export function CategoryRail({selectedId, categories, handleCardPress }: Categor
       >
         <ChevronRight size={24} color="#FF9F0D" />
       </Circle>
-
+}
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -97,7 +98,7 @@ export function CategoryRail({selectedId, categories, handleCardPress }: Categor
         style={{ height: 250, minHeight: 250, width: '100%' }}
         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 } as any}
       >
-        <XStack justify='center' items="center" gap="$4" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <XStack justify='center' items="center" gap={isMobile?"$3":"$4"} style={{ paddingTop: 20, paddingBottom: 20 }}>
           {categories?.items?.map((category) => (
             <CategoryCard
               key={category._id}

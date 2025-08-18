@@ -6,6 +6,8 @@ import { Platform, useWindowDimensions, StyleSheet, View, TextInput } from 'reac
 import { Search } from '@tamagui/lucide-icons'
 import { success } from './colors'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
+
 // Light text color for placeholders and icons
 const textLight = '#9CA3AF'
 
@@ -78,6 +80,7 @@ export function SearchFood({
   isTitleVisible = true,
 }: SearchFoodProps) {
 const { vegOnly } = useStore()
+  const {isMobile} =useScreen()
   
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   // const [vegOnly, setVegOnly] = useState(initialVegOnly)
@@ -130,8 +133,8 @@ const { vegOnly } = useStore()
   // Update veg only when initialVegOnly changes
 
   return (
-    <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600 }]}>
-      {isTitleVisible && <Text style={styles.title}>Search Your Favorite Food</Text>}
+    <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600,marginBottom:isMobile?-20:0 }]}>
+      {!isMobile&&isTitleVisible && <Text style={styles.title}>Search Your Favorite Food</Text>}
 
       <XStack
         style={{
@@ -139,9 +142,9 @@ const { vegOnly } = useStore()
           padding: 12,
           borderWidth: 1,
           borderColor: '#E5E7EB',
-          borderRadius: 6,
+          borderRadius:isMobile?12: 6,
           width: '100%',
-          gap: 8,
+          // gap: 8,
           boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.05)',
         }}
       >

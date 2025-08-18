@@ -9,6 +9,7 @@ import { Dimensions } from 'react-native'
 import { useToast } from '@my/ui/src/useToast'
 import { useStore } from 'app/src/store/useStore'
 import { colors } from '@my/ui'
+import { useScreen } from 'app/hook/useScreen'
 
 export interface FoodItem {
   _id: string
@@ -32,6 +33,7 @@ export interface FoodListingRailProps {
 
 export function FoodListingRail({ displayLabel, foodItems,listType }: FoodListingRailProps) {
   const {addToCart} =useStore()
+  const {isMobile}=useScreen()
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null)
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
@@ -121,22 +123,22 @@ const [loading, setLoading] = useState(false)
   }
 
   return (
-    <YStack  style={{ paddingTop: 20, paddingBottom: 20 }}>
-      <Text  fontSize={24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
+    <YStack  style={{ paddingTop:20, paddingBottom:isMobile?0: 20 }}>
+      <Text  fontSize={isMobile?16:24} fontWeight="600" style={{ paddingLeft: 20, marginBottom: 16 }}>
         {displayLabel}
       </Text>
-     { foodItems?.items.length === 0?(<XStack mt={20} justify='center'  >
+     { foodItems?.items.length === 0?(<XStack mt={isMobile?10:20} justify='center'  >
         <Text fontSize={24} fontWeight={600} style={{color:colors.primary}}>No Food Items found</Text>
       </XStack>) : null}  
-      <YStack style={{ paddingHorizontal: 30, paddingBottom: 20,paddingLeft:0 }}>
+      <YStack style={{ paddingHorizontal: 30, paddingBottom:isMobile?0: 20,paddingLeft:0 }}>
         {groupedItems.map((row, rowIndex) => (
           <XStack 
             key={rowIndex}
             style={{ 
               justifyContent: row.length === actualItemsPerRow ? 'flex-start' : 'flex-start',
               alignItems: 'flex-start',
-              marginBottom: 16,
-              gap: row.length === actualItemsPerRow ? 40 : gap,
+              marginBottom: isMobile?8:16,
+              gap: row.length === actualItemsPerRow ? isMobile?20:40 : gap,
               flexWrap: 'wrap',
             }}
           >

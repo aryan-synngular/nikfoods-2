@@ -9,6 +9,7 @@ import { Provider } from 'app/provider'
 import { NativeToast } from '@my/ui/src/NativeToast'
 import * as SecureStore from 'expo-secure-store'
 import { usePathname } from 'expo-router'
+import { YStack } from '@my/ui'
 export const unstable_settings = {
   // Ensure that reloading on `/user` keeps a back button present.
   initialRouteName: 'Home',
@@ -57,7 +58,7 @@ function RootLayoutNav() {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const publicRoutes = ['/login', '/signup']
+        const publicRoutes = ['/login', '/signup', '/checkout']
         if (publicRoutes.includes(path)) {
           return
         }

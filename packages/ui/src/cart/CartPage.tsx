@@ -18,6 +18,7 @@ import { CartSummaryShimmerLoader } from '../loaders/CartSummaryShimmerLoader'
 import { DessertDealsShimmerLoader } from '../loaders/DessertDealsShimmerLoader'
 import { useStore } from 'app/src/store/useStore'
 import { Platform } from 'react-native'
+import { useScreen } from 'app/hook/useScreen'
 
 interface CartItemData {
   id: string
@@ -54,13 +55,22 @@ export function CartPage({
     href: '/',
   })
 
-  const {cart,fetchCart,cartRecommendations,cartTotalAmount,fetchCartRecommendations,fetchCartTotalAmount,addToCart, updateCartItemQuantity }=useStore()
+  const {
+    cart,
+    fetchCart,
+    cartRecommendations,
+    cartTotalAmount,
+    fetchCartRecommendations,
+    fetchCartTotalAmount,
+    addToCart,
+    updateCartItemQuantity,
+  } = useStore()
   const { showMessage } = useToast()
-const [loading, setLoading] = useState({ itemId: "", change: 0 })
-console.log(loading)
-  const isDesktop = Platform.OS === 'web'
+  const [loading, setLoading] = useState({ itemId: '', change: 0 })
+  console.log(loading)
+  // const isDesktop = Platform.OS === 'web'
   // State to track if we're on desktop or mobile - initialize properly
-  // const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  // const [isMobile, setIsDesktop] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false)
 
@@ -70,7 +80,7 @@ console.log(loading)
 
   // Effect to handle window resize and initial detection - fixed
   // useEffect(() => {
-    
+
   //   if (!(Platform.OS==="web")) return
 
   //   const checkIfDesktop = () => {
@@ -186,15 +196,14 @@ console.log(loading)
 
   const handleQuantityChange = async (change: number, itemId: string) => {
     if (change === 0) return // No change needed
-      setLoading({ itemId, change })
+    setLoading({ itemId, change })
     try {
-       await updateCartItemQuantity({ cartItemId: itemId, change })
+      await updateCartItemQuantity({ cartItemId: itemId, change })
       showMessage('Quantity Updated Successfully', 'success')
     } catch (error) {
       console.log(error)
     } finally {
-          setLoading({ itemId: "", change: 0 })
-
+      setLoading({ itemId: '', change: 0 })
     }
   }
 
@@ -207,12 +216,13 @@ console.log(loading)
     }
   }
 
-console.log("Cart----")
-console.log(cart)
+  const { isMobile, isMobileWeb } = useScreen()
+  console.log('Cart----')
+  console.log(cart)
   const getCartData = useCallback(async () => {
     setIsLoading(true)
     try {
-       await fetchCart()
+      await fetchCart()
     } catch (error) {
       console.log(error)
     } finally {
@@ -237,11 +247,10 @@ console.log(cart)
     }, 0)
   }, [cart])
 
-  const isCartEmpty =
-    !isLoading && (!cart?.days || !(cart.days.length > 0))
+  const isCartEmpty = !isLoading && (!cart?.days || !(cart.days.length > 0))
 
   // Don't render the layout until we know if we're on desktop or mobile
-  if (isDesktop === null) {
+  if (isMobile === null) {
     return (
       <YStack
         style={{
@@ -277,14 +286,16 @@ console.log(cart)
   const onAddMoreItems = () => {
     homeLink.onPress()
   }
+
   return (
     <YStack
-    
+      justify={!isMobile ? 'center' : 'unset'}
+      items={!isMobile ? 'center' : 'unset'}
       style={{
         width: '100%',
         minHeight: '100%',
-        justifyContent: 'center',
-        alignItems: 'center', 
+        // justifyContent: 'center',
+        // alignItems: 'center',
       }}
     >
       {/* Add the header */}
@@ -297,13 +308,13 @@ console.log(cart)
         {/* Cart title - directly below header without container */}
         <YStack
           style={{
-            paddingTop: 16,
-            paddingBottom: 16,
+            paddingTop: isMobile || isMobileWeb ? 8 : 16,
+            paddingBottom: isMobile || isMobileWeb ? 8 : 16,
             backgroundColor: 'white',
+            marginBottom: isMobile || isMobileWeb ? 8 : 0,
           }}
         >
           <XStack
-          
             style={{
               maxWidth: 1200,
               width: '100%',
@@ -311,10 +322,18 @@ console.log(cart)
               paddingHorizontal: 16,
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginTop:isDesktop ? 0 : 100,
+              marginTop: Platform.OS == 'web' ? 0 : 100,
             }}
           >
-            <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>Your Cart</Text>
+            <Text
+              style={{
+                fontSize: isMobile || isMobileWeb ? 20 : 28,
+                fontWeight: '700',
+                color: '#000000',
+              }}
+            >
+              Your Cart
+            </Text>
           </XStack>
         </YStack>
 
@@ -322,7 +341,7 @@ console.log(cart)
           <YStack
             style={{
               paddingVertical: 24,
-              maxWidth: 1200,
+              maxWidth: 900,
               width: '100%',
               marginHorizontal: 'auto',
               paddingHorizontal: 24,
@@ -333,30 +352,29 @@ console.log(cart)
         ) : (
           <YStack
             style={{
-              maxWidth: 1200,
               width: '100%',
-              height: '100%',
-              marginHorizontal: 'auto',
-              paddingHorizontal: 24,
+              flexDirection: !isMobile ? 'row' : 'column',
+              gap: !isMobile ? 24 : 0,
+              paddingVertical:isMobile?0: 24,
             }}
           >
             <XStack
               style={{
                 width: '100%',
-                height:"100%",
-                flexDirection: isDesktop ? 'row' : 'column',
-                gap: isDesktop ? 24 : 0,
-                paddingVertical: 24,
+                height: '100%',
+                flexDirection: isMobile || isMobileWeb ? 'column' : 'row',
+                gap: isMobile || isMobileWeb ? 0 : 24,
+                paddingVertical: isMobile || isMobileWeb ? 0 : 24,
               }}
             >
               {/* Left column - Cart items */}
               <YStack
                 style={{
-                  flex: isDesktop ? 0.65 : 1,
-                  width: isDesktop ? '65%' : '100%',
+                  flex: isMobile || isMobileWeb ? 1 : 0.65,
+                  width: isMobile || isMobileWeb ? '100%' : '65%',
                 }}
               >
-                <ScrollView height={"100%"}  style={{ flex: 1 }}>
+                <ScrollView height={'100%'} style={{ flex: 1 }}>
                   {/* Cart sections by day */}
                   {isLoading || isUpdatingQuantity ? (
                     <CartItemsShimmerLoader />
@@ -383,7 +401,7 @@ console.log(cart)
                   {!isLoading && <AddMoreButton onPress={onAddMoreItems} />}
 
                   {/* Only show dessert deals in the left column on mobile */}
-                  {!isDesktop && (
+                  {(isMobile || isMobileWeb) && (
                     <>
                       {isLoading ? (
                         <DessertDealsShimmerLoader />
@@ -400,7 +418,7 @@ console.log(cart)
               </YStack>
 
               {/* Right column - Summary and Dessert deals (desktop only) */}
-              {isDesktop ? (
+              {!(isMobile || isMobileWeb) ? (
                 <YStack
                   style={{
                     flex: 0.35,
@@ -483,10 +501,13 @@ console.log(cart)
                     position: 'sticky',
                     bottom: 0,
                     width: '100%',
-                    backgroundColor: '#FAFAFA',
-                    padding: 16,
+                    backgroundColor: 'transparent',
+                    paddingLeft: 8,
+                    paddingRight: 8,
                     paddingTop: 0,
+                    paddingBottom: 16,
                     zIndex: 10,
+                    height: '55%',
                   }}
                 >
                   <YStack
@@ -494,13 +515,14 @@ console.log(cart)
                       backgroundColor: 'white',
                       borderRadius: 16,
                       borderWidth: 1,
+                      borderBottomWidth: 0,
                       borderColor: '#F0F0F0',
-                      overflow: 'hidden',
-                      shadowColor: '#000',
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.05,
-                      shadowRadius: 8,
-                      elevation: 2,
+                      // overflow: 'hidden',
+                      // shadowColor: '#000',
+                      // shadowOffset: { width: 0, height: 2 },
+                      // shadowOpacity: 0.05,
+                      // shadowRadius: 8,
+                      // elevation: 2,
                     }}
                   >
                     {isLoading ? (

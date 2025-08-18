@@ -3,6 +3,8 @@
 import { Image, Text, YStack, XStack, Circle } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { useState } from 'react'
+import { useScreen } from 'app/hook/useScreen'
+import { colors } from '../colors'
 
 interface CategoryCardProps {
   imageUrl: string
@@ -13,6 +15,7 @@ interface CategoryCardProps {
 
 export function CategoryCard({ imageUrl, name, selected = false, onPress }: CategoryCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+    const {isMobile}=useScreen()
   
   // Determine background color based on hover and selected states
   const bgColor = selected || isHovered ? '#FF9F0D' : '#FFF4E4';
@@ -33,7 +36,7 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 8,
+        gap: isMobile?4:8,
         maxHeight: 250,
         minWidth: 150,
         // Box shadow for React Native (mobile)
@@ -51,12 +54,12 @@ export function CategoryCard({ imageUrl, name, selected = false, onPress }: Cate
       }}
     >
       <YStack>
-        <Circle background={"white"} size={100} overflow="hidden">
-          <Image source={{ uri: imageUrl }} width="100%" height="100%" resizeMode="cover" />
+        <Circle background={"white"} size={isMobile?80:100 }  overflow="hidden">
+          <Image source={{ uri: imageUrl }}  width="100%" height="100%" resizeMode="cover" />
         </Circle>
       </YStack>
 
-      <Text fontSize={16} fontWeight="400" color={textColor}>
+      <Text fontSize={isMobile?14:16} fontWeight="400" color={textColor}>
         {name}
       </Text>
 

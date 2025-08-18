@@ -2,12 +2,14 @@
 
 import { Image, Text, YStack, XStack, Button } from 'tamagui'
 import { useState } from 'react'
+import { useScreen } from 'app/hook/useScreen'
 
 export function AppDownloadBanner() {
+  const {isMobile}=useScreen()
   return (
     <YStack 
       style={{
-        minWidth: '60%',
+        minWidth: isMobile?"90%":'60%',
         backgroundColor: '#FFF9F2',
         borderRadius: 16,
         padding: 16,

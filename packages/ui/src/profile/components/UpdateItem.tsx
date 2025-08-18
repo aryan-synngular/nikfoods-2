@@ -7,6 +7,7 @@ import { IFoodItem } from 'app/types/foodItem'
 import { apiCreateUpdatingOrder } from 'app/services/OrderService'
 import { useLink } from 'solito/link'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
 
 interface UpdateItemProps {
   orderId: string
@@ -88,6 +89,7 @@ const DishSkeleton = () => (
 
 export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemProps) {
   const { weeklyMenuUnCategorized, fetchWeeklyMenu } = useStore()
+  const {isMobile,isMobileWeb}=useScreen()
   console.log('orderId', orderId)
   const now = new Date()
   // Determine default day
@@ -354,21 +356,19 @@ useEffect(() => {
   }, 300) // wait 300ms after typing stops
   return () => clearTimeout(handler)
 }, [searchText, searchWeeklyMenu])
-
   return (
-    <YStack flex={1} bg="transparent" justifyContent="center" alignItems="center" p="$4">
+    <YStack flex={1} bg="transparent" justifyContent="center" alignItems="center" >
       <YStack
-        width="100%"
-        style={{ maxWidth: 616 }}
+        style={{ minWidth:isMobile?420 :616 }}
         height="90vh"
         bg="white"
         borderRadius={24}
-        overflow="hidden"
-        shadowColor="#000"
-        shadowOffset={{ width: 0, height: 4 }}
-        shadowOpacity={0.1}
-        shadowRadius={20}
-        elevation={5}
+        // overflow="hidden"
+        // shadowColor="#000"
+        // shadowOffset={{ width: 0, height: 4 }}
+        // shadowOpacity={0.1}
+        // shadowRadius={20}
+        // elevation={5}
       >
         <YStack flex={1}>
           <XStack
@@ -379,7 +379,7 @@ useEffect(() => {
             borderBottomWidth={1}
             borderBottomColor="#F5F5F5"
           >
-            <Text fontSize={24} fontWeight="600" color="#000">
+            <Text fontSize={isMobile?20:24} fontWeight="600" color="#000">
               Add Items
             </Text>
             <Button
@@ -394,7 +394,9 @@ useEffect(() => {
             />
           </XStack>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} px={24} py={16}>
+          <ScrollView   horizontal showsHorizontalScrollIndicator={false}  px={24} py={16}
+mb={isMobile?-300:0}
+>
             <XStack gap={8}>
               {weekDays.map((day) => {
                 const isSelected = selectedDay === day
@@ -412,6 +414,7 @@ useEffect(() => {
                     borderRadius={8}
                     fontWeight="500"
                     fontSize={14}
+                    
                     onPress={() => handleSelect(day)}
                     pressStyle={{
                       bg: isSelected ? '#e8900c' : '#f8f8f8',
@@ -427,7 +430,6 @@ useEffect(() => {
               })}
             </XStack>
           </ScrollView>
-
           <YStack px={24} pb={16}>
             <Input
               placeholder={getTotalAllDays() > 0 ? 'Search food items...' : 'Search Item'}
@@ -629,7 +631,7 @@ useEffect(() => {
             </YStack>
           </ScrollView>
 
-          <YStack px={24} py={20} borderTopWidth={1} borderTopColor="#F5F5F5" bg="white">
+          <YStack px={24} py={20} mb={isMobile?24:0} borderTopWidth={1} borderTopColor="#F5F5F5" bg="white">
             <Button
               bg={getTotalAllDays() > 0 ? '#FF9F0D' : '#FFF4E4'}
               color={getTotalAllDays() > 0 ? 'white' : '#999'}

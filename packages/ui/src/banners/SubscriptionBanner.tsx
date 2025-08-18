@@ -2,10 +2,11 @@
 
 import { Text, YStack, XStack, Input, Button } from 'tamagui'
 import { useState } from 'react'
+import { useScreen } from 'app/hook/useScreen'
 
 export function SubscriptionBanner() {
   const [email, setEmail] = useState('')
-  
+  const {isMobile}=useScreen()
   const handleSubscribe = () => {
     if (email && email.includes('@')) {
       console.log('Subscribing with email:', email)
@@ -20,7 +21,7 @@ export function SubscriptionBanner() {
       style={{
         backgroundColor: '#2A1A0C',
         padding: 24,
-        marginTop: 0,
+        marginTop:isMobile? 30:20,
         marginBottom: 40,
         alignItems: 'center',
       }}
@@ -28,7 +29,7 @@ export function SubscriptionBanner() {
       <Text 
         color="white" 
         fontWeight="700" 
-        fontSize={22} 
+        fontSize={isMobile?20:22} 
         textAlign="center"
         marginBottom={8}
       >
@@ -37,7 +38,8 @@ export function SubscriptionBanner() {
       
       <Text 
         color="#E0E0E0" 
-        fontSize={14} 
+        fontSize={isMobile?12:14} 
+
         textAlign="center"
         marginBottom={20}
       >

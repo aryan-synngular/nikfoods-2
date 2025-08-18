@@ -28,11 +28,13 @@ import { useAuth } from 'app/provider/auth-context'
 import { useToast } from '@my/ui/src/useToast'
 import CartSidebar from '@my/ui/src/cart/CartSidebar'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
 
 
 export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   const media=useMedia()
   const { showMessage } = useToast()
+  const {isMobile} =useScreen()
   const { loginSuccess, clearLoginSuccess } = useAuth()
   const {vegOnly}=useStore()
   const [popupOpen, setPopupOpen] = useState(false)
@@ -42,7 +44,6 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   // const [vegOnly, setVegOnly] = useState(false)
   const [loading, setLoading] = useState(true)
   const [searchLoading, setSearchLoading] = useState(false)
- const isSmallScreen = Platform.OS !== 'web' || media.maxXs || media.maxSm
   const {
     categories,
     foodItemsByCategory,
@@ -142,7 +143,7 @@ const handleCardPress = (category: IFoodCategory) => {
           />
 
         {/* Category List */}
-        <YStack px={isSmallScreen ? 0 : 60} gap={isSmallScreen?4:10} mt={isSmallScreen?8:20}>
+        <YStack px={isMobile ? 0 : 60} gap={10} mt={isMobile?0:20}>
           {loading ? <CategoryShimmerLoader /> : <CategoryRail handleCardPress={handleCardPress} categories={categories} />}
           <XStack width={'100%'}  justify="center" items="center">
             <DateSelectionRail></DateSelectionRail>
@@ -156,14 +157,16 @@ const handleCardPress = (category: IFoodCategory) => {
                 style={{
                   textTransform: 'uppercase',
                   color: 'grey',
-                }}
-                fontSize={20}
+                  paddingLeft:isMobile?20:0
+                }} 
+                fontSize={isMobile?16:20}
                 fontWeight="600"
                 color="black"
+                
                 >
                 {searchQuery ? `Search Results for "${searchQuery}"` : `${selectedWeekDay}'s Menu`}
               </Text>
-              {foodItemsByCategory.map((category) => (
+              {Array.isArray(foodItemsByCategory)&&foodItemsByCategory.map((category) => (
                 <FoodListingRail
                 listType={"weeklyMenu"}
                 key={category._id}
@@ -178,13 +181,13 @@ const handleCardPress = (category: IFoodCategory) => {
               ))}
             </YStack>
           )}
-
+{Platform.OS=="web"&&
           <YStack justify="center" items="center">
             <AppDownloadBanner />
-          </YStack>
+          </YStack>}
         </YStack>
         <SubscriptionBanner />
-        <YStack gap={20} px={60} py={20}>
+        <YStack gap={isMobile?0:20} px={isMobile?20:60} py={isMobile?10:20}>
           <WhyChooseUs />
           <FAQSection />
         </YStack>

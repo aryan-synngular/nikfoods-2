@@ -12,6 +12,7 @@ import { useLink } from 'solito/navigation'
 import { IResponse } from 'app/types/common'
 import { useStore } from 'app/src/store/useStore'
 import PaymentPage from './PaymentPage'
+import { useScreen } from 'app/hook/useScreen'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -179,32 +180,33 @@ const CheckoutLoggedIn = ({
   onPaymentError?: (error: any) => void
   onOrderCreated?: (orderId: string) => void
 }) => {
-  const {cartTotalAmount,cart,fetchCart}=useStore()
+  const { cartTotalAmount, cart, fetchCart } = useStore()
   console.log(cart)
   const ordersPage = useLink({
     href: '/account',
   })
+  const { isMobile } = useScreen()
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [paymentError, setPaymentError] = useState<string | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
+  // const [isMobile, setIsMobile] = useState(false)
   const [isLoadingCart, setIsLoadingCart] = useState(true)
   const { showMessage } = useToast()
 
   // Mobile detection
-  const checkMobile = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth < 768)
-    }
-  }, [])
+  // const checkMobile = useCallback(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setIsMobile(window.innerWidth < 768)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      checkMobile()
-      const handleResize = () => checkMobile()
-      window.addEventListener('resize', handleResize)
-      return () => window.removeEventListener('resize', handleResize)
-    }
-  }, [checkMobile])
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     checkMobile()
+  //     const handleResize = () => checkMobile()
+  //     window.addEventListener('resize', handleResize)
+  //     return () => window.removeEventListener('resize', handleResize)
+  //   }
+  // }, [checkMobile])
 
   // Fetch cart data
   const fetchCartData = useCallback(async () => {
@@ -287,87 +289,87 @@ const CheckoutLoggedIn = ({
   // 2. Process payment with Square
   // 3. If payment succeeds, update order to "confirmed" and clear cart
   // 4. If payment fails, keep order as "pending" for retry
-  const handlePaymentToken = useCallback(
-    async (token: any, buyer: any) => {
-      if (!selectedAddress || !cart) {
-        setPaymentError('Missing required information')
-        return
-      }
+  // const handlePaymentToken = useCallback(
+  //   async (token: any, buyer: any) => {
+  //     if (!selectedAddress || !cart) {
+  //       setPaymentError('Missing required information')
+  //       return
+  //     }
 
-      setIsProcessingPayment(true)
-      setPaymentError(null)
+  //     setIsProcessingPayment(true)
+  //     setPaymentError(null)
 
-      try {
-        // Step 1: Create order in pending status
-        const orderData = transformCartToOrder()
-        console.log('Order data ', orderData)
-        if (!orderData) {
-          throw new Error('Unable to process cart data')
-        }
+  //     try {
+  //       // Step 1: Create order in pending status
+  //       const orderData = transformCartToOrder()
+  //       console.log('Order data ', orderData)
+  //       if (!orderData) {
+  //         throw new Error('Unable to process cart data')
+  //       }
 
-        showMessage('Creating order...', 'info')
-        const orderResponse: any = await apiCreateOrder(orderData)
-        const orderId = orderResponse?.data._id
+  //       showMessage('Creating order...', 'info')
+  //       const orderResponse: any = await apiCreateOrder(orderData)
+  //       const orderId = orderResponse?.data._id
 
-        // Step 2: Process payment with Square
-        showMessage('Processing payment...', 'info')
-        const paymentResponse: any = await apiCheckout({
-          sourceId: token?.token || '',
-          amount: Math.round(orderCalculations.total * 100), // Square expects cents
-          orderId: orderId, // Include order ID in payment
-          buyerVerificationToken: buyer?.verificationToken,
-        })
+  //       // Step 2: Process payment with Square
+  //       showMessage('Processing payment...', 'info')
+  //       const paymentResponse: any = await apiCheckout({
+  //         sourceId: token?.token || '',
+  //         amount: Math.round(orderCalculations.total * 100), // Square expects cents
+  //         orderId: orderId, // Include order ID in payment
+  //         buyerVerificationToken: buyer?.verificationToken,
+  //       })
 
-        if (paymentResponse.success) {
-          // Step 3: Payment successful - clear cart
-          showMessage('Payment successfully...', 'success')
-          try {
-            await apiClearCart()
-          } catch (clearError) {
-            console.warn('Could not clear cart:', clearError)
-          }
+  //       if (paymentResponse.success) {
+  //         // Step 3: Payment successful - clear cart
+  //         showMessage('Payment successfully...', 'success')
+  //         try {
+  //           await apiClearCart()
+  //         } catch (clearError) {
+  //           console.warn('Could not clear cart:', clearError)
+  //         }
 
-          showMessage('Order placed successfully!', 'success')
+  //         showMessage('Order placed successfully!', 'success')
 
-          if (onPaymentSuccess) {
-            onPaymentSuccess({
-              orderId: orderId,
-              total: orderCalculations.total,
-              paymentId: paymentResponse.paymentId,
-            })
-          }
+  //         if (onPaymentSuccess) {
+  //           onPaymentSuccess({
+  //             orderId: orderId,
+  //             total: orderCalculations.total,
+  //             paymentId: paymentResponse.paymentId,
+  //           })
+  //         }
 
-          ordersPage.onPress()
-          if (onOrderCreated) {
-            onOrderCreated(orderId)
-          }
-        } else {
-          throw new Error(paymentResponse.message || 'Payment processing failed')
-        }
-      } catch (error) {
-        console.error('Checkout process error:', error)
-        const errorMessage = error?.message || 'Payment failed. Please try again.'
-        setPaymentError(errorMessage)
-        showMessage(errorMessage, 'error')
+  //         ordersPage.onPress()
+  //         if (onOrderCreated) {
+  //           onOrderCreated(orderId)
+  //         }
+  //       } else {
+  //         throw new Error(paymentResponse.message || 'Payment processing failed')
+  //       }
+  //     } catch (error) {
+  //       console.error('Checkout process error:', error)
+  //       const errorMessage = error?.message || 'Payment failed. Please try again.'
+  //       setPaymentError(errorMessage)
+  //       showMessage(errorMessage, 'error')
 
-        if (onPaymentError) {
-          onPaymentError(error)
-        }
-      } finally {
-        setIsProcessingPayment(false)
-      }
-    },
-    [
-      cart,
-      selectedAddress,
-      orderCalculations,
-      transformCartToOrder,
-      onPaymentSuccess,
-      onPaymentError,
-      onOrderCreated,
-      showMessage,
-    ]
-  )
+  //       if (onPaymentError) {
+  //         onPaymentError(error)
+  //       }
+  //     } finally {
+  //       setIsProcessingPayment(false)
+  //     }
+  //   },
+  //   [
+  //     cart,
+  //     selectedAddress,
+  //     orderCalculations,
+  //     transformCartToOrder,
+  //     onPaymentSuccess,
+  //     onPaymentError,
+  //     onOrderCreated,
+  //     showMessage,
+  //   ]
+  // )
 
   const handlePaymentError = useCallback(
     (errors: any) => {
@@ -412,7 +414,8 @@ const CheckoutLoggedIn = ({
       </StepCard>
     )
   }
-
+  console.log('currentStep--------------')
+  console.log(currentStep)
   return (
     <StepCard mobile={isMobile}>
       <ResponsiveContainer mobile={isMobile}>
@@ -548,7 +551,6 @@ const CheckoutLoggedIn = ({
             onPaymentError={onPaymentError}
             onOrderCreated={onOrderCreated}
           />
-        
         )}
       </ResponsiveContainer>
     </StepCard>

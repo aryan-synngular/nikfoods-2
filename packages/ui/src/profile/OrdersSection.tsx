@@ -8,8 +8,14 @@ import TrackOrder from './components/TrackOrder'
 import UpdateItem from './components/UpdateItem'
 import { useToast } from '@my/ui/src/useToast'
 import { apiGetOrders, apiUpdateOrderItems } from 'app/services/OrderService'
+import { useScreen } from 'app/hook/useScreen'
+import UpdateOrderPopup from '../popups/UpdateOrder'
+import OrderDetailsPopup from '../popups/OrderDetailsPopup'
+import AddReviewPopup from '../popups/AddReviewPopup'
+import TrackOrderPopup from '../popups/TrackOrderPopup'
 export default function OrdersSection() {
   const { showMessage } = useToast()
+  const {isMobile}=useScreen()
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState<any[]>([])
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
@@ -674,7 +680,7 @@ console.log(dayName)
                   ) : (
                     order.status==="pending"&&<XStack gap="$2" flexShrink={1}>
                       <Button
-                        size="$3"
+                        size={"$3"}
                         bg="white"
                         color="#FF9F0D"
                         borderColor="#FF9F0D"
@@ -693,6 +699,7 @@ console.log(dayName)
                     const statusColors = getDeliveryStatusColor(dayItem.deliveryDate, order.status)
                     return (
                       <YStack
+                      
                         key={`${dayItem.day}-${dayIndex}`}
                         pt="$3"
                         gap="$1"
@@ -895,101 +902,39 @@ console.log(dayName)
       </ScrollView>
 
       {/* Order Details Dialog */}
-      <Dialog open={detailsDialogOpen} onOpenChange={setDetailsDialogOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
-          <Dialog.Content
-            style={{
-              background: '#fff',
-              padding: 0,
-              width: 400,
-              maxWidth: '100vw',
-              maxHeight: '90vh',
-              overflow: 'hidden',
-            }}
-          >
-            {selectedOrder && (
-              <OrderDetails
-                order={selectedOrder}
-                onClose={handleCloseDetails}
-                loading={detailsLoading}
-              />
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog>
-
-      {/* Add Review Dialog */}
-      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
-          <Dialog.Content
-            style={{
-              background: 'transparent',
-              padding: 0,
-              width: 400,
-              maxWidth: '100vw',
-              maxHeight: '90vh',
-              overflow: 'hidden',
-            }}
-          >
-            {selectedOrderIdForReview && selectedOrderForReview && (
-              <AddReview
-                orderId={selectedOrderIdForReview}
-                orderDetails={selectedOrderForReview} // Pass the complete order object
-                onClose={handleCloseReview}
-                onSubmit={handleReviewSubmit}
-              />
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog>
-
-      {/* Track Order Dialog */}
-      <Dialog open={trackOrderDialogOpen} onOpenChange={setTrackOrderDialogOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
-          <Dialog.Content
-            style={{
-              background: 'transparent',
-              padding: 0,
-              width: '90vw',
-              minWidth: 1000,
-              maxHeight: '90vh',
-              overflow: 'hidden',
-            }}
-          >
-            {selectedOrderIdForTracking && (
-              <TrackOrder orderId={selectedOrderIdForTracking} onClose={handleCloseTrackOrder} />
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog>
-
+    <OrderDetailsPopup
+    detailsDialogOpen={detailsDialogOpen}
+    detailsLoading={detailsLoading}
+    handleCloseDetails={handleCloseDetails}
+    selectedOrder={selectedOrder}
+    selectedOrderIdForUpdate={selectedOrderIdForUpdate}
+    setDetailsDialogOpen={setDetailsDialogOpen}
+    ></OrderDetailsPopup>
+    <AddReviewPopup
+    handleCloseReview={handleCloseReview}
+    handleReviewSubmit={handleReviewSubmit}
+    reviewDialogOpen={reviewDialogOpen}
+    selectedOrderForReview={selectedOrderForReview}
+    selectedOrderIdForReview={selectedOrderIdForReview}
+    setReviewDialogOpen={setReviewDialogOpen}
+    ></AddReviewPopup>
+    <TrackOrderPopup
+    handleCloseTrackOrder={handleCloseTrackOrder}
+    handleItemUpdate={handleItemUpdate}
+    selectedOrderIdForTracking={selectedOrderIdForTracking}
+    setTrackOrderDialogOpen={setTrackOrderDialogOpen}
+trackOrderDialogOpen={trackOrderDialogOpen}
+></TrackOrderPopup>
       {/* Update Item Dialog */}
-      <Dialog open={updateItemDialogOpen} onOpenChange={setUpdateItemDialogOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay style={{ background: 'rgba(0,0,0,0.3)' }} />
-          <Dialog.Content
-            style={{
-              background: 'transparent',
-              padding: 0,
-              width: 'auto',
-              maxWidth: '100vw',
-              maxHeight: '90vh',
-              overflow: 'hidden',
-            }}
-          >
-            {selectedOrderIdForUpdate && (
-              <UpdateItem
-                orderId={selectedOrderIdForUpdate}
-                onClose={handleCloseUpdateItem}
-                onUpdate={handleItemUpdate}
-              />
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog>
+    <UpdateOrderPopup 
+    handleCloseUpdateItem={handleCloseUpdateItem}
+    handleItemUpdate={handleItemUpdate}
+    selectedOrderIdForUpdate={selectedOrderIdForUpdate}
+    setUpdateItemDialogOpen={setUpdateItemDialogOpen}
+    updateItemDialogOpen={updateItemDialogOpen}
+    ></UpdateOrderPopup>
+
+
     </YStack>
   )
 }

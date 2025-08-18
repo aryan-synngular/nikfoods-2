@@ -3,6 +3,7 @@
 import { Text, YStack, XStack, Accordion } from 'tamagui'
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
+import { useScreen } from 'app/hook/useScreen'
 
 type FAQItemProps = {
   question: string
@@ -51,8 +52,8 @@ function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
     </YStack>
   )
 }
-
 export function FAQSection() {
+  const {isMobile}=useScreen()
   const [openIndex, setOpenIndex] = useState<number>(0)
   
   const faqs = [
@@ -99,12 +100,12 @@ export function FAQSection() {
   }
 
   return (
-    <YStack padding={20} paddingBottom={40}>
+    <YStack padding={isMobile?0:20} paddingBottom={40}>
       <Text 
-        fontSize={24} 
+        fontSize={isMobile?20:24} 
         fontWeight="700" 
         color="#2A1A0C"
-        marginBottom={24}
+        marginBottom={isMobile?12:24}
       >
         FAQ's
       </Text>
@@ -121,7 +122,7 @@ export function FAQSection() {
         ))}
       </YStack>
       
-      <XStack justifyContent="center" marginTop={24}>
+      {/* <XStack justifyContent="center" marginTop={24}>
         <XStack 
           backgroundColor="#FFF4E4"
           paddingHorizontal={16}
@@ -136,7 +137,7 @@ export function FAQSection() {
             View All
           </Text>
         </XStack>
-      </XStack>
+      </XStack> */}
     </YStack>
   )
 }

@@ -2,7 +2,7 @@
 import { XStack, Text, Button, YStack, View, Image, Switch } from 'tamagui'
 import { useLink } from 'solito/navigation'
 import { Platform, StatusBar, Dimensions } from 'react-native'
-import { ArrowRight, Bell, ShoppingCart, User2 } from '@tamagui/lucide-icons'
+import { ArrowRight, Bell, ShoppingCart, User, User2 } from '@tamagui/lucide-icons'
 import { primary, shadow, background, border } from './colors'
 import { useAuth } from 'app/provider/auth-context'
 import { ProfilePopUp } from '@my/ui/src/profile/ProfilePopUp'
@@ -12,6 +12,7 @@ import { CartBadge, NotificationBellBadge } from './components/NotificationBadge
 import { NotificationPanel } from './components/NotificationPanel'
 import { useStore } from 'app/src/store/useStore'
 import { useEffect, useState } from 'react'
+import { useScreen } from 'app/hook/useScreen'
 
 // Add shimmer loader for profile tab
 function ProfileTabShimmer() {
@@ -30,9 +31,10 @@ function ProfileTabShimmer() {
 }
 
 export const AppHeader = () => {
+  const {isMobile,isMobileWeb}=useScreen()
   const { user, signOut, loading } = useAuth()
   const { width } = Dimensions.get('window')
-  const isSmallScreen = width < 768
+  // const isSmallScreen = width < 768
 
   // Notification store
   const { badges, unreadCount, updateCartBadge } = useNotificationStore()
@@ -63,6 +65,10 @@ export const AppHeader = () => {
 
   const adminLink = useLink({
     href: '/admin',
+  })
+
+  const accountLink = useLink({
+    href: '/account',
   })
 
   const notificationLink = useLink({
@@ -127,16 +133,16 @@ export const AppHeader = () => {
           <Image
             source={{ uri: '/images/logo.png' }}
             alt="nikfoods logo"
-            width={isSmallScreen ? 100 : 160}
-            height={isSmallScreen ? 32 : 80}
+            width={isMobileWeb ? 110 : 160}
+            height={isMobileWeb ? 32 : 60}
             resizeMode="contain"
           />
         ) : (
           <Image
             source={require('./assets/logo.png')}
             alt="nikfoods logo"
-            width={isSmallScreen ? 100 : 120}
-            height={isSmallScreen ? 32 : 40}
+            width={ 120}
+            height={ 40}
             resizeMode="contain"
           />
         )}
@@ -146,7 +152,7 @@ export const AppHeader = () => {
       <XStack gap={Platform.OS === 'web' ? 16 : 8} items="center" flexShrink={0}>
        
         {/* Admin Panel - Only show on web for admins */}
-        {Platform.OS === 'web' && user && user.role === 'ADMIN' && !isSmallScreen && (
+        {Platform.OS === 'web' && user && user.role === 'ADMIN'  &&!isMobileWeb && (
           <Button
             size="$3"
             backgroundColor={primary}
@@ -166,11 +172,11 @@ export const AppHeader = () => {
           </Button>
         )}
  <XStack style={{ alignItems: 'center', gap: 8 }}>
-          <Text fontSize={16} color={vegOnly ? '#4caf50' : "#a19e9eff"} >
+          <Text fontSize={isMobile||isMobileWeb?12:16} color={vegOnly ? '#4caf50' : "#a19e9eff"} >
             Veg Only
           </Text>
           <Switch
-            size="$3"
+            size={isMobile||isMobileWeb?"$2":"$3"}
             checked={vegOnly}
             onCheckedChange={()=>handleVegOnlyToggle(!vegOnly)}
             bg={vegOnly ? '#4caf50' : undefined}
@@ -235,13 +241,31 @@ export const AppHeader = () => {
           >
             Login
           </Button>
-        ) : (
-          <ProfilePopUp
+        ) : 
+
+       (isMobile||isMobileWeb)?  <Button
+                 size={ '$3'}
+                 background="#f5f2f2ff"
+                 borderWidth={1}
+                 borderColor="#c7c3c3ff"
+                 borderRadius={12}
+                 paddingHorizontal={ 10}
+                 paddingVertical={ 8}
+                 minHeight={ 36}
+                 onPress={()=>accountLink.onPress()}
+                 pressStyle={{
+                   background: '#f0f0f0',
+                 }}
+               >
+                
+                   <User size={ 16} color="#666" />
+                  
+               </Button>:   <ProfilePopUp
             handleSignOut={handleSignOut}
             Name={getDisplayName()}
             accountLink="/account"
           />
-        )}
+        }
       </XStack>
 
       {/* Notification Panel */}

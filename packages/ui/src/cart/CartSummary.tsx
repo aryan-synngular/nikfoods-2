@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button, Input, Spinner, Text, XStack, YStack } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
 
 interface CartSummaryProps {
   subtotal: number
@@ -19,27 +20,52 @@ export function CartSummary({
   buttonTitle = '',
   deliveryFee = 2.99,
   tax = 0,
-  loading={ itemId: '', change: 0 },
+  loading = { itemId: '', change: 0 },
 }: CartSummaryProps) {
-  const { cartTotalAmount} = useStore()
+  const { isMobile, isMobileWeb } = useScreen()
+  const { cartTotalAmount } = useStore()
   const [couponCode, setCouponCode] = useState('')
   const total = Math.round(subtotal) // Simplified for the example to match the image
 
   return (
-    <YStack style={{ padding: 24, gap: 20 }}>
+    <YStack
+      style={{ padding: isMobile || isMobileWeb ? 16 : 24, gap: isMobile || isMobileWeb ? 16 : 20 }}
+    >
       {/* Summary header */}
-      <Text style={{ fontSize: 24, fontWeight: '600', color: '#000000' }}>Summary</Text>
+      <Text
+        style={{ fontSize: isMobile || isMobileWeb ? 20 : 24, fontWeight: '600', color: '#000000' }}
+      >
+        Summary
+      </Text>
 
       {/* Subtotal */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 18, color: '#000000' }}>Subtotal</Text>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>${cartTotalAmount}</Text>
+        <Text style={{ fontSize: isMobile || isMobileWeb ? 16 : 18, color: '#000000' }}>
+          Subtotal
+        </Text>
+        <Text
+          style={{
+            fontSize: isMobile || isMobileWeb ? 16 : 18,
+            fontWeight: '600',
+            color: '#000000',
+          }}
+        >
+          ${cartTotalAmount}
+        </Text>
       </XStack>
 
       {/* Other */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 18, color: '#000000' }}>Other</Text>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#000000' }}>0</Text>
+        <Text style={{ fontSize: isMobile || isMobileWeb ? 16 : 18, color: '#000000' }}>Other</Text>
+        <Text
+          style={{
+            fontSize: isMobile || isMobileWeb ? 16 : 18,
+            fontWeight: '600',
+            color: '#000000',
+          }}
+        >
+          0
+        </Text>
       </XStack>
 
       {/* Coupon input */}
@@ -100,8 +126,24 @@ export function CartSummary({
 
       {/* Total */}
       <XStack style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 20, fontWeight: '600', color: '#000000' }}>Item's Total</Text>
-        <Text style={{ fontSize: 28, fontWeight: '700', color: '#000000' }}>${cartTotalAmount}</Text>
+        <Text
+          style={{
+            fontSize: isMobile || isMobileWeb ? 16 : 20,
+            fontWeight: '600',
+            color: '#000000',
+          }}
+        >
+          Item's Total
+        </Text>
+        <Text
+          style={{
+            fontSize: isMobile || isMobileWeb ? 20 : 28,
+            fontWeight: '700',
+            color: '#000000',
+          }}
+        >
+          ${cartTotalAmount}
+        </Text>
       </XStack>
 
       {/* Checkout button */}
@@ -120,14 +162,16 @@ export function CartSummary({
           fontWeight: 600,
           color: 'white',
         }}
-        iconAfter={loading?.itemId === "" && loading?.change === 0 ? (
-                                 <ArrowRight fontWeight={600} color="white" />
-                               ) : (
-                                 <Spinner color="white" />
-                               )}
-                               disabled={loading?.itemId !== "" || loading.change !== 0}
-                                 >
-        {buttonTitle} 
+        iconAfter={
+          loading?.itemId === '' && loading?.change === 0 ? (
+            <ArrowRight fontWeight={600} color="white" />
+          ) : (
+            <Spinner color="white" />
+          )
+        }
+        disabled={loading?.itemId !== '' || loading.change !== 0}
+      >
+        {buttonTitle}
       </Button>
 
       {/* Credit card acceptance text */}
