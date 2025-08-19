@@ -74,6 +74,7 @@ console.log(checkoutUrl)
             allowsInlineMediaPlayback
             javaScriptEnabled
             domStorageEnabled
+          
           />
         )}
       </SafeAreaView>
