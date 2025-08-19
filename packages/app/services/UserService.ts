@@ -1,8 +1,8 @@
 import type { AxiosRequestConfig } from 'axios'
 import ApiServices from './ApiService'
 
-export async function apiGetAllAddress<T>(): Promise<T> {
-  const url = `address`
+export async function apiGetAllAddress<T>(token?: string): Promise<T> {
+  const url = `address${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -100,8 +100,7 @@ export async function apiDeleteUserAddress<T, S>(id: string): Promise<T> {
   }
 }
 
-
-export async function apiGetPlaces<T>(input:string): Promise<T> {
+export async function apiGetPlaces<T>(input: string): Promise<T> {
   const url = `places?input=${input}`
 
   const axiosConfig: AxiosRequestConfig = {

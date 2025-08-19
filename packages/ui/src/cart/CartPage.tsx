@@ -19,6 +19,7 @@ import { DessertDealsShimmerLoader } from '../loaders/DessertDealsShimmerLoader'
 import { useStore } from 'app/src/store/useStore'
 import { Platform } from 'react-native'
 import { useScreen } from 'app/hook/useScreen'
+import { colors } from '../colors'
 
 interface CartItemData {
   id: string
@@ -507,22 +508,23 @@ export function CartPage({
                     paddingTop: 0,
                     paddingBottom: 16,
                     zIndex: 10,
-                    height: '55%',
+                    height: '50%',
                   }}
                 >
                   <YStack
                     style={{
                       backgroundColor: 'white',
-                      borderRadius: 16,
+                      borderRadius: 8,
                       borderWidth: 1,
                       borderBottomWidth: 0,
-                      borderColor: '#F0F0F0',
-                      // overflow: 'hidden',
-                      // shadowColor: '#000',
-                      // shadowOffset: { width: 0, height: 2 },
-                      // shadowOpacity: 0.05,
-                      // shadowRadius: 8,
-                      // elevation: 2,
+                                                borderColor: '#d8d4d4ff',
+
+                      overflow: 'hidden',
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.05,
+                      shadowRadius: 8,
+                      elevation: 2,
                     }}
                   >
                     {isLoading ? (

@@ -17,7 +17,8 @@ import { IListResponse, IResponse } from 'app/types/common'
 import { useScreen } from 'app/hook/useScreen'
 import { useAuth } from 'app/provider/auth-context'
 import { Platform } from 'react-native'
-
+import { useSearchParams } from 'next/navigation'
+import { useStore } from 'app/src/store/useStore'
 interface CartItemData {
   id: string
   name: string
@@ -50,9 +51,17 @@ export function CheckoutPage({
 }: CartPageProps) {
   const { loading, user } = useAuth()
   console.log('isAuthenticated')
+  const {cartTotalAmount}=useStore()
   // console.log(isAuthenticated)
   console.log(user)
   const { isMobile, isMobileWeb } = useScreen()
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token') // or userId
+
+  useEffect(() => {
+    console.log('Query token:', token)
+  }, [token])
+
   // State to track if we're on desktop or mobile
   // const [isMobile, setIsDesktop] = useState<boolean | null>(false)
   const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
@@ -85,15 +94,27 @@ export function CheckoutPage({
 
   const getAllAddress = useCallback(async () => {
     try {
-      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
+      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>(token || undefined)
       setAddress(data?.data)
       if (data?.data?.items.length > 0) {
         setSelectedAddress(data?.data?.items[0])
       }
     } catch (error) {
       console.log('Error:', error)
+      // If invalid token, retry without token
+      if (error?.error === 'Invalid token') {
+        try {
+          const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
+          setAddress(data?.data)
+          if (data?.data?.items.length > 0) {
+            setSelectedAddress(data?.data?.items[0])
+          }
+        } catch (e2) {
+          console.log('Retry without token failed:', e2)
+        }
+      }
     }
-  }, [])
+  }, [token])
 
   useEffect(() => {
     getAllAddress()
@@ -199,9 +220,10 @@ export function CheckoutPage({
 
   const getTotal = useCallback(async () => {
     try {
-      const data = await apiGetCartTotalAmount<IResponse<{ total: number }>>()
-      console.log(data)
-      setTotal(data?.data)
+      // const data = await apiGetCartTotalAmount<IResponse<{ total: number }>>()
+      // console.log(data)
+      // setTotal(data?.data)
+      setTotal({total:0})
     } catch (error) {
       console.log(error)
     }
@@ -256,7 +278,7 @@ export function CheckoutPage({
       }}
     >
       {/* Add the header */}
-      <AppHeader />
+      {/* <AppHeader /> */}
 
       <YStack
         style={{
@@ -266,18 +288,19 @@ export function CheckoutPage({
         {/* Cart title - directly below header without container */}
         <YStack
           style={{
-            paddingTop: isMobile || isMobileWeb ? 8 : 16,
-            paddingBottom: isMobile || isMobileWeb ? 8 : 16,
+            paddingTop: (isMobile || isMobileWeb) ? 28: 16,
+            paddingBottom: (isMobile || isMobileWeb )? 8 : 16,
             backgroundColor: 'white',
-            marginBottom: isMobile || isMobileWeb ? 8 : 0,
+            marginBottom: (isMobile || isMobileWeb) ? 8 : 0,
           }}
         >
           <XStack
             style={{
-              maxWidth: 1200,
-              width: '100%',
+                           maxWidth:( isMobile||isMobileWeb) ? 400 : 1200,
+
+              // width: '100%',
               marginHorizontal: 'auto',
-              paddingHorizontal: 16,
+              paddingHorizontal: (isMobile || isMobileWeb) ?36:16,
               alignItems: 'center',
               justifyContent: 'space-between',
               marginTop: Platform.OS == 'web' ? 0 : 100,
@@ -285,7 +308,7 @@ export function CheckoutPage({
           >
             <Text
               style={{
-                fontSize: isMobile || isMobileWeb ? 20 : 28,
+                fontSize: (isMobile || isMobileWeb )? 20 : 28,
                 fontWeight: '700',
                 color: '#000000',
               }}
@@ -309,7 +332,7 @@ export function CheckoutPage({
         ) : (
           <YStack
             style={{
-              maxWidth: isMobile ? 400 : 1200,
+              maxWidth:( isMobile||isMobileWeb) ? 400 : 1200,
               width: '100%',
               marginHorizontal: 'auto',
               paddingHorizontal: 24,
@@ -319,26 +342,26 @@ export function CheckoutPage({
               style={{
                 width: '100%',
                 height: '100%',
-                flexDirection: !isMobile ? 'row' : 'column',
+                flexDirection: (isMobile||isMobileWeb) ? "column" : 'row',
                 gap: !isMobile ? 24 : 0,
                 paddingVertical: 24,
               }}
             >
               {/* Left column - Cart items */}
-              <YStack
+              {/* <YStack
                 style={{
                   flex: !isMobile ? (currentStep == 'payment' ? 1 : 0.65) : 1,
                   width: !isMobile ? (currentStep == 'payment' ? '100%' : '65%') : '100%',
                 }}
-              >
-                {/* <YStack
-                style={{
-                  flex: isMobile || isMobileWeb ? 1 : 0.65,
-                  width: isMobile || isMobileWeb ? '100%' : '65%',
-                }}
               > */}
+                <YStack
+                style={{
+                  flex:( isMobile || isMobileWeb )? 1 : 0.65,
+                  width:( isMobile || isMobileWeb) ? '100%' : '65%',
+                }}
+              >
                 <ScrollView height={'100%'} style={{ flex: 1 }}>
-                  {user && user?.email ? (
+                  {((user && user?.email)||token) ? (
                     <CheckoutLoggedIn
                       addresses={address?.items ?? []}
                       goBack={() => setCurrentStep('delivery')}
@@ -352,13 +375,13 @@ export function CheckoutPage({
                   )}
 
                   {/* Only show dessert deals in the left column on mobile */}
-                  {isMobile && (
+                  {/* {isMobile && (
                     <DessertDeals
                       items={dessertDeals}
                       onAddItem={refreshCartDetails}
                       onViewAll={onViewAllDesserts}
                     />
-                  )}
+                  )} */}
                 </ScrollView>
               </YStack>
 
@@ -408,7 +431,7 @@ export function CheckoutPage({
                         </YStack>
 
                         {/* Dessert deals section */}
-                        <YStack
+                        {/* <YStack
                           style={{
                             backgroundColor: 'white',
                             borderRadius: 16,
@@ -427,7 +450,7 @@ export function CheckoutPage({
                             onAddItem={refreshCartDetails}
                             onViewAll={onViewAllDesserts}
                           />
-                        </YStack>
+                        </YStack> */}
                       </YStack>
                     </ScrollView>
                   </YStack>
@@ -437,7 +460,7 @@ export function CheckoutPage({
                     style={{
                       position: 'sticky',
                       bottom: 0,
-                      width: '100%',
+                      // width: '100%',
                       backgroundColor: '#FAFAFA',
                       padding: 16,
                       paddingTop: 0,
@@ -459,8 +482,8 @@ export function CheckoutPage({
                       }}
                     >
                       <CartSummary
-                        subtotal={total.total}
-                        buttonTitle={isMobile?"sad":"Continuesc To Pay"}
+                        subtotal={total.total??cartTotalAmount}
+                        buttonTitle={isMobile ? 'sad' : 'Continue To Pay'}
                         onCheckout={onHandleClick}
                       />
                     </YStack>

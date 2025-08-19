@@ -3,7 +3,7 @@ import { connectToDatabase } from 'lib/db'
 import Order from 'models/Orders'
 import DeliveryBoy from 'models/DeliveryBoy'
 import Review from 'models/Review'
-import { verifyAuth } from 'lib/verifyJwt'
+import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
 import FoodItem from 'models/FoodItem'
 import User from 'models/User'
@@ -58,10 +58,27 @@ interface ReviewDocument {
 // --- GET all orders with simple pagination ---
 // Fixed GET endpoint - replace your existing GET function
 export async function GET(req: NextRequest) {
-  const authResult = await verifyAuth(req)
-  if (authResult instanceof NextResponse) return authResult
+  const { searchParams } = new URL(req.url)
+  const token = searchParams.get('token')
 
-  const { id } = authResult.user
+  let userId: string | null = null
+  if (token) {
+    try {
+      const user = decodeAccessToken(token)
+      userId = user.id
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
+    }
+  }
+
+  let id: string
+  if (!userId) {
+    const authResult = await verifyAuth(req)
+    if (authResult instanceof NextResponse) return authResult
+    id = authResult.user.id
+  } else {
+    id = userId
+  }
 
   try {
     await connectToDatabase()
@@ -80,12 +97,13 @@ export async function GET(req: NextRequest) {
         path: 'items.items.food',
         model: FoodItem,
         select: 'name price',
-      }).populate({
+      })
+      .populate({
         path: 'user',
         model: User,
-
-      }).populate({
-        path:"address",
+      })
+      .populate({
+        path: 'address',
         model: 'Address',
       })
       // .populate('deliveryBoy', 'name phone email vehicleNumber')
@@ -213,13 +231,31 @@ export async function GET(req: NextRequest) {
 }
 // --- POST create new order ---
 export async function POST(req: NextRequest) {
-  const authResult = await verifyAuth(req)
+  const { searchParams } = new URL(req.url)
+  const token = searchParams.get('token')
 
-  if (authResult instanceof NextResponse) {
-    return authResult
+  let userId: string | null = null
+  if (token) {
+    try {
+      const user = decodeAccessToken(token)
+      userId = user.id
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
+    }
   }
 
-  const { id } = authResult.user
+  let id: string
+  if (!userId) {
+    const authResult = await verifyAuth(req)
+
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
+    id = authResult.user.id
+  } else {
+    id = userId
+  }
 
   try {
     await connectToDatabase()
@@ -234,7 +270,7 @@ export async function POST(req: NextRequest) {
       deliveryAddress?: string
       paymentMethod?: string
     } = body
-console.log("Delivery Address:", deliveryAddress)
+    console.log('Delivery Address:', deliveryAddress)
     // Validate required fields
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(

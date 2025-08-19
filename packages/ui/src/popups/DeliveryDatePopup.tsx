@@ -48,7 +48,7 @@ export function DeliveryDatePopup({
 }: DeliveryDatePopupProps) {
   // Build initial selected state from item.days
   const media = useMedia()
-  const {isMobile}=useScreen()
+  const {isMobile,isMobileWeb}=useScreen()
   
   const initialSelected = (item?.days || []).map((d) => ({
     day_name: d.day.day,
@@ -221,7 +221,7 @@ console.log(added)
           <YStack padding={20} space={16} flex={1}>
             {/* Header */}
             <XStack justifyContent="space-between" alignItems="center">
-              <Text fontSize={isMobile?18:20} fontWeight="600" color="#2A1A0C">
+              <Text fontSize={(isMobile||isMobileWeb)?18:20} fontWeight="600" color="#2A1A0C">
                 Choose Delivery date
               </Text>
               <Button
@@ -238,7 +238,7 @@ console.log(added)
             <XStack
               backgroundColor="#F8F8F8"
               borderRadius={12}
-              padding={isMobile?10:12}
+              padding={(isMobile||isMobileWeb)?10:12}
               alignItems="center"
               space={12}
             >
@@ -252,17 +252,17 @@ console.log(added)
                 <Image source={{ uri: item?.url }} width="100%" height="100%" resizeMode="cover" />
               </YStack>
               <YStack flex={1}>
-                <Text fontSize={isMobile?16:18} fontWeight="600" color="#2A1A0C" numberOfLines={2}>
+                <Text fontSize={(isMobile||isMobileWeb)?16:18} fontWeight="600" color="#2A1A0C" numberOfLines={2}>
                   {item?.name}
                 </Text>
-                <Text fontSize={isMobile?16:18} fontWeight="600" color="#FF9F0D" marginTop={4}>
+                <Text fontSize={(isMobile||isMobileWeb)?16:18} fontWeight="600" color="#FF9F0D" marginTop={4}>
                   {formattedPrice}
                 </Text>
               </YStack>
             </XStack>
 
             {/* Date options */}
-            <YStack space={isMobile?8:12} flex={1}>
+            <YStack space={(isMobile||isMobileWeb)?8:12} flex={1}>
               <Text fontSize={16} fontWeight="500" color="#2A1A0C">
                 Select delivery days:
               </Text>
@@ -274,11 +274,11 @@ console.log(added)
                 return (
                   <XStack
                     key={option.fullDate}
-                    borderWidth={isMobile?1:1.5}
+                    borderWidth={(isMobile||isMobileWeb)?1:1.5}
                     borderColor={option.disabled ? '#E0E0E0' : isSelected ? '#FF9F0D' : '#E0E0E0'}
-                    borderRadius={isMobile?12:16}
-                    padding={isMobile?14:16}
-                    margin={isMobile?3:5}
+                    borderRadius={(isMobile||isMobileWeb)?12:16}
+                    padding={(isMobile||isMobileWeb)?14:16}
+                    margin={(isMobile||isMobileWeb)?3:5}
                     backgroundColor={option.disabled ? '#F7F7F7' : isSelected ? '#FFF8EE' : 'white'}
                     onPress={() => !option.disabled && handleToggleDate(option)}
                     pressStyle={{
@@ -287,7 +287,7 @@ console.log(added)
                     }}
                     justifyContent="space-between"
                     alignItems="center"
-                    minHeight={isMobile?40:60}
+                    minHeight={(isMobile||isMobileWeb)?40:60}
                     opacity={option.disabled ? 0.6 : 1}
                   >
                     <XStack alignItems="center" space={16} flex={1}>
@@ -296,24 +296,25 @@ console.log(added)
                         checked={isSelected}
                         backgroundColor={isSelected ? '#FF9F0D' : 'transparent'}
                         borderColor={isSelected ? '#FF9F0D' : '#E0E0E0'}
-                        size={isMobile?"$4":"$5"}
+                        size={(isMobile||isMobileWeb)?"$4":"$5"}
                         disabled={option.disabled}
                       />
-                      <Text fontSize={isMobile?15:17} fontWeight="500" color="#2A1A0C" flex={1}>
+                      <Text fontSize={(isMobile||isMobileWeb)?15:17} fontWeight="500" color="#2A1A0C" flex={1}>
                         {option.day}
                       </Text>
-                      <Text fontSize={isMobile?12:14} color="#666" textAlign="right">
+                      <Text fontSize={(isMobile||isMobileWeb)?12:14} color="#666" textAlign="right">
                         {option.date}
                       </Text>
                     </XStack>
                     {isSelected && !option.disabled && (
                       <XStack
                         style={{
+                          marginLeft:(isMobile||isMobileWeb)?8:0,
                           borderWidth: 1,
                           borderColor: '#EEEEEE',
                           borderRadius: 4,
                           alignItems: 'center',
-                          height: 32,
+                          height: (isMobile||isMobileWeb) ?24:32,
                         }}
                         onPress={(e) => e.stopPropagation && e.stopPropagation()} // Prevent parent toggle
                       >
@@ -324,8 +325,8 @@ console.log(added)
                             handleDecrement(option.day)
                           }}
                           style={{
-                            width: 32,
-                            height: 32,
+                            width: (isMobile||isMobileWeb)?24:32,
+                            height: (isMobile||isMobileWeb)?24:32,
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: '#FFF8EE',
@@ -336,9 +337,9 @@ console.log(added)
                         </XStack>
                         <Text
                           style={{
-                            width: 32,
+                            width: (isMobile||isMobileWeb)?24:32,
                             textAlign: 'center',
-                            fontSize: 16,
+                            fontSize: (isMobile||isMobileWeb)?14: 16,
                             fontWeight: '500',
                             color: '#000000',
                           }}
@@ -352,8 +353,8 @@ console.log(added)
                             handleIncrement(option.day)
                           }}
                           style={{
-                            width: 32,
-                            height: 32,
+                            width: (isMobile||isMobileWeb)?24:32,
+                            height: (isMobile||isMobileWeb)?24:32,
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: '#FFF8EE',
@@ -375,10 +376,11 @@ console.log(added)
               color="white"
               height={54}
               fontSize={17}
+              mb={(isMobile||isMobileWeb)?24:0}
               fontWeight="600"
               pressStyle={{ opacity: 0.8, scale: 0.98 }}
               background="#FF9F0D"
-              marginTop={isMobile?0:16}
+              marginTop={(isMobile||isMobileWeb)?0:16}
               disabled={loading}
               style={{
                 backgroundColor:'#FFB648'              }}
@@ -398,7 +400,7 @@ console.log(added)
           </YStack>
         </ScrollView>)
   }
-  if (!isMobile) {
+  if (!isMobile&&!isMobileWeb) {
     // Web implementation with Dialog
     const { Dialog } = require('tamagui')
 

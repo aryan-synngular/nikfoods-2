@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { format, parseISO } from 'date-fns'
 import { YStack, XStack, Text, Button, ScrollView, Circle, View, Square, Dialog } from 'tamagui'
-import OrderDetails from './components/OrderDetails'
 import { OrderCardSkeleton } from '../loaders/OrdersSectionLoader'
-import AddReview from './components/AddReview'
-import TrackOrder from './components/TrackOrder'
-import UpdateItem from './components/UpdateItem'
 import { useToast } from '@my/ui/src/useToast'
 import { apiGetOrders, apiUpdateOrderItems } from 'app/services/OrderService'
 import { useScreen } from 'app/hook/useScreen'
@@ -15,7 +11,7 @@ import AddReviewPopup from '../popups/AddReviewPopup'
 import TrackOrderPopup from '../popups/TrackOrderPopup'
 export default function OrdersSection() {
   const { showMessage } = useToast()
-  const {isMobile}=useScreen()
+  const {isMobile,isMobileWeb}=useScreen()
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState<any[]>([])
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
@@ -599,7 +595,7 @@ console.log(dayName)
   return (
     <YStack>
       <ScrollView>
-        <YStack p="$4" gap="$4" bg="#F9F9F9">
+        <YStack p={(isMobile||isMobileWeb)?"$3":"$4"} gap={(isMobile||isMobileWeb)?"$3":"$4"} bg="#F9F9F9">
           {loading ? (
             // Show skeleton loaders while loading
             <>
@@ -624,7 +620,7 @@ console.log(dayName)
                 key={`${order.id}-${orderIndex}`}
                 style={{ borderRadius: 12 }}
                 bg="white"
-                p="$4"
+                p= "$4"
                 shadowColor="#000"
                 shadowOffset={{ width: 0, height: 2 }}
                 shadowOpacity={0.1}
@@ -633,17 +629,17 @@ console.log(dayName)
               >
                 <XStack
                   mb="$3"
-                  justifyContent="space-between"
+                  justifyContent={"space-between"}
                   alignItems="flex-start"
                   flexWrap="wrap"
                   gap="$3"
                 >
                   {/* Left Side: Order Info */}
                   <YStack minWidth={180} flexShrink={1}>
-                    <Text fontSize={18} fontWeight="700" color="#1A1A1A">
+                    <Text fontSize={(isMobile||isMobileWeb)?16:18} fontWeight="700" color="#1A1A1A">
                       Order ID : {order?.id}
                     </Text>
-                    <Text fontSize={14} fontWeight="600" color="#4D4D4D" mt="$1">
+                    <Text fontSize={(isMobile||isMobileWeb)?12:14} fontWeight="600" color="#4D4D4D" mt="$1">
                       {formatOrderDate(order.date)}
                     </Text>
                   </YStack>
@@ -652,7 +648,7 @@ console.log(dayName)
                   {order.status === 'delivered' ? (
                     <View
                       bg="#e6f3e6"
-                      p="$2"
+                      p={(isMobile||isMobileWeb)?"$1":"$2"}
                       borderRadius="$2"
                       flexDirection="row"
                       alignItems="center"
@@ -680,12 +676,13 @@ console.log(dayName)
                   ) : (
                     order.status==="pending"&&<XStack gap="$2" flexShrink={1}>
                       <Button
-                        size={"$3"}
+                        size={(isMobile||isMobileWeb)?"$2":"$3"}
                         bg="white"
                         color="#FF9F0D"
                         borderColor="#FF9F0D"
+
                         variant="outlined"
-                        fontSize={16}
+                        fontSize={(isMobile||isMobileWeb)?15:16}
                         onPress={() => handleUpdateItem(order.id)}
                       >
                         Update Item
@@ -694,7 +691,7 @@ console.log(dayName)
                   )}
                 </XStack>
 
-                <YStack gap={16}>
+                <YStack gap={(isMobile||isMobileWeb)?14:16}>
                   {order?.items?.map((dayItem: any, dayIndex: number) => {
                     const statusColors = getDeliveryStatusColor(dayItem.deliveryDate, order.status)
                     return (
@@ -712,15 +709,15 @@ console.log(dayName)
                           flexWrap="wrap"
                           alignItems="center"
                         >
-                          <Text fontSize={14} fontWeight="500" color="#2A2A2A" mb="$2">
+                          <Text fontSize={(isMobile||isMobileWeb)?13:14} fontWeight="500" color="#2A2A2A" mb="$2">
                             {dayItem.day}'s Item
                           </Text>
 
                           <Text
-                            fontSize={14}
+                            fontSize={(isMobile||isMobileWeb)?13:14}
                             lineHeight={21}
-                            px={10}
-                            py={4}
+                            px={(isMobile||isMobileWeb)?8:10}
+                            py={(isMobile||isMobileWeb)?3:4}
                             borderRadius={4}
                             style={{
                               color: statusColors.color,
@@ -736,23 +733,23 @@ console.log(dayName)
                             {dayItem.products.map((product: any, productIndex: number) => (
                               <XStack
                                 key={`${product.name}-${productIndex}`}
-                                gap={5}
+                                gap={(isMobile||isMobileWeb)?4:5}
                                 px="$2"
                                 justifyContent="center"
                                 alignItems="center"
                                 borderRadius="$2"
                               >
                                 <Square
-                                  height={20}
-                                  width={20}
+                                  height={(isMobile||isMobileWeb)?16:20}
+                                  width={(isMobile||isMobileWeb)?16:20}
                                   borderWidth={2}
                                   borderColor="#008000"
                                   justifyContent="center"
                                   alignItems="center"
                                 >
-                                  <Circle p={2} height={12} width={12} bg="#008000" />
+                                  <Circle p={2} height={(isMobile||isMobileWeb)?8:12} width={(isMobile||isMobileWeb)?8:12} bg="#008000" />
                                 </Square>
-                                <Text fontSize="$2" color="gray">
+                                <Text fontSize={(isMobile||isMobileWeb)?"$1":"$2"} color="gray">
                                   {product.quantity} X {product.name}
                                 </Text>
                               </XStack>
@@ -801,7 +798,7 @@ console.log(dayName)
                             borderColor="#FF9F0D"
                             bg="white"
                             color="#FF9F0D"
-                            size="$3"
+                            size={(isMobile||isMobileWeb)?"$1":"$3"}
                             fontWeight="500"
                             onPress={() => handleShowDetails(order)}
                           >

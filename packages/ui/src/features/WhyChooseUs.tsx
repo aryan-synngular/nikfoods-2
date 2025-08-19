@@ -7,14 +7,14 @@ type FeatureCardProps = {
 }
 
 function FeatureCard({ imageUrl, title }: FeatureCardProps) {
-  const {isMobile}=useScreen()
+  const {isMobile,isMobileWeb}=useScreen()
   return (
     <YStack 
       alignItems="center"
-      width={isMobile?150:250}
+      width={(isMobile||isMobileWeb)?150:250}
       // marginHorizontal={isMobile?2:8}
       backgroundColor="#FFF9F2"
-      padding={isMobile?10:20}
+      padding={(isMobile||isMobileWeb)?10:20}
        style={{
         borderRadius:16
       }} 
@@ -22,8 +22,8 @@ function FeatureCard({ imageUrl, title }: FeatureCardProps) {
 
     >
       <YStack 
-        width={isMobile?100:200} 
-        height={isMobile?100:200} 
+        width={(isMobile||isMobileWeb)?100:200} 
+        height={(isMobile||isMobileWeb)?100:200} 
         borderRadius={12}
         overflow="hidden"
         marginBottom={10}
@@ -38,7 +38,7 @@ function FeatureCard({ imageUrl, title }: FeatureCardProps) {
       <Text 
         color="#2A1A0C" 
         fontWeight="600"
-        fontSize={isMobile?12:14}
+        fontSize={(isMobile||isMobileWeb)?12:14}
         textAlign="center"
       >
         {title}
@@ -48,7 +48,7 @@ function FeatureCard({ imageUrl, title }: FeatureCardProps) {
 }
 
 export function WhyChooseUs() {
-  const {isMobile}=useScreen()
+  const {isMobile,isMobileWeb}=useScreen()
 
   const features = [
     {
@@ -75,17 +75,17 @@ export function WhyChooseUs() {
 
   return (
     <YStack 
-      paddingTop={isMobile?0:10}
+      paddingTop={(isMobile||isMobileWeb)?0:10}
       paddingBottom={40}
-      marginBottom={isMobile?10:20}
+      marginBottom={(isMobile||isMobileWeb)?10:20}
      
     >
       <Text 
-        fontSize={isMobile?20:24} 
+        fontSize={(isMobile||isMobileWeb)?20:24} 
         fontWeight="700" 
         color="#2A1A0C"
-        marginBottom={isMobile?16:24}
-        marginLeft={isMobile?0:8}
+        marginBottom={(isMobile||isMobileWeb)?16:24}
+        marginLeft={(isMobile||isMobileWeb)?0:8}
 
       >
         Why Choose Us?

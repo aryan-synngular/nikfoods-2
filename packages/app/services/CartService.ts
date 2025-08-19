@@ -1,8 +1,8 @@
 import { AxiosRequestConfig } from 'axios'
 import ApiServices from './ApiService'
 
-export async function apiAddFoodItemToCart<T, S>(data: S): Promise<T> {
-  const url = `cart/add-item`
+export async function apiAddFoodItemToCart<T, S>(data: S, token?: string): Promise<T> {
+  const url = `cart/add-item${token ? `?token=${token}` : ''}`
   const axiosConfig: AxiosRequestConfig = {
     url,
     method: 'POST',
@@ -21,8 +21,8 @@ export async function apiAddFoodItemToCart<T, S>(data: S): Promise<T> {
   }
 }
 
-export async function apiGetCart<T>(): Promise<T> {
-  const url = `cart/get-cart`
+export async function apiGetCart<T>(token?: string): Promise<T> {
+  const url = `cart/get-cart${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -40,8 +40,8 @@ export async function apiGetCart<T>(): Promise<T> {
   }
 }
 
-export async function apiClearCart<T>(): Promise<T> {
-  const url = `cart/clear`
+export async function apiClearCart<T>(token?: string): Promise<T> {
+  const url = `cart/clear${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -59,8 +59,8 @@ export async function apiClearCart<T>(): Promise<T> {
   }
 }
 
-export async function apiGetCartTotalAmount<T>(): Promise<T> {
-  const url = `cart/get-total-amount`
+export async function apiGetCartTotalAmount<T>(token?: string): Promise<T> {
+  const url = `cart/get-total-amount${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -98,8 +98,11 @@ export async function apiUpdateCartItemQuantity<T, S>(data: S): Promise<T> {
   }
 }
 
-export async function apiGetCartReccomendations<T>({ page = 1, limit = 5 }): Promise<T> {
-  const url = `cart/get-cart-recommendations?page=${page}&limit=${limit}`
+export async function apiGetCartReccomendations<T>(
+  { page = 1, limit = 5 },
+  token?: string
+): Promise<T> {
+  const url = `cart/get-cart-recommendations?page=${page}&limit=${limit}${token ? `&token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,

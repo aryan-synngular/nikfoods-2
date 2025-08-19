@@ -80,7 +80,7 @@ export function SearchFood({
   isTitleVisible = true,
 }: SearchFoodProps) {
 const { vegOnly } = useStore()
-  const {isMobile} =useScreen()
+  const {isMobile,isMobileWeb} =useScreen()
   
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   // const [vegOnly, setVegOnly] = useState(initialVegOnly)
@@ -133,8 +133,8 @@ const { vegOnly } = useStore()
   // Update veg only when initialVegOnly changes
 
   return (
-    <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600,marginBottom:isMobile?-20:0 }]}>
-      {!isMobile&&isTitleVisible && <Text style={styles.title}>Search Your Favorite Food</Text>}
+    <YStack style={[styles.container, { width: getResponsiveWidth(), maxWidth: 600,marginBottom:(isMobile||isMobileWeb)?-20:0 }]}>
+      {!(isMobile||isMobileWeb)&&isTitleVisible && <Text style={styles.title}>Search Your Favorite Food</Text>}
 
       <XStack
         style={{
@@ -142,7 +142,7 @@ const { vegOnly } = useStore()
           padding: 12,
           borderWidth: 1,
           borderColor: '#E5E7EB',
-          borderRadius:isMobile?12: 6,
+          borderRadius:(isMobile||isMobileWeb)?12: 6,
           width: '100%',
           // gap: 8,
           boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.05)',

@@ -29,11 +29,11 @@ export function CartSummary({
 
   return (
     <YStack
-      style={{ padding: isMobile || isMobileWeb ? 16 : 24, gap: isMobile || isMobileWeb ? 16 : 20 }}
+      style={{ padding: (isMobile || isMobileWeb )? 12 : 24, gap: (isMobile || isMobileWeb) ? 6 : 20 }}
     >
       {/* Summary header */}
       <Text
-        style={{ fontSize: isMobile || isMobileWeb ? 20 : 24, fontWeight: '600', color: '#000000' }}
+        style={{ fontSize: (isMobile || isMobileWeb) ? 18 : 24, fontWeight: (isMobile || isMobileWeb)?"700":'600', color: '#000000' }}
       >
         Summary
       </Text>
@@ -154,12 +154,12 @@ export function CartSummary({
         style={{
           backgroundColor: '#FF9F0D',
           borderRadius: 8,
-          height: 40,
+          height: (isMobile || isMobileWeb)?44:40,
           marginTop: 6,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          fontWeight: 600,
+          fontWeight:(isMobile || isMobileWeb)?700: 600,
           color: 'white',
         }}
         iconAfter={

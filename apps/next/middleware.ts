@@ -18,7 +18,7 @@ export default withAuth(
     if (pathname.startsWith('/api/')) return NextResponse.next()
 
     // Define public routes
-    const publicRoutePrefixes = ['/login', '/signup', '/forgot-password', '/checkout']
+    const publicRoutePrefixes = ['/login', '/signup', '/forgot-password', '/checkout',"/update-order"]
 
     // Always allow public routes (including nested paths)
     if (

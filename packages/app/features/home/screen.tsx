@@ -34,7 +34,7 @@ import { useScreen } from 'app/hook/useScreen'
 export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
   const media=useMedia()
   const { showMessage } = useToast()
-  const {isMobile} =useScreen()
+  const {isMobile,isMobileWeb} =useScreen()
   const { loginSuccess, clearLoginSuccess } = useAuth()
   const {vegOnly}=useStore()
   const [popupOpen, setPopupOpen] = useState(false)
@@ -136,14 +136,14 @@ const handleCardPress = (category: IFoodCategory) => {
           paddingTop: Platform.OS === 'web' ? 0 : 0, // No additional padding needed since we use marginTop
         }}
         >
-        {Platform.OS === 'web' && <HeroBanner />}
+        {Platform.OS ===  'web'&&!isMobileWeb && <HeroBanner />}
         <SearchFood
           onSearch={handleSearch}
-          initialQuery={searchQuery}
+          initialQuery={searchQuery} 
           />
-
+ 
         {/* Category List */}
-        <YStack px={isMobile ? 0 : 60} gap={10} mt={isMobile?0:20}>
+        <YStack px={(isMobile||isMobileWeb) ? 0 : 60} gap={10} mt={(isMobile||isMobileWeb)?0:20}>
           {loading ? <CategoryShimmerLoader /> : <CategoryRail handleCardPress={handleCardPress} categories={categories} />}
           <XStack width={'100%'}  justify="center" items="center">
             <DateSelectionRail></DateSelectionRail>
@@ -157,9 +157,9 @@ const handleCardPress = (category: IFoodCategory) => {
                 style={{
                   textTransform: 'uppercase',
                   color: 'grey',
-                  paddingLeft:isMobile?20:0
+                  paddingLeft:(isMobile||isMobileWeb)?20:0
                 }} 
-                fontSize={isMobile?16:20}
+                fontSize={(isMobile||isMobileWeb)?16:20}
                 fontWeight="600"
                 color="black"
                 
@@ -187,7 +187,7 @@ const handleCardPress = (category: IFoodCategory) => {
           </YStack>}
         </YStack>
         <SubscriptionBanner />
-        <YStack gap={isMobile?0:20} px={isMobile?20:60} py={isMobile?10:20}>
+        <YStack gap={(isMobile||isMobileWeb)?0:20} px={(isMobile||isMobileWeb)?20:60} py={(isMobile||isMobileWeb)?10:20}>
           <WhyChooseUs />
           <FAQSection />
         </YStack>

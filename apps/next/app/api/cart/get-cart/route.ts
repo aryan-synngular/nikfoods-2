@@ -1,18 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Cart from 'models/Cart'
-import { verifyAuth } from 'lib/verifyJwt'
+import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import CartItem from 'models/CartItem'
 import FoodItem from 'models/FoodItem'
 
 export async function GET(req: NextRequest) {
-  const authResult = await verifyAuth(req)
+  const { searchParams } = new URL(req.url)
+  const token = searchParams.get('token')
 
-  if (authResult instanceof NextResponse) {
-    return authResult
+  let userId: string | null = null
+  if (token) {
+    try {
+      const user = decodeAccessToken(token)
+      userId = user.id
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
+    }
   }
 
-  const { id } = authResult.user
+  let id: string
+  if (!userId) {
+    const authResult = await verifyAuth(req)
+
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
+    id = authResult.user.id
+  } else {
+    id = userId
+  }
 
   try {
     await connectToDatabase()
@@ -35,15 +53,15 @@ export async function GET(req: NextRequest) {
 
     console.log('Cart fetched:', cart)
     if (!cart) {
-      cart= await Cart.create({ user: id, days: [] })
+      cart = await Cart.create({ user: id, days: [] })
       // return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
     }
 
     // Filter items in each day just like in your second API
     const now = new Date()
     console.log('Cart days before filtering:', cart.days)
-    const filteredDays = cart.days.map(day => {
-      const filteredItems = day.items.filter(item => {
+    const filteredDays = cart.days.map((day: any) => {
+      const filteredItems = day.items.filter((item: any) => {
         if (day.date) {
           const cartDayDate = new Date(day.date)
           const isToday =
@@ -64,7 +82,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    const newfilteredDays = filteredDays.filter(day => day.items.length > 0)
+    const newfilteredDays = filteredDays.filter((day: any) => day.items.length > 0)
 
     console.log('Filtered days:', newfilteredDays)
 

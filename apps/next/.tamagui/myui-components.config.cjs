@@ -25924,7 +25924,7 @@ var require_navigation = __commonJS({
         return useRouter4;
       }, "useRouter"),
       useSearchParams: /* @__PURE__ */ __name(function() {
-        return useSearchParams2;
+        return useSearchParams5;
       }, "useSearchParams"),
       useSelectedLayoutSegment: /* @__PURE__ */ __name(function() {
         return useSelectedLayoutSegment;
@@ -25943,7 +25943,7 @@ var require_navigation = __commonJS({
     var _segment = require_segment();
     var _navigationreactserver = require_navigation_react_server();
     var _serverinsertedhtmlsharedruntime = require_server_inserted_html_shared_runtime();
-    function useSearchParams2() {
+    function useSearchParams5() {
       const searchParams = (0, _react.useContext)(_hooksclientcontextsharedruntime.SearchParamsContext);
       const readonlySearchParams = (0, _react.useMemo)(() => {
         if (!searchParams) {
@@ -25959,7 +25959,7 @@ var require_navigation = __commonJS({
       }
       return readonlySearchParams;
     }
-    __name(useSearchParams2, "useSearchParams");
+    __name(useSearchParams5, "useSearchParams");
     function usePathname() {
       return (0, _react.useContext)(_hooksclientcontextsharedruntime.PathnameContext);
     }
@@ -86236,7 +86236,7 @@ var import_react_native4 = require("@tamagui/react-native-web-lite");
 var TOKEN_TYPE = "Bearer ";
 var REQUEST_HEADER_AUTH_KEY = "authorization";
 var CURRENT_USER_PLATFORM = "user-platform";
-var MOBILE_DEV_SERVER_URL = "http://192.168.1.12:3000/api/";
+var MOBILE_DEV_SERVER_URL = "https://eb0b3473dcc8.ngrok-free.app/api/";
 var WEB_DEV_SERVER_URL = "/api/";
 var LOGIN_REDIRECT_URL = "/login";
 
@@ -87827,8 +87827,8 @@ __name(NotificationPanel, "NotificationPanel");
 init_esm();
 
 // ../../packages/app/services/CartService.ts
-async function apiAddFoodItemToCart(data) {
-  const url2 = `cart/add-item`;
+async function apiAddFoodItemToCart(data, token) {
+  const url2 = `cart/add-item${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "POST",
@@ -87846,8 +87846,8 @@ async function apiAddFoodItemToCart(data) {
   }
 }
 __name(apiAddFoodItemToCart, "apiAddFoodItemToCart");
-async function apiGetCart() {
-  const url2 = `cart/get-cart`;
+async function apiGetCart(token) {
+  const url2 = `cart/get-cart${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "GET",
@@ -87864,8 +87864,8 @@ async function apiGetCart() {
   }
 }
 __name(apiGetCart, "apiGetCart");
-async function apiClearCart() {
-  const url2 = `cart/clear`;
+async function apiClearCart(token) {
+  const url2 = `cart/clear${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "POST",
@@ -87882,8 +87882,8 @@ async function apiClearCart() {
   }
 }
 __name(apiClearCart, "apiClearCart");
-async function apiGetCartTotalAmount() {
-  const url2 = `cart/get-total-amount`;
+async function apiGetCartTotalAmount(token) {
+  const url2 = `cart/get-total-amount${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "GET",
@@ -87919,8 +87919,8 @@ async function apiUpdateCartItemQuantity(data) {
   }
 }
 __name(apiUpdateCartItemQuantity, "apiUpdateCartItemQuantity");
-async function apiGetCartReccomendations({ page = 1, limit = 5 }) {
-  const url2 = `cart/get-cart-recommendations?page=${page}&limit=${limit}`;
+async function apiGetCartReccomendations({ page = 1, limit = 5 }, token) {
+  const url2 = `cart/get-cart-recommendations?page=${page}&limit=${limit}${token ? `&token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "GET",
@@ -88088,16 +88088,27 @@ var useStore2 = create((set, get) => ({
   categoriesLoading: false,
   foodItems: [],
   foodItemsByCategoryLoading: false,
-  fetchCart: /* @__PURE__ */ __name(async () => {
+  fetchCart: /* @__PURE__ */ __name(async (tokenArg) => {
     set({ cartLoading: true });
     try {
-      const res = await apiGetCart();
+      const res = await apiGetCart(tokenArg);
       const totalAmount = res.data.days.reduce(
         (total, day) => total + day.items.reduce((dayTotal, item) => dayTotal + item.food.price * item.quantity, 0),
         0
       );
       set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) });
     } catch (e6) {
+      if (e6?.error === "Invalid token") {
+        try {
+          const res = await apiGetCart();
+          const totalAmount = res.data.days.reduce(
+            (total, day) => total + day.items.reduce((dayTotal, item) => dayTotal + item.food.price * item.quantity, 0),
+            0
+          );
+          set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) });
+        } catch (e22) {
+        }
+      }
     } finally {
       set({ cartLoading: false });
     }
@@ -88171,7 +88182,9 @@ var useStore2 = create((set, get) => ({
       set({ weeklyMenu: res.data.items ?? [] });
       const day = get().selectedWeekDay;
       console.log(res.data.items.filter((item) => item?.displayName === day)[0]?.foodItems);
-      set({ foodItemsByCategory: res.data.items.filter((item) => item?.displayName === day)[0]?.foodItems });
+      set({
+        foodItemsByCategory: res.data.items.filter((item) => item?.displayName === day)[0]?.foodItems
+      });
     } catch (err) {
       set({ foodItemsByCategory: [] });
     } finally {
@@ -88252,7 +88265,9 @@ var useStore2 = create((set, get) => ({
   setSelectedWeekDay: /* @__PURE__ */ __name((day) => {
     set({ selectedWeekDay: day });
     console.log(get().weeklyMenu.filter((item) => item.displayName === day)[0]?.foodItems);
-    set({ foodItemsByCategory: get().weeklyMenu.filter((item) => item.displayName === day)[0]?.foodItems ?? [] });
+    set({
+      foodItemsByCategory: get().weeklyMenu.filter((item) => item.displayName === day)[0]?.foodItems ?? []
+    });
   }, "setSelectedWeekDay")
 }));
 
@@ -88291,7 +88306,6 @@ var AppHeader = /* @__PURE__ */ __name(() => {
   const { isMobile, isMobileWeb } = useScreen();
   const { user, signOut, loading } = useAuth();
   const { width } = import_react_native10.Dimensions.get("window");
-  const isSmallScreen = width < 768;
   const { badges, unreadCount, updateCartBadge } = useNotificationStore();
   const { cart, vegOnly, handleVegOnlyToggle } = useStore2();
   const [notificationPanelOpen, setNotificationPanelOpen] = (0, import_react105.useState)(false);
@@ -88363,8 +88377,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       {
         source: { uri: "/images/logo.png" },
         alt: "nikfoods logo",
-        width: isSmallScreen ? 100 : 160,
-        height: isSmallScreen ? 32 : 80,
+        width: isMobileWeb ? 110 : 160,
+        height: isMobileWeb ? 32 : 60,
         resizeMode: "contain"
       }
     ) : /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
@@ -88372,13 +88386,13 @@ var AppHeader = /* @__PURE__ */ __name(() => {
       {
         source: require_logo(),
         alt: "nikfoods logo",
-        width: isSmallScreen ? 110 : 120,
-        height: isSmallScreen ? 42 : 40,
+        width: 100,
+        height: 40,
         resizeMode: "contain"
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { gap: import_react_native10.Platform.OS === "web" ? 16 : 8, items: "center", flexShrink: 0, children: [
-      import_react_native10.Platform.OS === "web" && user && user.role === "ADMIN" && !isSmallScreen && /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { gap: isMobile || isMobileWeb ? 8 : 16, items: "center", flexShrink: 0, children: [
+      import_react_native10.Platform.OS === "web" && user && user.role === "ADMIN" && !isMobileWeb && /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
         Button2,
         {
           size: "$3",
@@ -88397,8 +88411,8 @@ var AppHeader = /* @__PURE__ */ __name(() => {
           children: "Admin Panel"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { style: { alignItems: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Text5, { fontSize: isMobile || isMobileWeb ? 12 : 16, color: vegOnly ? "#4caf50" : "#a19e9eff", children: "Veg Only" }),
+      /* @__PURE__ */ (0, import_jsx_runtime122.jsxs)(XStack, { style: { alignItems: "center", gap: isMobile || isMobileWeb ? 4 : 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Text5, { fontSize: isMobile || isMobileWeb ? 13 : 16, color: vegOnly ? "#4caf50" : "#a19e9eff", children: "Veg Only" }),
         /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(
           Switch,
           {
@@ -88423,7 +88437,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
           pressStyle: {
             backgroundColor: "#e8e8e8"
           },
-          icon: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Bell, { size: import_react_native10.Platform.OS === "web" ? 20 : 18, color: "#666" }),
+          icon: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(Bell, { size: 20, color: "#666" }),
           onPress: () => setNotificationPanelOpen(true)
         }
       ) }),
@@ -88432,6 +88446,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
         {
           size: import_react_native10.Platform.OS === "web" ? "$3" : "$2",
           circular: true,
+          mr: isMobile || isMobileWeb ? 4 : 0,
           backgroundColor: "transparent",
           borderWidth: 0,
           hoverStyle: {
@@ -88440,7 +88455,7 @@ var AppHeader = /* @__PURE__ */ __name(() => {
           pressStyle: {
             backgroundColor: "#e8e8e8"
           },
-          icon: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(ShoppingCart, { size: import_react_native10.Platform.OS === "web" ? 20 : 18, color: "#666" }),
+          icon: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(ShoppingCart, { size: 20, color: "#666" }),
           ...cartLink
         }
       ) }),
@@ -89122,7 +89137,7 @@ function DeliveryDatePopup({
   listType
 }) {
   const media2 = (0, import_core61.useMedia)();
-  const { isMobile } = useScreen();
+  const { isMobile, isMobileWeb } = useScreen();
   const initialSelected = (item?.days || []).map((d3) => ({
     day_name: d3.day.day,
     date: d3.day.date,
@@ -89314,11 +89329,12 @@ function DeliveryDatePopup({
                       XStack,
                       {
                         style: {
+                          marginLeft: isMobile || isMobileWeb ? 8 : 0,
                           borderWidth: 1,
                           borderColor: "#EEEEEE",
                           borderRadius: 4,
                           alignItems: "center",
-                          height: 32
+                          height: isMobile || isMobileWeb ? 24 : 32
                         },
                         onPress: (e6) => e6.stopPropagation && e6.stopPropagation(),
                         children: [
@@ -89331,8 +89347,8 @@ function DeliveryDatePopup({
                                 handleDecrement(option.day);
                               },
                               style: {
-                                width: 32,
-                                height: 32,
+                                width: isMobile || isMobileWeb ? 24 : 32,
+                                height: isMobile || isMobileWeb ? 24 : 32,
                                 alignItems: "center",
                                 justifyContent: "center",
                                 backgroundColor: "#FFF8EE",
@@ -89345,9 +89361,9 @@ function DeliveryDatePopup({
                             Text5,
                             {
                               style: {
-                                width: 32,
+                                width: isMobile || isMobileWeb ? 24 : 32,
                                 textAlign: "center",
-                                fontSize: 16,
+                                fontSize: isMobile || isMobileWeb ? 14 : 16,
                                 fontWeight: "500",
                                 color: "#000000"
                               },
@@ -89363,8 +89379,8 @@ function DeliveryDatePopup({
                                 handleIncrement(option.day);
                               },
                               style: {
-                                width: 32,
-                                height: 32,
+                                width: isMobile || isMobileWeb ? 24 : 32,
+                                height: isMobile || isMobileWeb ? 24 : 32,
                                 alignItems: "center",
                                 justifyContent: "center",
                                 backgroundColor: "#FFF8EE",
@@ -89389,6 +89405,7 @@ function DeliveryDatePopup({
               color: "white",
               height: 54,
               fontSize: 17,
+              mb: isMobile || isMobileWeb ? 24 : 0,
               fontWeight: "600",
               pressStyle: { opacity: 0.8, scale: 0.98 },
               background: "#FF9F0D",
@@ -92815,8 +92832,8 @@ function CategoryDialog({ popupCategory, open, onOpenChange, category }) {
 __name(CategoryDialog, "CategoryDialog");
 
 // ../../packages/app/services/UserService.ts
-async function apiGetAllAddress() {
-  const url2 = `address`;
+async function apiGetAllAddress(token) {
+  const url2 = `address${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "GET",
@@ -92836,8 +92853,8 @@ async function apiGetAllAddress() {
 __name(apiGetAllAddress, "apiGetAllAddress");
 
 // ../../packages/app/services/OrderService.ts
-async function apiCreateOrder(orderData) {
-  const url2 = `orders`;
+async function apiCreateOrder(orderData, token) {
+  const url2 = `orders${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "POST",
@@ -92855,8 +92872,8 @@ async function apiCreateOrder(orderData) {
   }
 }
 __name(apiCreateOrder, "apiCreateOrder");
-async function apiCheckout(orderData) {
-  const url2 = "checkout";
+async function apiCheckout(orderData, token) {
+  const url2 = `checkout${token ? `?token=${token}` : ""}`;
   const axiosConfig = {
     url: url2,
     method: "POST",
@@ -93113,12 +93130,12 @@ function CartSummary({
   return /* @__PURE__ */ (0, import_jsx_runtime148.jsxs)(
     YStack,
     {
-      style: { padding: isMobile || isMobileWeb ? 16 : 24, gap: isMobile || isMobileWeb ? 16 : 20 },
+      style: { padding: isMobile || isMobileWeb ? 12 : 24, gap: isMobile || isMobileWeb ? 6 : 20 },
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime148.jsx)(
           Text5,
           {
-            style: { fontSize: isMobile || isMobileWeb ? 20 : 24, fontWeight: "600", color: "#000000" },
+            style: { fontSize: isMobile || isMobileWeb ? 18 : 24, fontWeight: isMobile || isMobileWeb ? "700" : "600", color: "#000000" },
             children: "Summary"
           }
         ),
@@ -93190,12 +93207,12 @@ function CartSummary({
             style: {
               backgroundColor: "#FF9F0D",
               borderRadius: 8,
-              height: 40,
+              height: isMobile || isMobileWeb ? 44 : 40,
               marginTop: 6,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              fontWeight: 600,
+              fontWeight: isMobile || isMobileWeb ? 700 : 600,
               color: "white"
             },
             iconAfter: loading?.itemId === "" && loading?.change === 0 ? /* @__PURE__ */ (0, import_jsx_runtime148.jsx)(ArrowRight, { fontWeight: 600, color: "white" }) : /* @__PURE__ */ (0, import_jsx_runtime148.jsx)(Spinner, { color: "white" }),
@@ -93478,6 +93495,7 @@ var import_react125 = require("react");
 var import_jsx_runtime152 = require("react/jsx-runtime");
 function DessertDeals({ items, onAddItem, onViewAll }) {
   const { addToCart, fetchCartRecommendations, cartRecommendations } = useStore2();
+  const { isMobile, isMobileWeb } = useScreen();
   console.log(cartRecommendations);
   const [loading, setLoading] = (0, import_react125.useState)(false);
   const [selectedFoodItem, setSelectedFoodItem] = (0, import_react125.useState)(null);
@@ -93516,13 +93534,13 @@ function DessertDeals({ items, onAddItem, onViewAll }) {
   (0, import_react125.useEffect)(() => {
     getCartRecommendations();
   }, [getCartRecommendations]);
-  return /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(YStack, { style: { padding: 20 }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(YStack, { style: { padding: 20 }, bg: "white", mb: isMobile || isMobileWeb ? 20 : 0, children: [
     /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(XStack, { style: { justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(Text5, { style: { fontSize: 18, fontWeight: "600", color: "#2A1A0C" }, children: "Dessert deals- to Grab now!" }) }),
     /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(YStack, { style: { gap: 12 }, children: cartRecommendations?.items?.slice(0, 3).map((item) => /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(
       XStack,
       {
         style: {
-          padding: 12,
+          padding: isMobile || isMobileWeb ? 10 : 12,
           borderWidth: 1,
           borderColor: "#F0F0F0",
           borderRadius: 8,
@@ -93533,24 +93551,24 @@ function DessertDeals({ items, onAddItem, onViewAll }) {
             YStack,
             {
               style: {
-                width: 70,
-                height: 70,
+                width: isMobile || isMobileWeb ? 60 : 70,
+                height: isMobile || isMobileWeb ? 60 : 70,
                 borderRadius: 8,
                 marginRight: 12,
                 backgroundColor: "#F5F5F5",
                 overflow: "hidden"
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(Image, { src: item.url, alt: item.name, width: 70, height: 70, resizeMode: "cover" })
+              children: /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(Image, { src: item.url, alt: item.name, width: isMobile || isMobileWeb ? 60 : 70, height: isMobile || isMobileWeb ? 60 : 70, resizeMode: "cover" })
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(YStack, { style: { flex: 1, justifyContent: "center" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#2A1A0C", marginBottom: 4 }, children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime152.jsx)(Text5, { style: { fontSize: isMobile || isMobileWeb ? 15 : 16, fontWeight: "600", color: "#2A1A0C", marginBottom: 4 }, children: item.name }),
             /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(Text5, { style: { fontSize: 13, color: "#666", marginBottom: 8 }, children: [
-              item.description.substring(0, 60),
+              item.description.substring(0, isMobile || isMobileWeb ? 30 : 60),
               "...."
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(XStack, { style: { justifyContent: "space-between", alignItems: "center" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(Text5, { style: { fontSize: 16, fontWeight: "600", color: "#2A1A0C" }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime152.jsxs)(Text5, { style: { fontSize: isMobile || isMobileWeb ? 14 : 16, fontWeight: "600", color: "#2A1A0C" }, children: [
                 "$",
                 item.price.toFixed(2)
               ] }),
@@ -94278,23 +94296,23 @@ function CartPage({
                                 paddingTop: 0,
                                 paddingBottom: 16,
                                 zIndex: 10,
-                                height: "55%"
+                                height: "50%"
                               },
                               children: /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
                                 YStack,
                                 {
                                   style: {
                                     backgroundColor: "white",
-                                    borderRadius: 16,
+                                    borderRadius: 8,
                                     borderWidth: 1,
                                     borderBottomWidth: 0,
-                                    borderColor: "#F0F0F0"
-                                    // overflow: 'hidden',
-                                    // shadowColor: '#000',
-                                    // shadowOffset: { width: 0, height: 2 },
-                                    // shadowOpacity: 0.05,
-                                    // shadowRadius: 8,
-                                    // elevation: 2,
+                                    borderColor: "#d8d4d4ff",
+                                    overflow: "hidden",
+                                    shadowColor: "#000",
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowOpacity: 0.05,
+                                    shadowRadius: 8,
+                                    elevation: 2
                                   },
                                   children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(CartSummaryShimmerLoader, {}) : /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
                                     CartSummary,
@@ -95838,6 +95856,7 @@ function PaymentStatusPopup({ paymentStatus, completedOrderId, setPaymentStatus 
 __name(PaymentStatusPopup, "PaymentStatusPopup");
 
 // ../../packages/ui/src/checkout/PaymentPage.tsx
+var import_navigation15 = __toESM(require_navigation2());
 var import_jsx_runtime163 = require("react/jsx-runtime");
 var StepCard2 = (0, import_core61.styled)(import_core61.View, {
   borderRadius: 8,
@@ -95958,6 +95977,8 @@ function PaymentPage({
   );
   const [completedOrderId, setCompletedOrderId] = (0, import_react130.useState)(null);
   const { showMessage } = useToast2();
+  const searchParams = (0, import_navigation15.useSearchParams)();
+  const token = searchParams.get("token") || void 0;
   const orderCalculations = (0, import_react130.useMemo)(() => {
     if (!cart?.days) return { subtotal: 0, platformFee: 1, deliveryFee: 10, taxes: 0, total: 0 };
     const subtotal = cart.days.reduce((dayAcc, day) => {
@@ -96005,7 +96026,7 @@ function PaymentPage({
   const appId = "sandbox-sq0idb--7LNP6X3I9DoOMOGUjwokg";
   const locationId = "LFH3Z9618P0SA";
   const handlePaymentToken = (0, import_react130.useCallback)(
-    async (token, buyer) => {
+    async (tokenized, buyer) => {
       if (!selectedAddress || !cart) {
         setPaymentError("Missing required information");
         return;
@@ -96019,20 +96040,29 @@ function PaymentPage({
         if (!orderData) {
           throw new Error("Unable to process cart data");
         }
-        const orderResponse = await apiCreateOrder(orderData);
+        const orderResponse = await apiCreateOrder(orderData, token);
         const orderId = orderResponse?.data._id;
-        const paymentResponse = await apiCheckout({
-          sourceId: token?.token || "",
-          amount: Math.round(orderCalculations.total * 100),
-          // Square expects cents
-          orderId,
-          // Include order ID in payment
-          buyerVerificationToken: buyer?.verificationToken
-        });
+        const paymentResponse = await apiCheckout(
+          {
+            sourceId: tokenized?.token || "",
+            amount: Math.round(orderCalculations.total * 100),
+            // Square expects cents
+            orderId,
+            // Include order ID in payment
+            buyerVerificationToken: buyer?.verificationToken
+          },
+          token
+        );
         if (paymentResponse.success) {
           try {
-            await apiClearCart();
+            await apiClearCart(token);
           } catch (clearError) {
+            if (clearError?.error === "Invalid token") {
+              try {
+                await apiClearCart();
+              } catch {
+              }
+            }
             console.warn("Could not clear cart:", clearError);
           }
           setPaymentStatus("success");
@@ -96071,7 +96101,8 @@ function PaymentPage({
       onPaymentSuccess,
       onPaymentError,
       onOrderCreated,
-      showMessage
+      showMessage,
+      token
     ]
   );
   const handlePaymentError = (0, import_react130.useCallback)(
@@ -96262,6 +96293,7 @@ function PaymentPage({
 __name(PaymentPage, "PaymentPage");
 
 // ../../packages/ui/src/checkout/CheckoutLoggedIn.tsx
+var import_navigation17 = __toESM(require_navigation2());
 var import_jsx_runtime164 = require("react/jsx-runtime");
 var StepCard3 = (0, import_core61.styled)(import_core61.View, {
   borderRadius: 8,
@@ -96375,6 +96407,8 @@ var CheckoutLoggedIn = /* @__PURE__ */ __name(({
   onOrderCreated
 }) => {
   const { cartTotalAmount, cart, fetchCart } = useStore2();
+  const searchParams = (0, import_navigation17.useSearchParams)();
+  const token = searchParams.get("token") || void 0;
   console.log(cart);
   const ordersPage = useLink({
     href: "/account"
@@ -96387,7 +96421,7 @@ var CheckoutLoggedIn = /* @__PURE__ */ __name(({
   const fetchCartData = (0, import_react131.useCallback)(async () => {
     try {
       setIsLoadingCart(true);
-      await fetchCart();
+      await fetchCart(token);
     } catch (error4) {
       console.error("Error fetching cart:", error4);
       showMessage("Error loading cart data", "error");
@@ -96398,74 +96432,6 @@ var CheckoutLoggedIn = /* @__PURE__ */ __name(({
   (0, import_react131.useEffect)(() => {
     fetchCartData();
   }, []);
-  const orderCalculations = (0, import_react131.useMemo)(() => {
-    if (!cart?.days) return { subtotal: 0, platformFee: 1, deliveryFee: 10, taxes: 0, total: 0 };
-    const subtotal = cart.days.reduce((dayAcc, day) => {
-      return dayAcc + day.items.reduce((itemAcc, item) => {
-        return itemAcc + item.food.price * item.quantity;
-      }, 0);
-    }, 0);
-    const platformFee = 1;
-    const deliveryFee = 10;
-    const discountAmount = subtotal > 100 ? 10 : 5;
-    const taxes = subtotal * 0.1;
-    const total = subtotal + platformFee + deliveryFee - discountAmount + taxes;
-    return {
-      subtotal,
-      platformFee,
-      deliveryFee,
-      discountAmount,
-      taxes,
-      total
-    };
-  }, [cart]);
-  const transformCartToOrder = (0, import_react131.useCallback)(() => {
-    if (!cart?.days || !selectedAddress) return null;
-    console.log("orderData for cart :", cart);
-    return {
-      items: cart.days.filter((day) => day.items.length > 0).map((day) => ({
-        day: day.day,
-        deliveryDate: day.date,
-        items: day.items.map((item) => ({
-          food: item.food._id,
-          quantity: item.quantity,
-          price: item.food.price
-        })),
-        dayTotal: day.items.reduce((acc, item) => acc + item.food.price * item.quantity, 0)
-      })),
-      deliveryAddress: selectedAddress._id,
-      paymentMethod: "Credit Card",
-      customerDetails: {
-        name: selectedAddress.name,
-        email: selectedAddress.email,
-        phone: selectedAddress.phone
-      }
-    };
-  }, [cart, selectedAddress]);
-  const appId = "sandbox-sq0idb--7LNP6X3I9DoOMOGUjwokg";
-  const locationId = "LFH3Z9618P0SA";
-  const handlePaymentError = (0, import_react131.useCallback)(
-    (errors) => {
-      console.error("Square payment errors:", errors);
-      const errorMessage = "Payment failed. Please check your payment details and try again.";
-      setPaymentError(errorMessage);
-      showMessage(errorMessage, "error");
-      if (onPaymentError) {
-        onPaymentError(errors);
-      }
-      setIsProcessingPayment(false);
-    },
-    [onPaymentError, showMessage]
-  );
-  if (isLoadingCart) {
-    return /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(StepCard3, { mobile: isMobile, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(ResponsiveContainer2, { mobile: isMobile, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(YStack, { space: "$4", alignItems: "center", justify: "center", minHeight: 200, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(Text5, { fontSize: "$4", children: "Loading Address and cart details..." }) }) }) });
-  }
-  if (!cart || cart.days.length === 0) {
-    return /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(StepCard3, { mobile: isMobile, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(ResponsiveContainer2, { mobile: isMobile, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(YStack, { space: "$4", alignItems: "center", justify: "center", minHeight: 200, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(Text5, { fontSize: "$4", color: "$red10", children: "Your cart is empty" }),
-      /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(Button2, { onPress: () => window.location.href = "/", children: "Continue Shopping" })
-    ] }) }) });
-  }
   console.log("currentStep--------------");
   console.log(currentStep);
   return /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(StepCard3, { mobile: isMobile, children: /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(ResponsiveContainer2, { mobile: isMobile, children: [
@@ -96588,6 +96554,7 @@ var CheckoutLoggedIn_default = CheckoutLoggedIn;
 
 // ../../packages/ui/src/checkout/CheckoutPage.tsx
 var import_react_native19 = require("@tamagui/react-native-web-lite");
+var import_navigation18 = __toESM(require_navigation2());
 var import_jsx_runtime165 = require("react/jsx-runtime");
 function CheckoutPage({
   onBrowse,
@@ -96598,8 +96565,14 @@ function CheckoutPage({
 }) {
   const { loading, user } = useAuth();
   console.log("isAuthenticated");
+  const { cartTotalAmount } = useStore2();
   console.log(user);
   const { isMobile, isMobileWeb } = useScreen();
+  const searchParams = (0, import_navigation18.useSearchParams)();
+  const token = searchParams.get("token");
+  (0, import_react132.useEffect)(() => {
+    console.log("Query token:", token);
+  }, [token]);
   const [address, setAddress] = (0, import_react132.useState)(null);
   const [currentStep, setCurrentStep] = (0, import_react132.useState)("delivery");
   const [selectedAddress, setSelectedAddress] = (0, import_react132.useState)(null);
@@ -96609,15 +96582,26 @@ function CheckoutPage({
   const [total, setTotal] = (0, import_react132.useState)({ total: 0 });
   const getAllAddress = (0, import_react132.useCallback)(async () => {
     try {
-      const data = await apiGetAllAddress();
+      const data = await apiGetAllAddress(token || void 0);
       setAddress(data?.data);
       if (data?.data?.items.length > 0) {
         setSelectedAddress(data?.data?.items[0]);
       }
     } catch (error4) {
       console.log("Error:", error4);
+      if (error4?.error === "Invalid token") {
+        try {
+          const data = await apiGetAllAddress();
+          setAddress(data?.data);
+          if (data?.data?.items.length > 0) {
+            setSelectedAddress(data?.data?.items[0]);
+          }
+        } catch (e22) {
+          console.log("Retry without token failed:", e22);
+        }
+      }
     }
-  }, []);
+  }, [token]);
   (0, import_react132.useEffect)(() => {
     getAllAddress();
   }, [getAllAddress]);
@@ -96717,9 +96701,7 @@ function CheckoutPage({
   ];
   const getTotal = (0, import_react132.useCallback)(async () => {
     try {
-      const data = await apiGetCartTotalAmount();
-      console.log(data);
-      setTotal(data?.data);
+      setTotal({ total: 0 });
     } catch (error4) {
       console.log(error4);
     }
@@ -96755,7 +96737,7 @@ function CheckoutPage({
   const refreshCartDetails = /* @__PURE__ */ __name(() => {
     getTotal();
   }, "refreshCartDetails");
-  return /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
     YStack,
     {
       justify: !isMobile ? "center" : "unset",
@@ -96766,246 +96748,206 @@ function CheckoutPage({
         // justifyContent: 'center',
         // alignItems: 'center',
       },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(AppHeader, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
-          YStack,
-          {
-            style: {
-              flex: 1
-            },
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                YStack,
-                {
-                  style: {
-                    paddingTop: isMobile || isMobileWeb ? 8 : 16,
-                    paddingBottom: isMobile || isMobileWeb ? 8 : 16,
-                    backgroundColor: "white",
-                    marginBottom: isMobile || isMobileWeb ? 8 : 0
-                  },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                    XStack,
-                    {
-                      style: {
-                        maxWidth: 1200,
-                        width: "100%",
-                        marginHorizontal: "auto",
-                        paddingHorizontal: 16,
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: import_react_native19.Platform.OS == "web" ? 0 : 100
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                        Text5,
+      children: /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
+        YStack,
+        {
+          style: {
+            flex: 1
+          },
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+              YStack,
+              {
+                style: {
+                  paddingTop: isMobile || isMobileWeb ? 28 : 16,
+                  paddingBottom: isMobile || isMobileWeb ? 8 : 16,
+                  backgroundColor: "white",
+                  marginBottom: isMobile || isMobileWeb ? 8 : 0
+                },
+                children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                  XStack,
+                  {
+                    style: {
+                      maxWidth: isMobile || isMobileWeb ? 400 : 1200,
+                      // width: '100%',
+                      marginHorizontal: "auto",
+                      paddingHorizontal: isMobile || isMobileWeb ? 36 : 16,
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginTop: import_react_native19.Platform.OS == "web" ? 0 : 100
+                    },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                      Text5,
+                      {
+                        style: {
+                          fontSize: isMobile || isMobileWeb ? 20 : 28,
+                          fontWeight: "700",
+                          color: "#000000"
+                        },
+                        children: "Checkout"
+                      }
+                    )
+                  }
+                )
+              }
+            ),
+            isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+              YStack,
+              {
+                style: {
+                  paddingVertical: 24,
+                  maxWidth: 1200,
+                  width: "100%",
+                  marginHorizontal: "auto",
+                  paddingHorizontal: 24
+                },
+                children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(EmptyCart, { onBrowse })
+              }
+            ) : /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+              YStack,
+              {
+                style: {
+                  maxWidth: isMobile || isMobileWeb ? 400 : 1200,
+                  width: "100%",
+                  marginHorizontal: "auto",
+                  paddingHorizontal: 24
+                },
+                children: /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
+                  XStack,
+                  {
+                    style: {
+                      width: "100%",
+                      height: "100%",
+                      flexDirection: isMobile || isMobileWeb ? "column" : "row",
+                      gap: !isMobile ? 24 : 0,
+                      paddingVertical: 24
+                    },
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                        YStack,
                         {
                           style: {
-                            fontSize: isMobile || isMobileWeb ? 20 : 28,
-                            fontWeight: "700",
-                            color: "#000000"
+                            flex: isMobile || isMobileWeb ? 1 : 0.65,
+                            width: isMobile || isMobileWeb ? "100%" : "65%"
                           },
-                          children: "Checkout"
+                          children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(ScrollView, { height: "100%", style: { flex: 1 }, children: user && user?.email || token ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                            CheckoutLoggedIn_default,
+                            {
+                              addresses: address?.items ?? [],
+                              goBack: () => setCurrentStep("delivery"),
+                              handleAddressChange,
+                              selectedAddress,
+                              currentStep
+                            }
+                          ) : (
+                            // <Text>Yerlig</Text>
+                            /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(CheckoutSteps, {})
+                          ) })
                         }
-                      )
-                    }
-                  )
-                }
-              ),
-              isCartEmpty ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                YStack,
-                {
-                  style: {
-                    paddingVertical: 24,
-                    maxWidth: 1200,
-                    width: "100%",
-                    marginHorizontal: "auto",
-                    paddingHorizontal: 24
-                  },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(EmptyCart, { onBrowse })
-                }
-              ) : /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                YStack,
-                {
-                  style: {
-                    maxWidth: isMobile ? 400 : 1200,
-                    width: "100%",
-                    marginHorizontal: "auto",
-                    paddingHorizontal: 24
-                  },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
-                    XStack,
-                    {
-                      style: {
-                        width: "100%",
-                        height: "100%",
-                        flexDirection: !isMobile ? "row" : "column",
-                        gap: !isMobile ? 24 : 0,
-                        paddingVertical: 24
-                      },
-                      children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                          YStack,
-                          {
-                            style: {
-                              flex: !isMobile ? currentStep == "payment" ? 1 : 0.65 : 1,
-                              width: !isMobile ? currentStep == "payment" ? "100%" : "65%" : "100%"
-                            },
-                            children: /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(ScrollView, { height: "100%", style: { flex: 1 }, children: [
-                              user && user?.email ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                CheckoutLoggedIn_default,
-                                {
-                                  addresses: address?.items ?? [],
-                                  goBack: () => setCurrentStep("delivery"),
-                                  handleAddressChange,
-                                  selectedAddress,
-                                  currentStep
-                                }
-                              ) : (
-                                // <Text>Yerlig</Text>
-                                /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(CheckoutSteps, {})
-                              ),
-                              isMobile && /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                DessertDeals,
-                                {
-                                  items: dessertDeals,
-                                  onAddItem: refreshCartDetails,
-                                  onViewAll: onViewAllDesserts
-                                }
-                              )
-                            ] })
-                          }
-                        ),
-                        currentStep === "delivery" && (!isMobile && !isMobileWeb ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                          YStack,
-                          {
-                            style: {
-                              flex: 0.35,
-                              width: "35%",
-                              paddingRight: 0,
-                              paddingTop: 0,
-                              position: "relative"
-                            },
-                            children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                              ScrollView,
-                              {
-                                style: {
-                                  height: "100%",
-                                  paddingRight: 0
-                                },
-                                children: /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
-                                  YStack,
-                                  {
-                                    style: {
-                                      gap: 24,
-                                      paddingBottom: 24
-                                    },
-                                    children: [
-                                      /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                        YStack,
-                                        {
-                                          style: {
-                                            backgroundColor: "white",
-                                            borderRadius: 16,
-                                            borderWidth: 1,
-                                            borderColor: "#F0F0F0",
-                                            overflow: "hidden",
-                                            position: "sticky",
-                                            top: 0,
-                                            zIndex: 10,
-                                            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)"
-                                          },
-                                          children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                            CartSummary,
-                                            {
-                                              subtotal: total.total,
-                                              buttonTitle: "Continue To Pay",
-                                              onCheckout: onHandleClick
-                                            }
-                                          )
-                                        }
-                                      ),
-                                      /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                        YStack,
-                                        {
-                                          style: {
-                                            backgroundColor: "white",
-                                            borderRadius: 16,
-                                            borderWidth: 1,
-                                            borderColor: "#F0F0F0",
-                                            overflow: "hidden",
-                                            shadowColor: "#000",
-                                            shadowOffset: { width: 0, height: 2 },
-                                            shadowOpacity: 0.05,
-                                            shadowRadius: 8,
-                                            elevation: 2
-                                          },
-                                          children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                            DessertDeals,
-                                            {
-                                              items: dessertDeals,
-                                              onAddItem: refreshCartDetails,
-                                              onViewAll: onViewAllDesserts
-                                            }
-                                          )
-                                        }
-                                      )
-                                    ]
-                                  }
-                                )
-                              }
-                            )
-                          }
-                        ) : (
-                          // On mobile, show summary at the bottom
-                          /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                            YStack,
+                      ),
+                      currentStep === "delivery" && (!isMobile && !isMobileWeb ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                        YStack,
+                        {
+                          style: {
+                            flex: 0.35,
+                            width: "35%",
+                            paddingRight: 0,
+                            paddingTop: 0,
+                            position: "relative"
+                          },
+                          children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                            ScrollView,
                             {
                               style: {
-                                position: "sticky",
-                                bottom: 0,
-                                width: "100%",
-                                backgroundColor: "#FAFAFA",
-                                padding: 16,
-                                paddingTop: 0,
-                                zIndex: 10
+                                height: "100%",
+                                paddingRight: 0
                               },
                               children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
                                 YStack,
                                 {
                                   style: {
-                                    backgroundColor: "white",
-                                    borderRadius: 16,
-                                    borderWidth: 1,
-                                    borderColor: "#F0F0F0",
-                                    overflow: "hidden",
-                                    shadowColor: "#000",
-                                    shadowOffset: { width: 0, height: 2 },
-                                    shadowOpacity: 0.05,
-                                    shadowRadius: 8,
-                                    elevation: 2
+                                    gap: 24,
+                                    paddingBottom: 24
                                   },
                                   children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-                                    CartSummary,
+                                    YStack,
                                     {
-                                      subtotal: total.total,
-                                      buttonTitle: isMobile ? "sad" : "Continuesc To Pay",
-                                      onCheckout: onHandleClick
+                                      style: {
+                                        backgroundColor: "white",
+                                        borderRadius: 16,
+                                        borderWidth: 1,
+                                        borderColor: "#F0F0F0",
+                                        overflow: "hidden",
+                                        position: "sticky",
+                                        top: 0,
+                                        zIndex: 10,
+                                        boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)"
+                                      },
+                                      children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                                        CartSummary,
+                                        {
+                                          subtotal: total.total,
+                                          buttonTitle: "Continue To Pay",
+                                          onCheckout: onHandleClick
+                                        }
+                                      )
                                     }
                                   )
                                 }
                               )
                             }
                           )
-                        ))
-                      ]
-                    }
-                  )
-                }
-              )
-            ]
-          }
-        )
-      ]
+                        }
+                      ) : (
+                        // On mobile, show summary at the bottom
+                        /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                          YStack,
+                          {
+                            style: {
+                              position: "sticky",
+                              bottom: 0,
+                              // width: '100%',
+                              backgroundColor: "#FAFAFA",
+                              padding: 16,
+                              paddingTop: 0,
+                              zIndex: 10
+                            },
+                            children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                              YStack,
+                              {
+                                style: {
+                                  backgroundColor: "white",
+                                  borderRadius: 16,
+                                  borderWidth: 1,
+                                  borderColor: "#F0F0F0",
+                                  overflow: "hidden",
+                                  shadowColor: "#000",
+                                  shadowOffset: { width: 0, height: 2 },
+                                  shadowOpacity: 0.05,
+                                  shadowRadius: 8,
+                                  elevation: 2
+                                },
+                                children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                                  CartSummary,
+                                  {
+                                    subtotal: total.total ?? cartTotalAmount,
+                                    buttonTitle: isMobile ? "sad" : "Continue To Pay",
+                                    onCheckout: onHandleClick
+                                  }
+                                )
+                              }
+                            )
+                          }
+                        )
+                      ))
+                    ]
+                  }
+                )
+              }
+            )
+          ]
+        }
+      )
     }
   );
 }
@@ -97013,11 +96955,11 @@ __name(CheckoutPage, "CheckoutPage");
 
 // ../../packages/ui/src/checkout/UpdateOrder.tsx
 var import_react133 = require("react");
-var import_navigation16 = __toESM(require_navigation2());
+var import_navigation19 = __toESM(require_navigation2());
 var import_jsx_runtime166 = require("react/jsx-runtime");
 function UpdateOrderContent() {
-  const sp = (0, import_navigation16.useSearchParams)();
-  const router = (0, import_navigation16.useRouter)();
+  const sp = (0, import_navigation19.useSearchParams)();
+  const router = (0, import_navigation19.useRouter)();
   const updatingOrderId = sp?.get("updatingOrderId") || "";
   const [loading, setLoading] = (0, import_react133.useState)(false);
   const [data, setData] = (0, import_react133.useState)(null);

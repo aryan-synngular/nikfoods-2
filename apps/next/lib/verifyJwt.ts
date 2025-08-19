@@ -48,3 +48,20 @@ export async function verifyAuth(req: NextRequest) {
   }
   return NextResponse.json({ error: 'Not Authourized' }, { status: 401 })
 }
+
+// Added: decode a JWT access token payload and return IUser. Throws 'INVALID_TOKEN' on error
+export function decodeAccessToken(token: string): IUser {
+  try {
+    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET)
+    if (
+      typeof decoded === 'string' ||
+      !('email' in decoded && 'role' in decoded && 'isCompleted' in decoded && 'id' in decoded)
+    ) {
+      throw new Error('INVALID_TOKEN')
+    }
+    console.log('DECODED:', decoded)
+    return decoded as IUser
+  } catch (error) {
+    throw new Error('INVALID_TOKEN')
+  }
+}

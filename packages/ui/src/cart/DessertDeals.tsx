@@ -9,6 +9,7 @@ import { IFoodItem } from 'app/types/foodItem'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
 import { useToast } from '../useToast'
 import { useStore } from 'app/src/store/useStore'
+import { useScreen } from 'app/hook/useScreen'
 interface DessertItem {
   id: string
   name: string
@@ -25,6 +26,7 @@ interface DessertDealsProps {
 
 export function DessertDeals({ items, onAddItem, onViewAll }: DessertDealsProps) {
 const {addToCart,fetchCartRecommendations,cartRecommendations}=useStore()
+const {isMobile,isMobileWeb}=useScreen()
 console.log(cartRecommendations)
 const [loading, setLoading] = useState(false)
   const [selectedFoodItem, setSelectedFoodItem] = useState<IFoodItem | null>(null)
@@ -72,7 +74,7 @@ const [loading, setLoading] = useState(false)
     getCartRecommendations()
   }, [getCartRecommendations])
   return (
-    <YStack style={{ padding: 20 }}>
+    <YStack style={{ padding: 20 }} bg={"white"} mb={(isMobile||isMobileWeb)?20:0} >
       <XStack style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <Text style={{ fontSize: 18, fontWeight: '600', color: '#2A1A0C' }}>
           Dessert deals- to Grab now!
@@ -96,7 +98,7 @@ const [loading, setLoading] = useState(false)
           <XStack
             key={item._id}
             style={{
-              padding: 12,
+              padding: (isMobile||isMobileWeb)?10:12,
               borderWidth: 1,
               borderColor: '#F0F0F0',
               borderRadius: 8,
@@ -105,28 +107,28 @@ const [loading, setLoading] = useState(false)
           >
             <YStack
               style={{
-                width: 70,
-                height: 70,
+                width:(isMobile||isMobileWeb)?60: 70,
+                height: (isMobile||isMobileWeb)?60:70,
                 borderRadius: 8,
                 marginRight: 12,
                 backgroundColor: '#F5F5F5',
                 overflow: 'hidden',
               }}
             >
-              <Image src={item.url} alt={item.name} width={70} height={70} resizeMode="cover" />
+              <Image src={item.url} alt={item.name} width={(isMobile||isMobileWeb)?60:70} height={(isMobile||isMobileWeb)?60:70} resizeMode="cover" />
             </YStack>
 
             <YStack style={{ flex: 1, justifyContent: 'center' }}>
-              <Text style={{ fontSize: 16, fontWeight: '600', color: '#2A1A0C', marginBottom: 4 }}>
+              <Text style={{ fontSize:(isMobile||isMobileWeb)?15: 16, fontWeight: '600', color: '#2A1A0C', marginBottom: 4 }}>
                 {item.name}
               </Text>
 
               <Text style={{ fontSize: 13, color: '#666', marginBottom: 8 }}>
-                {item.description.substring(0, 60)}....
+                {item.description.substring(0,(isMobile||isMobileWeb)?30: 60)}....
               </Text>
 
               <XStack style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ fontSize: 16, fontWeight: '600', color: '#2A1A0C' }}>
+                <Text style={{ fontSize: (isMobile||isMobileWeb)?14:16, fontWeight: '600', color: '#2A1A0C' }}>
                   ${item.price.toFixed(2)}
                 </Text>
 

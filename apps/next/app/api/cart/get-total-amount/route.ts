@@ -1,16 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Cart from 'models/Cart'
-import { verifyAuth } from 'lib/verifyJwt'
+import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
 export async function GET(req: NextRequest) {
-  const authResult = await verifyAuth(req)
+  const { searchParams } = new URL(req.url)
+  const token = searchParams.get('token')
 
-  if (authResult instanceof NextResponse) {
-    return authResult
+  let userId: string | null = null
+  if (token) {
+    try {
+      const user = decodeAccessToken(token)
+      userId = user.id
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
+    }
   }
 
-  const { id } = authResult.user
+  let id: string
+  if (!userId) {
+    const authResult = await verifyAuth(req)
+
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
+    id = authResult.user.id
+  } else {
+    id = userId
+  }
 
   try {
     await connectToDatabase()

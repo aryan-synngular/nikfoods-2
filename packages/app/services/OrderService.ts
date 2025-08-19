@@ -2,8 +2,8 @@ import { AxiosRequestConfig } from 'axios'
 import ApiServices from './ApiService'
 
 // Get all orders for the authenticated user
-export async function apiGetOrders<T>(): Promise<T> {
-  const url = `orders`
+export async function apiGetOrders<T>(token?: string): Promise<T> {
+  const url = `orders${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -22,8 +22,8 @@ export async function apiGetOrders<T>(): Promise<T> {
   }
 }
 
-export async function apiCreateOrder<T>(orderData: any): Promise<T> {
-  const url = `orders`
+export async function apiCreateOrder<T>(orderData: any, token?: string): Promise<T> {
+  const url = `orders${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -71,13 +71,16 @@ export async function apiSubmitReview<T>(reviewData: {
   }
 }
 
-export async function apiCheckout<T>(orderData: {
-  sourceId: string
-  amount: number
-  orderId: any
-  buyerVerificationToken: any
-}): Promise<T> {
-  const url = 'checkout'
+export async function apiCheckout<T>(
+  orderData: {
+    sourceId: string
+    amount: number
+    orderId: any
+    buyerVerificationToken: any
+  },
+  token?: string
+): Promise<T> {
+  const url = `checkout${token ? `?token=${token}` : ''}`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -251,6 +254,29 @@ export async function apiGetAdminOrders<T>({
     return response.data
   } catch (error) {
     console.error('Error fetching admin orders::', error)
+    throw error?.response?.data
+  }
+}
+
+// Generate a short-lived JWT for checkout
+export async function apiGenerateCheckoutToken<T>(): Promise<T> {
+  const url = 'checkout/generate-token'
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    return response.data
+  } catch (error) {
+    console.error('Error generating checkout token::', error)
     throw error?.response?.data
   }
 }

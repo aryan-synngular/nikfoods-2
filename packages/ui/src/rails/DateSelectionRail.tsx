@@ -8,7 +8,7 @@ import { useScreen } from 'app/hook/useScreen'
 
 export function DateSelectionRail() {
   const media = useMedia()
-  const {isMobile}=useScreen()
+  const {isMobile,isMobileWeb}=useScreen()
   const { selectedWeekDay, setSelectedWeekDay } = useStore()
  
 
@@ -74,11 +74,11 @@ console.log(day.dayKey)
 
   return (
     // <ScrollView width={"100%"} horizontal showsHorizontalScrollIndicator={false}>
-    <XStack mt={isMobile?10:20} mb={'$4'} px={isMobile ? '$0' : '$4'} justify="center">
+    <XStack mt={(isMobile||isMobileWeb)?10:20} mb={'$4'} px={(isMobile||isMobileWeb) ? '$0' : '$4'} justify="center">
       <YStack
         items="center"
         p={"$3"}
-        px={isMobile?"$3":'$6'}
+        px={(isMobile||isMobileWeb)?"$3":'$6'}
         style={{
           borderColor:'black',
           backgroundColor: 'transparent',
@@ -115,7 +115,7 @@ console.log(day.dayKey)
                 key={index}
                 items="center"
                 p={"$3"}
-        px={isMobile?"$4":'$6'}
+        px={(isMobile||isMobileWeb)?"$4":'$6'}
                 onPress={() => handleDayClick(day)}
                 style={{
                   backgroundColor: isSelected ? '#FFF4E4' : isDisabled ? '#F8F8F8' : 'transparent',
@@ -134,7 +134,7 @@ console.log(day.dayKey)
                 >
                   {day.label}
                 </Text>
-                <Text fontSize={isMobile?"$1":"$2"}>{day.date || 'available'}</Text>
+                <Text fontSize={(isMobile||isMobileWeb)?"$1":"$2"}>{day.date || 'available'}</Text>
                 <Calendar size={14} />
               </YStack>
             )

@@ -41,14 +41,14 @@ type CartState = {
   weeklyMenu: {}
   weeklyMenuLoading: boolean
   selectedWeekDay: DayKey
-  weeklyMenuUnCategorized:{} 
+  weeklyMenuUnCategorized: {}
 }
 
 type CartActions = {
   increment: () => void
   decrement: () => void
   reset: () => void
-  fetchCart: () => Promise<void>
+  fetchCart: (token?: string) => Promise<void>
   addToCart: (item: any) => Promise<void>
   fetchCartTotalAmount: () => Promise<void>
   updateCartItemQuantity: (data: any) => Promise<void>
@@ -76,17 +76,17 @@ type FoodState = {
 type FoodActions = {
   fetchFoodItemsByCategory: (search?: string, vegOnly?: boolean) => Promise<void>
 }
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const now = new Date();
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const now = new Date()
 
-let dayIndex = now.getDay();
+let dayIndex = now.getDay()
 
 // Check if it's after 1 PM
 if (now.getHours() >= 13) {
-  dayIndex = (dayIndex + 1) % 7; // Move to tomorrow, wrap around if Sunday
+  dayIndex = (dayIndex + 1) % 7 // Move to tomorrow, wrap around if Sunday
 }
 
-const weekDay = days[dayIndex];
+const weekDay = days[dayIndex]
 
 export const useStore = create<CartState & CartActions>((set, get) => ({
   count: 0,
@@ -103,7 +103,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
     friday: [],
     saturday: [],
   },
-    weeklyMenuUnCategorized: {
+  weeklyMenuUnCategorized: {
     monday: [],
     tuesday: [],
     wednesday: [],
@@ -122,10 +122,10 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   categoriesLoading: false,
   foodItems: [],
   foodItemsByCategoryLoading: false,
-  fetchCart: async () => {
+  fetchCart: async (tokenArg?: string) => {
     set({ cartLoading: true })
     try {
-      const res = await apiGetCart<IResponse<ICart>>()
+      const res = await apiGetCart<IResponse<ICart>>(tokenArg)
       const totalAmount = res.data.days.reduce(
         (total, day) =>
           total +
@@ -133,7 +133,21 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
         0
       )
       set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) })
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.error === 'Invalid token') {
+        try {
+          const res = await apiGetCart<IResponse<ICart>>()
+          const totalAmount = res.data.days.reduce(
+            (total, day) =>
+              total +
+              day.items.reduce((dayTotal, item) => dayTotal + item.food.price * item.quantity, 0),
+            0
+          )
+          set({ cart: res.data, cartTotalAmount: Number(totalAmount.toFixed(2)) })
+        } catch (e2) {
+          // Optionally handle error
+        }
+      }
       // Optionally handle error
     } finally {
       set({ cartLoading: false })
@@ -214,9 +228,12 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       })
       console.log(res.data)
       set({ weeklyMenu: res.data.items ?? [] })
-      const day=get().selectedWeekDay
-      console.log(res.data.items.filter(item=>item?.displayName===day)[0]?.foodItems)
-   set({foodItemsByCategory:res.data.items.filter(item=>item?.displayName===day)[0]?.foodItems})
+      const day = get().selectedWeekDay
+      console.log(res.data.items.filter((item) => item?.displayName === day)[0]?.foodItems)
+      set({
+        foodItemsByCategory: res.data.items.filter((item) => item?.displayName === day)[0]
+          ?.foodItems,
+      })
     } catch (err) {
       set({ foodItemsByCategory: [] })
     } finally {
@@ -257,7 +274,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       const menu = res.data
       console.log(menu)
       if (menu) {
-        set({ weeklyMenuUnCategorized:menu })
+        set({ weeklyMenuUnCategorized: menu })
       }
     } catch (err) {
       console.error('Error fetching weekly menu:', err)
@@ -298,10 +315,12 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
       set({ weeklyMenuLoading: false })
     }
   },
-  setSelectedWeekDay: (day: DayKey ) => {
+  setSelectedWeekDay: (day: DayKey) => {
     set({ selectedWeekDay: day })
-    console.log(get().weeklyMenu.filter(item=>item.displayName===day)[0]?.foodItems)
-   set({foodItemsByCategory:get().weeklyMenu.filter(item=>item.displayName===day)[0]?.foodItems??[]})
+    console.log(get().weeklyMenu.filter((item) => item.displayName === day)[0]?.foodItems)
+    set({
+      foodItemsByCategory:
+        get().weeklyMenu.filter((item) => item.displayName === day)[0]?.foodItems ?? [],
+    })
   },
- 
 }))

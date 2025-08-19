@@ -1,24 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Address from 'models/Address'
-import { verifyAuth } from 'lib/verifyJwt'
+import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
 import { z } from 'zod'
 import User from 'models/User'
 
 // --- GET all categories ---
 export async function GET(req: NextRequest) {
-  const authResult = await verifyAuth(req)
+  const { searchParams } = new URL(req.url)
+  const token = searchParams.get('token')
 
-  // If authResult is NextResponse (error), return it directly
+  let userId: string | null = null
 
-  if (authResult instanceof NextResponse) {
-    return authResult
+  // If token provided in query, try to decode and use it instead of verifyAuth
+  if (token) {
+    try {
+      const user = decodeAccessToken(token)
+      userId = user.id
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
+    }
   }
-  const { id } = authResult.user
+
+  // Fallback to regular auth if no token provided
+  let id: string
+  if (!userId) {
+    const authResult = await verifyAuth(req)
+
+    // If authResult is NextResponse (error), return it directly
+
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+    id = authResult.user.id
+  } else {
+    id = userId
+  }
   try {
     await connectToDatabase()
-
+    console.log('ID:', id)
     const address = await Address.find({ user: id }).sort({ createdAt: -1 })
 
     return NextResponse.json({

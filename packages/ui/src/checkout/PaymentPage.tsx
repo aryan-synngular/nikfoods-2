@@ -14,6 +14,7 @@ import { Dialog } from 'tamagui'
 import { colors } from '../colors'
 import PaymentStatusPopup from './PaymentStatusPopup'
 import { useScreen } from 'app/hook/useScreen'
+import { useSearchParams } from 'next/navigation'
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -189,6 +190,8 @@ export default function PaymentPage({
   )
   const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
   const { showMessage } = useToast()
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token') || undefined
 
   // Mobile detection
   // const checkMobile = useCallback(() => {
@@ -210,19 +213,25 @@ export default function PaymentPage({
   // const fetchCartData = useCallback(async () => {
   //   try {
   //     setIsLoadingCart(true)
-  //     const response = await apiGetCart<IResponse<Cart>>()
+  //     const response = await apiGetCart<IResponse<Cart>>(token)
   //     setCart(response.data)
-  //   } catch (error) {
+  //   } catch (error: any) {
+  //     if (error?.error === 'Invalid token') {
+  //       try {
+  //         const response = await apiGetCart<IResponse<Cart>>()
+  //         setCart(response.data)
+  //       } catch (e2) {}
+  //     }
   //     console.error('Error fetching cart:', error)
   //     showMessage('Error loading cart data', 'error')
   //   } finally {
   //     setIsLoadingCart(false)
   //   }
-  // }, [showMessage])
+  // }, [showMessage, token])
 
   // useEffect(() => {
   //   fetchCartData()
-  // }, [])
+  // }, [fetchCartData])
 
   // Calculate totals from cart data
   const orderCalculations = useMemo(() => {
@@ -289,7 +298,7 @@ export default function PaymentPage({
   // 3. If payment succeeds, update order to "confirmed" and clear cart
   // 4. If payment fails, keep order as "pending" for retry
   const handlePaymentToken = useCallback(
-    async (token: any, buyer: any) => {
+    async (tokenized: any, buyer: any) => {
       if (!selectedAddress || !cart) {
         setPaymentError('Missing required information')
         return
@@ -307,22 +316,30 @@ export default function PaymentPage({
           throw new Error('Unable to process cart data')
         }
 
-        const orderResponse: any = await apiCreateOrder(orderData)
+        const orderResponse: any = await apiCreateOrder(orderData, token)
         const orderId = orderResponse?.data._id
 
         // Step 2: Process payment with Square
-        const paymentResponse: any = await apiCheckout({
-          sourceId: token?.token || '',
-          amount: Math.round(orderCalculations.total * 100), // Square expects cents
-          orderId: orderId, // Include order ID in payment
-          buyerVerificationToken: buyer?.verificationToken,
-        })
+        const paymentResponse: any = await apiCheckout(
+          {
+            sourceId: tokenized?.token || '',
+            amount: Math.round(orderCalculations.total * 100), // Square expects cents
+            orderId: orderId, // Include order ID in payment
+            buyerVerificationToken: buyer?.verificationToken,
+          },
+          token
+        )
 
         if (paymentResponse.success) {
           // Step 3: Payment successful - clear cart
           try {
-            await apiClearCart()
-          } catch (clearError) {
+            await apiClearCart(token)
+          } catch (clearError: any) {
+            if (clearError?.error === 'Invalid token') {
+              try {
+                await apiClearCart()
+              } catch {}
+            }
             console.warn('Could not clear cart:', clearError)
           }
 
@@ -343,7 +360,7 @@ export default function PaymentPage({
         } else {
           throw new Error(paymentResponse.message || 'Payment processing failed')
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Checkout process error:', error)
         const errorMessage = error?.message || 'Payment failed. Please try again.'
         setPaymentError(errorMessage)
@@ -366,6 +383,7 @@ export default function PaymentPage({
       onPaymentError,
       onOrderCreated,
       showMessage,
+      token,
     ]
   )
 

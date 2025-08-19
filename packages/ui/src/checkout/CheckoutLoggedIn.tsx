@@ -13,6 +13,8 @@ import { IResponse } from 'app/types/common'
 import { useStore } from 'app/src/store/useStore'
 import PaymentPage from './PaymentPage'
 import { useScreen } from 'app/hook/useScreen'
+import { useSearchParams } from 'next/navigation'
+
 // Types based on your cart response structure
 interface CartItem {
   _id: string
@@ -181,6 +183,9 @@ const CheckoutLoggedIn = ({
   onOrderCreated?: (orderId: string) => void
 }) => {
   const { cartTotalAmount, cart, fetchCart } = useStore()
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token') || undefined
+
   console.log(cart)
   const ordersPage = useLink({
     href: '/account',
@@ -212,7 +217,7 @@ const CheckoutLoggedIn = ({
   const fetchCartData = useCallback(async () => {
     try {
       setIsLoadingCart(true)
-      await fetchCart()
+      await fetchCart(token)
     } catch (error) {
       console.error('Error fetching cart:', error)
       showMessage('Error loading cart data', 'error')
@@ -225,195 +230,37 @@ const CheckoutLoggedIn = ({
     fetchCartData()
   }, [])
 
-  // Calculate totals from cart data
-  const orderCalculations = useMemo(() => {
-    if (!cart?.days) return { subtotal: 0, platformFee: 1.0, deliveryFee: 10.0, taxes: 0, total: 0 }
 
-    const subtotal = cart.days.reduce((dayAcc, day) => {
-      return (
-        dayAcc +
-        day.items.reduce((itemAcc, item) => {
-          return itemAcc + item.food.price * item.quantity
-        }, 0)
-      )
-    }, 0)
 
-    const platformFee = 1.0
-    const deliveryFee = 10.0
-    const discountAmount = subtotal > 100 ? 10.0 : 5.0
-    const taxes = subtotal * 0.1
-    const total = subtotal + platformFee + deliveryFee - discountAmount + taxes
-
-    return {
-      subtotal,
-      platformFee,
-      deliveryFee,
-      discountAmount,
-      taxes,
-      total,
-    }
-  }, [cart])
-
-  // Transform cart data to order format
-  const transformCartToOrder = useCallback(() => {
-    if (!cart?.days || !selectedAddress) return null
-    console.log('orderData for cart :', cart)
-    return {
-      items: cart.days
-        .filter((day) => day.items.length > 0)
-        .map((day) => ({
-          day: day.day,
-          deliveryDate: day.date,
-          items: day.items.map((item) => ({
-            food: item.food._id,
-            quantity: item.quantity,
-            price: item.food.price,
-          })),
-          dayTotal: day.items.reduce((acc, item) => acc + item.food.price * item.quantity, 0),
-        })),
-      deliveryAddress: selectedAddress._id,
-      paymentMethod: 'Credit Card',
-      customerDetails: {
-        name: selectedAddress.name,
-        email: selectedAddress.email,
-        phone: selectedAddress.phone,
-      },
-    }
-  }, [cart, selectedAddress])
-
-  const appId = 'sandbox-sq0idb--7LNP6X3I9DoOMOGUjwokg'
-  const locationId = 'LFH3Z9618P0SA'
-
-  // Industry Standard Payment Flow:
-  // 1. Create order in "pending" status
-  // 2. Process payment with Square
-  // 3. If payment succeeds, update order to "confirmed" and clear cart
-  // 4. If payment fails, keep order as "pending" for retry
-  // const handlePaymentToken = useCallback(
-  //   async (token: any, buyer: any) => {
-  //     if (!selectedAddress || !cart) {
-  //       setPaymentError('Missing required information')
-  //       return
-  //     }
-
-  //     setIsProcessingPayment(true)
-  //     setPaymentError(null)
-
-  //     try {
-  //       // Step 1: Create order in pending status
-  //       const orderData = transformCartToOrder()
-  //       console.log('Order data ', orderData)
-  //       if (!orderData) {
-  //         throw new Error('Unable to process cart data')
-  //       }
-
-  //       showMessage('Creating order...', 'info')
-  //       const orderResponse: any = await apiCreateOrder(orderData)
-  //       const orderId = orderResponse?.data._id
-
-  //       // Step 2: Process payment with Square
-  //       showMessage('Processing payment...', 'info')
-  //       const paymentResponse: any = await apiCheckout({
-  //         sourceId: token?.token || '',
-  //         amount: Math.round(orderCalculations.total * 100), // Square expects cents
-  //         orderId: orderId, // Include order ID in payment
-  //         buyerVerificationToken: buyer?.verificationToken,
-  //       })
-
-  //       if (paymentResponse.success) {
-  //         // Step 3: Payment successful - clear cart
-  //         showMessage('Payment successfully...', 'success')
-  //         try {
-  //           await apiClearCart()
-  //         } catch (clearError) {
-  //           console.warn('Could not clear cart:', clearError)
-  //         }
-
-  //         showMessage('Order placed successfully!', 'success')
-
-  //         if (onPaymentSuccess) {
-  //           onPaymentSuccess({
-  //             orderId: orderId,
-  //             total: orderCalculations.total,
-  //             paymentId: paymentResponse.paymentId,
-  //           })
-  //         }
-
-  //         ordersPage.onPress()
-  //         if (onOrderCreated) {
-  //           onOrderCreated(orderId)
-  //         }
-  //       } else {
-  //         throw new Error(paymentResponse.message || 'Payment processing failed')
-  //       }
-  //     } catch (error) {
-  //       console.error('Checkout process error:', error)
-  //       const errorMessage = error?.message || 'Payment failed. Please try again.'
-  //       setPaymentError(errorMessage)
-  //       showMessage(errorMessage, 'error')
-
-  //       if (onPaymentError) {
-  //         onPaymentError(error)
-  //       }
-  //     } finally {
-  //       setIsProcessingPayment(false)
-  //     }
-  //   },
-  //   [
-  //     cart,
-  //     selectedAddress,
-  //     orderCalculations,
-  //     transformCartToOrder,
-  //     onPaymentSuccess,
-  //     onPaymentError,
-  //     onOrderCreated,
-  //     showMessage,
-  //   ]
-  // )
-
-  const handlePaymentError = useCallback(
-    (errors: any) => {
-      console.error('Square payment errors:', errors)
-      const errorMessage = 'Payment failed. Please check your payment details and try again.'
-      setPaymentError(errorMessage)
-      showMessage(errorMessage, 'error')
-
-      if (onPaymentError) {
-        onPaymentError(errors)
-      }
-      setIsProcessingPayment(false)
-    },
-    [onPaymentError, showMessage]
-  )
-
+  
   // Show loading state while cart is being fetched
-  if (isLoadingCart) {
-    return (
-      <StepCard mobile={isMobile}>
-        <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-            <Text fontSize="$4">Loading Address and cart details...</Text>
-          </YStack>
-        </ResponsiveContainer>
-      </StepCard>
-    )
-  }
+  // if (isLoadingCart) {
+  //   return (
+  //     <StepCard mobile={isMobile}>
+  //       <ResponsiveContainer mobile={isMobile}>
+  //         <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
+  //           <Text fontSize="$4">Loading Address and cart details...</Text>
+  //         </YStack>
+  //       </ResponsiveContainer>
+  //     </StepCard>
+  //   )
+  // }
 
   // Show error if no cart data
-  if (!cart || cart.days.length === 0) {
-    return (
-      <StepCard mobile={isMobile}>
-        <ResponsiveContainer mobile={isMobile}>
-          <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-            <Text fontSize="$4" color="$red10">
-              Your cart is empty
-            </Text>
-            <Button onPress={() => (window.location.href = '/')}>Continue Shopping</Button>
-          </YStack>
-        </ResponsiveContainer>
-      </StepCard>
-    )
-  }
+  // if (!cart || cart.days.length === 0) {
+  //   return (
+  //     <StepCard mobile={isMobile}>
+  //       <ResponsiveContainer mobile={isMobile}>
+  //         <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
+  //           <Text fontSize="$4" color="$red10">
+  //             Your cart is empty
+  //           </Text>
+  //           <Button onPress={() => (window.location.href = '/')}>Continue Shopping</Button>
+  //         </YStack>
+  //       </ResponsiveContainer>
+  //     </StepCard>
+  //   )
+  // }
   console.log('currentStep--------------')
   console.log(currentStep)
   return (

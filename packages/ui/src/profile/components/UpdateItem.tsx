@@ -375,11 +375,11 @@ useEffect(() => {
             justifyContent="space-between"
             alignItems="center"
             px={24}
-            py={20}
+            py={(isMobile||isMobileWeb)?16:20}
             borderBottomWidth={1}
             borderBottomColor="#F5F5F5"
           >
-            <Text fontSize={isMobile?20:24} fontWeight="600" color="#000">
+            <Text fontSize={(isMobile||isMobileWeb)?18:24} fontWeight="600" color="#000">
               Add Items
             </Text>
             <Button
@@ -395,9 +395,9 @@ useEffect(() => {
           </XStack>
 
           <ScrollView   horizontal showsHorizontalScrollIndicator={false}  px={24} py={16}
-mb={isMobile?-300:0}
+mb={isMobile?-315:0}
 >
-            <XStack gap={8}>
+            <XStack gap={(isMobile||isMobileWeb)?6:8}>
               {weekDays.map((day) => {
                 const isSelected = selectedDay === day
                 const itemCount = getTotalItems(day)
@@ -406,7 +406,7 @@ mb={isMobile?-300:0}
                 return (
                   <Button
                     key={day}
-                    size="$3"
+                    size={"$3"}
                     bg={isSelected ? '#FF9F0D' : 'white'}
                     color={isSelected ? 'white' : '#999'}
                     borderColor="#E5E5E5"
@@ -423,6 +423,7 @@ mb={isMobile?-300:0}
                     paddingHorizontal={16}
                     paddingVertical={8}
                     disabled={isLoading || disabledDay}
+                    pb={2}
                   >
                     {itemCount > 0 ? `${day} (${itemCount})` : day}
                   </Button>
@@ -430,7 +431,7 @@ mb={isMobile?-300:0}
               })}
             </XStack>
           </ScrollView>
-          <YStack px={24} pb={16}>
+          <YStack px={24} pb={(isMobile||isMobileWeb)?14:16}>
             <Input
               placeholder={getTotalAllDays() > 0 ? 'Search food items...' : 'Search Item'}
               value={searchText}
@@ -439,7 +440,7 @@ mb={isMobile?-300:0}
               borderColor="#E5E5E5"
               borderWidth={1}
               borderRadius={8}
-              height={48}
+              height={(isMobile||isMobileWeb)?44:48}
               fontSize={16}
               color="#666"
               placeholderTextColor="#999"
@@ -450,7 +451,7 @@ mb={isMobile?-300:0}
 
           <YStack px={24} pb={16}>
             <XStack justifyContent="space-between" alignItems="center">
-              <Text fontSize={18} fontWeight="600" color="#000">
+              <Text fontSize={(isMobile||isMobileWeb)?17:18} fontWeight="600" color="#000">
                 {isSearching && searchText ? 'Search Results' : 'Food Items'}
               </Text>
               {getTotalAllDays() > 0 && (
@@ -468,7 +469,7 @@ mb={isMobile?-300:0}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 16 }}
           >
-            <YStack gap={16}>
+            <YStack gap={(isMobile||isMobileWeb)?12:16}>
               {!isSearching?( dataLoading && foodItems.length === 0
                 ? // Show shimmer skeleton while loading initial data
                   Array.from({ length: 5 }).map((_, index) => <DishSkeleton key={index} />)
@@ -478,8 +479,8 @@ mb={isMobile?-300:0}
                     return (
                       <XStack key={item._id} alignItems="center" gap={12}>
                         <YStack
-                          width={64}
-                          height={64}
+                          width={(isMobile||isMobileWeb)?60:64}
+                          height={(isMobile||isMobileWeb)?60:64}
                           borderRadius={8}
                           overflow="hidden"
                           bg="#F0F0F0"
@@ -513,7 +514,7 @@ mb={isMobile?-300:0}
                         </YStack>
 
                         <YStack flex={1} gap={4}>
-                          <Text fontSize={16} fontWeight="600" color="#000">
+                          <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000">
                             {item.name}
                             
                           </Text>
@@ -526,7 +527,7 @@ mb={isMobile?-300:0}
                           </Text>
                         </YStack>
 
-                        <Text fontSize={16} fontWeight="600" color="#000" mr={12}>
+                        <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000" mr={12}>
                           ${item.price.toFixed(2)}
                         </Text>
 
@@ -546,8 +547,8 @@ mb={isMobile?-300:0}
                     <XStack key={`${item._id}-${(item as any).dayAvailable}`} alignItems="center" gap={12}>
 
                         <YStack
-                          width={64}
-                          height={64}
+                         width={(isMobile||isMobileWeb)?60:64}
+                          height={(isMobile||isMobileWeb)?60:64}
                           borderRadius={8}
                           overflow="hidden"
                           bg="#F0F0F0"
@@ -581,8 +582,8 @@ mb={isMobile?-300:0}
                         </YStack>
 
                         <YStack flex={1} gap={4}>
-                          <Text fontSize={16} fontWeight="600" color="#000">
-                            {item.name}
+                          <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000">
+                            {item.name} {" "}
                             {isSearching && searchText && (item as any).dayAvailable && (
                               <Text fontSize={12} color="#FF9F0D" ml={8}>
                                 ({(item as any).dayAvailable})
@@ -598,7 +599,7 @@ mb={isMobile?-300:0}
                           </Text>
                         </YStack>
 
-                        <Text fontSize={16} fontWeight="600" color="#000" mr={12}>
+                        <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000" mr={12}>
                           ${item.price.toFixed(2)}
                         </Text>
 
@@ -631,18 +632,18 @@ mb={isMobile?-300:0}
             </YStack>
           </ScrollView>
 
-          <YStack px={24} py={20} mb={isMobile?24:0} borderTopWidth={1} borderTopColor="#F5F5F5" bg="white">
+          <YStack px={24} py={(isMobile||isMobileWeb)?16:20} mb={isMobile?24:0} borderTopWidth={1} borderTopColor="#F5F5F5" bg="white">
             <Button
               bg={getTotalAllDays() > 0 ? '#FF9F0D' : '#FFF4E4'}
               color={getTotalAllDays() > 0 ? 'white' : '#999'}
-              size="$4"
+              size={(isMobile||isMobileWeb)?"$3":"$4"}
               borderRadius={8}
               fontWeight="600"
-              fontSize={16}
+              fontSize={(isMobile||isMobileWeb)?15:16}
               hoverStyle={{
                 bg: '#63533bff',
               }}
-              height={56}
+              height={(isMobile||isMobileWeb)?52:56}
               disabled={getTotalAllDays() === 0 || isLoading}
               onPress={handleUpdateCart}
               pressStyle={{

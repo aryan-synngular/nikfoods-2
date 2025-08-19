@@ -21,11 +21,11 @@ export const ProfileSidebarNavigation = ({
   if (isMobile) {
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={false} marginBlock={5}>
-        <XStack paddingHorizontal="$4" paddingVertical="$2" gap="$2">
+        <XStack paddingHorizontal={(isMobile)?"$3":"$4"} paddingVertical="$2" gap="$2">
           {tabs.map((tab) => (
             <Button
               key={tab.title}
-              size="$3"
+              size={isMobile?"$2.5":"$3"}
               paddingHorizontal="$4"
               paddingVertical="$2"
               backgroundColor={active === tab.title ? '#FF9F0D' : 'transparent'}
@@ -52,7 +52,7 @@ export const ProfileSidebarNavigation = ({
                 <tab.icon size={16} color={active === tab.title ? 'white' : '#666'} />
                 <Text
                   color={active === tab.title ? 'white' : '$color'}
-                  fontSize="$3"
+                  fontSize={isMobile?"$2":"$3"}
                   fontWeight={active === tab.title ? '600' : '400'}
                 >
                   {tab.title}

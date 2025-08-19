@@ -133,15 +133,15 @@ export const AppHeader = () => {
           <Image
             source={{ uri: '/images/logo.png' }}
             alt="nikfoods logo"
-            width={isMobileWeb ? 110 : 160}
-            height={isMobileWeb ? 32 : 60}
+            width={isMobileWeb ? 120 : 160}
+            height={isMobileWeb ? 42 : 60}
             resizeMode="contain"
           />
         ) : (
           <Image
             source={require('./assets/logo.png')}
             alt="nikfoods logo"
-            width={ 120}
+            width={ 100}
             height={ 40}
             resizeMode="contain"
           />
@@ -149,7 +149,7 @@ export const AppHeader = () => {
       </XStack>
 
       {/* Action Buttons */}
-      <XStack gap={Platform.OS === 'web' ? 16 : 8} items="center" flexShrink={0}>
+      <XStack gap={(isMobile||isMobileWeb)?8:16} items="center" flexShrink={0}>
        
         {/* Admin Panel - Only show on web for admins */}
         {Platform.OS === 'web' && user && user.role === 'ADMIN'  &&!isMobileWeb && (
@@ -171,8 +171,8 @@ export const AppHeader = () => {
             Admin Panel
           </Button>
         )}
- <XStack style={{ alignItems: 'center', gap: 8 }}>
-          <Text fontSize={isMobile||isMobileWeb?12:16} color={vegOnly ? '#4caf50' : "#a19e9eff"} >
+ <XStack style={{ alignItems: 'center', gap: (isMobile||isMobileWeb)?4:8 }}>
+          <Text fontSize={(isMobile||isMobileWeb)?13:16} color={vegOnly ? '#4caf50' : "#a19e9eff"} >
             Veg Only
           </Text>
           <Switch
@@ -197,7 +197,7 @@ export const AppHeader = () => {
             pressStyle={{
               backgroundColor: '#e8e8e8',
             }}
-            icon={<Bell size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
+            icon={<Bell size={20 } color="#666" />}
             onPress={() => setNotificationPanelOpen(true)}
           />
         </NotificationBellBadge>
@@ -207,6 +207,7 @@ export const AppHeader = () => {
           <Button
             size={Platform.OS === 'web' ? '$3' : '$2'}
             circular
+            mr={(isMobile||isMobileWeb)?4:0}
             backgroundColor="transparent"
             borderWidth={0}
             hoverStyle={{
@@ -215,7 +216,7 @@ export const AppHeader = () => {
             pressStyle={{
               backgroundColor: '#e8e8e8',
             }}
-            icon={<ShoppingCart size={Platform.OS === 'web' ? 20 : 18} color="#666" />}
+            icon={<ShoppingCart size={ 20 } color="#666" />}
             {...cartLink}
           />
         </CartBadge>

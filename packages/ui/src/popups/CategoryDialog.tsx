@@ -20,6 +20,7 @@ import { IFoodCategory } from 'app/types/category'
 import { useStore } from 'app/src/store/useStore'
 import { set } from 'date-fns'
 import { colors } from '@my/ui/src/colors'
+import { useScreen } from 'app/hook/useScreen'
 
 interface CategoryDialogProps {
   open: boolean
@@ -29,6 +30,7 @@ interface CategoryDialogProps {
 }
 
 export function CategoryDialog({ popupCategory, open, onOpenChange, category }: CategoryDialogProps) {
+  const {isMobile,isMobileWeb}=useScreen()
   const media = useMedia()
   const [selectedCategory, setSelectedCategory] = useState<IFoodCategory | null>(null)
   console.log("CategoryDialog rendered with category:", popupCategory)
@@ -88,7 +90,7 @@ const {
   const headerHeight = getHeaderHeight()
 
 
-  if(Platform.OS === 'web') {
+  if(!isMobile&&!isMobileWeb) {
   return (
      <Dialog modal open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
