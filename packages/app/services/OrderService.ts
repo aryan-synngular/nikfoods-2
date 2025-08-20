@@ -72,11 +72,10 @@ export async function apiSubmitReview<T>(reviewData: {
 }
 
 export async function apiCheckout<T>(
-  orderData: {
-    sourceId: string
+  payload: {
     amount: number
-    orderId: any
-    buyerVerificationToken: any
+    orderId?: string
+    currency?: string
   },
   token?: string
 ): Promise<T> {
@@ -88,7 +87,7 @@ export async function apiCheckout<T>(
     headers: {
       'Content-Type': 'application/json',
     },
-    data: orderData,
+    data: payload,
     maxRedirects: 5,
   }
 

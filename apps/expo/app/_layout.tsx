@@ -7,6 +7,8 @@ import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, usePathname, Redirect } from 'expo-router'
 import { Provider } from 'app/provider'
 import { NativeToast } from '@my/ui/src/NativeToast'
+import { StripeProvider } from '@stripe/stripe-react-native'
+
 export const unstable_settings = {
   // Ensure that reloading on `/user` keeps a back button present.
   initialRouteName: 'Home',
@@ -75,17 +77,28 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
   return <>{children}</>
 }
-
+console.log("EXPO KEY")
+console.log(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 function RootLayoutNav() {
   return (
     <Provider>
       <AuthProvider>
-        <ThemeProvider value={DefaultTheme}>
-          <AuthGate>
-            <Stack></Stack>
-          </AuthGate>
-          <NativeToast />
-        </ThemeProvider>
+        <StripeProvider
+          publishableKey={
+            process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+            process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+            ''
+          }
+          merchantIdentifier={process.env.EXPO_PUBLIC_STRIPE_MERCHANT_ID || ''}
+          urlScheme={process.env.EXPO_PUBLIC_URL_SCHEME || 'nikfoods'}
+        >
+          <ThemeProvider value={DefaultTheme}>
+            <AuthGate>
+              <Stack></Stack>
+            </AuthGate>
+            <NativeToast />
+          </ThemeProvider>
+        </StripeProvider>
       </AuthProvider>
     </Provider>
   )

@@ -18,7 +18,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourprojectsname.app"
+      "bundleIdentifier": "com.yourprojectsname.app",
+      "associatedDomains": []
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,20 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font", "expo-apple-authentication"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-apple-authentication",
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.yourprojectsname",
+          "enableGooglePay": true,
+          "enableApplePay": true,
+          "merchantCountryCode": "US"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }

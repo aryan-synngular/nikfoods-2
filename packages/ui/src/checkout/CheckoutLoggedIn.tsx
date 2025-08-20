@@ -4,7 +4,6 @@ import Selectable from '../Selectable'
 import { MapPin, Plus, CreditCard as CreditCardIcon, Smartphone } from '@tamagui/lucide-icons'
 import { CheckoutStep } from './CheckoutSteps'
 import { useState, useCallback, useEffect, useMemo } from 'react'
-import { PaymentForm, CreditCard, GooglePay, ApplePay } from 'react-square-web-payments-sdk'
 import { apiCheckout, apiCreateOrder } from 'app/services/OrderService'
 import { apiGetCart, apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
@@ -13,7 +12,6 @@ import { IResponse } from 'app/types/common'
 import { useStore } from 'app/src/store/useStore'
 import PaymentPage from './PaymentPage'
 import { useScreen } from 'app/hook/useScreen'
-import { useSearchParams } from 'next/navigation'
 
 // Types based on your cart response structure
 interface CartItem {
@@ -183,8 +181,6 @@ const CheckoutLoggedIn = ({
   onOrderCreated?: (orderId: string) => void
 }) => {
   const { cartTotalAmount, cart, fetchCart } = useStore()
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token') || undefined
 
   console.log(cart)
   const ordersPage = useLink({
@@ -217,7 +213,7 @@ const CheckoutLoggedIn = ({
   const fetchCartData = useCallback(async () => {
     try {
       setIsLoadingCart(true)
-      await fetchCart(token)
+      await fetchCart()
     } catch (error) {
       console.error('Error fetching cart:', error)
       showMessage('Error loading cart data', 'error')

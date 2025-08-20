@@ -7,13 +7,14 @@ import {
   apiCheckout,
   apiUpdateOrderItems,
 } from 'app/services/OrderService'
-import { PaymentForm, CreditCard, GooglePay, ApplePay } from 'react-square-web-payments-sdk'
 import { useToast } from '@my/ui/src/useToast'
 import { View, Text, YStack, XStack, Spinner, Button } from 'tamagui'
 import { CreditCard as CreditCardIcon } from '@tamagui/lucide-icons'
 import PaymentStatusPopup from '@my/ui/src/checkout/PaymentStatusPopup'
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { loadStripe as loadStripeJs } from '@stripe/stripe-js'
 
-function UpdateOrderContent() {
+function UpdateOrderContentInner() {
   const sp = useSearchParams()
   const router = useRouter()
   const updatingOrderId = sp?.get('updatingOrderId') || ''
@@ -29,6 +30,9 @@ function UpdateOrderContent() {
   )
   const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
   const { info, success, error: showError } = useToast()
+
+  const stripe = useStripe()
+  const elements = useElements()
 
   useEffect(() => {
     const run = async () => {
@@ -79,51 +83,55 @@ function UpdateOrderContent() {
     return { subtotal, platformFee, deliveryFee, discountAmount, taxes, total }
   }, [updatingOrder])
 
-  const appId = 'sandbox-sq0idb--7LNP6X3I9DoOMOGUjwokg'
-  const locationId = 'LFH3Z9618P0SA'
+  const onPay = useCallback(async () => {
+    if (!stripe || !elements) return
+    if (!updatingOrder?._id) {
+      setPaymentError('Missing updating order information')
+      return
+    }
 
-  const handlePaymentToken = useCallback(
-    async (token: any, buyer: any) => {
-      if (!updatingOrder?._id) {
-        setPaymentError('Missing updating order information')
-        return
+    setIsProcessingPayment(true)
+    setPaymentError(null)
+    setPaymentStatus('processing')
+
+    try {
+      info('Processing payment...')
+      const init: any = await apiCheckout({
+        amount: Math.round(orderCalculations.total * 100),
+        orderId: updatingOrder._id,
+      } as any)
+
+      if (!init?.success || !init?.clientSecret) throw new Error('Failed to initialize payment')
+
+      const card = elements.getElement(CardElement)
+      if (!card) throw new Error('Card element not found')
+
+      const confirmResult = await stripe.confirmCardPayment(init.clientSecret, {
+        payment_method: {
+          card,
+        },
+      })
+
+      if (confirmResult.error) {
+        throw new Error(confirmResult.error.message || 'Payment failed')
       }
 
-      setIsProcessingPayment(true)
-      setPaymentError(null)
-      setPaymentStatus('processing')
-
-      try {
-        info('Processing payment...')
-        const paymentResponse: any = await apiCheckout({
-          sourceId: token?.token || '',
-          amount: Math.round(orderCalculations.total * 100),
-          orderId: updatingOrder._id,
-          buyerVerificationToken: buyer?.verificationToken,
-        })
-
-        if (paymentResponse?.success) {
-          await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
-            updatingOrderId,
-          })
-          setPaymentStatus('success')
-          setCompletedOrderId(updatingOrder._id)
-          success('Payment successful. Your order update will be applied shortly.')
-        } else {
-          throw new Error(paymentResponse?.message || 'Payment processing failed')
-        }
-      } catch (err: any) {
-        const errorMessage = err?.message || 'Payment failed. Please try again.'
-        setPaymentError(errorMessage)
-        setPaymentStatus('failed')
-        setCompletedOrderId(updatingOrder._id)
-        showError(errorMessage)
-      } finally {
-        setIsProcessingPayment(false)
-      }
-    },
-    [updatingOrder, orderCalculations, info, success, showError, router]
-  )
+      await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
+        updatingOrderId,
+      })
+      setPaymentStatus('success')
+      setCompletedOrderId(updatingOrder._id)
+      success('Payment successful. Your order update will be applied shortly.')
+    } catch (err: any) {
+      const errorMessage = err?.message || 'Payment failed. Please try again.'
+      setPaymentError(errorMessage)
+      setPaymentStatus('failed')
+      setCompletedOrderId(updatingOrder._id)
+      showError(errorMessage)
+    } finally {
+      setIsProcessingPayment(false)
+    }
+  }, [stripe, elements, updatingOrder, orderCalculations, info, success, showError, router])
 
   if (loading) {
     return (
@@ -162,13 +170,7 @@ function UpdateOrderContent() {
           </YStack>
 
           {/* Order Summary */}
-          <View
-            background="white"
-            borderRadius="$4"
-            p="$4"
-            borderWidth={1}
-            borderColor="#EDEDED"
-          >
+          <View background="white" borderRadius="$4" p="$4" borderWidth={1} borderColor="#EDEDED">
             <Text fontSize="$5" fontWeight="600" mb="$3">
               Order Summary
             </Text>
@@ -198,12 +200,7 @@ function UpdateOrderContent() {
                 <Text fontSize="$3">Taxes:</Text>
                 <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
               </XStack>
-              <XStack
-                justify="space-between"
-                pt="$2"
-                borderTopWidth={1}
-                borderTopColor="#EDEDED"
-              >
+              <XStack justify="space-between" pt="$2" borderTopWidth={1} borderTopColor="#EDEDED">
                 <Text fontSize="$5" fontWeight="bold">
                   Final Total:
                 </Text>
@@ -216,13 +213,7 @@ function UpdateOrderContent() {
 
           {/* Payment Error Display */}
           {paymentError && (
-            <View
-              p="$3"
-              background="#FEE"
-              borderRadius="$3"
-              borderWidth={1}
-              borderColor="#FCC"
-            >
+            <View p="$3" background="#FEE" borderRadius="$3" borderWidth={1} borderColor="#FCC">
               <Text color="#C53030" fontSize="$4">
                 {paymentError}
               </Text>
@@ -230,17 +221,11 @@ function UpdateOrderContent() {
           )}
 
           {/* Payment Form */}
-          <View
-            background="white"
-            borderRadius="$4"
-            p="$4"
-            borderWidth={1}
-            borderColor="#EDEDED"
-          >
+          <View background="white" borderRadius="$4" p="$4" borderWidth={1} borderColor="#EDEDED">
             <Text fontSize="$5" fontWeight="600" mb="$4">
               Payment Details
             </Text>
- 
+
             {isProcessingPayment && (
               <View p="$3" background="#E6F3FF" borderRadius="$3" marginBottom="$3">
                 <XStack space="$2" items="center">
@@ -252,33 +237,16 @@ function UpdateOrderContent() {
               </View>
             )}
 
-            <View opacity={isProcessingPayment ? 0.5 : 1}>
-              <PaymentForm
-                applicationId={appId}
-                locationId={locationId}
-                cardTokenizeResponseReceived={handlePaymentToken}
-                createPaymentRequest={() => ({
-                  countryCode: 'US',
-                  currencyCode: 'USD',
-                  total: {
-                    amount: (orderCalculations.total * 100).toString(),
-                    label: 'Total',
-                  },
-                })}
-              >
-                <YStack space="$3">
-                  <View>
-                    <GooglePay />
-                  </View>
-                  <View>
-                    <ApplePay />
-                  </View>
-                  <View>
-                    <CreditCard />
-                  </View>
-                </YStack>
-              </PaymentForm>
-            </View>
+            <CardElement options={{ hidePostalCode: true }} />
+            <Button
+              mt="$4"
+              onPress={onPay}
+              disabled={isProcessingPayment}
+              background="#FF6B00"
+              color="white"
+            >
+              {isProcessingPayment ? 'Processing...' : 'Pay Now'}
+            </Button>
           </View>
 
           {/* Security Notice */}
@@ -302,7 +270,6 @@ function UpdateOrderContent() {
   )
 }
 
-// Loading fallback component
 function UpdateOrderLoading() {
   return (
     <View flex={1} justify="center" items="center" p="$4">
@@ -314,10 +281,13 @@ function UpdateOrderLoading() {
   )
 }
 
-export  function UpdateOrder() {
+export function UpdateOrder() {
+  const stripePromise = loadStripeJs(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
   return (
     <Suspense fallback={<UpdateOrderLoading />}>
-      <UpdateOrderContent />
+      <Elements stripe={stripePromise}>
+        <UpdateOrderContentInner />
+      </Elements>
     </Suspense>
   )
 }

@@ -17,7 +17,6 @@ import { IListResponse, IResponse } from 'app/types/common'
 import { useScreen } from 'app/hook/useScreen'
 import { useAuth } from 'app/provider/auth-context'
 import { Platform } from 'react-native'
-import { useSearchParams } from 'next/navigation'
 import { useStore } from 'app/src/store/useStore'
 interface CartItemData {
   id: string
@@ -55,12 +54,7 @@ export function CheckoutPage({
   // console.log(isAuthenticated)
   console.log(user)
   const { isMobile, isMobileWeb } = useScreen()
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token') // or userId
 
-  useEffect(() => {
-    console.log('Query token:', token)
-  }, [token])
 
   // State to track if we're on desktop or mobile
   // const [isMobile, setIsDesktop] = useState<boolean | null>(false)
@@ -94,27 +88,16 @@ export function CheckoutPage({
 
   const getAllAddress = useCallback(async () => {
     try {
-      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>(token || undefined)
+      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
       setAddress(data?.data)
       if (data?.data?.items.length > 0) {
         setSelectedAddress(data?.data?.items[0])
       }
     } catch (error) {
       console.log('Error:', error)
-      // If invalid token, retry without token
-      if (error?.error === 'Invalid token') {
-        try {
-          const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
-          setAddress(data?.data)
-          if (data?.data?.items.length > 0) {
-            setSelectedAddress(data?.data?.items[0])
-          }
-        } catch (e2) {
-          console.log('Retry without token failed:', e2)
-        }
-      }
+      
     }
-  }, [token])
+  }, [])
 
   useEffect(() => {
     getAllAddress()
@@ -278,7 +261,7 @@ export function CheckoutPage({
       }}
     >
       {/* Add the header */}
-      {/* <AppHeader /> */}
+      <AppHeader />
 
       <YStack
         style={{
@@ -288,13 +271,13 @@ export function CheckoutPage({
         {/* Cart title - directly below header without container */}
         <YStack
           style={{
-            paddingTop: (isMobile || isMobileWeb) ? 28: 16,
+            paddingTop: (isMobile || isMobileWeb) ? 100: 16,
             paddingBottom: (isMobile || isMobileWeb )? 8 : 16,
             backgroundColor: 'white',
             marginBottom: (isMobile || isMobileWeb) ? 8 : 0,
           }}
         >
-          <XStack
+          {/* <XStack
             style={{
                            maxWidth:( isMobile||isMobileWeb) ? 400 : 1200,
 
@@ -315,16 +298,16 @@ export function CheckoutPage({
             >
               Checkout
             </Text>
-          </XStack>
-        </YStack>
+          </XStack> */}
+        </YStack> 
         {isCartEmpty ? (
           <YStack
             style={{
-              paddingVertical: 24,
+              paddingVertical: (isMobile || isMobileWeb )?4:24,
               maxWidth: 1200,
               width: '100%',
               marginHorizontal: 'auto',
-              paddingHorizontal: 24,
+              paddingHorizontal: (isMobile || isMobileWeb )?4:24,
             }}
           >
             <EmptyCart onBrowse={onBrowse} />
@@ -361,7 +344,7 @@ export function CheckoutPage({
                 }}
               >
                 <ScrollView height={'100%'} style={{ flex: 1 }}>
-                  {((user && user?.email)||token) ? (
+                  {((user && user?.email)) ? (
                     <CheckoutLoggedIn
                       addresses={address?.items ?? []}
                       goBack={() => setCurrentStep('delivery')}
