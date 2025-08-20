@@ -339,10 +339,11 @@ export default function OrdersSection() {
   // Consistent date formatting function
   const formatOrderDate = (dateStr: string) => {
     try {
+      console.log(dateStr)
       const date = typeof dateStr === 'string' ? parseISO(dateStr) : new Date(dateStr)
       return format(date, 'MMM dd, yyyy, hh:mm a')
     } catch (e) {
-      console.error('Error formatting date:', e)
+      // console.error('Error formatting date:', e)
       return dateStr // fallback to original string if formatting fails
     }
   }

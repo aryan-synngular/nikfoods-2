@@ -1,9 +1,19 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { YStack, XStack, Text, Button, Input } from 'tamagui'
 import { ArrowLeft, ArrowRight } from '@tamagui/lucide-icons'
 import { apiGetAdminOrders } from 'app/services/OrderService'
 import { IListResponse } from 'app/types/common'
+
+function Shimmer({ style }: { style?: any }) {
+  return (
+    <YStack
+      bg="#ececec"
+      style={{ ...style, opacity: 0.7, overflow: 'hidden', position: 'relative' }}
+      className="shimmer-effect"
+    />
+  )
+}
 
 interface AdminOrderItemProduct {
   name: string
@@ -74,6 +84,11 @@ export default function OrdersPage() {
     getOrders()
   }, [getOrders])
 
+  const totalPages = useMemo(() => {
+    const pages = Math.ceil((orders?.total ?? 0) / Number(limit))
+    return pages > 0 ? pages : 1
+  }, [orders?.total, limit])
+
   return (
     <YStack space="$5" p="$4">
       <Text fontWeight="bold" fontSize={20}>
@@ -118,35 +133,55 @@ export default function OrdersPage() {
           </Text>
         </XStack>
 
-        {orders.items.map((order, idx) => (
-          <XStack
-            key={order._id}
-            justify={'space-between'}
-            p={12}
-            bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
-            items="center"
-            borderBottomWidth={1}
-            borderColor="#F0F0F0"
-          >
-            <Text width={200} fontWeight="600">
-              {order.id}
-            </Text>
-            <Text width={220}>{order.user?.name || '-'}</Text>
-            <Text width={220} color="#555">
-              {order.user?.email || '-'}
-            </Text>
-            <Text width={180}>{new Date(order.createdAt).toLocaleString()}</Text>
-            <Text
-              width={120}
-              fontWeight="700"
-              color={order.status === 'cancelled' ? '#FF7675' : '#00B894'}
-            >
-              {order.status}
-            </Text>
-            <Text width={140}>{order.totalPaid.toFixed(2)}</Text>
-            <Text width={120}>{order.reviews}</Text>
-          </XStack>
-        ))}
+        {loading
+          ? Array.from({ length: Number(limit) }).map((_, idx) => (
+              <XStack
+                key={`loader-${idx}`}
+                justify={'space-between'}
+                p={12}
+                bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
+                items="center"
+                borderBottomWidth={1}
+                borderColor="#F0F0F0"
+              >
+                <Shimmer style={{ width: 160, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 160, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 200, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 160, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 100, height: 20, borderRadius: 20 }} />
+                <Shimmer style={{ width: 80, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 60, height: 14, borderRadius: 8 }} />
+              </XStack>
+            ))
+          : orders.items.map((order, idx) => (
+              <XStack
+                key={order._id}
+                justify={'space-between'}
+                p={12}
+                bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
+                items="center"
+                borderBottomWidth={1}
+                borderColor="#F0F0F0"
+              >
+                <Text width={200} fontWeight="600">
+                  {order.id}
+                </Text>
+                <Text width={220}>{order.user?.name || '-'}</Text>
+                <Text width={220} color="#555">
+                  {order.user?.email || '-'}
+                </Text>
+                <Text width={180}>{new Date(order.createdAt).toLocaleString()}</Text>
+                <Text
+                  width={120}
+                  fontWeight="700"
+                  color={order.status === 'cancelled' ? '#FF7675' : '#00B894'}
+                >
+                  {order.status}
+                </Text>
+                <Text width={140}>{order.totalPaid.toFixed(2)}</Text>
+                <Text width={120}>{order.reviews}</Text>
+              </XStack>
+            ))}
       </YStack>
 
       <XStack justify="flex-end" items={'center'} mt="$4" gap="$3">
@@ -159,14 +194,14 @@ export default function OrdersPage() {
           onPress={() => setPage((prev) => Math.max(prev - 1, 1))}
         />
         <Text fontWeight="700" color="#4F8CFF" items="center">
-          Page {page} of {Math.ceil(orders.total / Number(limit)) || 1}
+          Page {page} of {totalPages}
         </Text>
         <Button
           size="$3"
           bg="#E6F0FF"
           color="#4F8CFF"
           icon={ArrowRight}
-          disabled={page >= Math.ceil(orders.total / Number(limit)) || loading}
+          disabled={page >= totalPages || loading}
           onPress={() => setPage((prev) => prev + 1)}
         />
       </XStack>

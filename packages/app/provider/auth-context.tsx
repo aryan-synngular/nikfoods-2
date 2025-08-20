@@ -47,6 +47,7 @@ interface AuthContextData {
   registerStep2: (address?: any) => Promise<void>
   register: (address?: any) => Promise<void>
   clearLoginSuccess: () => Promise<void>
+  socialSignIn: (provider: 'google' | 'facebook' | 'apple') => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -230,6 +231,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const socialSignIn = async (provider: 'google' | 'facebook' | 'apple') => {
+    if (Platform.OS === 'web' && nextSignIn) {
+      await nextSignIn(provider, { redirect: true, callbackUrl: '/' })
+      return
+    }
+    throw new Error('Native socialSignIn is only available in the native context')
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -244,6 +253,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         addingAddress,
         loginSuccess,
         clearLoginSuccess,
+        socialSignIn,
       }}
     >
       {children}

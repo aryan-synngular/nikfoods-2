@@ -13,6 +13,17 @@ import {
 import { apiGetAllUsers } from 'app/services/UserService'
 import { IUser } from 'app/types/user'
 import { IListResponse } from 'app/types/common'
+
+function Shimmer({ style }: { style?: any }) {
+  return (
+    <YStack
+      bg="#ececec"
+      style={{ ...style, opacity: 0.7, overflow: 'hidden', position: 'relative' }}
+      className="shimmer-effect"
+    />
+  )
+}
+
 export default function AllUsersPage() {
   const [users, setUsers] = useState<IListResponse<IUser>>({
     items: [],
@@ -29,11 +40,20 @@ export default function AllUsersPage() {
 
   const getAllUsers = useCallback(async () => {
     try {
+      setLoading(true)
+      setError('')
       const data = await apiGetAllUsers<IListResponse<IUser>>()
       console.log(data)
-      setUsers(data)
+      const allItems = (data as any)?.items ?? []
+      setUsers({
+        items: allItems,
+        page: 1,
+        pageSize: limit,
+        total: Array.isArray(allItems) ? allItems.length : 0,
+      })
+      setItems(Array.isArray(allItems) ? allItems.length : 0)
     } catch (error) {
-      setError('Failed to fetch food items')
+      setError('Failed to fetch users')
     } finally {
       setLoading(false)
     }
@@ -43,26 +63,24 @@ export default function AllUsersPage() {
     getAllUsers()
   }, [getAllUsers])
 
+  const totalPages = useMemo(() => {
+    const totalCount = users?.total ?? users?.items?.length ?? 0
+    const pages = Math.ceil(totalCount / limit)
+    return pages > 0 ? pages : 1
+  }, [users, limit])
+
+  const visibleItems = useMemo(() => {
+    const start = (page - 1) * limit
+    return users.items.slice(start, start + limit)
+  }, [users.items, page, limit])
+
   return (
     <YStack space="$5" p="$4">
       <Text fontWeight="bold" fontSize={20}>
         All Users
       </Text>
 
-      <XStack items="center" justify="space-between" mb="$3" gap={16}>
-        {/* <XStack items="center" gap={32}>
-          <Input
-            placeholder="Search food items..."
-            value={search}
-            onChangeText={(v) => {
-              setSearch(v)
-            }}
-            width={360}
-            borderColor="#4F8CFF"
-            bg="#F6FAFF"
-          />
-        </XStack> */}
-      </XStack>
+    
       {/* <ScrollView  horizontal height={"75vh"}  > */}
       <YStack
         minW={1490}
@@ -104,23 +122,48 @@ export default function AllUsersPage() {
           </Text>
         </XStack>
         {/* Table Body */}
-        {users?.items.map((item, idx) => (
-          <XStack
-            justify={'space-between'}
-            key={idx}
-            p={12}
-            bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
-            items="center"
-            borderBottomWidth={1}
-            borderColor="#F0F0F0"
-          >
-            <XStack
-              style={{
-                overflow: 'hidden',
-              }}
-            >
-              <CircleUserRound color={'purple'} size={'$4'}></CircleUserRound>
-              {/* <Image
+        {loading
+          ? Array.from({ length: limit }).map((_, idx) => (
+              <XStack
+                justify={'space-between'}
+                key={`loader-${idx}`}
+                p={12}
+                bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
+                items="center"
+                borderBottomWidth={1}
+                borderColor="#F0F0F0"
+              >
+                <XStack>
+                  <Shimmer style={{ width: 40, height: 40, borderRadius: 20 }} />
+                </XStack>
+                <Shimmer style={{ width: 140, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 200, height: 14, borderRadius: 8 }} />
+                <Shimmer style={{ width: 180, height: 14, borderRadius: 8 }} />
+                <YStack width={120} items={'center'} gap={4}>
+                  <Shimmer style={{ width: 100, height: 26, borderRadius: 20 }} />
+                </YStack>
+                <YStack width={120} items={'center'} gap={4}>
+                  <Shimmer style={{ width: 100, height: 26, borderRadius: 20 }} />
+                </YStack>
+              </XStack>
+            ))
+          : visibleItems.map((item, idx) => (
+              <XStack
+                justify={'space-between'}
+                key={idx}
+                p={12}
+                bg={idx % 2 === 0 ? '#F6FAFF' : '#FFF'}
+                items="center"
+                borderBottomWidth={1}
+                borderColor="#F0F0F0"
+              >
+                <XStack
+                  style={{
+                    overflow: 'hidden',
+                  }}
+                >
+                  <CircleUserRound color={'purple'} size={'$4'}></CircleUserRound>
+                  {/* <Image
                 source={ 
                   
                   {
@@ -133,51 +176,51 @@ export default function AllUsersPage() {
                 width={'100%'}
                 height={'100%'}
               /> */}
-            </XStack>
-            <Text width={180} fontWeight="600">
-              {item?.role ?? 'No Name'}
-            </Text>
-            <Text width={250} fontWeight={700} color="$blue10">
-              {item?.email}
-            </Text>
-            <Text width={250} color="#222">
-              {new Date(item?.createdAt).toLocaleString()}
-            </Text>
-
-            <YStack width={120} justify={'center'} items={'center'} gap={4}>
-              {item.addresses.map((addr) => (
-                <Text
-                  p={5}
-                  px={16}
-                  bg={'$green5'}
-                  style={{ borderRadius: '20px' }}
-                  justify={'center'}
-                  items={'center'}
-                  fontWeight="700"
-                  color={'$green10'}
-                >
-                  {addr.phone}
+                </XStack>
+                <Text width={180} fontWeight="600">
+                  {item?.role ?? 'No Name'}
                 </Text>
-              ))}
-            </YStack>
-
-            <YStack width={120} justify={'center'} items={'center'} gap={4}>
-              {item.addresses.map((addr) => (
-                <Text
-                  p={5}
-                  px={16}
-                  style={{ borderRadius: '20px' }}
-                  justify={'center'}
-                  items={'center'}
-                  fontWeight="700"
-                  color={'$red10'}
-                >
-                  {addr.city}, {addr.province}
+                <Text width={250} fontWeight={700} color="$blue10">
+                  {item?.email}
                 </Text>
-              ))}
-            </YStack>
-          </XStack>
-        ))}
+                <Text width={250} color="#222">
+                  {new Date(item?.createdAt).toLocaleString()}
+                </Text>
+
+                <YStack width={120} justify={'center'} items={'center'} gap={4}>
+                  {item.addresses.map((addr) => (
+                    <Text
+                      p={5}
+                      px={16}
+                      bg={'$green5'}
+                      style={{ borderRadius: '20px' }}
+                      justify={'center'}
+                      items={'center'}
+                      fontWeight="700"
+                      color={'$green10'}
+                    >
+                      {addr.phone}
+                    </Text>
+                  ))}
+                </YStack>
+
+                <YStack width={120} justify={'center'} items={'center'} gap={4}>
+                  {item.addresses.map((addr) => (
+                    <Text
+                      p={5}
+                      px={16}
+                      style={{ borderRadius: '20px' }}
+                      justify={'center'}
+                      items={'center'}
+                      fontWeight="700"
+                      color={'$red10'}
+                    >
+                      {addr.city}, {addr.province}
+                    </Text>
+                  ))}
+                </YStack>
+              </XStack>
+            ))}
       </YStack>
       {/* </ScrollView> */}
 
@@ -192,14 +235,14 @@ export default function AllUsersPage() {
           onPress={() => setPage((prev) => Math.max(prev - 1, 1))}
         ></Button>
         <Text fontWeight="700" color="#4F8CFF" items="center">
-          Page {page} of {Math.ceil(users?.total / Number(limit))}
+          Page {page} of {totalPages}
         </Text>
         <Button
           size="$3"
           bg="#E6F0FF"
           color="#4F8CFF"
           icon={ArrowRight}
-          disabled={page >= Math.ceil(users?.total / Number(limit)) || loading}
+          disabled={page >= totalPages || loading}
           onPress={() => setPage((prev) => prev + 1)}
         ></Button>
       </XStack>

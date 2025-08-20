@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import RefreshToken from 'models/RefreshToken'
 import mongoose from 'mongoose'
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
-const JWT_EXPIRES_IN = '1h'
+const JWT_EXPIRES_IN = '1d'
 const REFRESH_TOKEN_EXPIRES_IN = '7d'
 
 export async function POST(request: NextRequest) {

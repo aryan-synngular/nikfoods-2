@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 import { Text, YStack, XStack, Input, Button, Image, useMedia, Spinner } from 'tamagui'
@@ -8,7 +8,7 @@ import { useAuth } from 'app/provider/auth-context'
 import { useToast } from '@my/ui/src/useToast'
 
 export function SignupPage() {
-  const { register, signingIn } = useAuth()
+  const { register, signingIn, socialSignIn } = useAuth()
   const { showToast } = useToast()
   const media = useMedia()
   const [email, setEmail] = useState('')
@@ -17,23 +17,23 @@ export function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const loginLink = useLink({
     href: '/login',
   })
-  
+
   const termsLink = useLink({
     href: '/terms',
   })
-  
+
   const privacyLink = useLink({
     href: '/privacy',
   })
-  
+
   const refundLink = useLink({
     href: '/refund',
   })
-  
+
   const signupStep2Link = useLink({
     href: `/add-address`,
   })
@@ -43,32 +43,32 @@ export function SignupPage() {
       showToast('Please enter your email address', 'error')
       return false
     }
-    
+
     if (!email.includes('@')) {
       showToast('Please enter a valid email address', 'error')
       return false
     }
-    
+
     if (!password) {
       showToast('Please enter a password', 'error')
       return false
     }
-    
+
     if (password.length < 6) {
       showToast('Password must be at least 6 characters long', 'error')
       return false
     }
-    
+
     if (!confirmPassword) {
       showToast('Please confirm your password', 'error')
       return false
     }
-    
+
     if (password !== confirmPassword) {
       showToast('Passwords do not match', 'error')
       return false
     }
-    
+
     return true
   }
 
@@ -78,20 +78,20 @@ export function SignupPage() {
     }
 
     setIsLoading(true)
-    
+
     try {
       const data = await register({ email, password })
       console.log(data)
-      
+
       showToast('Account created successfully! Please add your delivery address.', 'success')
-      
+
       // Navigate to step 2
       if (signupStep2Link.onPress) {
         signupStep2Link.onPress()
       }
     } catch (error) {
       console.log(error)
-      
+
       // Handle the specific error messages
       if (error instanceof Error) {
         showToast(error.message, 'error')
@@ -102,40 +102,53 @@ export function SignupPage() {
       setIsLoading(false)
     }
   }
-  
-  const handleSocialSignup = (provider: string) => {
-    console.log(`Signup with ${provider}`)
-    showToast(`${provider} signup coming soon!`, 'info')
-    // Here you would typically redirect to OAuth provider
+
+  const handleSocialAuth = async (provider: 'google' | 'facebook' | 'apple') => {
+    try {
+      await socialSignIn(provider)
+      showToast(
+        `${provider.charAt(0).toUpperCase() + provider.slice(1)} sign-in successful`,
+        'success'
+      )
+    } catch (e) {
+      if (e instanceof Error) {
+        showToast(e.message, 'error')
+      } else {
+        showToast('Social signup failed', 'error')
+      }
+    }
   }
 
   return (
-    <YStack 
-      flex={1} 
+    <YStack
+      flex={1}
       bg="#FFF9F2"
       style={{
         paddingTop: media.sm ? 20 : 40,
         paddingBottom: media.sm ? 10 : 20,
         paddingHorizontal: media.sm ? 10 : 20,
-        alignItems: 'center', 
-        justifyContent: 'space-between'
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
       {/* Logo */}
-      <YStack style={{alignItems: 'center', width: '100%'}}>
-        <Image 
-          source={{ uri: 'https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png' }}
-          style={{width: 150, height: 50}}
+      <YStack style={{ alignItems: 'center', width: '100%' }}>
+        <Image
+          source={{
+            uri: 'https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png',
+          }}
+          style={{ width: 150, height: 50 }}
           resizeMode="contain"
           alt="Nikfoods Logo"
         />
       </YStack>
-      
+
       {/* Signup Form */}
-      <YStack 
-        style={{width: '100%', 
-          maxWidth: 450, 
-          padding: media.sm ? 16 : 24, 
+      <YStack
+        style={{
+          width: '100%',
+          maxWidth: 450,
+          padding: media.sm ? 16 : 24,
           backgroundColor: 'white',
           borderRadius: 16,
           shadowColor: '#000',
@@ -144,40 +157,32 @@ export function SignupPage() {
           shadowRadius: 10,
           elevation: 5,
           marginVertical: media.sm ? 20 : 40,
-          alignSelf: 'center'
+          alignSelf: 'center',
         }}
-       >
-      
-        <Text 
-          fontSize={media.sm ? 24 : 28} 
-          fontWeight="700" 
+      >
+        <Text
+          fontSize={media.sm ? 24 : 28}
+          fontWeight="700"
           color="#2A1A0C"
-          style={{textAlign: 'center', marginBottom: 8}}
+          style={{ textAlign: 'center', marginBottom: 8 }}
         >
           Create Account
         </Text>
-        
-        <Text 
-          fontSize={14} 
-          color="#666"
-          style={{textAlign: 'center', marginBottom: 24}}
-        >
+
+        <Text fontSize={14} color="#666" style={{ textAlign: 'center', marginBottom: 24 }}>
           No more typing your address every time. Pinky promise.
         </Text>
-        
+
         {/* Email Input */}
-        <YStack style={{marginBottom: 16, position: 'relative'}}>
-          <XStack 
-            position="absolute"
-            style={{left: 12, top: 12, zIndex: 1, opacity: 0.5}}
-          >
+        <YStack style={{ marginBottom: 16, position: 'relative' }}>
+          <XStack position="absolute" style={{ left: 12, top: 12, zIndex: 1, opacity: 0.5 }}>
             <Mail size={20} color="#666" />
           </XStack>
           <Input
             value={email}
             onChangeText={setEmail}
             placeholder="E-mail"
-            style={{paddingLeft: 40, paddingRight: 40, borderRadius: 8}}
+            style={{ paddingLeft: 40, paddingRight: 40, borderRadius: 8 }}
             height={48}
             borderWidth={1}
             borderColor="#E0E0E0"
@@ -186,13 +191,10 @@ export function SignupPage() {
             keyboardType="email-address"
           />
         </YStack>
-        
+
         {/* Password Input */}
-        <YStack style={{marginBottom: 16, position: 'relative'}}>
-          <XStack 
-            position="absolute"
-            style={{left: 12, top: 12, zIndex: 1, opacity: 0.5}}
-          >
+        <YStack style={{ marginBottom: 16, position: 'relative' }}>
+          <XStack position="absolute" style={{ left: 12, top: 12, zIndex: 1, opacity: 0.5 }}>
             <Lock size={20} color="#666" />
           </XStack>
           <Input
@@ -200,31 +202,24 @@ export function SignupPage() {
             onChangeText={setPassword}
             placeholder="Password"
             secureTextEntry={!showPassword}
-            style={{paddingLeft: 40, paddingRight: 40, borderRadius: 8}}
+            style={{ paddingLeft: 40, paddingRight: 40, borderRadius: 8 }}
             height={48}
             borderWidth={1}
             borderColor="#E0E0E0"
             fontSize={14}
           />
-          <XStack 
+          <XStack
             position="absolute"
-            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer'}}
+            style={{ right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer' }}
             onPress={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? (
-              <EyeOff size={20} color="#666" />
-            ) : (
-              <Eye size={20} color="#666" />
-            )}
+            {showPassword ? <EyeOff size={20} color="#666" /> : <Eye size={20} color="#666" />}
           </XStack>
         </YStack>
-        
+
         {/* Confirm Password Input */}
-        <YStack style={{marginBottom: 24, position: 'relative'}}>
-          <XStack 
-            position="absolute"
-            style={{left: 12, top: 12, zIndex: 1, opacity: 0.5}}
-          >
+        <YStack style={{ marginBottom: 24, position: 'relative' }}>
+          <XStack position="absolute" style={{ left: 12, top: 12, zIndex: 1, opacity: 0.5 }}>
             <Lock size={20} color="#666" />
           </XStack>
           <Input
@@ -232,11 +227,20 @@ export function SignupPage() {
             onChangeText={setConfirmPassword}
             placeholder="Re-enter password"
             secureTextEntry={!showConfirmPassword}
-            style={{paddingLeft: 40, paddingRight: 40, paddingHorizontal: 40, height: 48, borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 8, fontSize: 14}}
+            style={{
+              paddingLeft: 40,
+              paddingRight: 40,
+              paddingHorizontal: 40,
+              height: 48,
+              borderWidth: 1,
+              borderColor: '#E0E0E0',
+              borderRadius: 8,
+              fontSize: 14,
+            }}
           />
-          <XStack 
+          <XStack
             position="absolute"
-            style={{right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer'}}
+            style={{ right: 12, top: 12, zIndex: 1, opacity: 0.5, cursor: 'pointer' }}
             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
           >
             {showConfirmPassword ? (
@@ -246,143 +250,177 @@ export function SignupPage() {
             )}
           </XStack>
         </YStack>
-        
+
         {/* Signup Button */}
-        <Button 
+        <Button
           color="white"
           onPress={handleSignup}
           disabled={isLoading || signingIn}
           pressStyle={{ opacity: 0.8 }}
           style={{
-            backgroundColor: (isLoading || signingIn) ? '#FFB84D' : '#FF9F0D',
+            backgroundColor: isLoading || signingIn ? '#FFB84D' : '#FF9F0D',
             height: 48,
             borderRadius: 8,
             fontSize: 16,
             fontWeight: '600',
-            marginBottom: 24
+            marginBottom: 24,
           }}
           icon={
-            (isLoading || signingIn) ? (
-              <XStack style={{marginRight: 8}}>
+            isLoading || signingIn ? (
+              <XStack style={{ marginRight: 8 }}>
                 <Spinner size="small" color="white" />
               </XStack>
             ) : (
-              <XStack style={{marginRight: 8}}>
+              <XStack style={{ marginRight: 8 }}>
                 <User size={18} color="white" />
               </XStack>
             )
           }
         >
-          {(isLoading || signingIn) ? 'Creating Account...' : 'Next'}
+          {isLoading || signingIn ? 'Creating Account...' : 'Next'}
         </Button>
-        
+
         {/* Social Signup */}
-        <YStack style={{alignItems: 'center', gap: 16}}>
+        <YStack style={{ alignItems: 'center', gap: 16 }}>
           <Text fontSize={14} color="#666">
             or signup with
           </Text>
-          
+
           <XStack gap={16}>
-            <XStack 
-              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
-              onPress={() => handleSocialSignup('Google')}
+            <XStack
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+              }}
+              onPress={() => handleSocialAuth('google')}
               pressStyle={{ opacity: 0.8 }}
               cursor="pointer"
             >
-              <Image 
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
-                style={{width: 20, height: 20}}
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
+                }}
+                style={{ width: 20, height: 20 }}
                 alt="Google"
               />
             </XStack>
-            
-            <XStack 
-              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
-              onPress={() => handleSocialSignup('Facebook')}
+
+            <XStack
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+              }}
+              onPress={() => handleSocialAuth('facebook')}
               pressStyle={{ opacity: 0.8 }}
               cursor="pointer"
             >
-              <Image 
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png' }}
-                style={{width: 20, height: 20}}
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
+                }}
+                style={{ width: 20, height: 20 }}
                 alt="Facebook"
               />
             </XStack>
-            
-            <XStack 
-              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
-              onPress={() => handleSocialSignup('Apple')}
+
+            <XStack
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+              }}
+              onPress={() => handleSocialAuth('apple')}
               pressStyle={{ opacity: 0.8 }}
               cursor="pointer"
             >
-              <Image 
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png' }}
-                style={{width: 20, height: 20}}
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png',
+                }}
+                style={{ width: 20, height: 20 }}
                 alt="Apple"
-              />
-            </XStack>
-            
-            <XStack 
-              style={{width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderWidth: 1}}
-              onPress={() => handleSocialSignup('Google')}
-              pressStyle={{ opacity: 0.8 }}
-              cursor="pointer"
-            >
-              <Image 
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png' }}
-                style={{width: 20, height: 20}}
-                alt="Chrome"
               />
             </XStack>
           </XStack>
         </YStack>
       </YStack>
-      
+
       {/* Login */}
-      <YStack style={{alignItems: 'center', gap: 16, marginTop: 20}}>
+      <YStack style={{ alignItems: 'center', gap: 16, marginTop: 20 }}>
         <Text fontSize={14} color="#666">
           Have an account
         </Text>
-        
-        <Button 
+
+        <Button
           background="#FF9F0D"
           color="white"
-          style={{height: 48, borderRadius: 8, fontSize: 16, fontWeight: '600', paddingHorizontal: 40}}
+          style={{
+            height: 48,
+            borderRadius: 8,
+            fontSize: 16,
+            fontWeight: '600',
+            paddingHorizontal: 40,
+          }}
           pressStyle={{ opacity: 0.8 }}
           {...loginLink}
-          icon={<XStack style={{marginRight: 8}}><Lock size={18} color="white" /></XStack>}
+          icon={
+            <XStack style={{ marginRight: 8 }}>
+              <Lock size={18} color="white" />
+            </XStack>
+          }
         >
           Login
         </Button>
       </YStack>
-      
+
       {/* Footer Links */}
-      <XStack style={{gap: media.sm ? 8 : 16, marginTop: media.sm ? 20 : 40, flexWrap: 'wrap', justifyContent: 'center'}}>
-        <Text 
-          fontSize={12} 
+      <XStack
+        style={{
+          gap: media.sm ? 8 : 16,
+          marginTop: media.sm ? 20 : 40,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        <Text
+          fontSize={12}
           color="#666"
           {...termsLink}
-          hoverStyle={{ color: "#FF9F0D" }}
+          hoverStyle={{ color: '#FF9F0D' }}
           cursor="pointer"
         >
           Terms & Conditions
         </Text>
-        
-        <Text 
-          fontSize={12} 
+
+        <Text
+          fontSize={12}
           color="#666"
           {...privacyLink}
-          hoverStyle={{ color: "#FF9F0D" }}
+          hoverStyle={{ color: '#FF9F0D' }}
           cursor="pointer"
         >
           Privacy Policy
         </Text>
-        
-        <Text 
-          fontSize={12} 
+
+        <Text
+          fontSize={12}
           color="#666"
           {...refundLink}
-          hoverStyle={{ color: "#FF9F0D" }}
+          hoverStyle={{ color: '#FF9F0D' }}
           cursor="pointer"
         >
           Refund Policy

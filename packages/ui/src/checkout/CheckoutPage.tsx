@@ -356,8 +356,8 @@ export function CheckoutPage({
               > */}
                 <YStack
                 style={{
-                  flex:( isMobile || isMobileWeb )? 1 : 0.65,
-                  width:( isMobile || isMobileWeb) ? '100%' : '65%',
+                  flex:( isMobile || isMobileWeb )? 1 : (currentStep == 'payment' ? 1 : 0.65),
+                  width:( isMobile || isMobileWeb) ? '100%' : (currentStep == 'payment' ? '100%' : '65%'),
                 }}
               >
                 <ScrollView height={'100%'} style={{ flex: 1 }}>

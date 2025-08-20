@@ -30,7 +30,6 @@ export function CartItem({
   onIncrement,
   onDecrement,
   isLoading,
-  key,
 }: CartItemProps) {
   const { isMobile, isMobileWeb } = useScreen()
   return (

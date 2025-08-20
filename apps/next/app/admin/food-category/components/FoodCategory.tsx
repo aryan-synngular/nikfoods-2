@@ -31,7 +31,8 @@ export default function FoodCategory() {
       const response = await fetch(`/api/food-category`)
       const data = await response.json()
       console.log(data)
-      setCategories(data?.data)
+      const modData={...data?.data, items:data?.data.items?.filter((item:any)=>(item.name!="Day Special")&&(item.name!="Plan Weekly Meal"))}
+      setCategories(modData)
     } catch (error) {
       setError('Failed to fetch food items')
     } finally {

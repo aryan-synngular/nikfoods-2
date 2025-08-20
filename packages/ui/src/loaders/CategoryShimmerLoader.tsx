@@ -1,6 +1,7 @@
 import { YStack, XStack, Circle } from 'tamagui'
 import { useWindowDimensions } from 'react-native'
 import React from 'react'
+import { useScreen } from 'app/hook/useScreen'
 
 function Shimmer({ style }: { style?: any }) {
   // Use a simple shimmer effect with background gradient for web, solid for native
@@ -20,11 +21,11 @@ function Shimmer({ style }: { style?: any }) {
 
 export function CategoryShimmerLoader({ count = 13 }: { count?: number }) {
   const { width } = useWindowDimensions()
+ const  {isMobile,isMobileWeb}=useScreen()
   // Responsive: show fewer cards on mobile
-  const isMobile = width < 600
   const cardCount = count || (isMobile ? 8 : 13)
   return (
-    <XStack gap={16} style={{ padding: 20, justifyContent: 'flex-start', flexWrap: 'nowrap' }}>
+    <XStack mt={(isMobile||isMobileWeb)?25:0} gap={16} style={{ padding: (isMobile||isMobileWeb)?10:20, justifyContent: 'flex-start', flexWrap: 'nowrap' }}>
       {Array.from({ length: cardCount }).map((_, i) => (
         <YStack
           key={i}

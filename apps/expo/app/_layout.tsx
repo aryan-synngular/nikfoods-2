@@ -1,15 +1,12 @@
 import { useLink } from 'solito/navigation'
 import { AuthProvider, useAuth } from 'app/provider/auth-context'
-import { useEffect, useState } from 'react'
-import { useColorScheme } from 'react-native'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { ActivityIndicator, View } from 'react-native'
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen, Stack, usePathname, Redirect } from 'expo-router'
 import { Provider } from 'app/provider'
 import { NativeToast } from '@my/ui/src/NativeToast'
-import * as SecureStore from 'expo-secure-store'
-import { usePathname } from 'expo-router'
-import { YStack } from '@my/ui'
 export const unstable_settings = {
   // Ensure that reloading on `/user` keeps a back button present.
   initialRouteName: 'Home',
@@ -38,63 +35,55 @@ export default function App() {
   return <RootLayoutNav />
 }
 
-function RootLayoutNav() {
-  const path = usePathname()
-  console.log(path)
+function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
-  console.log(user)
-  console.log(loading)
-  const colorScheme = useColorScheme()
-  // const [loading, setLoading] = useState(true)
-  const loginLink = useLink({
-    href: '/login',
-  })
-  const addAddressLink = useLink({
-    href: '/add-address',
-  })
-  const homeLink = useLink({
-    href: '/',
-  })
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const publicRoutes = ['/login', '/signup', '/checkout']
-        if (publicRoutes.includes(path)) {
-          return
-        }
-        // setLoading(true)
-        const token = await SecureStore.getItemAsync('token')
-        if (token) {
-          const storedUser = await SecureStore.getItemAsync('user')
+  const path = usePathname()
 
-          if (storedUser) {
-            const userObj = JSON.parse(storedUser)
-            if (!userObj.isCompleted) {
-              addAddressLink.onPress()
-            } else {
-              homeLink.onPress()
-            }
-          } else {
-            console.log('Not Logged In No user')
-            loginLink.onPress()
-          }
-        } else {
-          console.log('Not Logged In No Token')
-          loginLink.onPress()
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error)
-      } finally {
-        // setLoading(false)
-      }
-    }
-    checkUser()
-  }, [])
+  const publicRoutes = new Set([
+    '/login',
+    '/signup',
+    '/signup/step2',
+    '/checkout',
+    '/account-created',
+  ])
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
+
+  const isPublic = publicRoutes.has(path)
+
+  if (!user && !isPublic) {
+    return <Redirect href="/login" />
+  }
+
+  if (user && !user.isCompleted && path !== '/add-address') {
+    return <Redirect href="/add-address" />
+  }
+
+  if (
+    user &&
+    user.isCompleted &&
+    (path === '/login' || path === '/signup' || path === '/signup/step2')
+  ) {
+    return <Redirect href="/" />
+  }
+
+  return <>{children}</>
+}
+
+function RootLayoutNav() {
   return (
     <Provider>
       <AuthProvider>
         <ThemeProvider value={DefaultTheme}>
-          <Stack></Stack>
+          <AuthGate>
+            <Stack></Stack>
+          </AuthGate>
           <NativeToast />
         </ThemeProvider>
       </AuthProvider>

@@ -25,7 +25,7 @@ const sidebarItems: any = {
      {
       href: '/admin/weekly-planner',
       icon: Calendar1,
-      label: 'Weekly Planner',
+      label: 'Weekly Menu Planner',
     },
     {
       href: '/admin/orders',

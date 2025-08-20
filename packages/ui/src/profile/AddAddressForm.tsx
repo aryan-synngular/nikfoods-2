@@ -10,6 +10,7 @@ import { apiAddAddress } from 'app/services/AuthService'
 import { apiAddUserAddress, apiEditUserAddress } from 'app/services/UserService'
 import { IResponse } from 'app/types/common'
 import { AddressSearch } from '../address/AddressSerach'
+import { colors } from '../colors'
 
 export function AddAddressForm({
   initialData,
@@ -27,10 +28,10 @@ export function AddAddressForm({
     name: initialData?.name || '',
     phone: initialData?.phone || '',
     email: initialData?.email || '',
-    location_remark: initialData?.location_remark || '',
+    // location_remark: initialData?.location_remark || '',
     street_address: initialData?.street_address || '',
     city: initialData?.city || '',
-    province: initialData?.province || '',
+    // province: initialData?.province || '',
     postal_code: initialData?.postal_code || '',
     notes: initialData?.notes || '',
   })
@@ -41,14 +42,14 @@ export function AddAddressForm({
       name,
       email,
       phone,
-      location_remark,
+      // location_remark,
       street_address,
       city,
-      province,
+      // province,
       postal_code,
       notes,
     } = form
-    if (!name || !email || !street_address || !city || !postal_code) {
+    if (!name || !email || !city || !postal_code) {
       // Show error or validation message
       console.log('Please fill all required fields')
       return
@@ -70,7 +71,7 @@ export function AddAddressForm({
       } else {
         res = await apiAddUserAddress<IResponse<IAddress>, any>(form)
       }
-
+onSuccess?.()
       console.log(res)
       // Here you would typically call your authentication service
     } catch (error) {
@@ -81,45 +82,21 @@ export function AddAddressForm({
   }
 
   return (
-    <YStack
-      flex={1}
-      bg="#FFF9F2"
-      style={{
-        paddingTop: media.sm ? 20 : 40,
-        paddingBottom: media.sm ? 10 : 20,
-        paddingHorizontal: media.sm ? 10 : 20,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      {/* <AddressSearch onSelect={(place) => console.log('Selected place:', place)} /> */}
-      {/* Logo */}
-      <YStack style={{ alignItems: 'center', width: '100%' }}>
-        <Image
-          source={{
-            uri: 'https://raw.githubusercontent.com/vinodmaurya/nikfoods/main/apps/next/public/logo.png',
-          }}
-          style={{ width: 150, height: 50 }}
-          resizeMode="contain"
-          alt="Nikfoods Logo"
-        />
-      </YStack>
-
-      {/* Signup Form Step 2 */}
       <YStack
         style={{
-          width: '100%',
-          maxWidth: 450,
+          // width: '100%',
+          // maxWidth: 450,
           padding: media.sm ? 16 : 24,
-          backgroundColor: 'white',
-          borderRadius: 16,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 10,
-          elevation: 5,
-          marginVertical: media.sm ? 20 : 40,
-          alignSelf: 'center',
+          // backgroundColor: 'white',
+          // borderRadius: 16,
+          // shadowColor: '#000',
+          // shadowOffset: { width: 0, height: 2 },
+          // shadowOpacity: 0.1,
+          // shadowRadius: 10,
+          // elevation: 5,
+          // marginVertical: media.sm ? 20 : 40,
+          // alignSelf: 'center'
+          
         }}
       >
         <XStack
@@ -131,7 +108,7 @@ export function AddAddressForm({
           }}
         >
           <Text fontSize={media.sm ? 20 : 24} fontWeight="700" color="#2A1A0C">
-            Add a delivery address
+          {initialData?._id?"Edit delivery address":"Add delivery address"}  
           </Text>
         </XStack>
 
@@ -149,7 +126,7 @@ export function AddAddressForm({
               fontSize={14}
             />
           </YStack>
-          <YStack style={{ flex: 1 }}>
+          {/* <YStack style={{ flex: 1 }}>
             <Input
               value={form.location_remark}
               onChangeText={(location_remark) => setForm((f) => ({ ...f, location_remark }))}
@@ -160,7 +137,7 @@ export function AddAddressForm({
               borderColor="#E0E0E0"
               fontSize={14}
             />
-          </YStack>
+          </YStack> */}
         </XStack>
 
         {/* Phone and Email */}
@@ -228,7 +205,7 @@ export function AddAddressForm({
               fontSize={14}
             />
           </YStack>
-          <YStack
+          {/* <YStack
             style={{
               flex: 1,
               minWidth: media.sm ? '100%' : '30%',
@@ -245,7 +222,7 @@ export function AddAddressForm({
               borderColor="#E0E0E0"
               fontSize={14}
             />
-          </YStack>
+          </YStack> */}
           <YStack style={{ flex: 1, minWidth: media.sm ? '100%' : '30%' }}>
             <Input
               value={form.postal_code}
@@ -261,7 +238,7 @@ export function AddAddressForm({
         </XStack>
 
         {/* Notes */}
-        <YStack style={{ marginBottom: 24 }}>
+        {/* <YStack style={{ marginBottom: 24 }}>
           <TextArea
             value={form.notes}
             onChangeText={(notes) => setForm((f) => ({ ...f, notes }))}
@@ -272,16 +249,14 @@ export function AddAddressForm({
             borderColor="#E0E0E0"
             fontSize={14}
           />
-        </YStack>
+        </YStack> */}
 
         {/* Terms Checkbox */}
 
         {/* Add Delivery Address Button */}
+        <Button bg={colors.primary} onPress={handleAddAdrress} color={"white"}>{initialData?._id?"Edit Address":"Add Address"}</Button>
       </YStack>
 
-      {/* No login section needed for address form */}
-
-      {/* Footer Links */}
-    </YStack>
+    
   )
 }

@@ -126,7 +126,7 @@ export default function WeeklyPlannerPage() {
         ])
 
         const fetchedCategories = (catRes?.data?.items ?? []).filter(
-          (cat: any) => cat.name != 'Plan Weekly Meal'
+          (cat: any) => cat.name != 'Plan Weekly Meal'&&cat.name != 'Day Special'
         )
         setCategories(fetchedCategories)
         const fetchedItems = itemsRes?.data?.items ?? []
@@ -200,108 +200,116 @@ export default function WeeklyPlannerPage() {
   }
 
   return (
-    <YStack p="$4" gap="$4">
-      {/* Colorful Header */}
-      <Card
-        bg="#667eea" // Simplified from gradient
-        p="$4"
-        bordered
-        style={{ borderRadius: 12, border: 'none' }}
-        shadowColor="#667eea"
-        shadowRadius={8}
-        shadowOpacity={0.25}
-      >
-        <XStack justify="space-between" items="center">
-          <YStack gap="$1">
-            <XStack items="center" gap="$3">
-              <Calendar size={24} color="white" />
-              <Text fontSize={24} fontWeight="700" color="white">
-                Weekly Menu Planner
-              </Text>
-            </XStack>
-          </YStack>
-          <Button
-            size="$3"
-            color="white"
-            bg={saveSuccess ? '#10B981' : ('rgba(255,255,255,0.2)' as any)}
+    <ScrollView>
+      <YStack p="$4" gap="$4">
+        {/* Colorful Header */}
+        <Card
+          bg="#667eea" // Simplified from gradient
+          p="$4"
+          bordered
+          style={{ borderRadius: 12, border: 'none' }}
+          shadowColor="#667eea"
+          shadowRadius={8}
+          shadowOpacity={0.25}
+        >
+          <XStack justify="space-between" items="center">
+            <YStack gap="$1">
+              <XStack items="center" gap="$3">
+                <Calendar size={24} color="white" />
+                <Text fontSize={24} fontWeight="700" color="white">
+                  Weekly Menu Planner
+                </Text>
+              </XStack>
+            </YStack>
+            <Button
+              size="$3"
+              color="white"
+              bg={saveSuccess ? '#10B981' : ('rgba(255,255,255,0.2)' as any)}
+              borderWidth={1}
+              borderColor="rgba(255,255,255,0.3)"
+              hoverStyle={{ bg: saveSuccess ? '#059669' : 'rgba(255,255,255,0.3)' }}
+              onPress={handleSave}
+              disabled={saving}
+              icon={saving ? Spinner : Save}
+              style={{ borderRadius: 8 }}
+            >
+              {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Menu'}
+            </Button>
+          </XStack>
+        </Card>
+
+        {/* Error Message */}
+        {error && (
+          <Card
+            bg="#FEF2F2"
+            p="$3"
+            borderColor="#EF4444"
             borderWidth={1}
-            borderColor="rgba(255,255,255,0.3)"
-            hoverStyle={{ bg: saveSuccess ? '#059669' : 'rgba(255,255,255,0.3)' }}
-            onPress={handleSave}
-            disabled={saving}
-            icon={saving ? Spinner : Save}
             style={{ borderRadius: 8 }}
           >
-            {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Menu'}
-          </Button>
-        </XStack>
-      </Card>
+            <Text color="#EF4444" fontSize={14}>
+              {error}
+            </Text>
+          </Card>
+        )}
 
-      {/* Error Message */}
-      {error && (
-        <Card bg="#FEF2F2" p="$3" borderColor="#EF4444" borderWidth={1} style={{ borderRadius: 8 }}>
-          <Text color="#EF4444" fontSize={14}>
-            {error}
-          </Text>
-        </Card>
-      )}
-
-      {/* Colorful Days Accordion */}
-      <Accordion type="multiple" gap="$3">
-        {DAYS.map(({ key, label, color, bgColor }) => {
-          const itemCount = getItemCountForDay(key)
-          return (
-            <Accordion.Item value={key} key={key}>
-              <Accordion.Trigger
-                bg={bgColor as any}
-                px="$4"
-                py="$3"
-                justify="space-between"
-                items="center"
-                style={{ borderRadius: 8, borderColor: color, borderWidth: 2 }}
-                hoverStyle={{ bg: bgColor as any, opacity: 0.8 }}
-              >
-                <XStack items="center" justify="space-between" flex={1}>
-                  <YStack>
-                    <Text fontSize={16} fontWeight="600" color={color as any}>
-                      {label}
-                    </Text>
-                    <Text fontSize={12} color="#6B7280">
-                      {itemCount} item{itemCount !== 1 ? 's' : ''}
-                    </Text>
-                  </YStack>
-
-                  <ChevronDown size={20} color={color as any} />
-                </XStack>
-              </Accordion.Trigger>
-              <Accordion.Content>
-                <Card
-                  p="$4"
-                  bg="white"
-                  style={{ borderRadius: '0 0 8px 8px', borderColor: color }}
-                  borderWidth={2}
-                  borderTopWidth={0}
+        {/* Colorful Days Accordion */}
+        <Accordion type="multiple" gap="$3">
+          {DAYS.map(({ key, label, color, bgColor }) => {
+            const itemCount = getItemCountForDay(key)
+            return (
+              <Accordion.Item value={key} key={key}>
+                <Accordion.Trigger
+                  bg={bgColor as any}
+                  px="$4"
+                  py="$3"
+                  justify="space-between"
+                  items="center"
+                  style={{ borderRadius: 8, borderColor: color, borderWidth: 2 }}
+                  hoverStyle={{ bg: bgColor as any, opacity: 0.8 }}
                 >
-                  <YStack gap="$4">
-                    {categories.map((cat) => (
-                      <DayCategoryRow
-                        key={cat._id}
-                        category={cat}
-                        dayKey={key}
-                        weeklyMenu={weeklyMenu}
-                        setWeeklyMenu={setWeeklyMenu}
-                        allItems={allItems}
-                        dayColor={color}
-                      />
-                    ))}
-                  </YStack>
-                </Card>
-              </Accordion.Content>
-            </Accordion.Item>
-          )
-        })}
-      </Accordion>
-    </YStack>
+                  <XStack items="center" justify="space-between" flex={1}>
+                    <YStack>
+                      <Text fontSize={16} fontWeight="600" color={color as any}>
+                        {label}
+                      </Text>
+                      <Text fontSize={12} color="#6B7280">
+                        {itemCount} item{itemCount !== 1 ? 's' : ''}
+                      </Text>
+                    </YStack>
+
+                    <ChevronDown size={20} color={color as any} />
+                  </XStack>
+                </Accordion.Trigger>
+                <Accordion.Content>
+                  <Card
+                    p="$4"
+                    bg="white"
+                    style={{ borderRadius: '0 0 8px 8px', borderColor: color }}
+                    borderWidth={2}
+                    borderTopWidth={0}
+                  >
+                    <YStack gap="$4">
+                      {categories.map((cat) => (
+                        <DayCategoryRow
+                          key={cat._id}
+                          category={cat}
+                          dayKey={key}
+                          weeklyMenu={weeklyMenu}
+                          setWeeklyMenu={setWeeklyMenu}
+                          allItems={allItems}
+                          dayColor={color}
+                        />
+                      ))}
+                    </YStack>
+                  </Card>
+                </Accordion.Content>
+              </Accordion.Item>
+            )
+          })}
+        </Accordion>
+      </YStack>
+    </ScrollView>
   )
 }
 

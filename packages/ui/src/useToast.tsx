@@ -1,5 +1,5 @@
 import { useToastController } from '@tamagui/toast'
-
+import {Platform} from "react-native"
 export const useToast = () => {
   const toast = useToastController()
 
@@ -26,7 +26,7 @@ export const useToast = () => {
         message: title ? undefined : message, // Use message in customData if no title
         type,
       },
-    })
+    },)
   }
 
   // Convenience methods

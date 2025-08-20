@@ -59,14 +59,14 @@ export async function GET(req: NextRequest) {
 
 const addressSchema = z.object({
   name: z.string().min(2, 'Name is required'),
-  location_remark: z.string().optional(),
+  // location_remark: z.string().optional(),
   phone: z.string().optional(),
   email: z.string().email('Invalid email'),
   street_address: z.string().min(5, 'Street Address is too short'),
   city: z.string().min(2, 'City is required'),
-  province: z.string().min(2, 'Province is required'),
+  // province: z.string().min(2, 'Province is required'),
   postal_code: z.string().min(4, 'Postcode is required'),
-  notes: z.string().optional(),
+  // notes: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -96,14 +96,14 @@ export async function POST(req: NextRequest) {
 
     const {
       name,
-      location_remark,
+      // location_remark,
       phone,
       email,
       street_address,
       city,
-      province,
+      // province,
       postal_code,
-      notes,
+      // notes,
     } = parsedData.data
 
     // ✅ Check if user exists
@@ -119,14 +119,14 @@ export async function POST(req: NextRequest) {
         {
           user: id,
           name,
-          location_remark,
+          // location_remark,
           phone,
           email,
           street_address,
           city,
-          province,
+          // province,
           postal_code,
-          notes,
+          // notes,
         },
       ],
       { session } // important!
@@ -190,14 +190,14 @@ export async function PUT(req: NextRequest) {
       { _id: addressId, user: userId },
       {
         name: parsed.data.name,
-        location_remark: parsed.data.location_remark,
+        // location_remark: parsed.data.location_remark,
         phone: parsed.data.phone,
         email: parsed.data.email,
         street_address: parsed.data.street_address,
         city: parsed.data.city,
-        province: parsed.data.province,
+        // province: parsed.data.province,
         postal_code: parsed.data.postal_code,
-        notes: parsed.data.notes,
+        // notes: parsed.data.notes,
       },
       { new: true, session }
     )

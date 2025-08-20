@@ -3,6 +3,7 @@
 import { Card, Text, YStack, XStack, Separator, Button, Paragraph } from 'tamagui'
 import { Home, User, Mail, Phone } from '@tamagui/lucide-icons'
 import { IAddress } from 'app/types/user'
+import { useScreen } from 'app/hook/useScreen'
 
 export function AddressCard({
   address,
@@ -13,6 +14,7 @@ export function AddressCard({
   handleEdit: () => void
   handleDelete: () => void
 }) {
+  const {isMobile,isMobileWeb}=useScreen()
   return (
     <Card elevate p="$4" borderRadius="$4" width="100%" bg="white">
       <YStack space>
@@ -20,18 +22,17 @@ export function AddressCard({
           {address.name}
         </Text>
 
-        <XStack items="center" space="$2">
+        <XStack maxW={(isMobile||isMobileWeb)?300:"100%"} items="center" space="$2">
           <Home size="$1" />
-          <Paragraph>
-            {address.location_remark}, {address.street_address}, {address.city}, {address.province}{' '}
+          <Paragraph> {address.street_address}, {address.city}, {address.province}{' '}
             {address.postal_code}
           </Paragraph>
         </XStack>
 
-        <XStack items="center" space="$4" flexWrap="wrap">
+        <XStack items="center" space="$4" gap={8} flexWrap="wrap">
           <XStack items="center" gap={'$1'} space="$1">
             <User size="$1" />
-            <Text>David</Text>
+            <Text>{address.name}</Text>
           </XStack>
           <XStack items="center" gap={'$1'} space="$1">
             <Mail size="$1" />

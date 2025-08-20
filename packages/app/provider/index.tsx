@@ -11,13 +11,13 @@ import { ToastViewport } from './ToastViewport'
 import { ActivityIndicator, View } from 'react-native'
 // Only import useFonts on native platforms
 // This prevents Next.js from trying to process TTF files
-let useFontsHook: () => boolean;
+let useFontsHook: () => boolean
 if (Platform.OS !== 'web') {
-  const { useFonts } = require('./useFonts');
-  useFontsHook = useFonts;
+  const { useFonts } = require('./useFonts')
+  useFontsHook = useFonts
 } else {
   // Mock implementation for web
-  useFontsHook = () => true;
+  useFontsHook = () => true
 }
 
 export function Provider({
@@ -40,7 +40,8 @@ export function Provider({
 
   return (
     <TamaguiProvider config={config} defaultTheme={theme} {...rest}>
-      <ToastProvider swipeDirection="horizontal" duration={6000} native={isWeb ? [] : ['mobile']}>
+      {/* Disable native handling so our NativeToast component renders on mobile */}
+      <ToastProvider swipeDirection="horizontal" duration={6000} native={[]}>
         {children}
         <CustomToast />
         <ToastViewport />

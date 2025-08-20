@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 import Cart from 'models/Cart'
 import CartDay, { WeekDays } from 'models/CartDay'
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
-const JWT_EXPIRES_IN = '1h'
+const JWT_EXPIRES_IN = '1d'
 const REFRESH_TOKEN_EXPIRES_IN = '7d'
 
 export async function POST(request: NextRequest) {

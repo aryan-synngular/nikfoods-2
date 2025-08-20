@@ -8,6 +8,7 @@ import { AppHeader } from '../Header'
 import AddressTab from './AddressTab'
 import OrdersSection from './OrdersSection'
 import {useScreen} from "app/hook/useScreen"
+import ProfileDetails from './ProfileDetails'
 export default function AccountPage() {
   const [tab, setTab] = useState('Orders')
   const {isMobile,isMobileWeb}=useScreen()
@@ -15,7 +16,7 @@ export default function AccountPage() {
   const renderTabContent = () => {
     switch (tab) {
       case 'Profile':
-        return <Text p="$4">Profile Details</Text>
+        return <ProfileDetails/>
       case 'Orders':
         return <OrdersSection />
       case 'Address':

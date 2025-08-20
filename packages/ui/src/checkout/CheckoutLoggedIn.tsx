@@ -230,9 +230,6 @@ const CheckoutLoggedIn = ({
     fetchCartData()
   }, [])
 
-
-
-  
   // Show loading state while cart is being fetched
   // if (isLoadingCart) {
   //   return (
