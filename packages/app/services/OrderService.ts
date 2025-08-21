@@ -22,8 +22,8 @@ export async function apiGetOrders<T>(token?: string): Promise<T> {
   }
 }
 
-export async function apiCreateOrder<T>(orderData: any, token?: string): Promise<T> {
-  const url = `orders${token ? `?token=${token}` : ''}`
+export async function apiCreateOrder<T>(orderData: any): Promise<T> {
+  const url = `orders`
 
   const axiosConfig: AxiosRequestConfig = {
     url,

@@ -200,7 +200,7 @@ export default function FoodItems() {
       </XStack>
       {/* <ScrollView  horizontal height={"75vh"}  > */}
       <YStack
-        minW={1490}
+        minW={1690}
         bg="#fff"
         height={'64vh'}
         style={{
@@ -223,6 +223,9 @@ export default function FoodItems() {
           </Text>
           <Text width={180} fontWeight="700" color="#4F8CFF">
             Name
+          </Text>
+          <Text width={200} fontWeight="700" color="#4F8CFF">
+            Short Description
           </Text>
           <Text width={250} fontWeight="700" color="#4F8CFF">
             Description
@@ -257,6 +260,7 @@ export default function FoodItems() {
               >
                 <Shimmer style={{ width: 80, height: 80, borderRadius: 40 }} />
                 <Shimmer style={{ width: 160, height: 16, borderRadius: 8 }} />
+                <Shimmer style={{ width: 180, height: 16, borderRadius: 8 }} />
                 <Shimmer style={{ width: 220, height: 16, borderRadius: 8 }} />
                 <Shimmer style={{ width: 60, height: 16, borderRadius: 8 }} />
                 <Shimmer style={{ width: 140, height: 16, borderRadius: 8 }} />
@@ -299,6 +303,11 @@ export default function FoodItems() {
                 </XStack>
                 <Text width={180} fontWeight="600">
                   {item.name}
+                </Text>
+                <Text width={200} color="#666" fontSize="$3">
+                  {item.short_description && item.short_description.length > 35
+                    ? item.short_description.slice(0, 32) + '...'
+                    : item.short_description || 'No short description'}
                 </Text>
                 <Text width={250} color="#555">
                   {item.description.length > 40

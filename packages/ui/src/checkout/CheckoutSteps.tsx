@@ -14,6 +14,7 @@ const StepCard = styled(View, {
     shadowColor: 'rgba(0, 0, 0, 0.05)',
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 4,
+    width:"100%"
   },
 })
 

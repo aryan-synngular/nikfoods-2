@@ -23,6 +23,7 @@ export default function EditFoodItemForm({
   console.log(initialData)
   const [form, setForm] = useState({
     name: initialData?.name || '',
+    short_description: initialData?.short_description || '',
     description: initialData?.description || '',
     price: initialData?.price ?? 0,
     category: (initialData?.category as unknown as string[]) || [],
@@ -125,6 +126,15 @@ export default function EditFoodItemForm({
             placeholder="Name"
             value={form.name}
             onChangeText={(name) => setForm((f) => ({ ...f, name }))}
+            style={{ borderColor: '#4F8CFF', backgroundColor: '#F6FAFF' }}
+          />
+        </YStack>
+        <YStack>
+          <Label>Short Description</Label>
+          <Input
+            placeholder="Short description (e.g., A perfect balance of taste, aroma, and warmth.)"
+            value={form.short_description}
+            onChangeText={(short_description) => setForm((f) => ({ ...f, short_description }))}
             style={{ borderColor: '#4F8CFF', backgroundColor: '#F6FAFF' }}
           />
         </YStack>

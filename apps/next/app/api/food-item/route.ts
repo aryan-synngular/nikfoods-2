@@ -8,6 +8,7 @@ import cloudinary from 'lib/cloudinary'
 const foodItemSchema = z.object({
   name: z.string().min(1, 'Name is required and must be a non-empty string.'),
   description: z.string().optional(),
+  short_description: z.string().optional(),
   price: z.number().min(0, 'Price must be a non-negative number.'),
   category: z.array(z.string(), { error: 'Category is required' }),
   veg: z.boolean({ error: 'Veg must be a boolean.' }),
@@ -70,7 +71,17 @@ export async function POST(req: NextRequest) {
   try {
     const jsonData = await req.json()
     let parsedData = foodItemSchema.parse(jsonData)
-    const { name, description, price, category, veg, available, public_id, url } = parsedData
+    const {
+      name,
+      description,
+      short_description,
+      price,
+      category,
+      veg,
+      available,
+      public_id,
+      url,
+    } = parsedData
     console.log(parsedData)
 
     try {
@@ -81,6 +92,7 @@ export async function POST(req: NextRequest) {
       const item = await FoodItem.create({
         name,
         description,
+        short_description,
         price,
         category,
         veg,
@@ -117,6 +129,7 @@ export async function PUT(req: NextRequest) {
       _id,
       name,
       description,
+      short_description,
       price,
       category,
       veg,
@@ -146,7 +159,7 @@ export async function PUT(req: NextRequest) {
 
       const item = await FoodItem.findByIdAndUpdate(
         _id,
-        { name, description, price, category, veg, available, url, public_id },
+        { name, description, short_description, price, category, veg, available, url, public_id },
         { new: true }
       )
 
