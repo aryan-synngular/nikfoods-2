@@ -43,6 +43,36 @@ export async function apiCreateOrder<T>(orderData: any, token?: string): Promise
   }
 }
 
+// New secure order creation function for the checkout flow
+export async function apiCreateSecureOrder<T>(
+  orderData: {
+    deliveryAddress: string
+    currency?: string
+  },
+  token?: string
+): Promise<T> {
+  const url = `orders/create${token ? `?token=${token}` : ''}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    data: orderData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Secure order created:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error in secure order creation:', error)
+    throw error?.response?.data
+  }
+}
+
 export async function apiSubmitReview<T>(reviewData: {
   order: string
   rating: number

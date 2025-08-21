@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useScreen } from 'app/hook/useScreen'
 import { useStore } from 'app/src/store/useStore'
-import { apiCheckout, apiCreateOrder } from 'app/services/OrderService'
+import { apiCreateSecureOrder } from 'app/services/OrderService'
 import { apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
 import { useSearchParams } from 'next/navigation'
@@ -33,7 +33,8 @@ function PaymentFormInner({
   const [processing, setProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [paymentRequest, setPaymentRequest] = useState<StripePaymentRequest | null>(null)
-console.log(paymentRequest)
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null)
+
   const orderCalculations = useMemo(() => {
     if (!cart?.days) return { subtotal: 0, platformFee: 1.0, deliveryFee: 10.0, taxes: 0, total: 0 }
     const subtotal = cart.days.reduce(
@@ -48,47 +49,21 @@ console.log(paymentRequest)
     return { subtotal, platformFee, deliveryFee, discountAmount, taxes, total }
   }, [cart])
 
-  const transformCartToOrder = useCallback(() => {
-    if (!cart?.days || !selectedAddress) return null
-    return {
-      items: cart.days
-        .filter((day) => day.items.length > 0)
-        .map((day) => ({
-          day: day.day,
-          deliveryDate: day.date,
-          items: day.items.map((item) => ({
-            food: item.food._id,
-            quantity: item.quantity,
-            price: item.food.price,
-          })),
-          dayTotal: day.items.reduce((acc, item) => acc + item.food.price * item.quantity, 0),
-        })),
-      deliveryAddress: selectedAddress._id,
-      paymentMethod: 'Credit Card',
-      customerDetails: {
-        name: selectedAddress.name,
-        email: selectedAddress.email,
-        phone: selectedAddress.phone,
-      },
-    }
-  }, [cart, selectedAddress])
-
   // Initialize Payment Request (Apple Pay / Google Pay) when supported
   useEffect(() => {
     if (!stripe || !orderCalculations?.total) return
     const amountCents = Math.max(0, Math.round(orderCalculations.total * 100))
-    // country/currency should match your Stripe account configuration
+
     const pr = stripe.paymentRequest({
       country: 'US',
       currency: 'usd',
-      total: { label: 'NikFoods Order', amount: 400 },
+      total: { label: 'NikFoods Order', amount: amountCents },
       requestPayerName: true,
       requestPayerEmail: true,
       requestPayerPhone: true,
     })
-console.log(pr)
+
     pr.canMakePayment().then((result) => {
-      console.log(result)
       if (result) {
         setPaymentRequest(pr)
       } else {
@@ -109,23 +84,27 @@ console.log(pr)
       setProcessing(true)
       setError(null)
       try {
-        const orderData = transformCartToOrder()
-        if (!orderData) throw new Error('Unable to process cart data')
-        const orderResponse: any = await apiCreateOrder(orderData, token)
-        const orderId = orderResponse?.data?._id
-
-        const init: any = await apiCheckout<{ success: boolean; clientSecret?: string }>(
+        // Step 1: Create secure order
+        const orderResponse: any = await apiCreateSecureOrder(
           {
-            amount: Math.round(orderCalculations.total * 100),
-            orderId,
+            deliveryAddress: selectedAddress._id,
+            currency: 'usd',
           },
           token
         )
-        if (!init?.success || !init?.clientSecret) throw new Error('Failed to initialize payment')
 
+        if (!orderResponse?.success || !orderResponse?.data?.clientSecret) {
+          ev.complete('fail')
+          throw new Error(orderResponse?.error || 'Failed to create order')
+        }
+
+        const { orderId, clientSecret } = orderResponse.data
+        setCurrentOrderId(orderId)
+
+        // Step 2: Confirm payment
         const confirmParams = { payment_method: ev.paymentMethod.id }
         const { error: confirmError } = await stripe.confirmCardPayment(
-          init.clientSecret,
+          clientSecret,
           confirmParams,
           { handleActions: false }
         )
@@ -135,14 +114,17 @@ console.log(pr)
         }
 
         ev.complete('success')
-        const finalResult = await stripe.confirmCardPayment(init.clientSecret)
+        const finalResult = await stripe.confirmCardPayment(clientSecret)
         if (finalResult.error) {
           throw new Error(finalResult.error.message || 'Payment failed')
         }
 
+        // Step 3: Payment successful - clear cart and notify
         try {
           await apiClearCart(token)
-        } catch {}
+        } catch (clearError) {
+          console.warn('Failed to clear cart:', clearError)
+        }
 
         showMessage('Payment successful', 'success')
         if (onPaymentSuccess) onPaymentSuccess({ orderId, total: orderCalculations.total })
@@ -161,9 +143,9 @@ console.log(pr)
     }
   }, [
     paymentRequest,
-    stripe, 
+    stripe,
     token,
-    transformCartToOrder,
+    selectedAddress,
     orderCalculations,
     onPaymentError,
     onPaymentSuccess,
@@ -174,27 +156,31 @@ console.log(pr)
   const onPay = useCallback(async () => {
     if (!stripe || !elements) return
     if (!selectedAddress || !cart) return
+
     setProcessing(true)
     setError(null)
     try {
-      const orderData = transformCartToOrder()
-      if (!orderData) throw new Error('Unable to process cart data')
-      const orderResponse: any = await apiCreateOrder(orderData, token)
-      const orderId = orderResponse?.data?._id
-
-      const init: any = await apiCheckout<{ success: boolean; clientSecret?: string }>(
+      // Step 1: Create secure order
+      const orderResponse: any = await apiCreateSecureOrder(
         {
-          amount: Math.round(orderCalculations.total * 100),
-          orderId,
+          deliveryAddress: selectedAddress._id,
+          currency: 'usd',
         },
         token
       )
-      if (!init?.success || !init?.clientSecret) throw new Error('Failed to initialize payment')
 
+      if (!orderResponse?.success || !orderResponse?.data?.clientSecret) {
+        throw new Error(orderResponse?.error || 'Failed to create order')
+      }
+
+      const { orderId, clientSecret, totalAmount } = orderResponse.data
+      setCurrentOrderId(orderId)
+
+      // Step 2: Get card element and confirm payment
       const card = elements.getElement(CardElement)
       if (!card) throw new Error('Card element not found')
 
-      const confirmResult = await stripe.confirmCardPayment(init.clientSecret, {
+      const confirmResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card,
           billing_details: {
@@ -209,12 +195,15 @@ console.log(pr)
         throw new Error(confirmResult.error.message || 'Payment failed')
       }
 
+      // Step 3: Payment successful - clear cart and notify
       try {
         await apiClearCart(token)
-      } catch {}
+      } catch (clearError) {
+        console.warn('Failed to clear cart:', clearError)
+      }
 
       showMessage('Payment successful', 'success')
-      if (onPaymentSuccess) onPaymentSuccess({ orderId, total: orderCalculations.total })
+      if (onPaymentSuccess) onPaymentSuccess({ orderId, total: totalAmount })
       if (onOrderCreated) onOrderCreated(orderId)
     } catch (e: any) {
       setError(e?.message || 'Payment failed')
@@ -229,7 +218,6 @@ console.log(pr)
     selectedAddress,
     token,
     orderCalculations,
-    transformCartToOrder,
     onPaymentError,
     onPaymentSuccess,
     onOrderCreated,

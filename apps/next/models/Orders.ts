@@ -5,9 +5,11 @@ export type OrderStatus =
   | 'pending'
   | 'confirmed'
   | 'preparing'
-  | 'dispatched'
+  | 'out_for_delivery'
   | 'delivered'
   | 'cancelled'
+
+export type PaymentStatus = 'unpaid' | 'paid' | 'failed' | 'refunded'
 
 export type PaymentMethod = 'Credit Card' | 'Debit Card' | 'PayPal' | 'Cash on Delivery'
 
@@ -31,8 +33,11 @@ export interface IOrder extends Document {
   orderId: string
   items: IOrderDay[]
   totalPaid: number
+  currency: string
   status: OrderStatus
+  paymentStatus: PaymentStatus
   paymentMethod: PaymentMethod
+  stripePaymentIntentId?: string
   platformFee: number
   deliveryFee: number
   discount: {
@@ -76,16 +81,23 @@ const OrderSchema = new Schema<IOrder>(
     ],
 
     totalPaid: { type: Number, required: true },
+    currency: { type: String, default: 'usd', enum: ['usd', 'inr'] },
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'preparing', 'dispatched', 'delivered', 'cancelled'],
+      enum: ['pending', 'confirmed', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'],
       default: 'pending',
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['unpaid', 'paid', 'failed', 'refunded'],
+      default: 'unpaid',
     },
     paymentMethod: {
       type: String,
       enum: ['Credit Card', 'Debit Card', 'PayPal', 'Cash on Delivery'],
       default: 'Credit Card',
     },
+    stripePaymentIntentId: { type: String, sparse: true },
     platformFee: { type: Number, default: 1.0 },
     deliveryFee: { type: Number, default: 10.0 },
     discount: {

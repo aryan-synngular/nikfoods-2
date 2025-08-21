@@ -29,6 +29,7 @@ export const serverEnvSchema = z.object({
 
   GOOGLE_MAPS_API_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
 })
 
 export type ClientEnv = z.infer<typeof clientEnvSchema>
