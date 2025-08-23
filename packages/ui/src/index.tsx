@@ -45,6 +45,7 @@ export * from './cart/CartSidebar'
 export * from './checkout/CheckoutPage'
 export * from './checkout/CheckoutSteps'
 export * from './checkout/UpdateOrder'
+export * from './checkout/CheckoutSuccess'
 export * from './loaders'
 
 // Notification components

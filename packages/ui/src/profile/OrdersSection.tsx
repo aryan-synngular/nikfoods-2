@@ -675,7 +675,7 @@ console.log(dayName)
                       </Text>
                     </View>
                   ) : (
-                    order.status==="pending"&&<XStack gap="$2" flexShrink={1}>
+                    order.status==="confirmed"&&<XStack gap="$2" flexShrink={1}>
                       <Button
                         size={(isMobile||isMobileWeb)?"$2":"$3"}
                         bg="white"

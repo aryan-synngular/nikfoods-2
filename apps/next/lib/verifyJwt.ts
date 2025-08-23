@@ -13,7 +13,6 @@ const ACCESS_TOKEN_SECRET = JWT_SECRET!
 export async function verifyAuth(req: NextRequest) {
   // Check if coming from Expo (Bearer token present)
 
-  console.log(req.headers)
 
   const platform = req.headers.get('user-platform')
   if (platform == PLATFORM.MOBILE) {
@@ -59,7 +58,6 @@ export function decodeAccessToken(token: string): IUser {
     ) {
       throw new Error('INVALID_TOKEN')
     }
-    console.log('DECODED:', decoded)
     return decoded as IUser
   } catch (error) {
     throw new Error('INVALID_TOKEN')

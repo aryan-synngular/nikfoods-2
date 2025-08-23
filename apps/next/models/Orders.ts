@@ -13,8 +13,36 @@ export type PaymentStatus = 'unpaid' | 'paid' | 'failed' | 'refunded'
 
 export type PaymentMethod = 'Credit Card' | 'Debit Card' | 'PayPal' | 'Cash on Delivery'
 
+export interface IFoodItemCopy {
+  _id: Types.ObjectId
+  name: string
+  short_description?: string
+  description?: string
+  price: number
+  category?: Types.ObjectId[]
+  veg?: boolean
+  available?: boolean
+  public_id?: string
+  url?: string
+  createdAt?: Date
+  updatedAt?: Date
+}
+
+export interface IAddressCopy {
+  _id: Types.ObjectId
+  user: Types.ObjectId
+  name: string
+  email: string
+  phone: string
+  street_address: string
+  city: string
+  province: string
+  postal_code: string
+  location_remark?: string
+}
+
 export interface IOrderItem {
-  food: Types.ObjectId
+  food: IFoodItemCopy
   quantity: number
   price: number
 }
@@ -28,7 +56,7 @@ export interface IOrderDay {
 
 export interface IOrder extends Document {
   user: Types.ObjectId
-  address: Types.ObjectId
+  address: IAddressCopy
   deliveryBoy?: Types.ObjectId
   orderId: string
   items: IOrderDay[]
@@ -49,6 +77,40 @@ export interface IOrder extends Document {
   updatedAt?: Date
 }
 
+const FoodItemCopySchema = new Schema(
+  {
+    _id: { type: Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    short_description: { type: String },
+    description: { type: String },
+    price: { type: Number, required: true },
+    category: [{ type: Schema.Types.ObjectId }],
+    veg: { type: Boolean },
+    available: { type: Boolean },
+    public_id: { type: String },
+    url: { type: String },
+    createdAt: { type: Date },
+    updatedAt: { type: Date },
+  },
+  { _id: false }
+)
+
+const AddressCopySchema = new Schema(
+  {
+    _id: { type: Schema.Types.ObjectId, required: true },
+    user: { type: Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    street_address: { type: String, required: true },
+    city: { type: String, required: true },
+    province: { type: String },
+    postal_code: { type: String, required: true },
+    location_remark: { type: String },
+  },
+  { _id: false }
+)
+
 const OrderSchema = new Schema<IOrder>(
   {
     orderId: {
@@ -58,7 +120,7 @@ const OrderSchema = new Schema<IOrder>(
       default: () => `#ORD-${Date.now()}${Math.floor(Math.random() * 1000)}`,
     },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    address: { type: Schema.Types.ObjectId, ref: 'Address', required: false },
+    address: { type: AddressCopySchema, required: true },
     deliveryBoy: { type: Schema.Types.ObjectId, ref: 'DeliveryBoy', default: null },
 
     items: [
@@ -71,7 +133,7 @@ const OrderSchema = new Schema<IOrder>(
         deliveryDate: { type: Date, required: true },
         items: [
           {
-            food: { type: Schema.Types.ObjectId, ref: 'FoodItem', required: true },
+            food: { type: FoodItemCopySchema, required: true },
             quantity: { type: Number, required: true },
             price: { type: Number, required: true },
           },

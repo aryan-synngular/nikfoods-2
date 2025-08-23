@@ -128,6 +128,8 @@ export function LoginPage() {
           alignSelf: 'center',
         }}
       >
+
+      
         <Text
           fontSize={media.sm ? 24 : 28}
           fontWeight="700"
@@ -152,6 +154,89 @@ export function LoginPage() {
         </Text>
 
         {/* Email Input */}
+            {/* Social Login */}
+        <YStack mb={16} style={{ alignItems: 'center', gap: 16 }}>
+
+          <XStack style={{ gap: 16 }}>
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialLogin('google')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
+                }}
+                width={40}
+                height={40}
+                alt="Google"
+              />
+            </XStack>
+
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialLogin('facebook')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
+                }}
+                width={30}
+                height={30}
+                alt="Facebook"
+              />
+            </XStack>
+
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialLogin('apple')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png',
+                }}
+                width={30}
+                height={30}
+                alt="Apple"
+              />
+            </XStack>
+          </XStack>
+                <Text fontSize={14} color="#666">
+                  or login with
+                </Text>
+        </YStack>
         <YStack style={{ marginBottom: 16, position: 'relative' }}>
           <XStack position="absolute" style={{ left: 12, top: 12, zIndex: 1, opacity: 0.5 }}>
             <Mail size={20} color="#666" />
@@ -249,89 +334,7 @@ export function LoginPage() {
           {signingIn ? 'Logging in...' : 'Login'}
         </Button>
 
-        {/* Social Login */}
-        <YStack style={{ alignItems: 'center', gap: 16 }}>
-          <Text fontSize={14} color="#666">
-            or login with
-          </Text>
-
-          <XStack style={{ gap: 16 }}>
-            <XStack
-              width={40}
-              height={40}
-              style={{
-                borderRadius: 20,
-                cursor: 'pointer',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0',
-              }}
-              onPress={() => handleSocialLogin('google')}
-              pressStyle={{ opacity: 0.8 }}
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
-                }}
-                width={30}
-                height={30}
-                alt="Google"
-              />
-            </XStack>
-
-            <XStack
-              width={40}
-              height={40}
-              style={{
-                borderRadius: 20,
-                cursor: 'pointer',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0',
-              }}
-              onPress={() => handleSocialLogin('facebook')}
-              pressStyle={{ opacity: 0.8 }}
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
-                }}
-                width={20}
-                height={20}
-                alt="Facebook"
-              />
-            </XStack>
-
-            <XStack
-              width={40}
-              height={40}
-              style={{
-                borderRadius: 20,
-                cursor: 'pointer',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-                borderColor: '#E0E0E0',
-              }}
-              onPress={() => handleSocialLogin('apple')}
-              pressStyle={{ opacity: 0.8 }}
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png',
-                }}
-                width={20}
-                height={20}
-                alt="Apple"
-              />
-            </XStack>
-          </XStack>
-        </YStack>
+      
       </YStack>
 
       {/* Sign Up */}

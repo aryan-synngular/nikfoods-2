@@ -6,6 +6,7 @@ import { Eye, EyeOff, Mail, Lock, User } from '@tamagui/lucide-icons'
 import { useLink } from 'solito/navigation'
 import { useAuth } from 'app/provider/auth-context'
 import { useToast } from '@my/ui/src/useToast'
+import { AxiosError } from 'axios'
 
 export function SignupPage() {
   const { register, signingIn, socialSignIn } = useAuth()
@@ -83,7 +84,7 @@ export function SignupPage() {
       const data = await register({ email, password })
       console.log(data)
 
-      showToast('Account created successfully! Please add your delivery address.', 'success')
+      showToast('Please add your delivery address.', 'success')
 
       // Navigate to step 2
       if (signupStep2Link.onPress) {
@@ -93,8 +94,8 @@ export function SignupPage() {
       console.log(error)
 
       // Handle the specific error messages
-      if (error instanceof Error) {
-        showToast(error.message, 'error')
+      if (error instanceof AxiosError) {
+        showToast(error.response.data.error||  error.message, 'error')
       } else {
         showToast('Registration failed. Please try again.', 'error')
       }
@@ -172,6 +173,89 @@ export function SignupPage() {
         <Text fontSize={14} color="#666" style={{ textAlign: 'center', marginBottom: 24 }}>
           No more typing your address every time. Pinky promise.
         </Text>
+
+<YStack mb={16} style={{ alignItems: 'center', gap: 16 }}>
+
+          <XStack style={{ gap: 16 }}>
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialAuth('google')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
+                }}
+                width={40}
+                height={40}
+                alt="Google"
+              />
+            </XStack>
+
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialAuth('facebook')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
+                }}
+                width={30}
+                height={30}
+                alt="Facebook"
+              />
+            </XStack>
+
+            <XStack
+              width={50}
+              height={50}
+              style={{
+                borderRadius: 40,
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+              }}
+              onPress={() => handleSocialAuth('apple')}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              <Image
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png',
+                }}
+                width={30}
+                height={30}
+                alt="Apple"
+              />
+            </XStack>
+          </XStack>
+                <Text fontSize={14} color="#666">
+                  or login with
+                </Text>
+        </YStack>
 
         {/* Email Input */}
         <YStack style={{ marginBottom: 16, position: 'relative' }}>
@@ -280,83 +364,7 @@ export function SignupPage() {
           {isLoading || signingIn ? 'Creating Account...' : 'Next'}
         </Button>
 
-        {/* Social Signup */}
-        <YStack style={{ alignItems: 'center', gap: 16 }}>
-          <Text fontSize={14} color="#666">
-            or signup with
-          </Text>
-
-          <XStack gap={16}>
-            <XStack
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-              }}
-              onPress={() => handleSocialAuth('google')}
-              pressStyle={{ opacity: 0.8 }}
-              cursor="pointer"
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
-                }}
-                style={{ width: 20, height: 20 }}
-                alt="Google"
-              />
-            </XStack>
-
-            <XStack
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-              }}
-              onPress={() => handleSocialAuth('facebook')}
-              pressStyle={{ opacity: 0.8 }}
-              cursor="pointer"
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
-                }}
-                style={{ width: 20, height: 20 }}
-                alt="Facebook"
-              />
-            </XStack>
-
-            <XStack
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                borderWidth: 1,
-              }}
-              onPress={() => handleSocialAuth('apple')}
-              pressStyle={{ opacity: 0.8 }}
-              cursor="pointer"
-            >
-              <Image
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png',
-                }}
-                style={{ width: 20, height: 20 }}
-                alt="Apple"
-              />
-            </XStack>
-          </XStack>
-        </YStack>
+       
       </YStack>
 
       {/* Login */}

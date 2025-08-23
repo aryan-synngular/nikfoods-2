@@ -80,32 +80,30 @@ export async function POST(req: NextRequest) {
       return result
     }
 
-    // Build UpdateOrder items array
+    // Build UpdateOrder items array without price calculations
     const updatingOrderDays: Array<{
       day: string
       deliveryDate: Date
-      items: Array<{ food: any; quantity: number; price: number }>
-      dayTotal: number
+      items: Array<{ food: any; quantity: number }>
     }> = []
 
     for (const [day, dayCart] of Object.entries(cartItems)) {
       // Skip empty days
       if (!dayCart || Object.keys(dayCart).length === 0) continue
 
-      const items: Array<{ food: any; quantity: number; price: number }> = []
+      const items: Array<{ food: any; quantity: number }> = []
 
       for (const [foodId, quantity] of Object.entries(dayCart)) {
         if (!quantity || quantity <= 0) continue
 
         const food = await FoodItem.findById(foodId)
-        const price = food?.price ?? 0
-        items.push({ food: food?._id ?? foodId, quantity, price })
+        if (!food) continue
+
+        items.push({ food: food._id, quantity })
       }
 
       // If no valid items for the day, skip
       if (items.length === 0) continue
-
-      const dayTotal = items.reduce((sum, item) => sum + item.quantity * item.price, 0)
 
       // Set deliveryDate as current week's respective day's date
       const deliveryDate = getCurrentWeekDateFor(day)
@@ -114,7 +112,6 @@ export async function POST(req: NextRequest) {
         day,
         deliveryDate,
         items,
-        dayTotal,
       })
     }
 
@@ -128,17 +125,23 @@ export async function POST(req: NextRequest) {
     const created = await UpdateOrder.create({
       originalOrderId: originalOrder._id,
       items: updatingOrderDays,
+      status: 'pending',
+      paymentStatus: 'unpaid',
+      paymentMethod: 'Credit Card',
     })
 
     return NextResponse.json({
       success: true,
+      data: {
+        updatingOrder: created,
+        originalOrder,
+      },
       message: 'Updating order created successfully',
-      data: { updatingOrderId: created._id.toString() },
     })
-  } catch (error) {
-    console.error('Create updating order error:', error)
+  } catch (error: any) {
+    console.error('Error creating updating order:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to create updating order' },
+      { success: false, error: error.message || 'Failed to create updating order' },
       { status: 500 }
     )
   }

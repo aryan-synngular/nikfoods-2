@@ -62,7 +62,9 @@ type CartActions = {
   fetchFoodItems: (params: any) => Promise<void>
   foodItems: IFoodItem[]
   vegOnly: boolean
+  successOrderId:string
   handleVegOnlyToggle: (vegOnly: boolean) => void
+  setSuccessOrderId:(successOrderId:string)=>void
   fetchWeeklyMenu: () => Promise<void>
   saveWeeklyMenu: (weeklyMenuData: Record<DayKey, string[]>) => Promise<void>
   setSelectedWeekDay: (day: DayKey | 'all-days') => void
@@ -94,6 +96,7 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   cartLoading: false,
   vegOnly: false,
   cartTotalAmount: 0,
+  successOrderId:"",
   cartRecommendations: {} as IListResponse<IFoodItem>,
   weeklyMenu: {
     monday: [],
@@ -266,6 +269,10 @@ export const useStore = create<CartState & CartActions>((set, get) => ({
   handleVegOnlyToggle: (vegOnly: boolean) => {
     console.log('Toggling vegOnly:', vegOnly)
     set({ vegOnly: vegOnly })
+  },
+  setSuccessOrderId: (successOrderId: string) => {
+    console.log('successOrderId:', successOrderId)
+    set({ successOrderId })
   },
   fetchWeeklyMenu: async () => {
     set({ weeklyMenuLoading: true })

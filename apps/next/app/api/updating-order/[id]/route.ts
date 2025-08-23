@@ -27,7 +27,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       path: 'originalOrderId',
       model: Order,
     })
-
+console.log("---updatingOrder")
+console.log(updatingOrder)
     if (!updatingOrder) {
       return NextResponse.json(
         { success: false, error: 'Updating order not found' },
@@ -40,6 +41,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     if (!originalOrder || String(originalOrder.user) !== String(userId)) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 403 })
     }
+    
 
     return NextResponse.json({
       success: true,

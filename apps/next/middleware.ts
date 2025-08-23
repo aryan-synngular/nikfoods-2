@@ -32,14 +32,12 @@ export default withAuth(
       return NextResponse.redirect(new URL('/login', req.url))
     }
 
-    // If user profile is not completed but accessing other pages
-    if (token.isCompleted == false && pathname !== '/add-address') {
+    if (token.isCompleted == false && pathname == '/add-address') {
       console.log('Not Complete')
-      return NextResponse.redirect(new URL('/add-address', req.url))
+      return NextResponse.next()
     }
 
-    // If user is completed but tries to access add-address
-    if (token.isCompleted == true && pathname === '/add-address') {
+    if (pathname === '/add-address') {
       return NextResponse.redirect(new URL('/', req.url))
     }
 

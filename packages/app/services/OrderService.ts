@@ -22,8 +22,8 @@ export async function apiGetOrders<T>(token?: string): Promise<T> {
   }
 }
 
-export async function apiCreateOrder<T>(orderData: any, token?: string): Promise<T> {
-  const url = `orders${token ? `?token=${token}` : ''}`
+export async function apiCreateOrder<T>(orderData: any): Promise<T> {
+  const url = `orders`
 
   const axiosConfig: AxiosRequestConfig = {
     url,
@@ -69,6 +69,35 @@ export async function apiCreateSecureOrder<T>(
     return response.data
   } catch (error) {
     console.error('Error in secure order creation:', error)
+    throw error?.response?.data
+  }
+}
+
+export async function apiCreateSecureOrderForUpdate<T>(
+  orderData: {
+    updatingOrderId: string
+    currency?: string
+  },
+  token?: string
+): Promise<T> {
+  const url = `updating-order/create-secure-order${token ? `?token=${token}` : ''}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'POST',
+    data: orderData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Secure updating order created:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error in secure updating order creation:', error)
     throw error?.response?.data
   }
 }
@@ -148,6 +177,26 @@ export async function apiGetOrderDetails<T>(orderId: string): Promise<T> {
     return response.data
   } catch (error) {
     console.error('Error fetching order details::', error)
+    throw error?.response?.data
+  }
+}
+
+export async function apiGetUpdateOrderDetails<T>(updatingOrderId: string): Promise<T> {
+  const url = `updating-order/${updatingOrderId}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Order details fetched::', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching update order details::', error)
     throw error?.response?.data
   }
 }
@@ -306,6 +355,68 @@ export async function apiGenerateCheckoutToken<T>(): Promise<T> {
     return response.data
   } catch (error) {
     console.error('Error generating checkout token::', error)
+    throw error?.response?.data
+  }
+}
+
+// Check payment status of an order
+export async function apiCheckPaymentStatus<T>(
+  orderId: string,
+  options?: { orderType?: string; updatingOrderId?: string }
+): Promise<T> {
+  let url = `orders/payment-status/${orderId.replace('#', '')}`
+
+  // Add query parameters for order type and updating order ID
+  if (options?.orderType && options?.updatingOrderId) {
+    url += `?orderType=${options.orderType}&updatingOrderId=${options.updatingOrderId}`
+  }
+
+  console.log(url)
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Payment status checked:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error checking payment status:', error)
+    throw error?.response?.data
+  }
+}
+
+// Get order details by orderId
+export async function apiGetOrderById<T>(orderId: string): Promise<T> {
+  if (!orderId) {
+    throw new Error('Order ID is required')
+  }
+
+  const url = `orders/${orderId.replace('#', '')}`
+  console.log('Getting order details for URL:', url)
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log('Order details fetched:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error getting order details:', error)
+    console.error('Error details:', {
+      message: error?.message,
+      status: error?.response?.status,
+      data: error?.response?.data,
+      url: url,
+    })
     throw error?.response?.data
   }
 }

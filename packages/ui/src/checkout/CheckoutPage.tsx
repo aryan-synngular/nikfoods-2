@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { ScrollView, Text, YStack, XStack } from 'tamagui'
+import { ScrollView, Text, YStack, XStack, Button, Spinner } from 'tamagui'
+import { Plus } from '@tamagui/lucide-icons'
 import { CartSummary } from '../cart/CartSummary'
 import { EmptyCart } from '../cart/EmptyCart'
 import { SavingsBanner } from '../cart/SavingsBanner'
@@ -18,6 +19,79 @@ import { useScreen } from 'app/hook/useScreen'
 import { useAuth } from 'app/provider/auth-context'
 import { Platform } from 'react-native'
 import { useStore } from 'app/src/store/useStore'
+import { useToast } from '../useToast'
+import AddressPopup from '../popups/AddressPopup'
+import { CartSummaryShimmerLoader } from '../loaders'
+
+// Shimmer loader component
+function Shimmer({ style }: { style?: any }) {
+  return (
+    <YStack
+      bg="#ececec"
+      style={{ ...style, opacity: 0.7, overflow: 'hidden', position: 'relative' }}
+      className="shimmer-effect"
+    />
+  )
+}
+
+// Loading skeleton for checkout page
+function CheckoutSkeleton({ isMobile, isMobileWeb }: { isMobile: boolean; isMobileWeb: boolean }) {
+  return (
+    <YStack
+      pt={100}
+      style={{
+        flex: 1,
+        justifyContent: 'start',
+        alignItems: 'center',
+      }}
+    >
+      <YStack
+        style={{
+          maxWidth: isMobile || isMobileWeb ? 400 : 1200,
+          width: '100%',
+          marginHorizontal: 'auto',
+          paddingHorizontal: 24,
+        }}
+      >
+        <XStack
+          style={{
+            width: '100%',
+            flexDirection: isMobile || isMobileWeb ? 'column' : 'row',
+            gap: !isMobile ? 24 : 0,
+            paddingVertical: 24,
+          }}
+        >
+          {/* Left column skeleton */}
+          <YStack
+            style={{
+              flex: isMobile || isMobileWeb ? 1 : 0.65,
+              width: isMobile || isMobileWeb ? '100%' : '65%',
+            }}
+          >
+            <YStack style={{ gap: 16 }}>
+              <Shimmer style={{ width: '100%', height: 60, borderRadius: 8 }} />
+              <Shimmer style={{ width: '100%', height: 200, borderRadius: 8 }} />
+              <Shimmer style={{ width: '100%', height: 150, borderRadius: 8 }} />
+            </YStack>
+          </YStack>
+
+          {/* Right column skeleton (desktop only) */}
+          {!isMobile && !isMobileWeb && (
+            <YStack
+              style={{
+                flex: 0.35,
+                width: '35%',
+              }}
+            >
+              <Shimmer style={{ width: '100%', height: 300, borderRadius: 16 }} />
+            </YStack>
+          )}
+        </XStack>
+      </YStack>
+    </YStack>
+  )
+}
+
 interface CartItemData {
   id: string
   name: string
@@ -50,44 +124,29 @@ export function CheckoutPage({
 }: CartPageProps) {
   const { loading, user } = useAuth()
   console.log('isAuthenticated')
-  const {cartTotalAmount}=useStore()
+  const { cartTotalAmount, fetchCart } = useStore()
   // console.log(isAuthenticated)
   console.log(user)
   const { isMobile, isMobileWeb } = useScreen()
-
 
   // State to track if we're on desktop or mobile
   // const [isMobile, setIsDesktop] = useState<boolean | null>(false)
   const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
   const [currentStep, setCurrentStep] = useState<'delivery' | 'payment'>('delivery')
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
+  const [isLoadingCart, setIsLoadingCart] = useState(true)
+  const [isLoadingAddress, setIsLoadingAddress] = useState(true)
+  const [showAddressPopup, setShowAddressPopup] = useState(false)
+  const { showMessage } = useToast()
   const handleAddressChange = (val) => {
     setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
   }
   const [total, setTotal] = useState<{ total: number }>({ total: 0 })
-  // Effect to check window width and update isMobile state
-  // useEffect(() => {
-  //   // Function to check if we're on desktop
-  //   const checkIfDesktop = () => {
-  //     if (typeof window !== 'undefined') {
-  //       setIsDesktop(window.innerWidth >= 768) // 768px is a common breakpoint for tablet/desktop
-  //     }
-  //   }
-
-  //   // Check initially
-  //   checkIfDesktop()
-
-  //   // Add event listener for window resize
-  //   if (typeof window !== 'undefined') {
-  //     window.addEventListener('resize', checkIfDesktop)
-
-  //     // Cleanup
-  //     return () => window.removeEventListener('resize', checkIfDesktop)
-  //   }
-  // }, [])
+ 
 
   const getAllAddress = useCallback(async () => {
     try {
+      setIsLoadingAddress(true)
       const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
       setAddress(data?.data)
       if (data?.data?.items.length > 0) {
@@ -95,118 +154,35 @@ export function CheckoutPage({
       }
     } catch (error) {
       console.log('Error:', error)
-      
+      showMessage('Error loading addresses', 'error')
+    } finally {
+      setIsLoadingAddress(false)
     }
   }, [])
+  const fetchCartData = useCallback(async () => {
+    try {
+      setIsLoadingCart(true)
+      await fetchCart()
+    } catch (error) {
+      console.error('Error fetching cart:', error)
+      showMessage('Error loading cart data', 'error')
+    } finally {
+      setIsLoadingCart(false)
+    }
+  }, [showMessage])
 
   useEffect(() => {
     getAllAddress()
+    fetchCartData()
   }, [getAllAddress])
   // Sample cart data organized by day - in a real app, this would come from props or context
-  const [cartDays, setCartDays] = useState<CartDayData[]>([
-    {
-      day: 'Wednesday',
-      date: '2025-07-08',
-      deliveryLabel: 'Delivery on Thursday',
-      items: [
-        {
-          id: '1',
-          name: 'Paneer 65',
-          description: 'Punjabi Chefs 2 pcs, bubble-wrap+green chutney',
-          price: 14.0,
-          quantity: 1,
-          imageUrl: '/foodImages/paneer65.png',
-        },
-        {
-          id: '2',
-          name: 'Dodda Barfi',
-          description: 'Pack of 5 Dodda Barfi',
-          price: 10.0,
-          quantity: 1,
-          imageUrl: '/foodImages/barfi.png',
-        },
-      ],
-    },
-    {
-      day: 'Thursday',
-      date: '2025-07-09',
-      deliveryLabel: 'Same day delivery',
-      items: [
-        {
-          id: '3',
-          name: 'Doda Barfi (5 pcs)',
-          description: "Set of 5 barfi's made from mawa and milk",
-          price: 24.0,
-          quantity: 2,
-          imageUrl: '/foodImages/barfi.png',
-        },
-        {
-          id: '4',
-          name: 'Paneer 65',
-          description: 'Punjabi Chefs 2 pcs, bubble-wrap+green chutney',
-          price: 14.0,
-          quantity: 1,
-          imageUrl: '/foodImages/paneer65.png',
-        },
-      ],
-    },
-    {
-      day: 'Friday',
-      date: '2025-07-10',
-      deliveryLabel: 'Same day delivery',
-      items: [
-        {
-          id: '5',
-          name: 'Panjiri',
-          description: 'Punjabi Chefs 2 pcs, bubble-wrap+green chutney',
-          price: 14.0,
-          quantity: 1,
-          imageUrl: '/foodImages/panjiri.png',
-        },
-        {
-          id: '6',
-          name: 'Kesar Milk',
-          description: 'Regular size glass with dry fruits mixed',
-          price: 12.0,
-          quantity: 1,
-          imageUrl: '/foodImages/kesarMilk.png',
-        },
-      ],
-    },
-  ])
-
-  // Sample dessert deals
-  const dessertDeals = [
-    {
-      id: 'd1',
-      name: 'Gulab Jamun',
-      description: 'Pack of 2 Gulab Jamuns',
-      price: 6.0,
-      imageUrl: 'https://www.cookwithmanali.com/wp-content/uploads/2019/04/Gulab-Jamun-500x500.jpg',
-    },
-    {
-      id: 'd2',
-      name: 'Dodda Barfi',
-      description: 'Pack of 5 Dodda Barfi',
-      price: 9.0,
-      imageUrl: 'https://www.cookwithmanali.com/wp-content/uploads/2018/08/Kaju-Katli-500x500.jpg',
-    },
-    {
-      id: 'd3',
-      name: 'Rasmalai',
-      description: 'Pack of 2 Kesar milk dipped Rasmalai',
-      price: 4.5,
-      imageUrl:
-        'https://www.cookwithmanali.com/wp-content/uploads/2017/08/Rasmalai-Recipe-500x500.jpg',
-    },
-  ]
 
   const getTotal = useCallback(async () => {
     try {
       // const data = await apiGetCartTotalAmount<IResponse<{ total: number }>>()
       // console.log(data)
       // setTotal(data?.data)
-      setTotal({total:0})
+      setTotal({ total: 0 })
     } catch (error) {
       console.log(error)
     }
@@ -215,31 +191,34 @@ export function CheckoutPage({
     getTotal()
   }, [getTotal])
 
-  // Calculate cart totals
-  const subtotal = cartDays.reduce((sum, day) => {
-    return sum + day.items.reduce((daySum, item) => daySum + item.price * item.quantity, 0)
-  }, 0)
+  // Combined loading state
+  const isLoading = isLoadingCart || isLoadingAddress
+
+  // Handle address popup success
+  const handleAddressSuccess = () => {
+    setShowAddressPopup(false)
+    getAllAddress() // Refetch addresses
+    showMessage('Address added successfully!', 'success')
+  }
 
   // Check if cart is empty
-  const isCartEmpty = cartDays.every((day) => day.items.length === 0)
+  const isCartEmpty = cartTotalAmount == 0
+
+  // Handle case when user has no addresses
+  const hasNoAddresses = user && user?.email && (!address?.items || address.items.length === 0)
 
   // Don't render the layout until we know if we're on desktop or mobile
-  if (!isMobile === null && loading) {
+  if ((!isMobile === null && loading) || isLoading) {
     return (
-      <YStack
-        style={{
-          flex: 1,
-          backgroundColor: '#FAFAFA',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text>Loading...</Text>
+      <YStack style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
+        <AppHeader />
+        <YStack style={{ flex: 1, paddingTop: isMobile || isMobileWeb ? 0 : 0 }}>
+          <CheckoutSkeleton isMobile={isMobile} isMobileWeb={isMobileWeb} />
+        </YStack>
       </YStack>
     )
   }
   const onHandleClick = () => {
-    console.log('Helleoefne ')
     console.log(currentStep)
     if (currentStep == 'delivery') {
       setCurrentStep('payment')
@@ -271,8 +250,8 @@ export function CheckoutPage({
         {/* Cart title - directly below header without container */}
         <YStack
           style={{
-            paddingTop: (isMobile || isMobileWeb) ? 100: 16,
-            paddingBottom: (isMobile || isMobileWeb )? 8 : 16,
+            paddingTop: (isMobile || isMobileWeb) ? 60 : 16,
+            paddingBottom: (isMobile || isMobileWeb) ? 8 : 16,
             backgroundColor: 'white',
             marginBottom: (isMobile || isMobileWeb) ? 8 : 0,
           }}
@@ -299,15 +278,73 @@ export function CheckoutPage({
               Checkout
             </Text>
           </XStack> */}
-        </YStack> 
-        {isCartEmpty ? (
+        </YStack>
+
+        {/* Show Add Address screen when user has no addresses */}
+        {hasNoAddresses ? (
           <YStack
             style={{
-              paddingVertical: (isMobile || isMobileWeb )?4:24,
+              flex: 1,
+              maxWidth: (isMobile || isMobileWeb) ? 400 : 600,
+              width: '100%',
+              marginHorizontal: 'auto',
+              paddingHorizontal: 24,
+              paddingVertical: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <YStack
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 16,
+                padding: 32,
+                alignItems: 'center',
+                gap: 24,
+                borderWidth: 1,
+                borderColor: '#F0F0F0',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.05,
+                shadowRadius: 8,
+                elevation: 2,
+              }}
+            >
+              <Text
+                fontSize={isMobile || isMobileWeb ? 20 : 24}
+                fontWeight="700"
+                color="#2A1A0C"
+                style={{ textAlign: 'center' }}
+              >
+                Add Delivery Address
+              </Text>
+              <Text fontSize={16} color="#666" style={{ maxWidth: 300, textAlign: 'center' }}>
+                You need to add a delivery address to proceed with checkout
+              </Text>
+              <Button
+                size="$4"
+                bg="#FF9F0D"
+                color="white"
+                icon={<Plus size={20} />}
+                onPress={() => setShowAddressPopup(true)}
+                pressStyle={{ opacity: 0.8, scale: 0.98 }}
+                style={{
+                  borderRadius: 12,
+                  paddingHorizontal: 24,
+                }}
+              >
+                Add Address
+              </Button>
+            </YStack>
+          </YStack>
+        ) : isCartEmpty ? (
+          <YStack
+            style={{
+              paddingVertical: isMobile || isMobileWeb ? 4 : 24,
               maxWidth: 1200,
               width: '100%',
               marginHorizontal: 'auto',
-              paddingHorizontal: (isMobile || isMobileWeb )?4:24,
+              paddingHorizontal: isMobile || isMobileWeb ? 4 : 24,
             }}
           >
             <EmptyCart onBrowse={onBrowse} />
@@ -315,17 +352,17 @@ export function CheckoutPage({
         ) : (
           <YStack
             style={{
-              maxWidth:( isMobile||isMobileWeb) ? 400 : 1200,
+              maxWidth: isMobile || isMobileWeb ? 400 : 1200,
               width: '100%',
               marginHorizontal: 'auto',
-              paddingHorizontal: 24,
+              paddingHorizontal:(isMobile || isMobileWeb)?12: 24,
             }}
           >
             <XStack
               style={{
                 width: '100%',
                 height: '100%',
-                flexDirection: (isMobile||isMobileWeb) ? "column" : 'row',
+                flexDirection: isMobile || isMobileWeb ? 'column' : 'row',
                 gap: !isMobile ? 24 : 0,
                 paddingVertical: 24,
               }}
@@ -337,20 +374,22 @@ export function CheckoutPage({
                   width: !isMobile ? (currentStep == 'payment' ? '100%' : '65%') : '100%',
                 }}
               > */}
-                <YStack
+              <YStack
                 style={{
-                  flex:( isMobile || isMobileWeb )? 1 : (currentStep == 'payment' ? 1 : 0.65),
-                  width:( isMobile || isMobileWeb) ? '100%' : (currentStep == 'payment' ? '100%' : '65%'),
+                  flex: isMobile || isMobileWeb ? 1 : currentStep == 'payment' ? 1 : 0.65,
+                  width:
+                    isMobile || isMobileWeb ? '100%' : currentStep == 'payment' ? '100%' : '65%',
                 }}
               >
-                <ScrollView height={'100%'} style={{ flex: 1 }}>
-                  {((user && user?.email)) ? (
+                <ScrollView showsVerticalScrollIndicator={false} height={'100%'} style={{ flex: 1 }}>
+                  {user && user?.email ? (
                     <CheckoutLoggedIn
                       addresses={address?.items ?? []}
                       goBack={() => setCurrentStep('delivery')}
                       handleAddressChange={handleAddressChange}
                       selectedAddress={selectedAddress!}
                       currentStep={currentStep}
+                      onAddAddressClick={() => setShowAddressPopup(true)}
                     />
                   ) : (
                     // <Text>Yerlig</Text>
@@ -381,6 +420,7 @@ export function CheckoutPage({
                     }}
                   >
                     <ScrollView
+                    showsVerticalScrollIndicator={false}
                       style={{
                         height: '100%',
                         paddingRight: 0,
@@ -406,11 +446,14 @@ export function CheckoutPage({
                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                           }}
                         >
+                          {isLoading ? (
+                                                    <CartSummaryShimmerLoader />
+                                                  ) : (
                           <CartSummary
                             subtotal={total.total}
                             buttonTitle="Continue To Pay"
                             onCheckout={onHandleClick}
-                          />
+                          />)}
                         </YStack>
 
                         {/* Dessert deals section */}
@@ -444,8 +487,10 @@ export function CheckoutPage({
                       position: 'sticky',
                       bottom: 0,
                       // width: '100%',
-                      backgroundColor: '#FAFAFA',
-                      padding: 16,
+                      backgroundColor: 'transparent',
+                                             borderRadius: 16,
+
+                      padding: (isMobile || isMobileWeb)?0:16,
                       paddingTop: 0,
                       zIndex: 10,
                     }}
@@ -462,13 +507,18 @@ export function CheckoutPage({
                         shadowOpacity: 0.05,
                         shadowRadius: 8,
                         elevation: 2,
+                        marginBottom: 100,
                       }}
                     >
+                      {isLoading ? (
+                                                <CartSummaryShimmerLoader />
+                                              ) : (
                       <CartSummary
-                        subtotal={total.total??cartTotalAmount}
-                        buttonTitle={isMobile ? 'sad' : 'Continue To Pay'}
+                        subtotal={total.total ?? cartTotalAmount}
+                        buttonTitle={isMobile ? 'Continue To Pay' : 'Continue To Pay'}
                         onCheckout={onHandleClick}
-                      />
+
+                      />)}
                     </YStack>
                   </YStack>
                 ))}
@@ -476,6 +526,14 @@ export function CheckoutPage({
           </YStack>
         )}
       </YStack>
+
+      {/* Address Popup */}
+      <AddressPopup
+        editDialogOpen={showAddressPopup}
+        editItem={null}
+        setEditDialogOpen={setShowAddressPopup}
+        onSuccess={handleAddressSuccess}
+      />
     </YStack>
   )
 }

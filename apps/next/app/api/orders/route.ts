@@ -5,7 +5,6 @@ import DeliveryBoy from 'models/DeliveryBoy'
 import Review from 'models/Review'
 import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
-import FoodItem from 'models/FoodItem'
 import User from 'models/User'
 
 // Define interfaces for better type safety
@@ -32,7 +31,7 @@ interface OrderDocument {
     name: string
     location: string
   }
-  deliveryAddress: string
+  deliveryAddress: any
   paymentMethod: string
   platformFee: number
   deliveryFee: number
@@ -88,25 +87,15 @@ export async function GET(req: NextRequest) {
     const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '10')))
     const skip = (page - 1) * limit
 
-    // Fetch orders with deliveryBoy and nested food populated
-    const orders = await Order.find({ user: id })
+    // Fetch orders with deliveryBoy and user populated
+    const orders = await Order.find({ user: id, status:"confirmed",paymentStatus:"paid" })
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip)
       .populate({
-        path: 'items.items.food',
-        model: FoodItem,
-        select: 'name price',
-      })
-      .populate({
         path: 'user',
         model: User,
       })
-      .populate({
-        path: 'address',
-        model: 'Address',
-      })
-      // .populate('deliveryBoy', 'name phone email vehicleNumber')
       .lean()
 
     const total = await Order.countDocuments({ user: id })
@@ -148,7 +137,7 @@ export async function GET(req: NextRequest) {
         day: dayItem.day,
         deliveryDate: new Date(dayItem.deliveryDate).toISOString().split('T')[0],
         products: (dayItem.items || []).map((productItem: any) => ({
-          name: typeof productItem.food === 'object' ? productItem.food.name : 'Unknown',
+          name: productItem.food?.name || 'Unknown',
           quantity: productItem.quantity,
           price: productItem.price,
         })),
@@ -184,7 +173,7 @@ export async function GET(req: NextRequest) {
           name: 'Nikfoods',
           location: 'San Francisco',
         },
-        deliveryAddress: order?.address, // Keep static to match old structure
+        deliveryAddress: order?.address, // Now contains complete address copy
         deliveryBoy: order.deliveryBoy
           ? {
               name: order.deliveryBoy.name,
@@ -292,6 +281,7 @@ export async function POST(req: NextRequest) {
 
     const newOrder = new Order({
       user: id,
+      address: deliveryAddress || '',
       items,
       totalPaid,
       platformFee,
@@ -301,8 +291,6 @@ export async function POST(req: NextRequest) {
         code: 'TRYNEW',
       },
       taxes,
-      address: deliveryAddress || '',
-      paymentMethod: paymentMethod || 'Credit Card',
       status: 'pending', // Start with pending status
     })
 

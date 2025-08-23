@@ -45,7 +45,6 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     '/login',
     '/signup',
     '/signup/step2',
-    '/checkout',
     '/account-created',
   ])
 
@@ -63,13 +62,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     return <Redirect href="/login" />
   }
 
-  if (user && !user.isCompleted && path !== '/add-address') {
-    return <Redirect href="/add-address" />
-  }
-
   if (
     user &&
-    user.isCompleted &&
     (path === '/login' || path === '/signup' || path === '/signup/step2')
   ) {
     return <Redirect href="/" />

@@ -56,7 +56,7 @@ export default function Selectable(
           </Sheet>
         </Adapt>
 
-        <Select.Content zIndex={200000}>
+        <Select.Content >
           <Select.ScrollUpButton items="center" justify="center" position="relative" height="$3">
             <YStack z={10}>
               <ChevronUp size={20} />

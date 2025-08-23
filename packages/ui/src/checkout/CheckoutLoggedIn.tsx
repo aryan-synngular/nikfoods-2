@@ -170,6 +170,7 @@ const CheckoutLoggedIn = ({
   onPaymentSuccess,
   onPaymentError,
   onOrderCreated,
+  onAddAddressClick,
 }: {
   currentStep: 'delivery' | 'payment'
   addresses: IAddress[]
@@ -179,83 +180,12 @@ const CheckoutLoggedIn = ({
   onPaymentSuccess?: (orderData: any) => void
   onPaymentError?: (error: any) => void
   onOrderCreated?: (orderId: string) => void
+  onAddAddressClick?: () => void
 }) => {
-  const { cartTotalAmount, cart, fetchCart } = useStore()
 
-  console.log(cart)
-  const ordersPage = useLink({
-    href: '/account',
-  })
+ 
   const { isMobile } = useScreen()
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
-  const [paymentError, setPaymentError] = useState<string | null>(null)
-  // const [isMobile, setIsMobile] = useState(false)
-  const [isLoadingCart, setIsLoadingCart] = useState(true)
-  const { showMessage } = useToast()
 
-  // Mobile detection
-  // const checkMobile = useCallback(() => {
-  //   if (typeof window !== 'undefined') {
-  //     setIsMobile(window.innerWidth < 768)
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     checkMobile()
-  //     const handleResize = () => checkMobile()
-  //     window.addEventListener('resize', handleResize)
-  //     return () => window.removeEventListener('resize', handleResize)
-  //   }
-  // }, [checkMobile])
-
-  // Fetch cart data
-  const fetchCartData = useCallback(async () => {
-    try {
-      setIsLoadingCart(true)
-      await fetchCart()
-    } catch (error) {
-      console.error('Error fetching cart:', error)
-      showMessage('Error loading cart data', 'error')
-    } finally {
-      setIsLoadingCart(false)
-    }
-  }, [showMessage])
-
-  useEffect(() => {
-    fetchCartData()
-  }, [])
-
-  // Show loading state while cart is being fetched
-  // if (isLoadingCart) {
-  //   return (
-  //     <StepCard mobile={isMobile}>
-  //       <ResponsiveContainer mobile={isMobile}>
-  //         <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-  //           <Text fontSize="$4">Loading Address and cart details...</Text>
-  //         </YStack>
-  //       </ResponsiveContainer>
-  //     </StepCard>
-  //   )
-  // }
-
-  // Show error if no cart data
-  // if (!cart || cart.days.length === 0) {
-  //   return (
-  //     <StepCard mobile={isMobile}>
-  //       <ResponsiveContainer mobile={isMobile}>
-  //         <YStack space="$4" alignItems="center" justify="center" minHeight={200}>
-  //           <Text fontSize="$4" color="$red10">
-  //             Your cart is empty
-  //           </Text>
-  //           <Button onPress={() => (window.location.href = '/')}>Continue Shopping</Button>
-  //         </YStack>
-  //       </ResponsiveContainer>
-  //     </StepCard>
-  //   )
-  // }
-  console.log('currentStep--------------')
-  console.log(currentStep)
   return (
     <StepCard mobile={isMobile}>
       <ResponsiveContainer mobile={isMobile}>
@@ -290,6 +220,7 @@ const CheckoutLoggedIn = ({
                   chromeless
                   variant="outlined"
                   size={isMobile ? '$3' : '$4'}
+                  onPress={onAddAddressClick}
                 >
                   Add Address
                 </Button>

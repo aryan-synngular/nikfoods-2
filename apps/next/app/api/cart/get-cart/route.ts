@@ -6,31 +6,13 @@ import CartItem from 'models/CartItem'
 import FoodItem from 'models/FoodItem'
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const token = searchParams.get('token')
-
   let userId: string | null = null
-  if (token) {
-    try {
-      const user = decodeAccessToken(token)
-      userId = user.id
-    } catch (e) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
-    }
+  const authResult = await verifyAuth(req)
+
+  if (authResult instanceof NextResponse) {
+    return authResult
   }
-
-  let id: string
-  if (!userId) {
-    const authResult = await verifyAuth(req)
-
-    if (authResult instanceof NextResponse) {
-      return authResult
-    }
-
-    id = authResult.user.id
-  } else {
-    id = userId
-  }
+  userId = authResult.user.id
 
   try {
     await connectToDatabase()
@@ -38,7 +20,7 @@ export async function GET(req: NextRequest) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    let cart = await Cart.findOne({ user: id }).populate({
+    let cart = await Cart.findOne({ user: userId }).populate({
       path: 'days',
       match: { date: { $gte: today } },
       populate: {
@@ -53,7 +35,7 @@ export async function GET(req: NextRequest) {
 
     console.log('Cart fetched:', cart)
     if (!cart) {
-      cart = await Cart.create({ user: id, days: [] })
+      cart = await Cart.create({ user: userId, days: [] })
       // return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
     }
 
@@ -86,8 +68,14 @@ export async function GET(req: NextRequest) {
 
     console.log('Filtered days:', newfilteredDays)
 
+    // Sort days in general order: Monday to Saturday
+    const weekOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const sortedDays = [...newfilteredDays].sort(
+      (a: any, b: any) => weekOrder.indexOf(a.day) - weekOrder.indexOf(b.day)
+    )
+
     return NextResponse.json(
-      { message: 'Cart fetched successfully', data: { ...cart.toObject(), days: newfilteredDays } },
+      { message: 'Cart fetched successfully', data: { ...cart.toObject(), days: sortedDays } },
       { status: 201 }
     )
   } catch (error) {

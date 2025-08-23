@@ -5,10 +5,9 @@ import { QuantitySelector } from '@my/ui/src/buttons/QuantitySelector'
 import { apiGetFoodItems } from 'app/services/FoodService'
 import { IFoodItem } from 'app/types/foodItem'
 import { apiCreateUpdatingOrder } from 'app/services/OrderService'
-import { useLink } from 'solito/link'
 import { useStore } from 'app/src/store/useStore'
 import { useScreen } from 'app/hook/useScreen'
-
+import { useRouter } from 'solito/navigation'
 interface UpdateItemProps {
   orderId: string
   onClose: () => void
@@ -88,6 +87,7 @@ const DishSkeleton = () => (
 )
 
 export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemProps) {
+   const router = useRouter()
   const { weeklyMenuUnCategorized, fetchWeeklyMenu } = useStore()
   const {isMobile,isMobileWeb}=useScreen()
   console.log('orderId', orderId)
@@ -321,14 +321,12 @@ console.log(allResults)
       const payload = { orderId, cartItems }
       const response = await apiCreateUpdatingOrder<{
         success: boolean
-        data?: { updatingOrderId: string }
+        data?: { updatingOrder: any }
       }>(payload)
       console.log('Update order response:', response)
-      if (response?.success && response?.data?.updatingOrderId) {
-        const updatingOrderId = response.data.updatingOrderId
-        if (typeof window !== 'undefined') {
-          window.location.href = `/update-order?updatingOrderId=${updatingOrderId}`
-        }
+      if (response?.success && response?.data?.updatingOrder) {
+        const updatingOrderId = response.data.updatingOrder._id
+          router.push(`/update-order?updatingOrderId=${updatingOrderId}`)
       }
       onClose()
     } catch (error) {

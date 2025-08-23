@@ -1,6 +1,7 @@
 "use client"
 
-import { UpdateOrder } from "@my/ui"
+import UpdateOrder from "@my/ui/src/checkout/UpdateOrder"
+
 
 
 export default function UpdateOrderPage(){

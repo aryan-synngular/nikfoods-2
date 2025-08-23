@@ -25,11 +25,11 @@ export async function PUT(req: NextRequest) {
 
     const body = (await req.json()) as
       | { orderId: string; updatedItems: UpdatedItems }
-      | { updatingOrderId: string }
+      | { updatingOrderId: string; paymentMethod?: string }
 
     // New flow: apply UpdateOrder by id
     if ('updatingOrderId' in body && body.updatingOrderId) {
-      const { updatingOrderId } = body
+      const { updatingOrderId, paymentMethod = 'Credit Card' } = body
 
       // Load update request and original order
       const updatingOrder = await UpdateOrder.findById(updatingOrderId).populate('originalOrderId')
@@ -57,36 +57,85 @@ export async function PUT(req: NextRequest) {
       if (!originalOrder.address)
         originalOrder.address = originalOrder.deliveryAddress || 'Not specified'
 
-      // Merge each day from updatingOrder into original order
+      // Merge each day from updatingOrder into original order with proper format matching
       for (const dayUpdate of updatingOrder.items || []) {
         const day = dayUpdate.day
-        const newItems = (dayUpdate.items || []).map((it: any) => ({
-          food: it.food,
-          quantity: it.quantity,
-          price: it.price,
-        }))
+
+        // Get food details with full food object for original order format
+        const newItems = []
+        for (const item of dayUpdate.items || []) {
+          const food = await FoodItem.findById(item.food)
+          if (food) {
+            // Create food object in the same format as original order
+            const foodCopy = {
+              _id: food._id,
+              name: food.name,
+              short_description: food.short_description,
+              description: food.description,
+              price: food.price,
+              category: food.category,
+              veg: food.veg,
+              available: food.available,
+              public_id: food.public_id,
+              url: food.url,
+              createdAt: food.createdAt,
+              updatedAt: food.updatedAt,
+            }
+
+            newItems.push({
+              food: foodCopy,
+              quantity: item.quantity,
+              price: food.price,
+            })
+          }
+        }
 
         const existingDayIndex = originalOrder.items.findIndex((d: any) => d.day === day)
 
         if (existingDayIndex !== -1) {
+          // Existing day found - merge items and handle duplicates
           const existingItems = Array.isArray(originalOrder.items[existingDayIndex].items)
             ? originalOrder.items[existingDayIndex].items
             : []
 
-          const mergedItems = [...existingItems, ...newItems]
-          const dayTotal = mergedItems.reduce(
+          // Create a map to track existing food items by food ID
+          const existingFoodMap = new Map()
+          existingItems.forEach((item: any) => {
+            const foodId = item.food._id?.toString() || item.food.toString()
+            existingFoodMap.set(foodId, item)
+          })
+
+          // Merge new items with existing items
+          for (const newItem of newItems) {
+            const foodId = newItem.food._id.toString()
+            const existingItem = existingFoodMap.get(foodId)
+
+            if (existingItem) {
+              // Food item already exists - increase quantity
+              existingItem.quantity += newItem.quantity
+              // Update price if needed (use the higher price or latest price)
+              existingItem.price = Math.max(existingItem.price, newItem.price)
+            } else {
+              // New food item - add to existing items
+              existingItems.push(newItem)
+            }
+          }
+
+          // Calculate day total
+          const dayTotal = existingItems.reduce(
             (acc: number, item: any) => acc + (item.price || 0) * (item.quantity || 0),
             0
           )
 
           originalOrder.items[existingDayIndex] = {
             ...originalOrder.items[existingDayIndex].toObject?.() /* mongoose doc safe */,
-            items: mergedItems,
+            items: existingItems,
             dayTotal,
             deliveryDate:
               originalOrder.items[existingDayIndex].deliveryDate || dayUpdate.deliveryDate,
           }
         } else {
+          // New day - add all items
           const dayTotal = newItems.reduce(
             (acc: number, item: any) => acc + (item.price || 0) * (item.quantity || 0),
             0
@@ -112,6 +161,12 @@ export async function PUT(req: NextRequest) {
       originalOrder.totalPaid = newSubtotal + platformFee + deliveryFee - discountAmount + taxes
 
       const saved = await originalOrder.save({ validateBeforeSave: false })
+
+      // Update the updating order status to reflect successful payment
+      updatingOrder.status = 'confirmed'
+      updatingOrder.paymentStatus = 'paid'
+      updatingOrder.paymentMethod = paymentMethod
+      await updatingOrder.save()
 
       return NextResponse.json({
         success: true,
@@ -169,14 +224,28 @@ export async function PUT(req: NextRequest) {
     }
 
     for (const [day, newProducts] of Object.entries(updatedItems)) {
-      let foodDetailsMap = {} as Record<string, { price: number; _id: any }>
+      let foodDetailsMap = {} as Record<string, { price: number; _id: any; foodObject: any }>
 
       // Get food details from database
       for (const p of newProducts) {
         try {
           const food = await FoodItem.findOne({ name: p.name })
           if (food) {
-            foodDetailsMap[p.name] = { price: food.price, _id: food._id }
+            const foodObject = {
+              _id: food._id,
+              name: food.name,
+              short_description: food.short_description,
+              description: food.description,
+              price: food.price,
+              category: food.category,
+              veg: food.veg,
+              available: food.available,
+              public_id: food.public_id,
+              url: food.url,
+              createdAt: food.createdAt,
+              updatedAt: food.updatedAt,
+            }
+            foodDetailsMap[p.name] = { price: food.price, _id: food._id, foodObject }
           }
         } catch {}
       }
@@ -189,92 +258,96 @@ export async function PUT(req: NextRequest) {
           ? order.items[existingDayIndex].items
           : []
 
-        const mergedItems = [...existingItems]
+        // Create a map to track existing food items by food ID
+        const existingFoodMap = new Map()
+        existingItems.forEach((item: any) => {
+          const foodId = item.food._id?.toString() || item.food.toString()
+          existingFoodMap.set(foodId, item)
+        })
 
-        // Add new items
+        // Add new items or merge with existing ones
         for (const product of newProducts) {
           const foodData = foodDetailsMap[product.name]
-          const price = foodData?.price || product.price || 0
-          const foodId = foodData?._id || null
+          if (foodData) {
+            const price = foodData.price || product.price || 0
+            const foodId = foodData._id.toString()
+            const existingItem = existingFoodMap.get(foodId)
 
-          mergedItems.push({
-            food: foodId, // Use actual ObjectId or null
-            quantity: product.quantity,
-            price,
-          })
+            if (existingItem) {
+              // Food item already exists - increase quantity
+              existingItem.quantity += product.quantity
+              existingItem.price = Math.max(existingItem.price, price)
+            } else {
+              // New food item - add to existing items
+              existingItems.push({
+                food: foodData.foodObject,
+                quantity: product.quantity,
+                price,
+              })
+            }
+          }
         }
 
-        const dayTotal = mergedItems.reduce((acc, item) => {
-          return acc + item.price * item.quantity
-        }, 0)
+        const dayTotal = existingItems.reduce(
+          (acc: number, item: any) => acc + (item.price || 0) * (item.quantity || 0),
+          0
+        )
 
-        // Update the existing day item
         order.items[existingDayIndex] = {
-          ...order.items[existingDayIndex].toObject(),
-          items: mergedItems,
+          ...order.items[existingDayIndex].toObject?.(),
+          items: existingItems,
           dayTotal,
         }
       } else {
-        // Create new day
-        const productsWithPrices = [] as any[]
+        const newItems = newProducts
+          .map((product) => {
+            const foodData = foodDetailsMap[product.name]
+            const price = foodData?.price || product.price || 0
+            const foodObject = foodData?.foodObject || null
 
-        for (const product of newProducts) {
-          const foodData = foodDetailsMap[product.name]
-          const price = foodData?.price || product.price || 0
-          const foodId = foodData?._id || null
-
-          productsWithPrices.push({
-            food: foodId, // Use actual ObjectId or null
-            quantity: product.quantity,
-            price,
+            return {
+              food: foodObject,
+              quantity: product.quantity,
+              price,
+            }
           })
-        }
+          .filter((item) => item.food !== null)
 
-        const dayTotal = productsWithPrices.reduce(
-          (acc: number, item: any) => acc + item.price * item.quantity,
+        const dayTotal = newItems.reduce(
+          (acc: number, item: any) => acc + (item.price || 0) * (item.quantity || 0),
           0
         )
 
         order.items.push({
           day,
           deliveryDate: new Date(),
-          items: productsWithPrices,
+          items: newItems,
           dayTotal,
         })
       }
     }
 
-    // Calculate new total
-    const newTotalPaid = order.items.reduce((acc: number, dayItem: any) => {
-      const total = dayItem.dayTotal || 0
-      return acc + total
-    }, 0)
-
-    // Handle fees safely
+    // Recalculate total
+    const newSubtotal = order.items.reduce((acc: number, d: any) => acc + (d.dayTotal || 0), 0)
     const platformFee = order.platformFee || 0
     const deliveryFee = order.deliveryFee || 0
     const discountAmount = (order.discount && order.discount.amount) || 0
     const taxes = order.taxes || 0
+    order.totalPaid = newSubtotal + platformFee + deliveryFee - discountAmount + taxes
 
-    order.totalPaid = newTotalPaid + platformFee + deliveryFee - discountAmount + taxes
-
-    // Use validateBeforeSave: false to bypass validation for existing items
-    const savedOrder = await order.save({ validateBeforeSave: false })
+    const saved = await order.save({ validateBeforeSave: false })
 
     return NextResponse.json({
       success: true,
       message: 'Order updated successfully',
       updatedTotal: order.totalPaid,
-      orderItems: order.items, // Include updated items in response
+      orderItems: order.items,
+      orderId: order._id?.toString?.(),
     })
-  } catch (error) {
-    console.error('Update order error:', error)
+  } catch (error: any) {
+    console.error('Error updating order:', error)
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to update order',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
+      { success: false, error: error.message || 'Failed to update order' },
       { status: 500 }
     )
   }
