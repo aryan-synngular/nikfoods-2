@@ -23,6 +23,36 @@ import { colors } from '../colors'
 import PaymentStatusPopup from './PaymentStatusPopup'
 import { useStore } from 'app/src/store/useStore'
 
+// Type definitions for API responses
+interface UpdateOrderDetailsResponse {
+  success: boolean
+  data?: {
+    updatingOrder: {
+      paymentStatus: string
+      items: any[]
+    }
+  }
+  error?: string
+}
+
+interface CreateSecureOrderResponse {
+  success: boolean
+  data?: {
+    clientSecret: string
+    originalOrderId: string
+    totalAmount: string
+  }
+  error?: string
+}
+
+interface PaymentStatusResponse {
+  success: boolean
+  data?: {
+    paymentStatus: string
+  }
+  error?: string
+}
+
 function UpdateOrderFormInner({
   updatingOrderId,
   orderCalculations,
@@ -65,7 +95,7 @@ function UpdateOrderFormInner({
           attempts++
 
           try {
-            const statusResponse: any = await apiCheckPaymentStatus(orderId, {
+            const statusResponse = await apiCheckPaymentStatus<PaymentStatusResponse>(orderId, {
               orderType: 'UPDATE',
               updatingOrderId,
             })
@@ -149,7 +179,7 @@ setSuccessOrderId(orderId)
           console.log('----------------orderId')
           console.log(orderId)
           console.log(attempts)
-          const statusResponse: any = await apiCheckPaymentStatus(orderId, {
+          const statusResponse = await apiCheckPaymentStatus<PaymentStatusResponse>(orderId, {
             orderType: 'UPDATE',
             updatingOrderId,
           })
@@ -270,7 +300,7 @@ export default function UpdateOrderWeb() {
       setError(null)
       try {
         // Load updating order data
-        const orderData = await apiGetUpdateOrderDetails(updatingOrderId)
+        const orderData = await apiGetUpdateOrderDetails<UpdateOrderDetailsResponse>(updatingOrderId)
         console.log(orderData)
 
         if (!orderData?.success) {
@@ -287,7 +317,7 @@ export default function UpdateOrderWeb() {
         }
 
         // Create secure payment intent only if payment is not already completed
-        const orderResponse = await apiCreateSecureOrderForUpdate({
+        const orderResponse = await apiCreateSecureOrderForUpdate<CreateSecureOrderResponse>({
           updatingOrderId,
           currency: 'usd',
         })
