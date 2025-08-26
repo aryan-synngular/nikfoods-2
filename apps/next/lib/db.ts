@@ -30,6 +30,7 @@ async function registerModels() {
   await import('../models/UpdateOrder')
   await import('../models/DeliveryBoy')
   await import('../models/WeeklyMenu')
+  await import('../models/Zincode')
 
   console.log('✅ All models registered successfully')
 }

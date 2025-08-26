@@ -6,7 +6,10 @@ LayoutDashboard,
 User,
 Utensils,
 ShoppingCart,
-Calendar1
+Calendar1,
+Minus,
+MinusCircle,
+CalendarDays
 
 
 } from '@tamagui/lucide-icons';
@@ -26,6 +29,16 @@ const sidebarItems: any = {
       href: '/admin/weekly-planner',
       icon: Calendar1,
       label: 'Weekly Menu Planner',
+    },
+    {
+      href: '/admin/all-days-available-fooditems',
+      icon: CalendarDays,
+      label: 'All Days Available',
+    },
+    {
+      href: '/admin/min-cart-value',
+      icon: MinusCircle,
+      label: 'Minimum Cart Value',
     },
     {
       href: '/admin/orders',

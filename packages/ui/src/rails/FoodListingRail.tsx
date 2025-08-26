@@ -4,6 +4,7 @@ import { Text, YStack, XStack, ScrollView } from 'tamagui'
 import { useState } from 'react'
 import { FoodCard } from '../cards/FoodCard'
 import { DeliveryDatePopup } from '../popups/DeliveryDatePopup'
+import SingleFoodItemPopup from '../popups/SIngleFoodItemPopup'
 import { IListResponse } from 'app/types/common'
 import { Dimensions } from 'react-native'
 import { useToast } from '@my/ui/src/useToast'
@@ -37,6 +38,11 @@ export function FoodListingRail({ displayLabel, foodItems,listType }: FoodListin
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null)
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false)
+  
+  // State for SingleFoodItemPopup
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false)
+  const [detailsLoading, setDetailsLoading] = useState(false)
+  const [selectedFoodItemForPopup, setSelectedFoodItemForPopup] = useState<FoodItem | null>(null)
 
   const handleAdd = (id: string) => {
     setQuantities((prev) => ({
@@ -68,6 +74,28 @@ export function FoodListingRail({ displayLabel, foodItems,listType }: FoodListin
     
     setSelectedFoodItem(item)
     setIsDatePopupOpen(true)
+  }
+
+  // Handler for opening food item popup from image/name click
+  const handleItemClick = (item: FoodItem) => {
+    setSelectedFoodItemForPopup(item)
+    setDetailsDialogOpen(true)
+  }
+
+  // Handler for closing food item popup
+  const handleCloseDetails = () => {
+    setDetailsDialogOpen(false)
+    setSelectedFoodItemForPopup(null)
+  }
+
+  // Handler for "Add to Cart" button in popup
+  const handleAddToCartFromPopup = () => {
+    console.log(selectedFoodItemForPopup)
+    if (selectedFoodItemForPopup) {
+      setSelectedFoodItem(selectedFoodItemForPopup)
+      setDetailsDialogOpen(false)
+      setIsDatePopupOpen(true)
+    }
   }
   
   const { showMessage } = useToast()
@@ -155,6 +183,7 @@ const [loading, setLoading] = useState(false)
                   onDecrement={() => handleDecrement(item._id)}
                   handleAddButtonClick={() => handleAddButtonClick(item)}
                   isAdded={item?.days?.length > 0}
+                  onItemClick={() => handleItemClick(item)}
                 />
               </YStack>
             ))}
@@ -168,6 +197,19 @@ const [loading, setLoading] = useState(false)
         onOpenChange={setIsDatePopupOpen}
         onSelect={handleDateSelection}
         listType={listType}
+      />
+      
+      {/* Food Item Details Popup */}
+      <SingleFoodItemPopup
+        detailsDialogOpen={detailsDialogOpen}
+        detailsLoading={detailsLoading}
+        setDetailsDialogOpen={setDetailsDialogOpen}
+        handleCloseDetails={handleCloseDetails}
+        selectedFoodItem={selectedFoodItemForPopup}
+        isAddedToCart={false}
+        cartItemId={null}
+        currentQuantity={0}
+        onAddToCart={handleAddToCartFromPopup}
       />
     </YStack>
   )

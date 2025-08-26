@@ -61,6 +61,7 @@ export default function AdminLayout({
         <YStack
           style={{
             overflow: 'auto',
+            height: 'calc(100vh - 80px)', // Subtract navbar height
           }}
           px={isDesktop ? '$5' : '$2'}
           pt={isDesktop ? '$4' : '$2'}

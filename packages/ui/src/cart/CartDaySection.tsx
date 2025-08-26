@@ -14,6 +14,7 @@ interface CartDaySectionProps {
   items: ICartItem[]
   onIncrement?: (id: string, change: number) => void
   onDecrement?: (id: string, change: number) => void
+  onItemClick?: (item: any) => void // Add click handler for items
 }
 export function CartDaySection({
   day,
@@ -23,7 +24,9 @@ export function CartDaySection({
   items,
   onIncrement,
   onDecrement,
+  onItemClick,
 }: CartDaySectionProps) {
+  console.log(items)
   console.log(isItemLoading)
   const [deliveryDay, setDeliveryDay] = useState<string>('') // client-only
   const [isSameDay, setIsSameDay] = useState<boolean>(false)
@@ -113,13 +116,14 @@ export function CartDaySection({
             key={item?._id}
             id={item?._id}
             name={item?.food?.name}
-            description={item?.food?.description}
+            description={item?.food?.short_description}
             price={Number(item?.food?.price)}
             quantity={item.quantity}
             imageUrl={item?.food?.url}
             onIncrement={() => onIncrement?.(item._id, 1)}
             onDecrement={() => onDecrement?.(item._id, -1)}
             isLoading={isItemLoading}
+            onItemClick={() => onItemClick?.(item)}
           />
         ))}
       </YStack>

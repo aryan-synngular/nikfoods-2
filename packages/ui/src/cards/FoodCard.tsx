@@ -17,6 +17,7 @@ interface FoodCardProps {
   quantity?: number
   handleAddButtonClick: () => void
   isAdded?: boolean
+  onItemClick?: () => void // Add click handler for image and name
 }
 
 export function FoodCard({
@@ -29,6 +30,7 @@ export function FoodCard({
   handleAddButtonClick,
   quantity = 0,
   isAdded = false,
+  onItemClick,
 }: FoodCardProps) {
   const formattedPrice = `$${price?.toFixed(2)}`
 const {isMobile}=useScreen()
@@ -57,8 +59,9 @@ const {isMobile}=useScreen()
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
               zIndex: 2,
               marginBottom: isMobile?-50:-70, // Creates overlap effect
-          
+              cursor: 'pointer',
             }}
+            onPress={onItemClick}
           >
             <Image
               source={{ uri: imageUrl }}
@@ -79,7 +82,13 @@ const {isMobile}=useScreen()
             <YStack style={{ padding:isMobile?14: 16, gap: isMobile?8:12 }}>
               <XStack justify={"space-between"} items={"center"} >
 
-              <Text fontSize={isMobile?14:16} fontWeight="600" color="#2A1A0C">
+              <Text 
+                fontSize={isMobile?14:16} 
+                fontWeight="600" 
+                color="#2A1A0C"
+                style={{ cursor: 'pointer' }}
+                onPress={onItemClick}
+              >
                 {name}
               </Text>
               {isAdded&&<XStack style={{borderRadius:20,backgroundColor:colors.info, padding:6, width:25, height:25, justifyContent: 'center', alignItems: 'center'}} >

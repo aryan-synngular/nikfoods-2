@@ -20,6 +20,7 @@ import { useStore } from 'app/src/store/useStore'
 import { Platform } from 'react-native'
 import { useScreen } from 'app/hook/useScreen'
 import { colors } from '../colors'
+import SingleFoodItemPopup from '../popups/SIngleFoodItemPopup'
 
 interface CartItemData {
   id: string
@@ -74,6 +75,11 @@ export function CartPage({
   // const [isMobile, setIsDesktop] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false)
+  
+  // State for food item popup
+  const [selectedFoodItem, setSelectedFoodItem] = useState<any>(null)
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false)
+  const [detailsLoading, setDetailsLoading] = useState(false)
 
   const checkOutLink = useLink({
     href: '/checkout',
@@ -206,6 +212,36 @@ export function CartPage({
     } finally {
       setLoading({ itemId: '', change: 0 })
     }
+  }
+
+  // Handler for opening food item popup
+  const handleItemClick = (item: any) => {
+    setSelectedFoodItem(item.food)
+    setDetailsDialogOpen(true)
+  }
+
+  // Helper function to find cart item data for a food item
+  const getCartItemData = (foodItem: any) => {
+    if (!cart?.days) return { isAddedToCart: false, cartItemId: null, currentQuantity: 0 };
+    
+    for (const day of cart.days) {
+      const cartItem = day.items.find((item: any) => item.food._id === foodItem._id);
+      if (cartItem) {
+        return {
+          isAddedToCart: true,
+          cartItemId: cartItem._id,
+          currentQuantity: cartItem.quantity
+        };
+      }
+    }
+    
+    return { isAddedToCart: false, cartItemId: null, currentQuantity: 0 };
+  }
+
+  // Handler for closing food item popup
+  const handleCloseDetails = () => {
+    setDetailsDialogOpen(false)
+    setSelectedFoodItem(null)
   }
 
   const handleDecrement = async (dayIndex: number, itemId: string) => {
@@ -391,6 +427,7 @@ export function CartPage({
                           deliveryLabel={'Some Lable'}
                           onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
                           onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
+                          onItemClick={handleItemClick}
                         />
                       ) : (
                         <></>
@@ -544,6 +581,16 @@ export function CartPage({
           </YStack>
         )}
       </YStack>
+      
+      {/* Food Item Details Popup */}
+      <SingleFoodItemPopup
+        detailsDialogOpen={detailsDialogOpen}
+        detailsLoading={detailsLoading}
+        setDetailsDialogOpen={setDetailsDialogOpen}
+        handleCloseDetails={handleCloseDetails}
+        selectedFoodItem={selectedFoodItem}
+        {...(selectedFoodItem && getCartItemData(selectedFoodItem))}
+      />
     </YStack>
   )
 }

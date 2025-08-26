@@ -8,6 +8,7 @@ import { apiCreateUpdatingOrder } from 'app/services/OrderService'
 import { useStore } from 'app/src/store/useStore'
 import { useScreen } from 'app/hook/useScreen'
 import { useRouter } from 'solito/navigation'
+
 interface UpdateItemProps {
   orderId: string
   onClose: () => void
@@ -33,11 +34,28 @@ interface ApiResponse {
   pageSize: number
 }
 
+interface CategoryWithFoodItems {
+  _id: string
+  name: string
+  description: string
+  url: string
+  public_id: string
+  createdAt: string
+  updatedAt: string
+  foodItems: IFoodItem[]
+}
+
+interface DayData {
+  day: string
+  displayName: string
+  foodItems: CategoryWithFoodItems[]
+}
+
 const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // Shimmer skeleton component for loading state
 const DishSkeleton = () => (
-  <XStack alignItems="center" gap={12}>
+  <XStack ai="center" gap={12}>
     <YStack
       width={64}
       height={64}
@@ -87,9 +105,9 @@ const DishSkeleton = () => (
 )
 
 export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemProps) {
-   const router = useRouter()
-  const { weeklyMenuUnCategorized, fetchWeeklyMenu } = useStore()
-  const {isMobile,isMobileWeb}=useScreen()
+  const router = useRouter()
+  const { foodItemsByCategory, fetchFoodItemsByCategory, foodItemsLoading, weeklyMenu, setSelectedWeekDay } = useStore()
+  const { isMobile, isMobileWeb } = useScreen()
   console.log('orderId', orderId)
   const now = new Date()
   // Determine default day
@@ -106,8 +124,10 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
   const [isLoading, setIsLoading] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
   const [foodItems, setFoodItems] = useState<IFoodItem[]>([])
+  const [categoriesWithFoodItems, setCategoriesWithFoodItems] = useState<CategoryWithFoodItems[]>([])
   const [searchResults, setSearchResults] = useState<IFoodItem[]>([])
   const [isSearching, setIsSearching] = useState(false)
+  const [allDaysData, setAllDaysData] = useState<DayData[]>([])
   const [cartItems, setCartItems] = useState<{ [day: string]: { [key: string]: number } }>({
     Monday: {},
     Tuesday: {},
@@ -116,7 +136,6 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     Friday: {},
     Saturday: {},
   })
-
 
   // Helpers to compute current week's date for a weekday and disable state
   const dayIndexMap: Record<string, number> = {
@@ -158,83 +177,106 @@ export default function UpdateItem({ orderId, onClose, onUpdate }: UpdateItemPro
     return false
   }
 
-  // Search through weekly menu locally
-  const searchWeeklyMenu = useCallback(
+  // Flatten food items from categories for easier access
+  const flattenFoodItems = (categories: CategoryWithFoodItems[]): IFoodItem[] => {
+    return categories.flatMap(category => category.foodItems || [])
+  }
+
+  // Search through all days data locally
+  const searchAllDays = useCallback(
     (searchTerm: string) => {
       if (!searchTerm.trim()) {
         setIsSearching(false)
-        setSelectedDay(defaultDay)
+        setSelectedDay(selectedDay?selectedDay:defaultDay)
         return
-      }
-      else{
+      } else {
         setSelectedDay("")
       }
-    
-      setSearchResults([])
 
+      setSearchResults([])
       setIsSearching(true)
       const searchLower = searchTerm.toLowerCase()
       const allResults: IFoodItem[] = []
- const now = new Date()
-    const todayIndex = now.getDay() === 0 ? 7 : now.getDay() // Sun=7, Mon=1...
+      const now = new Date()
+      const todayIndex = now.getDay() === 0 ? 7 : now.getDay() // Sun=7, Mon=1...
 
-    // ✅ Filter only valid upcoming days
-    const validDays = weekDays.filter((dayName, idx) => {
-      const dayIndex = idx + 1 // Mon=1 ... Sat=6
-      if (dayIndex < todayIndex) return false
-      if (dayIndex === todayIndex && now.getHours() >= 13) return false
-      return true
-    })
-
-      // Search through all days in weekly menu
-      validDays.forEach((day) => {
-        const dayKey = day.toLowerCase()
-        const dayItems = weeklyMenuUnCategorized[dayKey] || []
-console.log("Search: ", searchLower)
-console.log("DayItems: ", day)
-console.log(dayItems)
-        const filteredItems = dayItems.filter(
-          (item: IFoodItem) =>
-            item.name?.toLowerCase().includes(searchLower) 
-        )
-        
-        // Add day information to items for display
-        const itemsWithDay = filteredItems.map((item: IFoodItem) => ({
-          ...item,
-          dayAvailable: day,
-        }))
-        console.log(itemsWithDay)
-
-        allResults.push(...itemsWithDay)
+      // Filter only valid upcoming days
+      const validDays = weekDays.filter((dayName, idx) => {
+        const dayIndex = idx + 1 // Mon=1 ... Sat=6
+        if (dayIndex < todayIndex) return false
+        if (dayIndex === todayIndex && now.getHours() >= 13) return false
+        return true
       })
-console.log(allResults)
-      setSearchResults(()=>allResults)
+
+      // Search through all days in the data
+      validDays.forEach((day) => {
+        const dayData = allDaysData.find(d => d.displayName === day)
+        if (dayData) {
+          const dayFoodItems = flattenFoodItems(dayData.foodItems)
+          console.log("Search: ", searchLower)
+          console.log("DayItems: ", day)
+          console.log(dayFoodItems)
+          
+          const filteredItems = dayFoodItems.filter(
+            (item: IFoodItem) => item.name?.toLowerCase().includes(searchLower)
+          )
+
+          // Add day information to items for display
+          const itemsWithDay = filteredItems.map((item: IFoodItem) => ({
+            ...item,
+            dayAvailable: day,
+          }))
+          console.log(itemsWithDay)
+
+          allResults.push(...itemsWithDay)
+        }
+      })
+      console.log(allResults)
+      setSearchResults(() => allResults)
     },
-    [weeklyMenuUnCategorized]
+    [allDaysData,searchText,selectedDay]
   )
 
   // Initial load
   useEffect(() => {
-    fetchWeeklyMenu()
-  }, [])
-
-  console.log(weeklyMenuUnCategorized)
-
-  // Set food items when day changes or weekly menu loads
-  useEffect(() => {
-    if (weeklyMenuUnCategorized[selectedDay?.toLowerCase()]) {
-      setFoodItems(weeklyMenuUnCategorized[selectedDay?.toLowerCase()])
+    const loadData = async () => {
+      setDataLoading(true)
+      try {
+        await fetchFoodItemsByCategory()
+      } catch (error) {
+        console.error('Error loading food items:', error)
+      } finally {
+        setDataLoading(false)
+      }
     }
-  }, [weeklyMenuUnCategorized, selectedDay])
+    loadData()
+  }, [fetchFoodItemsByCategory])
+
+  // Set food items when day changes or data loads
+  useEffect(() => {
+    if (allDaysData.length > 0) {
+      const dayData = allDaysData.find(d => d.displayName === selectedDay)
+      if (dayData) {
+        const flattenedItems = flattenFoodItems(dayData.foodItems)
+        setFoodItems(flattenedItems)
+        setCategoriesWithFoodItems(dayData.foodItems)
+      } else {
+        setFoodItems([])
+        setCategoriesWithFoodItems([])
+      }
+    }
+  }, [allDaysData])
+
+  // Update allDaysData when weeklyMenu changes
+  useEffect(() => {
+    if (weeklyMenu && Array.isArray(weeklyMenu)) {
+      setAllDaysData(weeklyMenu)
+      
+    }
+  }, [weeklyMenu])
 
   console.log(foodItems)
 
-  // Search effect
-  // useEffect(() => {
-  //   searchWeeklyMenu(searchText)
-  // }, [searchText, searchWeeklyMenu])
-
-  console.log(foodItems)
   const handleAddItem = (itemId: string) => {
     setCartItems((prev) => ({
       ...prev,
@@ -263,7 +305,7 @@ console.log(allResults)
     })
   }
 
-  const handleAddItemFromSearch = (day:string,itemId: string) => {
+  const handleAddItemFromSearch = (day: string, itemId: string) => {
     setCartItems((prev) => ({
       ...prev,
       [day]: {
@@ -273,7 +315,7 @@ console.log(allResults)
     }))
   }
 
-  const handleRemoveItemFromSearch = (day:string,itemId: string) => {
+  const handleRemoveItemFromSearch = (day: string, itemId: string) => {
     setCartItems((prev) => {
       const newCart = { ...prev }
       const dayCart = { ...newCart[day] }
@@ -326,7 +368,7 @@ console.log(allResults)
       console.log('Update order response:', response)
       if (response?.success && response?.data?.updatingOrder) {
         const updatingOrderId = response.data.updatingOrder._id
-          router.push(`/update-order?updatingOrderId=${updatingOrderId}`)
+        router.push(`/update-order?updatingOrderId=${updatingOrderId}`)
       }
       onClose()
     } catch (error) {
@@ -335,67 +377,80 @@ console.log(allResults)
       setIsLoading(false)
     }
   }
-
-  const handleSelect = (day: string) => {
+  const handleSelect = async (day: string) => {
+if(isSearching){
     setSearchResults([])
-    setIsSearching(false)
+  setIsSearching(false)
+  setSearchText("")
+}
     setSelectedDay(day)
-    setFoodItems(weeklyMenuUnCategorized[day?.toLowerCase()])
-    setSearchText("")
+    if (allDaysData.length > 0) {
+      const dayData = allDaysData.find(d => d.displayName === day)
+      if (dayData) {
+        // const flattenedItems = flattenFoodItems(dayData.foodItems)
+        // setFoodItems(flattenedItems)
+        setCategoriesWithFoodItems(dayData.foodItems)
+      } else {
+        setFoodItems([])
+        setCategoriesWithFoodItems([])
+      }
+    }
+    
+    // Update the selected day in the store and fetch data for the selected day
+    try {
+      setSelectedWeekDay(day as any)
+      // await fetchFoodItemsByCategory()
+    } catch (error) {
+      console.error('Error fetching data for day:', day, error)
+    }
   }
 
   // Determine which items to display
   console.log(foodItems)
 
   console.log(searchResults)
-useEffect(() => {
-  const handler = setTimeout(() => {
-    searchWeeklyMenu(searchText)
-  }, 300) // wait 300ms after typing stops
-  return () => clearTimeout(handler)
-}, [searchText, searchWeeklyMenu])
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      searchAllDays(searchText)
+    }, 300) // wait 300ms after typing stops
+    return () => clearTimeout(handler)
+  }, [searchText, searchAllDays])
+
   return (
-    <YStack flex={1} bg="transparent" justifyContent="center" alignItems="center" >
+    <YStack flex={1} bg="transparent" justify="center" items="center">
       <YStack
-        style={{ minWidth:isMobile?420 :616 }}
+        style={{ minWidth: isMobile ? 420 : 616 }}
         height="90vh"
         bg="white"
         borderRadius={24}
-        // overflow="hidden"
-        // shadowColor="#000"
-        // shadowOffset={{ width: 0, height: 4 }}
-        // shadowOpacity={0.1}
-        // shadowRadius={20}
-        // elevation={5}
       >
         <YStack flex={1}>
           <XStack
-            justifyContent="space-between"
-            alignItems="center"
+            justify="space-between"
+            items="center"
             px={24}
-            py={(isMobile||isMobileWeb)?16:20}
+            py={(isMobile || isMobileWeb) ? 16 : 20}
             borderBottomWidth={1}
             borderBottomColor="#F5F5F5"
           >
-            <Text fontSize={(isMobile||isMobileWeb)?18:24} fontWeight="600" color="#000">
+            <Text fontSize={(isMobile || isMobileWeb) ? 18 : 24} fontWeight="600" color="#000">
               Add Items
             </Text>
             <Button
               circular
               size={24}
-              bg="transparent"
+              backgroundColor="transparent"
               color="#999"
               onPress={onClose}
               icon={<X size={20} />}
-              pressStyle={{ bg: '#f5f5f5' }}
+              pressStyle={{ backgroundColor: '#f5f5f5' }}
               disabled={isLoading}
             />
           </XStack>
 
-          <ScrollView   horizontal showsHorizontalScrollIndicator={false}  px={24} py={16}
-mb={isMobile?-315:0}
->
-            <XStack gap={(isMobile||isMobileWeb)?6:8}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} paddingHorizontal={24} paddingVertical={16}
+            marginBottom={isMobile ? -315 : 0}>
+            <XStack gap={(isMobile || isMobileWeb) ? 6 : 8}>
               {weekDays.map((day) => {
                 const isSelected = selectedDay === day
                 const itemCount = getTotalItems(day)
@@ -405,23 +460,22 @@ mb={isMobile?-315:0}
                   <Button
                     key={day}
                     size={"$3"}
-                    bg={isSelected ? '#FF9F0D' : 'white'}
+                    backgroundColor={isSelected ? '#FF9F0D' : 'white'}
                     color={isSelected ? 'white' : '#999'}
                     borderColor="#E5E5E5"
                     borderWidth={1}
                     borderRadius={8}
                     fontWeight="500"
                     fontSize={14}
-                    
                     onPress={() => handleSelect(day)}
                     pressStyle={{
-                      bg: isSelected ? '#e8900c' : '#f8f8f8',
+                      backgroundColor: isSelected ? '#e8900c' : '#f8f8f8',
                     }}
                     minWidth={itemCount > 0 ? 85 : 75}
                     paddingHorizontal={16}
                     paddingVertical={8}
                     disabled={isLoading || disabledDay}
-                    pb={2}
+                    paddingBottom={2}
                   >
                     {itemCount > 0 ? `${day} (${itemCount})` : day}
                   </Button>
@@ -429,16 +483,16 @@ mb={isMobile?-315:0}
               })}
             </XStack>
           </ScrollView>
-          <YStack px={24} pb={(isMobile||isMobileWeb)?14:16}>
+          <YStack paddingHorizontal={24} paddingBottom={(isMobile || isMobileWeb) ? 14 : 16}>
             <Input
               placeholder={getTotalAllDays() > 0 ? 'Search food items...' : 'Search Item'}
               value={searchText}
-            onChangeText={setSearchText} 
-              bg="#F8F8F8"
+              onChangeText={setSearchText}
+              backgroundColor="#F8F8F8"
               borderColor="#E5E5E5"
               borderWidth={1}
               borderRadius={8}
-              height={(isMobile||isMobileWeb)?44:48}
+              height={(isMobile || isMobileWeb) ? 44 : 48}
               fontSize={16}
               color="#666"
               placeholderTextColor="#999"
@@ -447,10 +501,10 @@ mb={isMobile?-315:0}
             />
           </YStack>
 
-          <YStack px={24} pb={16}>
+          <YStack paddingHorizontal={24} paddingBottom={16}>
             <XStack justifyContent="space-between" alignItems="center">
-              <Text fontSize={(isMobile||isMobileWeb)?17:18} fontWeight="600" color="#000">
-                {isSearching && searchText ? 'Search Results' : 'Food Items'}
+              <Text fontSize={(isMobile || isMobileWeb) ? 17 : 18} fontWeight="600" color="#000">
+                {isSearching && searchText ? 'Search Results from Weekly Menu' : `Weekly Menu (${selectedDay})`}
               </Text>
               {getTotalAllDays() > 0 && (
                 <Text fontSize={14} fontWeight="600" color="#FF9F0D">
@@ -462,166 +516,176 @@ mb={isMobile?-315:0}
 
           <ScrollView
             flex={1}
-            px={24}
+            paddingHorizontal={24}
             height={500}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 16 }}
           >
-            <YStack gap={(isMobile||isMobileWeb)?12:16}>
-              {!isSearching?( dataLoading && foodItems.length === 0
+            <YStack gap={(isMobile || isMobileWeb) ? 12 : 16}>
+              {!isSearching ? (dataLoading && categoriesWithFoodItems.length === 0
                 ? // Show shimmer skeleton while loading initial data
                   Array.from({ length: 5 }).map((_, index) => <DishSkeleton key={index} />)
-                : foodItems?.map((item) => {
-                    const quantity = cartItems[selectedDay]?.[item?._id] || 0
+                : categoriesWithFoodItems?.map((category) => (
+                    <YStack key={category._id} gap={12}>
+                      {/* Category Header */}
+                      <Text fontSize={(isMobile || isMobileWeb) ? 16 : 18} fontWeight="700" color="#333" mt={8}>
+                        {category.name}
+                      </Text>
+                      
+                      {/* Food Items in this category */}
+                      <YStack gap={8}>
+                        {category.foodItems?.map((item) => {
+                          const quantity = cartItems[selectedDay]?.[item?._id] || 0
 
-                    return (
-                      <XStack key={item._id} alignItems="center" gap={12}>
-                        <YStack
-                          width={(isMobile||isMobileWeb)?60:64}
-                          height={(isMobile||isMobileWeb)?60:64}
-                          borderRadius={8}
-                          overflow="hidden"
-                          bg="#F0F0F0"
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          {item?.url ? (
-                            <YStack
-                              style={{
-                                width: 70,
-                                height: 70,
-                                borderRadius: 8,
-                                marginRight: 12,
-                                backgroundColor: '#F5F5F5',
-                                overflow: 'hidden',
-                              }}
-                            >
-                              <Image
-                                src={item?.url}
-                                alt={item.name}
-                                width={70}
-                                height={70}
-                                resizeMode="cover"
-                              />
-                            </YStack>
-                          ) : (
-                            <Text fontSize={10} color="#999">
-                              IMG
-                            </Text>
-                          )}
-                        </YStack>
+                          return (
+                            <XStack key={item._id} alignItems="center" gap={12}>
+                              <YStack
+                                width={(isMobile || isMobileWeb) ? 60 : 64}
+                                height={(isMobile || isMobileWeb) ? 60 : 64}
+                                borderRadius={8}
+                                overflow="hidden"
+                                backgroundColor="#F0F0F0"
+                                justifyContent="center"
+                                alignItems="center"
+                              >
+                                {item?.url ? (
+                                  <YStack
+                                    style={{
+                                      width: 70,
+                                      height: 70,
+                                      borderRadius: 8,
+                                      marginRight: 12,
+                                      backgroundColor: '#F5F5F5',
+                                      overflow: 'hidden',
+                                    }}
+                                  >
+                                    <Image
+                                      src={item?.url}
+                                      alt={item.name}
+                                      width={70}
+                                      height={70}
+                                      resizeMode="cover"
+                                    />
+                                  </YStack>
+                                ) : (
+                                  <Text fontSize={10} color="#999">
+                                    IMG
+                                  </Text>
+                                )}
+                              </YStack>
 
-                        <YStack flex={1} gap={4}>
-                          <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000">
-                            {item.name}
-                            
-                          </Text>
-                          <Text fontSize={12} color="#999" numberOfLines={1}>
-                            {item.description.length > 40
-                              ? item.description.slice(0, 37) + '...'
-                              : item.description ||
-                                (item.category as any)?.name ||
-                                'No description available'}
-                          </Text>
-                        </YStack>
+                              <YStack flex={1} gap={4}>
+                                <Text fontSize={(isMobile || isMobileWeb) ? 14 : 16} fontWeight="600" color="#000">
+                                  {item.name}
+                                </Text>
+                                <Text fontSize={12} color="#999" numberOfLines={1}>
+                                  {item.description.length > 40
+                                    ? item.description.slice(0, 37) + '...'
+                                    : item.description ||
+                                      (item.category as any)?.name ||
+                                      'No description available'}
+                                </Text>
+                              </YStack>
 
-                        <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000" mr={12}>
-                          ${item.price.toFixed(2)}
-                        </Text>
-
-                        <QuantitySelector
-                          quantity={quantity}
-                          onAdd={() => handleAddItem(item._id)}
-                          onIncrement={() => handleAddItem(item._id)}
-                          onDecrement={() => handleRemoveItem(item._id)}
-                        />
-                      </XStack>
-                    )
-                  })):
-                      isSearching&&searchResults?.map((item) => {
-                    const quantity = cartItems[item?.dayAvailable]?.[item?._id] || 0
-
-                    return (
-                    <XStack key={`${item._id}-${(item as any).dayAvailable}`} alignItems="center" gap={12}>
-
-                        <YStack
-                         width={(isMobile||isMobileWeb)?60:64}
-                          height={(isMobile||isMobileWeb)?60:64}
-                          borderRadius={8}
-                          overflow="hidden"
-                          bg="#F0F0F0"
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          {item?.url ? (
-                            <YStack
-                              style={{
-                                width: 70,
-                                height: 70,
-                                borderRadius: 8,
-                                marginRight: 12,
-                                backgroundColor: '#F5F5F5',
-                                overflow: 'hidden',
-                              }}
-                            >
-                              <Image
-                                src={item?.url}
-                                alt={item.name}
-                                width={70}
-                                height={70}
-                                resizeMode="cover"
-                              />
-                            </YStack>
-                          ) : (
-                            <Text fontSize={10} color="#999">
-                              IMG
-                            </Text>
-                          )}
-                        </YStack>
-
-                        <YStack flex={1} gap={4}>
-                          <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000">
-                            {item.name} {" "}
-                            {isSearching && searchText && (item as any).dayAvailable && (
-                              <Text fontSize={12} color="#FF9F0D" ml={8}>
-                                ({(item as any).dayAvailable})
+                              <Text fontSize={(isMobile || isMobileWeb) ? 14 : 16} fontWeight="600" color="#000" marginRight={12}>
+                                ${item.price.toFixed(2)}
                               </Text>
-                            )}
-                          </Text>
-                          <Text fontSize={12} color="#999" numberOfLines={1}>
-                            {item.description.length > 40
-                              ? item.description.slice(0, 37) + '...'
-                              : item.description ||
-                                (item.category as any)?.name ||
-                                'No description available'}
-                          </Text>
-                        </YStack>
 
-                        <Text fontSize={(isMobile||isMobileWeb)?14:16} fontWeight="600" color="#000" mr={12}>
-                          ${item.price.toFixed(2)}
+                              <QuantitySelector
+                                quantity={quantity}
+                                onAdd={() => handleAddItem(item._id)}
+                                onIncrement={() => handleAddItem(item._id)}
+                                onDecrement={() => handleRemoveItem(item._id)}
+                              />
+                            </XStack>
+                          )
+                        })}
+                      </YStack>
+                    </YStack>
+                  ))) :
+                isSearching && searchResults?.map((item) => {
+                  const quantity = cartItems[(item as any)?.dayAvailable]?.[item?._id] || 0
+
+                  return (
+                    <XStack key={`${item._id}-${(item as any).dayAvailable}`} alignItems="center" gap={12}>
+                      <YStack
+                        width={(isMobile || isMobileWeb) ? 60 : 64}
+                        height={(isMobile || isMobileWeb) ? 60 : 64}
+                        borderRadius={8}
+                        overflow="hidden"
+                        backgroundColor="#F0F0F0"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        {item?.url ? (
+                          <YStack
+                            style={{
+                              width: 70,
+                              height: 70,
+                              borderRadius: 8,
+                              marginRight: 12,
+                              backgroundColor: '#F5F5F5',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <Image
+                              src={item?.url}
+                              alt={item.name}
+                              width={70}
+                              height={70}
+                              resizeMode="cover"
+                            />
+                          </YStack>
+                        ) : (
+                          <Text fontSize={10} color="#999">
+                            IMG
+                          </Text>
+                        )}
+                      </YStack>
+
+                      <YStack flex={1} gap={4}>
+                        <Text fontSize={(isMobile || isMobileWeb) ? 14 : 16} fontWeight="600" color="#000">
+                          {item.name}{" "}
+                          {isSearching && searchText && (item as any).dayAvailable && (
+                            <Text fontSize={12} color="#FF9F0D" marginLeft={8}>
+                              ({(item as any).dayAvailable})
+                            </Text>
+                          )}
                         </Text>
+                        <Text fontSize={12} color="#999" numberOfLines={1}>
+                          {item.description.length > 40
+                            ? item.description.slice(0, 37) + '...'
+                            : item.description ||
+                              (item.category as any)?.name ||
+                              'No description available'}
+                        </Text>
+                      </YStack>
 
-                        <QuantitySelector
-                          quantity={quantity}
-                          onAdd={() => handleAddItemFromSearch((item as any).dayAvailable, item._id)}
-                          onIncrement={() => handleAddItemFromSearch((item as any).dayAvailable,item._id)}
-                          onDecrement={() => handleRemoveItemFromSearch((item as any).dayAvailable,item._id)}
-                        />
-                      </XStack>
-                    )
-                  })
-                  }
+                      <Text fontSize={(isMobile || isMobileWeb) ? 14 : 16} fontWeight="600" color="#000" marginRight={12}>
+                        ${item.price.toFixed(2)}
+                      </Text>
+
+                      <QuantitySelector
+                        quantity={quantity}
+                        onAdd={() => handleAddItemFromSearch((item as any).dayAvailable, item._id)}
+                        onIncrement={() => handleAddItemFromSearch((item as any).dayAvailable, item._id)}
+                        onDecrement={() => handleRemoveItemFromSearch((item as any).dayAvailable, item._id)}
+                      />
+                    </XStack>
+                  )
+                })
+              }
 
               {/* No items found */}
               {!dataLoading && searchResults.length === 0 && (
-                <YStack py={32} alignItems="center">
+                <YStack paddingVertical={32} alignItems="center">
                   <Text fontSize={16} color="#999" textAlign="center">
                     {isSearching && searchText
                       ? 'No items found for your search'
                       : 'No more items to load'}
                   </Text>
                   {searchText && (
-                    <Text fontSize={14} color="#999" textAlign="center" mt={8}>
+                    <Text fontSize={14} color="#999" textAlign="center" marginTop={8}>
                       Try adjusting your search terms
                     </Text>
                   )}
@@ -630,22 +694,22 @@ mb={isMobile?-315:0}
             </YStack>
           </ScrollView>
 
-          <YStack px={24} py={(isMobile||isMobileWeb)?16:20} mb={isMobile?24:0} borderTopWidth={1} borderTopColor="#F5F5F5" bg="white">
+          <YStack paddingHorizontal={24} paddingVertical={(isMobile || isMobileWeb) ? 16 : 20} marginBottom={isMobile ? 24 : 0} borderTopWidth={1} borderTopColor="#F5F5F5" backgroundColor="white">
             <Button
-              bg={getTotalAllDays() > 0 ? '#FF9F0D' : '#FFF4E4'}
+              backgroundColor={getTotalAllDays() > 0 ? '#FF9F0D' : '#FFF4E4'}
               color={getTotalAllDays() > 0 ? 'white' : '#999'}
-              size={(isMobile||isMobileWeb)?"$3":"$4"}
+              size={(isMobile || isMobileWeb) ? "$3" : "$4"}
               borderRadius={8}
               fontWeight="600"
-              fontSize={(isMobile||isMobileWeb)?15:16}
+              fontSize={(isMobile || isMobileWeb) ? 15 : 16}
               hoverStyle={{
-                bg: '#63533bff',
+                backgroundColor: '#63533bff',
               }}
-              height={(isMobile||isMobileWeb)?52:56}
+              height={(isMobile || isMobileWeb) ? 52 : 56}
               disabled={getTotalAllDays() === 0 || isLoading}
               onPress={handleUpdateCart}
               pressStyle={{
-                bg: getTotalAllDays() > 0 ? '#e8900c' : '#FFF4E4',
+                backgroundColor: getTotalAllDays() > 0 ? '#e8900c' : '#FFF4E4',
               }}
             >
               {isLoading

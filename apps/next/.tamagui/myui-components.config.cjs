@@ -98766,12 +98766,13 @@ function CheckoutSuccessPage() {
         margin: "0 auto",
         backgroundColor: "white",
         borderRadius: 12,
-        padding: isMobile || isMobileWeb ? 12 : 16
+        padding: isMobile || isMobileWeb ? 12 : 16,
+        marginTop: isMobile || isMobileWeb ? 36 : 0
       },
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime172.jsxs)(YStack, { alignItems: "center", mb: "$6", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(CheckCircle, { size: isMobile || isMobileWeb ? 48 : 64, color: "#28a745" }),
-          /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Text5, { fontSize: isMobile || isMobileWeb ? "$7" : "$8", fontWeight: "bold", color: "#28a745", mt: "$2", children: "Payment Successful!" }),
+          /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(CheckCircle, { size: isMobile || isMobileWeb ? 36 : 64, color: "#28a745" }),
+          /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Text5, { fontSize: isMobile || isMobileWeb ? "$6" : "$8", fontWeight: "bold", color: "#28a745", mt: "$2", children: "Payment Successful!" }),
           /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Text5, { fontSize: isMobile || isMobileWeb ? "$4" : "$5", color: "#6c757d", textAlign: "center", children: "Thank you for your order. We'll start preparing your meals right away." })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime172.jsxs)(

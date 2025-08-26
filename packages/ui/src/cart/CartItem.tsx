@@ -18,6 +18,7 @@ interface CartItemProps {
   onIncrement?: () => void
   onDecrement?: () => void
   isLoading?: { itemId: string; change: number } // Add this prop
+  onItemClick?: () => void // Add click handler for image and name
 }
 
 export function CartItem({
@@ -30,6 +31,7 @@ export function CartItem({
   onIncrement,
   onDecrement,
   isLoading,
+  onItemClick,
 }: CartItemProps) {
   const { isMobile, isMobileWeb } = useScreen()
   return (
@@ -58,7 +60,9 @@ export function CartItem({
           marginRight: 16,
           backgroundColor: '#F5F5F5',
           overflow: 'hidden',
+          cursor: 'pointer',
         }}
+        onPress={onItemClick}
       >
         {!(isMobile || isMobileWeb) ? (
           <Image
@@ -83,7 +87,9 @@ export function CartItem({
               fontWeight: '600',
               color: '#000000',
               marginBottom: 4,
+              cursor: 'pointer',
             }}
+            onPress={onItemClick}
           >
             {name}
           </Text>
@@ -95,7 +101,7 @@ export function CartItem({
                 color: '#666666',
               }}
             >
-              {description.substring(0, isMobile || isMobileWeb ? 40 : 60)}...
+              {description}
             </Text>
           )}
         </YStack>
