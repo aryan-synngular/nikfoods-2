@@ -11,7 +11,6 @@ export default function NativeAddressSearch() {
         console.log('Selected:', data, details)
       }}
       query={{
-        key: "AIzaSyCxtbWsrKTYaGh4UqkuF_XNPNUXWrGF97I",
         language: 'en',
       }}
       styles={{
