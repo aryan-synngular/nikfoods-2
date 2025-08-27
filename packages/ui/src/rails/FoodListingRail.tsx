@@ -158,7 +158,7 @@ const [loading, setLoading] = useState(false)
      { foodItems?.items.length === 0?(<XStack mt={isMobile?10:20} justify='center'  >
         <Text fontSize={24} fontWeight={600} style={{color:colors.primary}}>No Food Items found</Text>
       </XStack>) : null}  
-      <YStack style={{ paddingHorizontal: 30, paddingBottom:isMobile?0: 20,paddingLeft:0 }}>
+      <YStack style={{ paddingHorizontal: 30, paddingBottom:isMobile?0: 20,paddingLeft:0, gap:isMobile?10:0 }}>
         {groupedItems.map((row, rowIndex) => (
           <XStack 
             key={rowIndex}

@@ -213,7 +213,7 @@ const homePage = useLink({
         console.warn('Failed to update order items:', updateError)
       }
 setSuccessOrderId(completedOrderId)
-      setPaymentStatus('success')
+      // setPaymentStatus('success')
       showMessage('Payment successful. Your order update will be applied shortly.', 'success')
       successPage.onPress()
     } catch (e: any) {
@@ -298,7 +298,7 @@ setSuccessOrderId(completedOrderId)
       }
 setSuccessOrderId(completedOrderId)
 
-      setPaymentStatus('success')
+      // setPaymentStatus('success')
       showMessage('Payment successful. Your order update will be applied shortly.', 'success')
       successPage.onPress()
     } catch (e: any) {

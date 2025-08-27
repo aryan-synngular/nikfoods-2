@@ -33,6 +33,7 @@ export interface IAddress {
   province: string
   postal_code: string
   notes: string
+  minCartValue?: number
   createdAt: string
   updatedAt: string
 }

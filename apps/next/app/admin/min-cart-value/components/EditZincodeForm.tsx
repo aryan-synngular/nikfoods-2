@@ -35,7 +35,7 @@ export default function EditZincodeForm({ initialData, onSuccess, onCancel }: Ed
 
     if (!formData.zipcode.trim()) {
       newErrors.zipcode = 'Zipcode is required'
-    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.trim())) {
+    } else if (!/^\d{6}(-\d{4})?$/.test(formData.zipcode.trim())) {
       newErrors.zipcode = 'Please enter a valid zipcode (e.g., 12345 or 12345-6789)'
     }
 

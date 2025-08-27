@@ -119,3 +119,23 @@ export async function apiGetPlaces<T>(input: string): Promise<T> {
     throw error?.response?.data
   }
 }
+
+export async function apiGetPlaceDetails<T>(placeId: string): Promise<T> {
+  const url = `places/details?place_id=${placeId}`
+
+  const axiosConfig: AxiosRequestConfig = {
+    url,
+    method: 'GET',
+    headers: {},
+    maxRedirects: 5,
+  }
+  try {
+    const response = await ApiServices.fetchData<T>(axiosConfig)
+    console.log(response)
+    console.log('Place details:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching place details', error)
+    throw error?.response?.data
+  }
+}

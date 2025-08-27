@@ -5,6 +5,7 @@ import type { FontSizeTokens, SelectProps } from 'tamagui'
 import { Adapt, Button, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 import { ISelectOption } from 'app/types/common'
+import { useScreen } from 'app/hook/useScreen'
 
 export default function Selectable(
   props: SelectProps & {
@@ -26,9 +27,13 @@ export default function Selectable(
     placeholder = 'Select..',
     selectBoxWidth,
   } = props
+
+  const { isMobile, isMobileWeb } = useScreen()
+
+
   return (
     <>
-      <Label>{title}</Label>
+      <Label style={{fontSize: (isMobile||isMobileWeb)? 16: 18}}>{title}</Label>
       <Select
         size="$4"
         value={value}

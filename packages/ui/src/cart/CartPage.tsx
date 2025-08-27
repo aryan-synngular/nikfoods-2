@@ -21,6 +21,10 @@ import { Platform } from 'react-native'
 import { useScreen } from 'app/hook/useScreen'
 import { colors } from '../colors'
 import SingleFoodItemPopup from '../popups/SIngleFoodItemPopup'
+import { IAddress } from 'app/types/user'
+import { IListResponse, IResponse } from 'app/types/common'
+import { apiGetAllAddress } from 'app/services/UserService'
+import Selectable from '../Selectable'
 
 interface CartItemData {
   id: string
@@ -260,6 +264,7 @@ export function CartPage({
     setIsLoading(true)
     try {
       await fetchCart()
+      await getAllAddress()
     } catch (error) {
       console.log(error)
     } finally {
@@ -324,6 +329,25 @@ export function CartPage({
     homeLink.onPress()
   }
 
+  const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
+  const handleAddressChange = (val) => {
+    setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
+  }
+  const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
+
+  const getAllAddress = useCallback(async () => {
+    try {
+      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
+      setAddress(data?.data)
+      if (data?.data?.items.length > 0) {
+        setSelectedAddress(data?.data?.items[0])
+      }
+    } catch (error) {
+      console.log('Error:', error)
+      showMessage('Error loading addresses', 'error')
+    } finally {
+    }
+  }, [])
   return (
     <YStack
       justify={!isMobile ? 'center' : 'unset'}
@@ -371,6 +395,7 @@ export function CartPage({
             >
               Your Cart
             </Text>
+                       
           </XStack>
         </YStack>
 
@@ -412,6 +437,29 @@ export function CartPage({
                 }}
               >
                 <ScrollView height={'100%'} style={{ flex: 1 }}>
+                  <YStack style={{borderRadius:8,padding: (isMobile||isMobileWeb)? 10:0}} mx={(isMobile||isMobileWeb)?8:0} bg={(isMobile||isMobileWeb)?'white':'transparent'} mb={10}>
+
+                <Selectable
+                size={(isMobile||isMobileWeb) ? '$3' : '$4'}
+                
+                // selectBoxWidth={isMobile?100:400}
+                value={selectedAddress?._id}
+                title="Delivery Address"
+                placeholder="Select an address..."
+                options={address?.items?.map((addr) => ({
+                  value: addr._id,
+                  label:
+                    `${addr.street_address || ''}`.trim(),
+                  })) || []}
+                  onValueChange={handleAddressChange}
+                  ></Selectable>
+                  <XStack  justify={'flex-end'}>
+
+                  <Text style={{color:colors.primary,fontSize: (isMobile||isMobileWeb)? 14: 18,fontWeight:'bold'}} mt={10}>
+                    Minimum Cart Value: ${selectedAddress?.minCartValue}
+                  </Text>
+                  </XStack>
+                  </YStack>
                   {/* Cart sections by day */}
                   {isLoading || isUpdatingQuantity ? (
                     <CartItemsShimmerLoader />
@@ -425,6 +473,9 @@ export function CartPage({
                           items={day.items}
                           isItemLoading={loading}
                           deliveryLabel={'Some Lable'}
+                          minCartValue={selectedAddress?.minCartValue || 0}
+                          allCartDays={cart?.days || []}
+                          currentDayIndex={index}
                           onIncrement={(itemId, change) => handleQuantityChange(change, itemId)}
                           onDecrement={(itemId, change) => handleQuantityChange(change, itemId)}
                           onItemClick={handleItemClick}

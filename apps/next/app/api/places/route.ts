@@ -24,3 +24,5 @@ console.log(serverEnv.GOOGLE_MAPS_API_KEY)
     return NextResponse.json({ error: 'Failed to fetch places' }, { status: 500 })
   }
 }
+
+

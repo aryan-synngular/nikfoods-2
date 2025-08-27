@@ -63,11 +63,11 @@ return (
           animation="lazy"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
-          background="rgba(0,0,0,0.5)"
+          backgroundColor="rgba(0,0,0,0.5)"
         />
-        <Sheet.Handle background="#E0E0E0" />
+        <Sheet.Handle backgroundColor="#E0E0E0" />
         <Sheet.Frame
-          background="white"
+          backgroundColor="white"
           borderTopLeftRadius={20}
           borderTopRightRadius={20}
           flex={1}

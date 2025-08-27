@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Address from 'models/Address'
+import Zincode from 'models/Zincode'
 import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
 import mongoose from 'mongoose'
 import { z } from 'zod'
@@ -40,14 +41,25 @@ export async function GET(req: NextRequest) {
   try {
     await connectToDatabase()
     console.log('ID:', id)
-    const address = await Address.find({ user: id }).sort({ createdAt: -1 })
+    const addresses = await Address.find({ user: id }).sort({ createdAt: -1 })
+
+    // Get minCartValue for each address based on postal code
+    const addressesWithMinCartValue = await Promise.all(
+      addresses.map(async (address) => {
+        const zincode = await Zincode.findOne({ zipcode: address.postal_code })
+        return {
+          ...address.toObject(),
+          minCartValue: zincode?.minCartValue || 0
+        }
+      })
+    )
 
     return NextResponse.json({
       data: {
-        items: address,
+        items: addressesWithMinCartValue,
         page: 1,
         pageSize: 5,
-        total: address.length,
+        total: addressesWithMinCartValue.length,
       },
       message: 'Address fetched successfully',
     })

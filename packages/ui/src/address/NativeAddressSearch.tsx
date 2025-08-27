@@ -11,7 +11,7 @@ export default function NativeAddressSearch() {
         console.log('Selected:', data, details)
       }}
       query={{
-        key: 'GOOGLE_PLACES_API_KEY',
+        key: "AIzaSyCxtbWsrKTYaGh4UqkuF_XNPNUXWrGF97I",
         language: 'en',
       }}
       styles={{

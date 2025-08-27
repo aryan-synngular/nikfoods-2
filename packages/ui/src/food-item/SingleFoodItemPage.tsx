@@ -84,7 +84,7 @@ export default function SingleFoodItemPage({
       <View style={styles.imageContainer}>
         <Image
           source={{ uri: foodItem?.url || foodItem?.image || 'https://via.placeholder.com/400x300?text=Paneer' }}
-          style={styles.productImage}
+          style={{...styles.productImage, height:(isMobile || isMobileWeb )? "100%" : 700}}
           resizeMode="cover"
         />
       </View>
@@ -210,10 +210,12 @@ export default function SingleFoodItemPage({
 
           {/* Add to Order Button - Only show if not added to cart */}
           {!isAddedToCart && (
-            <XStack justify="flex-end" items="center" >
+            <XStack justify="flex-end" items="center" mb={isMobile || isMobileWeb ? 10 : 0} >
 
-            <Button size={"$3"} onPress={handleAddToOrder} style={{backgroundColor:colors.primary,color:"#fff",borderRadius:10,padding:10}}>
+            <Button size={isMobile || isMobileWeb ? "$4" : "$3"}  onPress={handleAddToOrder} style={{backgroundColor:colors.primary,color:"#fff",borderRadius:10,padding:10}}>
+              <Text  style={{fontSize:isMobile || isMobileWeb ? 16 : 16,fontWeight:"bold", color:"white"}}>
                 Add to Cart 
+              </Text>
             </Button>
             </XStack>
           )}
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 16,
+    top: 20,
     right: 16,
     width: 32,
     height: 32,
@@ -255,8 +257,9 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width:  "100%",
-    height: 800 * 0.75,
+    // height: "100%",
     borderRadius: 12,
+    resizeMode: 'cover',
   },
   infoOverlay: {
     position: 'absolute',
@@ -338,4 +341,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-});
+}); 

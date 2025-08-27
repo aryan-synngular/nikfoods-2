@@ -24,8 +24,7 @@ export function AddressCard({
 
         <XStack maxW={(isMobile||isMobileWeb)?300:"100%"} items="center" space="$2">
           <Home size="$1" />
-          <Paragraph> {address.street_address}, {address.city}, {address.province}{' '}
-            {address.postal_code}
+          <Paragraph> {address.street_address}
           </Paragraph>
         </XStack>
 

@@ -18,7 +18,7 @@ export interface IFoodItem {
 const FoodItemSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
-    short_description: { type: String, default: '' },
+    short_description: { type: String, default: "A perfect balance of taste, aroma, and warmth." },
     description: { type: String, default: '' },
     price: { type: Number, required: true },
     category: [{ type: Schema.Types.ObjectId, ref: FoodCategory }],
