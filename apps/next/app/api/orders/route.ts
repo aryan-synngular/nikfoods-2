@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from 'lib/db'
 import Order from 'models/Orders'
+import UpdateOrder from 'models/UpdateOrder'
 import DeliveryBoy from 'models/DeliveryBoy'
 import Review from 'models/Review'
 import { verifyAuth, decodeAccessToken } from 'lib/verifyJwt'
@@ -87,7 +88,7 @@ export async function GET(req: NextRequest) {
     const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '10')))
     const skip = (page - 1) * limit
 
-    // Fetch orders with deliveryBoy and user populated
+    // Fetch original orders with deliveryBoy and user populated
     const orders = await Order.find({ user: id, status:"confirmed",paymentStatus:"paid" })
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -97,6 +98,18 @@ export async function GET(req: NextRequest) {
         model: User,
       })
       .lean()
+
+    // Fetch only paid updating orders for the same user
+    const updatingOrders = await UpdateOrder.find({ 
+      'originalOrderId': { $in: orders.map(o => o._id) },
+      status: { $in: ['pending', 'confirmed'] },
+      paymentStatus: 'paid'
+    })
+    .populate({
+      path: 'originalOrderId',
+      model: Order,
+    })
+    .lean()
 
     const total = await Order.countDocuments({ user: id })
     const totalPages = Math.ceil(total / limit)
@@ -128,10 +141,21 @@ export async function GET(req: NextRequest) {
       {} as Record<string, (typeof reviews)[0]>
     )
 
-    // Format orders
+    // Create a map of updating orders by original order ID
+    const updatingOrdersMap = updatingOrders.reduce((acc, updatingOrder) => {
+      const originalOrderId = updatingOrder.originalOrderId._id.toString()
+      if (!acc[originalOrderId]) {
+        acc[originalOrderId] = []
+      }
+      acc[originalOrderId].push(updatingOrder)
+      return acc
+    }, {} as Record<string, any[]>)
+
+    // Format original orders with nested updating orders
     const formattedOrders = orders.map((order: any) => {
       const hasReview = !!reviewMap[order?._id.toString()]
       const reviewData = reviewMap[order?._id.toString()]
+      const orderUpdatingOrders = updatingOrdersMap[order._id.toString()] || []
 
       const formattedItems = (order.items || []).map((dayItem: any) => ({
         day: dayItem.day,
@@ -143,6 +167,38 @@ export async function GET(req: NextRequest) {
         })),
         dayTotal: `$${(dayItem.dayTotal || 0).toFixed(2)}`,
       }))
+
+      // Format updating orders for this original order using reaarrangedItems
+      const formattedUpdatingOrders = orderUpdatingOrders.map((updatingOrder: any) => {
+        const formattedUpdatingItems = (updatingOrder.reaarrangedItems || []).map((dayItem: any) => ({
+          day: dayItem.day,
+          deliveryDate: new Date(dayItem.deliveryDate).toISOString().split('T')[0],
+          products: (dayItem.items || []).map((productItem: any) => ({
+            name: productItem.food?.name || 'Unknown',
+            quantity: productItem.quantity,
+            price: productItem.price,
+          })),
+          dayTotal: `$${(dayItem.dayTotal || 0).toFixed(2)}`,
+        }))
+
+        return {
+          id: updatingOrder._id?.toString(),
+          date: updatingOrder.createdAt
+            ? new Date(updatingOrder.createdAt).toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+              })
+            : 'Invalid Date',
+          items: formattedUpdatingItems,
+          status: updatingOrder.status,
+          paymentStatus: updatingOrder.paymentStatus,
+          paymentMethod: updatingOrder.paymentMethod || 'Not specified',
+        }
+      })
 
       return {
         id: order.orderId || 'N/A',
@@ -190,13 +246,20 @@ export async function GET(req: NextRequest) {
           code: order.discount?.code || '',
         },
         taxes: `$${(order.taxes || 0).toFixed(2)}`,
+        // Include updating orders as nested array
+        updatingOrders: formattedUpdatingOrders,
       }
     })
+
+    // Sort orders by date (newest first)
+    const allOrders = formattedOrders.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
 
     return NextResponse.json({
       success: true,
       data: {
-        items: formattedOrders,
+        items: allOrders,
         page,
         pageSize: limit,
         total,

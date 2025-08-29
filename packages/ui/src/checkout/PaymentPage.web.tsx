@@ -243,10 +243,10 @@ const router = useRouter()
         }
 
         // Step 4: Payment confirmed by webhook - clear cart and notify
+        setSuccessOrderId(orderId)
         try {
           await apiClearCart()
            fetchCart()
-setSuccessOrderId(orderId)
         } catch (clearError) {
           console.warn('Failed to clear cart:', clearError)
         }
@@ -350,10 +350,10 @@ setSuccessOrderId(orderId)
       }
 
       // Step 4: Payment confirmed by webhook - clear cart and notify
+      setSuccessOrderId(orderId)
       try {
         await apiClearCart()
          fetchCart()
-setSuccessOrderId(orderId)
       } catch (clearError) {
         console.warn('Failed to clear cart:', clearError)
       }
@@ -499,7 +499,7 @@ export default function PaymentPageWeb(props: any) {
 
   const orderCalculations = useMemo(() => {
     const cartToUse = rearrangedCart || cart
-    if (!cartToUse?.days) return { subtotal: 0, platformFee: 1.0, deliveryFee: 10.0, taxes: 0, total: 0 }
+    if (!cartToUse?.days) return { subtotal: 0, taxes: 0, total: 0 }
     const subtotal = cartToUse.days.reduce(
       (acc, day) => acc + day.items.reduce((ia, it) => ia + it.food.price * it.quantity, 0),
       0
@@ -507,9 +507,9 @@ export default function PaymentPageWeb(props: any) {
     const platformFee = 1.0
     const deliveryFee = 10.0
     const discountAmount = subtotal > 100 ? 10.0 : 5.0
-    const taxes = subtotal * 0.1
-    const total = subtotal + platformFee + deliveryFee - discountAmount + taxes
-    return { subtotal, platformFee, deliveryFee, discountAmount, taxes, total }
+    const taxes = (subtotal * 0.1) + platformFee + deliveryFee // Combine all service fees under taxes
+    const total = subtotal - discountAmount + taxes
+    return { subtotal, discountAmount, taxes, total }
   }, [cart, rearrangedCart])
 
   return (
@@ -635,14 +635,6 @@ export default function PaymentPageWeb(props: any) {
             <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
           </XStack>
           <XStack justify="space-between">
-            <Text fontSize="$3">Platform Fee:</Text>
-            <Text fontSize="$3">${orderCalculations?.platformFee?.toFixed(2)}</Text>
-          </XStack>
-          <XStack justify="space-between">
-            <Text fontSize="$3">Delivery Fee:</Text>
-            <Text fontSize="$3">${orderCalculations?.deliveryFee?.toFixed(2)}</Text>
-          </XStack>
-          <XStack justify="space-between">
             <Text fontSize="$3" color="#00AA00">
               Discount:
             </Text>
@@ -651,7 +643,7 @@ export default function PaymentPageWeb(props: any) {
             </Text>
           </XStack>
           <XStack justify="space-between">
-            <Text fontSize="$3">Taxes:</Text>
+            <Text fontSize="$3">Taxes & Fees:</Text>
             <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
           </XStack>
           <XStack justify="space-between" pt="$2" borderTopWidth={1} borderTopColor="#EDEDED">

@@ -8073,7 +8073,7 @@ var require_FillRateHelper = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
-    var Info2 = class {
+    var Info3 = class {
       static {
         __name(this, "Info");
       }
@@ -8118,7 +8118,7 @@ var require_FillRateHelper = __commonJS({
       constructor(getFrameMetrics) {
         this._anyBlankStartTime = null;
         this._enabled = false;
-        this._info = new Info2();
+        this._info = new Info3();
         this._mostlyBlankStartTime = null;
         this._samplesStartTime = null;
         this._getFrameMetrics = getFrameMetrics;
@@ -8229,7 +8229,7 @@ var require_FillRateHelper = __commonJS({
       }
       _resetData() {
         this._anyBlankStartTime = null;
-        this._info = new Info2();
+        this._info = new Info3();
         this._mostlyBlankStartTime = null;
         this._samplesStartTime = null;
       }
@@ -91650,7 +91650,7 @@ var import_react_native14 = require("@tamagui/react-native-web-lite");
 // ../../packages/ui/src/useToast.tsx
 var useToast2 = /* @__PURE__ */ __name(() => {
   const toast = useToastController();
-  const showMessage2 = /* @__PURE__ */ __name((message, type) => {
+  const showMessage = /* @__PURE__ */ __name((message, type) => {
     toast.show("", {
       duration: 3e3,
       customData: {
@@ -91683,7 +91683,7 @@ var useToast2 = /* @__PURE__ */ __name(() => {
     showToast(message, "info", title);
   }, "info");
   return {
-    showMessage: showMessage2,
+    showMessage,
     // Keep your existing method for backward compatibility
     showToast,
     // New enhanced method
@@ -91707,7 +91707,7 @@ function SingleFoodItemPage({
 }) {
   const [quantity, setQuantity] = (0, import_react112.useState)(currentQuantity || 1);
   const { updateCartItemQuantity } = useStore2();
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const { isMobile, isMobileWeb } = useScreen();
   const [isLoading, setIsLoading] = (0, import_react112.useState)({ itemId: "", change: 0 });
   const handleQuantityChange = /* @__PURE__ */ __name(async (change) => {
@@ -91715,9 +91715,9 @@ function SingleFoodItemPage({
     setIsLoading({ itemId: cartItemId, change });
     try {
       await updateCartItemQuantity({ cartItemId, change });
-      showMessage2("Quantity Updated Successfully", "success");
+      showMessage("Quantity Updated Successfully", "success");
     } catch (error4) {
-      showMessage2("Failed to update quantity", "error");
+      showMessage("Failed to update quantity", "error");
     } finally {
       setIsLoading({ itemId: "", change: 0 });
     }
@@ -92129,7 +92129,7 @@ function FoodListingRail({ displayLabel, foodItems, listType }) {
       setIsDatePopupOpen(true);
     }
   }, "handleAddToCartFromPopup");
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const [loading, setLoading] = (0, import_react113.useState)(false);
   const handleDateSelection = /* @__PURE__ */ __name(async (selectedDates) => {
     console.log(selectedDates);
@@ -92139,10 +92139,10 @@ function FoodListingRail({ displayLabel, foodItems, listType }) {
         foodItemId: selectedFoodItem?._id,
         ...selectedDates
       });
-      showMessage2("Cart Updated Successfully", "success");
+      showMessage("Cart Updated Successfully", "success");
     } catch (error4) {
       console.log(error4);
-      showMessage2(`Cart Updation Failed: ${error4}`, "error");
+      showMessage(`Cart Updation Failed: ${error4}`, "error");
     } finally {
       setLoading(false);
     }
@@ -92995,7 +92995,7 @@ var import_react117 = require("react");
 var import_jsx_runtime141 = require("react/jsx-runtime");
 function LoginPage() {
   const { user, loading, signIn, signingIn, signOut, socialSignIn } = useAuth();
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const media2 = (0, import_core61.useMedia)();
   const [email, setEmail] = (0, import_react117.useState)("");
   const [password, setPassword] = (0, import_react117.useState)("");
@@ -93040,9 +93040,9 @@ function LoginPage() {
       } catch (error4) {
         console.log(error4);
         if (error4 instanceof Error) {
-          showMessage2(error4.message, "error");
+          showMessage(error4.message, "error");
         } else {
-          showMessage2("Login failed. Please try again.", "error");
+          showMessage("Login failed. Please try again.", "error");
         }
       }
     }
@@ -93050,15 +93050,15 @@ function LoginPage() {
   const handleSocialLogin = /* @__PURE__ */ __name(async (provider) => {
     try {
       await socialSignIn(provider);
-      showMessage2(
+      showMessage(
         `${provider.charAt(0).toUpperCase() + provider.slice(1)} sign-in successful`,
         "success"
       );
     } catch (e) {
       if (e instanceof Error) {
-        showMessage2(e.message, "error");
+        showMessage(e.message, "error");
       } else {
-        showMessage2("Social login failed", "error");
+        showMessage("Social login failed", "error");
       }
     }
   }, "handleSocialLogin");
@@ -94713,7 +94713,7 @@ var import_react122 = require("react");
 var import_jsx_runtime147 = require("react/jsx-runtime");
 function SignupStep2Page() {
   const { user, registerStep2 } = useAuth();
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   console.log("user--------------");
   console.log(user);
   const media2 = (0, import_core61.useMedia)();
@@ -94749,32 +94749,32 @@ function SignupStep2Page() {
   });
   const validateInputs = /* @__PURE__ */ __name(() => {
     if (!name2.trim() || name2.trim().length < 2) {
-      showMessage2("Name is required", "error");
+      showMessage("Name is required", "error");
       return false;
     }
     if (!email.trim()) {
-      showMessage2("Please enter your email address", "error");
+      showMessage("Please enter your email address", "error");
       return false;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      showMessage2("Invalid email", "error");
+      showMessage("Invalid email", "error");
       return false;
     }
     if (!streetAddress.trim() || streetAddress.trim().length < 5) {
-      showMessage2("Street Address is too short", "error");
+      showMessage("Street Address is too short", "error");
       return false;
     }
     if (!city.trim() || city.trim().length < 2) {
-      showMessage2("City is required", "error");
+      showMessage("City is required", "error");
       return false;
     }
     if (!postcode.trim() || postcode.trim().length < 4) {
-      showMessage2("Postcode is required", "error");
+      showMessage("Postcode is required", "error");
       return false;
     }
     if (!agreedToTerms) {
-      showMessage2("You must agree to terms", "error");
+      showMessage("You must agree to terms", "error");
       return false;
     }
     return true;
@@ -94803,16 +94803,16 @@ function SignupStep2Page() {
     console.log("Complete signup with address:", addressData);
     try {
       const data = await registerStep2(addressData);
-      showMessage2("Address added successfully! Welcome to Nikfoods!", "success");
+      showMessage("Address added successfully! Welcome to Nikfoods!", "success");
       if (homeLink.onPress) {
         homeLink.onPress();
       }
     } catch (error4) {
       console.log(error4);
       if (error4 instanceof Error) {
-        showMessage2(error4.message, "error");
+        showMessage(error4.message, "error");
       } else {
-        showMessage2("Failed to add address. Please try again.", "error");
+        showMessage("Failed to add address. Please try again.", "error");
       }
     } finally {
       setIsLoading(false);
@@ -96871,7 +96871,7 @@ function DessertDeals({ items, onAddItem, onViewAll }) {
     setSelectedFoodItem(item);
     setIsDatePopupOpen(true);
   }, "handleAddButtonClick");
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const handleDateSelection = /* @__PURE__ */ __name(async (selectedDates) => {
     console.log(selectedDates);
     try {
@@ -96880,7 +96880,7 @@ function DessertDeals({ items, onAddItem, onViewAll }) {
         foodItemId: selectedFoodItem?._id,
         ...selectedDates
       });
-      showMessage2("Item Added to Cart", "success");
+      showMessage("Item Added to Cart", "success");
       console.log(data);
     } catch (error4) {
       console.log(error4);
@@ -97488,7 +97488,7 @@ function CartPage({
     addToCart,
     updateCartItemQuantity
   } = useStore2();
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const [loading, setLoading] = (0, import_react130.useState)({ itemId: "", change: 0 });
   console.log(loading);
   const [isLoading, setIsLoading] = (0, import_react130.useState)(true);
@@ -97598,7 +97598,7 @@ function CartPage({
     setLoading({ itemId, change });
     try {
       await updateCartItemQuantity({ cartItemId: itemId, change });
-      showMessage2("Quantity Updated Successfully", "success");
+      showMessage("Quantity Updated Successfully", "success");
     } catch (error4) {
       console.log(error4);
     } finally {
@@ -97713,7 +97713,7 @@ function CartPage({
     }));
     const clubbingResult = calculateCartClubbing(cartDaysData, selectedAddress.minCartValue || 0);
     if (!clubbingResult.canCheckout) {
-      showMessage2(getCheckoutMessage(cartDaysData, selectedAddress.minCartValue || 0), "error");
+      showMessage(getCheckoutMessage(cartDaysData, selectedAddress.minCartValue || 0), "error");
       return;
     }
     console.log("Proceeding to checkout");
@@ -97727,10 +97727,10 @@ function CartPage({
     setSelectedAddress(selectedAddr);
     try {
       await apiUpdateCartAddress({ addressId: val });
-      showMessage2("Address updated successfully", "success");
+      showMessage("Address updated successfully", "success");
     } catch (error4) {
       console.log("Error updating cart address:", error4);
-      showMessage2("Failed to update address", "error");
+      showMessage("Failed to update address", "error");
     }
   }, "handleAddressChange");
   const [selectedAddress, setSelectedAddress] = (0, import_react130.useState)(null);
@@ -97743,7 +97743,7 @@ function CartPage({
       }
     } catch (error4) {
       console.log("Error:", error4);
-      showMessage2("Error loading addresses", "error");
+      showMessage("Error loading addresses", "error");
     } finally {
     }
   }, [selectedAddress]);
@@ -98520,7 +98520,7 @@ function PaymentFormInner({
 }) {
   console.log(clientSecret);
   const { cart, cartTotalAmount, fetchCart, setSuccessOrderId } = useStore2();
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const stripe = (0, import_react_stripe_js.useStripe)();
   const elements = (0, import_react_stripe_js.useElements)();
   const router = (0, import_navigation14.useRouter)();
@@ -98566,7 +98566,7 @@ function PaymentFormInner({
           console.warn("Failed to clear cart:", clearError);
         }
         setPaymentStatus("success");
-        showMessage2("Payment successful", "success");
+        showMessage("Payment successful", "success");
         if (onPaymentSuccess) onPaymentSuccess({ orderId, total: orderCalculations.total });
         if (onOrderCreated) onOrderCreated(orderId);
         router.push("/checkout/success");
@@ -98585,7 +98585,7 @@ function PaymentFormInner({
       onPaymentError,
       onPaymentSuccess,
       onOrderCreated,
-      showMessage2,
+      showMessage,
       setPaymentStatus,
       setCompletedOrderId
     ]
@@ -98644,7 +98644,7 @@ function PaymentFormInner({
         console.warn("Failed to clear cart:", clearError);
       }
       setPaymentStatus("success");
-      showMessage2("Payment successful", "success");
+      showMessage("Payment successful", "success");
       if (onPaymentSuccess) onPaymentSuccess({ orderId, total: totalAmount });
       if (onOrderCreated) onOrderCreated(orderId);
       router.push("/checkout/success");
@@ -98664,7 +98664,7 @@ function PaymentFormInner({
     onPaymentError,
     onPaymentSuccess,
     onOrderCreated,
-    showMessage2,
+    showMessage,
     setPaymentStatus,
     setCompletedOrderId
   ]);
@@ -98751,7 +98751,7 @@ function PaymentPageWeb(props) {
             return;
           }
           const errorMessage = orderResponse?.error || "Failed to create order";
-          showMessage(errorMessage, "error");
+          showMessag(errorMessage, "error");
           throw new Error(errorMessage);
         }
         setCanCheckout(true);
@@ -98839,13 +98839,6 @@ function PaymentPageWeb(props) {
         )
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: isMobile ? "$3" : "$4", mb: "$3", color: "#6C757D", children: selectedAddress?.street_address ? `${selectedAddress.street_address}, ${selectedAddress.city || ""}` : "Address details" }),
-      deliveryMessages.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(YStack, { space: "$2", mb: "$3", p: "$3", backgroundColor: "#fff4e4", borderRadius: 8, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(XStack, { alignItems: "center", gap: "$2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Info, { size: 16, color: "#ff9500" }),
-          /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$3", fontWeight: "600", color: "#ff9500", children: "Delivery Information" })
-        ] }),
-        deliveryMessages.map((message, index4) => /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$2", color: "#ff9500", pl: "$6", children: message }, index4))
-      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(YStack, { space: "$2", mb: "$3", children: (rearrangedCart?.days || cart?.days)?.map(
         (day) => day.items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(YStack, { space: "$1", children: [
           /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(Text5, { fontSize: "$3", fontWeight: "600", color: "#FF6B00", children: [
@@ -98927,7 +98920,7 @@ function PaymentPageWeb(props) {
     !canCheckout ? (
       // Show error message when checkout is not allowed
       /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(YStack, { space: "$4", p: "$4", backgroundColor: "#fef2f2", borderRadius: 8, borderWidth: 1, borderColor: "#fecaca", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(XStack, { alignItems: "center", gap: "$2", children: /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$4", fontWeight: "600", color: "#dc2626", children: "\u26A0\uFE0F Order Cannot Be Completed" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(XStack, { alignItems: "center", gap: "$2", children: /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$4", fontWeight: "600", color: "#dc2626", children: "Order Cannot Be Completed" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$3", color: "#dc2626", children: checkoutError }),
         deliveryMessages.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(YStack, { space: "$2", children: [
           /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Text5, { fontSize: "$3", fontWeight: "600", color: "#dc2626", children: "Delivery Information:" }),
@@ -99515,7 +99508,7 @@ function CheckoutPage({
   const [isLoadingCart, setIsLoadingCart] = (0, import_react132.useState)(true);
   const [showAddressPopup, setShowAddressPopup] = (0, import_react132.useState)(false);
   const [isLoadingAddress, setIsLoadingAddress] = (0, import_react132.useState)(true);
-  const { showMessage: showMessage2 } = useToast2();
+  const { showMessage } = useToast2();
   const [total, setTotal] = (0, import_react132.useState)({ total: 0 });
   const [selectedAddress, setSelectedAddress] = (0, import_react132.useState)(null);
   const getCartAddress = (0, import_react132.useCallback)(async () => {
@@ -99537,11 +99530,11 @@ function CheckoutPage({
       await fetchCart();
     } catch (error4) {
       console.error("Error fetching cart:", error4);
-      showMessage2("Error loading cart data", "error");
+      showMessage("Error loading cart data", "error");
     } finally {
       setIsLoadingCart(false);
     }
-  }, [showMessage2]);
+  }, [showMessage]);
   (0, import_react132.useEffect)(() => {
     getCartAddress();
     fetchCartData();
@@ -99560,7 +99553,7 @@ function CheckoutPage({
   const handleAddressSuccess = /* @__PURE__ */ __name(() => {
     setShowAddressPopup(false);
     getCartAddress();
-    showMessage2("Address added successfully!", "success");
+    showMessage("Address added successfully!", "success");
   }, "handleAddressSuccess");
   const isCartEmpty = cartTotalAmount == 0;
   const hasNoAddresses = user && user?.email && !selectedAddress;

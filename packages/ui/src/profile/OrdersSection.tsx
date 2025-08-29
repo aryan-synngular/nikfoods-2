@@ -479,7 +479,9 @@ console.log(dayName)
         updatedTotal: number
         orderItems?: any[]
         details?: string
-      }>(actualOrderId, updatedItems)
+      }>({
+        updatingOrderId: actualOrderId,
+      })
 
       console.log('API Response:', response)
 
@@ -583,7 +585,7 @@ console.log(dayName)
   if (error && !loading) {
     return (
       <YStack flex={1} justify="center" items="center" p="$4" gap="$4">
-        <Text fontSize="$4" color="red" textAlign="center">
+        <Text fontSize="$4" color="red" style={{ textAlign: 'center' }}>
           {error}
         </Text>
         <Button bg="#FF9F0D" color="white" size="$4" onPress={handleRetry}>
@@ -638,7 +640,7 @@ console.log(dayName)
                   {/* Left Side: Order Info */}
                   <YStack minWidth={180} flexShrink={1}>
                     <Text fontSize={(isMobile||isMobileWeb)?16:18} fontWeight="700" color="#1A1A1A">
-                      Order ID : {order?.id}
+                      Order ID: {order?.id}
                     </Text>
                     <Text fontSize={(isMobile||isMobileWeb)?12:14} fontWeight="600" color="#4D4D4D" mt="$1">
                       {formatOrderDate(order.date)}
@@ -650,7 +652,7 @@ console.log(dayName)
                     <View
                       bg="#e6f3e6"
                       p={(isMobile||isMobileWeb)?"$1":"$2"}
-                      borderRadius="$2"
+                      style={{ borderRadius: 8 }}
                       flexDirection="row"
                       alignItems="center"
                       gap="$2"
@@ -664,7 +666,7 @@ console.log(dayName)
                     <View
                       bg="#feeeed"
                       p="$2"
-                      borderRadius="$2"
+                      style={{ borderRadius: 8 }}
                       flexDirection="row"
                       alignItems="center"
                       gap="$2"
@@ -681,7 +683,6 @@ console.log(dayName)
                         bg="white"
                         color="#FF9F0D"
                         borderColor="#FF9F0D"
-
                         variant="outlined"
                         fontSize={(isMobile||isMobileWeb)?15:16}
                         onPress={() => handleUpdateItem(order.id)}
@@ -770,6 +771,60 @@ console.log(dayName)
                     )
                   })}
                 </YStack>
+
+                {/* Updating Orders Section */}
+                {order.updatingOrders && order.updatingOrders.length > 0 && (
+                  <YStack mt="$4" pt="$3" borderTopWidth={1} borderTopColor="#E0E0E0">
+                    <Text fontSize="$4" fontWeight="600" color="#FF6B00" mb="$3">
+                      Order Updates
+                    </Text>
+                    {order.updatingOrders.map((updatingOrder: any, updateIndex: number) => (
+                      <YStack key={updatingOrder.id} mb="$3" p="$3" bg="#fff4e4" style={{ borderRadius: 8 }}>
+                        <XStack justify="space-between" alignItems="center" mb="$2">
+                          <Text fontSize="$3" fontWeight="600" color="#FF6B00">
+                            Update #{updateIndex + 1}
+                          </Text>
+                          <Text fontSize="$2" color="#666">
+                            {formatOrderDate(updatingOrder.date)}
+                          </Text>
+                        </XStack>
+                        
+                        {/* Updated Items */}
+                        <YStack gap="$2">
+                          {updatingOrder.items?.map((dayItem: any, dayIndex: number) => (
+                            <YStack key={dayItem.day} space="$1">
+                              <Text fontSize="$3" fontWeight="500" color="#FF6B00">
+                                {dayItem.day} ({new Date(dayItem.deliveryDate).toLocaleDateString()})
+                              </Text>
+                              {dayItem.products?.map((product: any, productIndex: number) => (
+                                <XStack key={productIndex} justify="space-between" pl="$2">
+                                  <Text fontSize="$3" color="#666">
+                                    {product.quantity}x {product.name}
+                                  </Text>
+                                  <Text fontSize="$3" color="#666">
+                                    ${(product.price * product.quantity).toFixed(2)}
+                                  </Text>
+                                </XStack>
+                              ))}
+                              <Text fontSize="$2" color="#666" pl="$2">
+                                Day total: {dayItem.dayTotal}
+                              </Text>
+                            </YStack>
+                          ))}
+                        </YStack>
+                        
+                        <XStack justify="space-between" alignItems="center" mt="$2" pt="$2" borderTopWidth={1} borderTopColor="#E0E0E0">
+                          <Text fontSize="$2" color="#666">
+                            Status: {updatingOrder.status}
+                          </Text>
+                          <Text fontSize="$2" color="#666">
+                            Payment: {updatingOrder.paymentStatus}
+                          </Text>
+                        </XStack>
+                      </YStack>
+                    ))}
+                  </YStack>
+                )}
 
                 <YStack mt="$4" pt="$3" borderTopWidth={1} borderTopColor="#E0E0E0">
                   <XStack justify="flex-end">

@@ -13,7 +13,7 @@ import {
   CardElement,
   Elements,
   ExpressCheckoutElement,
-  useElements,
+  useElements, 
   useStripe,
 } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
@@ -41,8 +41,19 @@ interface CreateSecureOrderResponse {
     clientSecret: string
     originalOrderId: string
     totalAmount: string
+    rearrangedCart?: any
+    originalOrderTotal?: string
+    updatingOrderTotal?: string
+    platformFee?: string
+    deliveryFee?: string
+    discountAmount?: string
+    taxes?: string
+    originalOrderItems?: any[]
   }
   error?: string
+  deliveryMessages?: string[]
+  canCheckout?: boolean
+  totalShortfall?: number
 }
 
 interface PaymentStatusResponse {
@@ -113,14 +124,14 @@ function UpdateOrderFormInner({
           throw new Error('Payment confirmation timeout. Please check your order status.')
         }
 
-        // Step 4: Payment confirmed by webhook - update order items
-        try {
-          await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
-            updatingOrderId,
-          })
-        } catch (updateError) {
-          console.warn('Failed to update order items:', updateError)
-        }
+        // // Step 4: Payment confirmed by webhook - update order items
+        // try {
+        //   await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
+        //     updatingOrderId,
+        //   })
+        // } catch (updateError) {
+        //   console.warn('Failed to update order items:', updateError)
+        // }
 setSuccessOrderId(orderId)
         setPaymentStatus('success')
         showMessage('Payment successful. Your order update will be applied shortly.', 'success')
@@ -198,13 +209,13 @@ setSuccessOrderId(orderId)
       }
 
       // Step 4: Payment confirmed by webhook - update order items
-      try {
-        await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
-          updatingOrderId,
-        })
-      } catch (updateError) {
-        console.warn('Failed to update order items:', updateError)
-      }
+      // try {
+      //   await apiUpdateOrderItems<{ success: boolean; updatedTotal?: number }>({
+      //     updatingOrderId,
+      //   })
+      // } catch (updateError) {
+      //   console.warn('Failed to update order items:', updateError)
+      // }
 setSuccessOrderId(orderId)
 
       setPaymentStatus('success')
@@ -288,6 +299,12 @@ export default function UpdateOrderWeb() {
   )
   const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
   const [paymentAlreadyCompleted, setPaymentAlreadyCompleted] = useState<boolean>(false)
+  const [deliveryMessages, setDeliveryMessages] = useState<string[]>([])
+  const [rearrangedCart, setRearrangedCart] = useState<any>(null)
+  const [canCheckout, setCanCheckout] = useState<boolean>(true)
+  const [checkoutError, setCheckoutError] = useState<string>('')
+  const [paymentBreakdown, setPaymentBreakdown] = useState<any>(null)
+  const [originalOrderItems, setOriginalOrderItems] = useState<any[]>([])
   const stripePromise = useMemo(
     () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''),
     []
@@ -322,12 +339,55 @@ export default function UpdateOrderWeb() {
           currency: 'usd',
         })
         console.log(orderResponse)
-        if (!orderResponse?.success || !orderResponse?.data?.clientSecret) {
-          throw new Error(orderResponse?.error || 'Failed to create secure order')
+        if (!orderResponse?.success) {
+          // Check if it's a minimum order value error
+          if (orderResponse?.canCheckout === false) {
+            setCanCheckout(false)
+            setCheckoutError(orderResponse?.error || 'Minimum order value not met')
+            if (orderResponse?.deliveryMessages) {
+              setDeliveryMessages(orderResponse.deliveryMessages)
+            }
+            return // Don't throw error, just return
+          }
+          
+          // For other errors, throw as usual
+          const errorMessage = orderResponse?.error || 'Failed to create secure order'
+          throw new Error(errorMessage)
         }
-        setCompletedOrderId(orderResponse.data.originalOrderId)
-        setClientSecret(orderResponse.data.clientSecret)
-        setTotalAmount(orderResponse.data.totalAmount)
+        
+        // If we reach here, order was created successfully
+        setCanCheckout(true)
+        setCheckoutError('')
+        if (orderResponse?.data) {
+          setCompletedOrderId(orderResponse.data.originalOrderId)
+          setClientSecret(orderResponse.data.clientSecret)
+          setTotalAmount(orderResponse.data.totalAmount)
+          
+          // Set rearranged cart if it exists
+          if (orderResponse.data.rearrangedCart) {
+            setRearrangedCart(orderResponse.data.rearrangedCart)
+          }
+          
+          // Set payment breakdown if it exists
+          setPaymentBreakdown({
+            originalOrderTotal: orderResponse.data.originalOrderTotal,
+            updatingOrderTotal: orderResponse.data.updatingOrderTotal,
+            platformFee: orderResponse.data.platformFee,
+            deliveryFee: orderResponse.data.deliveryFee,
+            discountAmount: orderResponse.data.discountAmount,
+            taxes: orderResponse.data.taxes,
+          })
+          
+          // Set original order items if they exist
+          if (orderResponse.data.originalOrderItems) {
+            setOriginalOrderItems(orderResponse.data.originalOrderItems)
+          }
+        }
+        
+        // Set delivery messages if they exist
+        if (orderResponse?.deliveryMessages && orderResponse.deliveryMessages.length > 0) {
+          setDeliveryMessages(orderResponse.deliveryMessages)
+        }
       } catch (e: any) {
         setError(e?.error || e?.message || 'Failed to load')
         setData(null)
@@ -341,37 +401,29 @@ export default function UpdateOrderWeb() {
   const updatingOrder = data?.updatingOrder
 
   const orderCalculations = useMemo(() => {
-    const days = updatingOrder?.items || []
-    if (!days || days.length === 0)
+    const cartToUse = rearrangedCart || updatingOrder?.items || []
+    if (!cartToUse || cartToUse.length === 0)
       return {
         subtotal: 0,
-        platformFee: 1.0,
-        deliveryFee: 10.0,
-        discountAmount: 0,
-        taxes: 0,
         total: 0,
       }
 
-    // Note: We'll use the totalAmount from the API response since prices are calculated server-side
-    // This ensures consistency with the payment intent amount
-    const subtotal = totalAmount
-      ? parseFloat(totalAmount) -
-        1.0 -
-        10.0 +
-        (parseFloat(totalAmount) > 111 ? 10.0 : 5.0) -
-        parseFloat(totalAmount) * 0.1
-      : 0
+    // Calculate subtotal from rearranged cart if available, otherwise use totalAmount
+    let subtotal = 0
+    if (rearrangedCart?.days) {
+      subtotal = rearrangedCart.days.reduce(
+        (acc: number, day: any) => acc + day.items.reduce((ia: number, it: any) => ia + it.food.price * it.quantity, 0),
+        0
+      )
+    } else if (totalAmount) {
+      // For update orders, just use the total amount as subtotal (no service fees)
+      subtotal = parseFloat(totalAmount)
+    }
 
-    const platformFee = 1.0
-    const deliveryFee = 10.0
-    const discountAmount = subtotal > 100 ? 10.0 : 5.0
-    const taxes = subtotal * 0.1
-    const total = totalAmount
-      ? parseFloat(totalAmount)
-      : subtotal + platformFee + deliveryFee - discountAmount + taxes
+    const total = subtotal
 
-    return { subtotal, platformFee, deliveryFee, discountAmount, taxes, total }
-  }, [updatingOrder, totalAmount])
+    return { subtotal, total }
+  }, [updatingOrder, totalAmount, rearrangedCart])
 
   if (loading) {
     return (
@@ -453,35 +505,130 @@ export default function UpdateOrderWeb() {
             <Text fontSize="$5" fontWeight="600" mb="$3">
               Order Summary
             </Text>
+            
+            {deliveryMessages.length > 0 && (
+              <Text fontSize="$2" color="#ff9500" mb="$2" fontStyle="italic">
+                Note: Some items have been moved to different delivery days to meet minimum order requirements.
+              </Text>
+            )}
 
-            <YStack space="$1" pt="$2" borderTopWidth={1} borderTopColor="#EDEDED">
-              <XStack justify="space-between">
-                <Text fontSize="$3">Subtotal:</Text>
-                <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
-              </XStack>
-              <XStack justify="space-between">
-                <Text fontSize="$3">Platform Fee:</Text>
-                <Text fontSize="$3">${orderCalculations.platformFee.toFixed(2)}</Text>
-              </XStack>
-              <XStack justify="space-between">
-                <Text fontSize="$3">Delivery Fee:</Text>
-                <Text fontSize="$3">${orderCalculations.deliveryFee.toFixed(2)}</Text>
-              </XStack>
-              <XStack justify="space-between">
-                <Text fontSize="$3" color="#00AA00">
-                  Discount:
+            {/* Cart Items Summary */}
+            <YStack space="$2" mb="$3">
+              {/* Original Order Items */}
+              {originalOrderItems.length > 0 && (
+                <YStack space="$1" mb="$3">
+                  <Text fontSize="$4" fontWeight="600" color="#0369a1" mb="$2">
+                    Original Order Items (Already Paid)
+                  </Text>
+                  {originalOrderItems.map((day: any) =>
+                    day.items.length > 0 && (
+                      <YStack key={day.day} space="$1" pl="$2">
+                        <Text fontSize="$3" fontWeight="600" color="#0369a1">
+                          {day.day} ({new Date(day.deliveryDate).toLocaleDateString()})
+                        </Text>
+                        {(() => {
+                          // Group items by food ID to combine quantities
+                          const groupedItems = new Map()
+                          day.items.forEach((item: any) => {
+                            const foodId = item.food._id
+                            if (groupedItems.has(foodId)) {
+                              const existing = groupedItems.get(foodId)
+                              existing.quantity += item.quantity
+                            } else {
+                              groupedItems.set(foodId, { ...item })
+                            }
+                          })
+                          
+                          return Array.from(groupedItems.values()).map((item: any) => (
+                            <XStack key={item.food._id} justify="space-between" pl="$2">
+                              <Text fontSize="$3" color="#0369a1" opacity={0.8}>
+                                {item.quantity}x {item.food.name}
+                              </Text>
+                              <Text fontSize="$3" color="#0369a1" opacity={0.8}>
+                                ${(item.food.price * item.quantity).toFixed(2)}
+                              </Text>
+                            </XStack>
+                          ))
+                        })()}
+                      </YStack>
+                    )
+                  )}
+                </YStack>
+              )}
+
+              {/* Updated Order Items */}
+              {(rearrangedCart?.days || updatingOrder?.items)?.map(
+                (day: any) =>
+                  day.items.length > 0 && (
+                    <YStack key={day._id || day.day} space="$1">
+                      <Text fontSize="$3" fontWeight="600" color="#d97706">
+                        {day.day} ({new Date(day.date || day.deliveryDate).toLocaleDateString()}) - New Items
+                      </Text>
+                      {(() => {
+                        // Group items by food ID to combine quantities
+                        const groupedItems = new Map()
+                        day.items.forEach((item: any) => {
+                          const foodId = item.food._id
+                          if (groupedItems.has(foodId)) {
+                            const existing = groupedItems.get(foodId)
+                            existing.quantity += item.quantity
+                          } else {
+                            groupedItems.set(foodId, { ...item })
+                          }
+                        })
+                        
+                        return Array.from(groupedItems.values()).map((item: any) => (
+                          <XStack key={item._id || item.food._id} justify="space-between" pl="$2">
+                            <Text fontSize="$3" color="#d97706">
+                              {item.quantity}x {item.food.name}
+                            </Text>
+                            <Text fontSize="$3" color="#d97706">
+                              ${(item.food.price * item.quantity).toFixed(2)}
+                            </Text>
+                          </XStack>
+                        ))
+                      })()}
+                    </YStack>
+                  )
+              )}
+            </YStack>
+
+            {/* Payment Breakdown */}
+            <YStack space="$2" pt="$3" borderTopWidth={1} borderTopColor="#EDEDED">
+              <Text fontSize="$4" fontWeight="600" color="#1F2937" mb="$2">
+                Payment Breakdown
+              </Text>
+              
+              {/* Already Paid Section */}
+              <YStack space="$1" p="$3" background="#f0f9ff" style={{ borderRadius: 6 }}>
+                <Text fontSize="$3" fontWeight="600" color="#0369a1">
+                  Already Paid (Original Order)
                 </Text>
-                <Text fontSize="$3" color="#00AA00">
-                  -${orderCalculations.discountAmount.toFixed(2)}
+                <XStack justify="space-between">
+                  <Text fontSize="$3" color="#0369a1">Original Order Total:</Text>
+                  <Text fontSize="$3" color="#0369a1" fontWeight="500">
+                    ${paymentBreakdown?.originalOrderTotal || '0.00'}
+                  </Text>
+                </XStack>
+              </YStack>
+              
+              {/* To Be Paid Section */}
+              <YStack space="$1" p="$3" background="#fef3c7" style={{ borderRadius: 6 }}>
+                <Text fontSize="$3" fontWeight="600" color="#d97706">
+                  To Be Paid (Order Update)
                 </Text>
-              </XStack>
-              <XStack justify="space-between">
-                <Text fontSize="$3">Taxes:</Text>
-                <Text fontSize="$3">${orderCalculations.taxes.toFixed(2)}</Text>
-              </XStack>
+                <XStack justify="space-between">
+                  <Text fontSize="$3" color="#d97706">New Items Total:</Text>
+                  <Text fontSize="$3" color="#d97706" fontWeight="500">
+                    ${paymentBreakdown?.updatingOrderTotal || '0.00'}
+                  </Text>
+                </XStack>
+              </YStack>
+              
+              {/* Final Total */}
               <XStack justify="space-between" pt="$2" borderTopWidth={1} borderTopColor="#EDEDED">
-                <Text fontSize="$5" fontWeight="bold">
-                  Final Total:
+                <Text fontSize="$5" fontWeight="bold" color="#d97706">
+                  Amount to Pay:
                 </Text>
                 <Text fontSize="$5" fontWeight="bold" color="#FF6B00">
                   ${orderCalculations.total.toFixed(2)}
@@ -490,7 +637,35 @@ export default function UpdateOrderWeb() {
             </YStack>
           </View>
 
-          {clientSecret && (
+          {!canCheckout ? (
+            // Show error message when checkout is not allowed
+            <YStack space="$4" p="$4" background="#fef2f2" style={{ borderRadius: 8, borderWidth: 1, borderColor: "#fecaca" }}>
+              <XStack items="center" gap="$2">
+                <Text fontSize="$4" fontWeight="600" color="#dc2626">
+                  Order Cannot Be Completed
+                </Text>
+              </XStack>
+              <Text fontSize="$3" color="#dc2626">
+                {checkoutError}
+              </Text>
+              {deliveryMessages.length > 0 && (
+                <YStack space="$2">
+                  <Text fontSize="$3" fontWeight="600" color="#dc2626">
+                    Delivery Information:
+                  </Text>
+                  {deliveryMessages.map((message, index) => (
+                    <Text key={index} fontSize="$2" color="#dc2626" pl="$2">
+                      • {message}
+                    </Text>
+                  ))}
+                </YStack>
+              )}
+              <Text fontSize="$3" color="#dc2626" fontStyle="italic">
+                Please add more items to your order to meet the minimum order requirement.
+              </Text>
+            </YStack>
+          ) : clientSecret ? (
+            // Show payment methods when checkout is allowed
             <Elements stripe={stripePromise} options={{ clientSecret: clientSecret }}>
               <UpdateOrderFormInner
                 updatingOrderId={updatingOrderId}
@@ -502,6 +677,13 @@ export default function UpdateOrderWeb() {
                 totalAmount={totalAmount}
               />
             </Elements>
+          ) : (
+            // Show loading state
+            <YStack space="$4" p="$4" items="center">
+              <Text fontSize="$3" color="#6b7280">
+                Preparing payment...
+              </Text>
+            </YStack>
           )}
 
           {/* Security Notice */}

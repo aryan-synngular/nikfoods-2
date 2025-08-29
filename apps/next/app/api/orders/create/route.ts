@@ -421,21 +421,34 @@ export async function POST(req: NextRequest) {
 
     // ✅ Delivery time validation already done during filtering
 
-    // ✅ Process clubbed items
+    // ✅ Process clubbed items - Group by delivery day to avoid duplicates
     const validatedItems: any[] = []
     let totalSubtotal = 0
-
+    
+    // Group items by delivery day
+    const deliveryDayGroups = new Map()
+    
     for (const clubbedDay of clubbingResult.clubbedDays) {
-      const dayItems = []
-      let dayTotal = 0
-
+      const deliveryKey = `${clubbedDay.deliveryDay}-${clubbedDay.deliveryDate}`
+      
+      if (!deliveryDayGroups.has(deliveryKey)) {
+        deliveryDayGroups.set(deliveryKey, {
+          day: clubbedDay.deliveryDay,
+          deliveryDate: clubbedDay.deliveryDate,
+          items: [],
+          dayTotal: 0
+        })
+      }
+      
+      const deliveryGroup = deliveryDayGroups.get(deliveryKey)
+      
       for (const cartItem of clubbedDay.items) {
         const foodItem = cartItem.food
         if (!foodItem) continue
         const itemTotal = foodItem.price * cartItem.quantity
-        dayTotal += itemTotal
+        deliveryGroup.dayTotal += itemTotal
 
-        dayItems.push({
+        deliveryGroup.items.push({
           food: {
             _id: foodItem._id,
             name: foodItem.name,
@@ -449,17 +462,15 @@ export async function POST(req: NextRequest) {
           price: foodItem.price,
         })
       }
-
-      if (dayItems.length) {
-        validatedItems.push({
-          day: clubbedDay.deliveryDay,
-          deliveryDate: clubbedDay.deliveryDate,
-          items: dayItems,
-          dayTotal,
-        })
-        totalSubtotal += dayTotal
-      }
     }
+    
+    // Convert grouped items to validatedItems array
+    deliveryDayGroups.forEach((deliveryGroup) => {
+      if (deliveryGroup.items.length > 0) {
+        validatedItems.push(deliveryGroup)
+        totalSubtotal += deliveryGroup.dayTotal
+      }
+    })
 
     if (!validatedItems.length) {
       return NextResponse.json({ success: false, error: 'No valid items in cart' }, { status: 400 })
@@ -467,13 +478,13 @@ export async function POST(req: NextRequest) {
 
     // Create rearranged cart structure for frontend display
     // Group items by delivery day to avoid duplicates
-    const groupedByDeliveryDay = new Map()
+    const cartDisplayGroups = new Map()
     
     clubbingResult.clubbedDays.forEach((clubbedDay) => {
       const key = `${clubbedDay.deliveryDay}-${clubbedDay.deliveryDate}`
       
-      if (!groupedByDeliveryDay.has(key)) {
-        groupedByDeliveryDay.set(key, {
+      if (!cartDisplayGroups.has(key)) {
+        cartDisplayGroups.set(key, {
           _id: `clubbed-${clubbedDay.deliveryDay}-${clubbedDay.deliveryDate}`,
           day: clubbedDay.deliveryDay,
           date: clubbedDay.deliveryDate,
@@ -482,7 +493,7 @@ export async function POST(req: NextRequest) {
         })
       }
       
-      const existingDay = groupedByDeliveryDay.get(key)
+      const existingDay = cartDisplayGroups.get(key)
       existingDay.cart_value += clubbedDay.dayTotal
       existingDay.items.push(...clubbedDay.items.map((item) => ({
         _id: `clubbed-${item.food._id}`,
@@ -493,14 +504,14 @@ export async function POST(req: NextRequest) {
     })
     
     const rearrangedCart = {
-      days: Array.from(groupedByDeliveryDay.values())
+      days: Array.from(cartDisplayGroups.values())
     }
 
     const platformFee = 1.0
     const deliveryFee = 10.0
     const discountAmount = totalSubtotal > 100 ? 10.0 : 5.0
-    const taxes = totalSubtotal * 0.1
-    const totalAmount = totalSubtotal + platformFee + deliveryFee - discountAmount + taxes
+    const taxes = (totalSubtotal * 0.1) + platformFee + deliveryFee // Combine all service fees under taxes
+    const totalAmount = totalSubtotal - discountAmount + taxes
 
     // ✅ STEP 1: Check existing pending order for this user
     let order = await Order.findOne({ user: userId, status: 'pending', paymentStatus: 'unpaid' })
@@ -513,8 +524,6 @@ export async function POST(req: NextRequest) {
       // --- Update order snapshot + totals ---
       order.items = validatedItems
       order.totalPaid = totalAmount
-      order.platformFee = platformFee
-      order.deliveryFee = deliveryFee
       order.discount = { amount: discountAmount, code: 'TRYNEW' }
       order.taxes = taxes
       order.address = addressDetails
@@ -561,8 +570,6 @@ if (['requires_payment_method', 'requires_confirmation', 'requires_action', 'pro
         status: 'pending',
         paymentStatus: 'unpaid',
         paymentMethod: 'Credit Card',
-        platformFee,
-        deliveryFee,
         discount: { amount: discountAmount, code: 'TRYNEW' },
         taxes,
         deliveryMessages: clubbingResult.deliveryMessages,
