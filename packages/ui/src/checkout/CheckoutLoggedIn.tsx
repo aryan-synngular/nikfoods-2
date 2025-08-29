@@ -39,6 +39,7 @@ interface Cart {
   _id: string
   user: string
   days: CartDay[]
+  selectedAddress?: IAddress
 }
 
 interface ICartResponse {
@@ -198,37 +199,9 @@ const CheckoutLoggedIn = ({
             />
 
             <AddressFormContainer mobile={isMobile}>
-              <Selectable
-                size={isMobile ? '$3' : '$4'}
-                value={selectedAddress?._id}
-                title="Saved Address"
-                placeholder="Select an address..."
-                options={addresses?.map((addr) => ({
-                  value: addr._id,
-                  label:
-                    `${addr.location_remark || ''} ${addr.street_address || ''} ${addr.city || ''} ${addr.province || ''} ${addr.postal_code || ''}`.trim(),
-                }))}
-                onValueChange={handleAddressChange}
-              >
-                <Button
-                  borderColor="#FF9F0D"
-                  color="#FF9F0D"
-                  fontWeight="bold"
-                  iconAfter={<Plus color="#FF9F0D" size={isMobile ? 16 : 20} />}
-                  borderWidth={1}
-                  margin="$3"
-                  chromeless
-                  variant="outlined"
-                  size={isMobile ? '$3' : '$4'}
-                  onPress={onAddAddressClick}
-                >
-                  Add Address
-                </Button>
-              </Selectable>
-
-              {selectedAddress && (
-                <YStack space="$3" marginTop="$3">
-                  <Label fontSize={isMobile ? '$3' : '$4'}>Address</Label>
+              {selectedAddress ? (
+                <YStack space="$3">
+                  <Label fontSize={isMobile ? '$3' : '$4'}>Delivery Address</Label>
                   <Input
                     readOnly
                     value={selectedAddress?.street_address || ''}
@@ -244,23 +217,7 @@ const CheckoutLoggedIn = ({
                         size={isMobile ? '$3' : '$4'}
                       />
                     </FormField>
-                    {/* <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Province</Label>
-                      <Input
-                        readOnly
-                        value={selectedAddress?.province || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField> */}
                   </FormRow>
-
-                  {/* <Label fontSize={isMobile ? '$3' : '$4'}>Notes about your order</Label>
-                  <Input
-                    readOnly
-                    value={selectedAddress?.notes || ''}
-                    placeholder="E.g. special notes for delivery"
-                    size={isMobile ? '$3' : '$4'}
-                  /> */}
 
                   <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" marginTop="$4">
                     Personal Details
@@ -297,16 +254,27 @@ const CheckoutLoggedIn = ({
                         size={isMobile ? '$3' : '$4'}
                       />
                     </FormField>
-                    {/* <FormField mobile={isMobile}>
-                      <Label fontSize={isMobile ? '$3' : '$4'}>Location Remark</Label>
-                      <Input
-                        readOnly
-                        placeholder="e.g. home, office"
-                        value={selectedAddress?.location_remark || ''}
-                        size={isMobile ? '$3' : '$4'}
-                      />
-                    </FormField> */}
                   </FormRow>
+                </YStack>
+              ) : (
+                <YStack space="$3" alignItems="center" padding="$4">
+                  <Text fontSize={isMobile ? '$4' : '$5'} color="#666" textAlign="center">
+                    No delivery address selected
+                  </Text>
+                  <Button
+                    borderColor="#FF9F0D"
+                    color="#FF9F0D"
+                    fontWeight="bold"
+                    iconAfter={<Plus color="#FF9F0D" size={isMobile ? 16 : 20} />}
+                    borderWidth={1}
+                    margin="$3"
+                    chromeless
+                    variant="outlined"
+                    size={isMobile ? '$3' : '$4'}
+                    onPress={onAddAddressClick}
+                  >
+                    Add Address
+                  </Button>
                 </YStack>
               )}
             </AddressFormContainer>

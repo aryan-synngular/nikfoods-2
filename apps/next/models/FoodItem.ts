@@ -13,6 +13,9 @@ export interface IFoodItem {
   createdAt?: Date
   updatedAt?: Date
   url?: string
+  isEcoFriendlyContainer?: boolean
+  hasSpiceLevel?: boolean
+  portions?: string[]
 }
 
 const FoodItemSchema: Schema = new Schema(
@@ -26,6 +29,9 @@ const FoodItemSchema: Schema = new Schema(
     available: { type: Boolean, default: true },
     public_id: { type: String, default: '' },
     url: { type: String, default: '' },
+    isEcoFriendlyContainer: { type: Boolean, default: false },
+    hasSpiceLevel: { type: Boolean, default: false },
+    portions: [{ type: String, default: [] }],
   },
   { timestamps: true }
 )

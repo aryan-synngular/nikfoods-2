@@ -17,6 +17,9 @@ const foodItemSchema = z.object({
   url: z.string().optional(),
   isImageUpdated: z.boolean().optional(),
   _id: z.string().optional(),
+  isEcoFriendlyContainer: z.boolean().optional(),
+  hasSpiceLevel: z.boolean().optional(),
+  portions: z.array(z.string()).optional(),
 })
 // --- GET all food items ---
 export async function GET(req: NextRequest) {
@@ -81,6 +84,9 @@ export async function POST(req: NextRequest) {
       available,
       public_id,
       url,
+      isEcoFriendlyContainer,
+      hasSpiceLevel,
+      portions,
     } = parsedData
     console.log(parsedData)
 
@@ -98,6 +104,9 @@ export async function POST(req: NextRequest) {
         veg,
         available,
         url,
+        isEcoFriendlyContainer,
+        hasSpiceLevel,
+        portions,
       })
       console.log(item)
       return NextResponse.json(item, { status: 201 })
@@ -137,6 +146,9 @@ export async function PUT(req: NextRequest) {
       isImageUpdated,
       public_id,
       url,
+      isEcoFriendlyContainer,
+      hasSpiceLevel,
+      portions,
     } = parsedData
     console.log(parsedData)
     try {
@@ -159,7 +171,20 @@ export async function PUT(req: NextRequest) {
 
       const item = await FoodItem.findByIdAndUpdate(
         _id,
-        { name, description, short_description, price, category, veg, available, url, public_id },
+        { 
+          name, 
+          description, 
+          short_description, 
+          price, 
+          category, 
+          veg, 
+          available, 
+          url, 
+          public_id,
+          isEcoFriendlyContainer,
+          hasSpiceLevel,
+          portions,
+        },
         { new: true }
       )
 

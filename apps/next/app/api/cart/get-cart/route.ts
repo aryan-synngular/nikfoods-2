@@ -20,18 +20,23 @@ export async function GET(req: NextRequest) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    let cart = await Cart.findOne({ user: userId }).populate({
-      path: 'days',
-      match: { date: { $gte: today } },
-      populate: {
-        path: 'items',
-        model: CartItem,
+    let cart = await Cart.findOne({ user: userId }).populate([
+      {
+        path: 'days',
+        match: { date: { $gte: today } },
         populate: {
-          path: 'food',
-          model: FoodItem,
+          path: 'items',
+          model: CartItem,
+          populate: {
+            path: 'food',
+            model: FoodItem,
+          },
         },
       },
-    })
+      {
+        path: 'selectedAddress',
+      }
+    ])
 
     console.log('Cart fetched:', cart)
     if (!cart) {

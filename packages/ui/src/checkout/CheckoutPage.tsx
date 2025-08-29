@@ -19,6 +19,7 @@ import { useScreen } from 'app/hook/useScreen'
 import { useAuth } from 'app/provider/auth-context'
 import { Platform } from 'react-native'
 import { useStore } from 'app/src/store/useStore'
+import { apiGetCartAddress } from 'app/services/CartService'
 import { useToast } from '../useToast'
 import AddressPopup from '../popups/AddressPopup'
 import { CartSummaryShimmerLoader } from '../loaders'
@@ -131,30 +132,25 @@ export function CheckoutPage({
 
   // State to track if we're on desktop or mobile
   // const [isMobile, setIsDesktop] = useState<boolean | null>(false)
-  const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
   const [currentStep, setCurrentStep] = useState<'delivery' | 'payment'>('delivery')
-  const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
   const [isLoadingCart, setIsLoadingCart] = useState(true)
-  const [isLoadingAddress, setIsLoadingAddress] = useState(true)
   const [showAddressPopup, setShowAddressPopup] = useState(false)
+  const [isLoadingAddress, setIsLoadingAddress] = useState(true)
   const { showMessage } = useToast()
-  const handleAddressChange = (val) => {
-    setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
-  }
   const [total, setTotal] = useState<{ total: number }>({ total: 0 })
- 
+  
+  const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
 
-  const getAllAddress = useCallback(async () => {
+  const getCartAddress = useCallback(async () => {
     try {
       setIsLoadingAddress(true)
-      const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
-      setAddress(data?.data)
-      if (data?.data?.items.length > 0) {
-        setSelectedAddress(data?.data?.items[0])
+      const data = await apiGetCartAddress<IResponse<{ selectedAddress: IAddress }>>()
+      if (data?.data?.selectedAddress) {
+        setSelectedAddress(data.data.selectedAddress)
       }
     } catch (error) {
-      console.log('Error:', error)
-      showMessage('Error loading addresses', 'error')
+      console.log('Error loading cart address:', error)
+      // Don't show error message as it's optional
     } finally {
       setIsLoadingAddress(false)
     }
@@ -172,9 +168,9 @@ export function CheckoutPage({
   }, [showMessage])
 
   useEffect(() => {
-    getAllAddress()
+    getCartAddress()
     fetchCartData()
-  }, [getAllAddress])
+  }, [getCartAddress])
   // Sample cart data organized by day - in a real app, this would come from props or context
 
   const getTotal = useCallback(async () => {
@@ -197,7 +193,7 @@ export function CheckoutPage({
   // Handle address popup success
   const handleAddressSuccess = () => {
     setShowAddressPopup(false)
-    getAllAddress() // Refetch addresses
+    getCartAddress() // Refetch cart address
     showMessage('Address added successfully!', 'success')
   }
 
@@ -205,7 +201,7 @@ export function CheckoutPage({
   const isCartEmpty = cartTotalAmount == 0
 
   // Handle case when user has no addresses
-  const hasNoAddresses = user && user?.email && (!address?.items || address.items.length === 0)
+  const hasNoAddresses = user && user?.email && !selectedAddress
 
   // Don't render the layout until we know if we're on desktop or mobile
   if ((!isMobile === null && loading) || isLoading) {
@@ -384,9 +380,9 @@ export function CheckoutPage({
                 <ScrollView showsVerticalScrollIndicator={false} height={'100%'} style={{ flex: 1 }}>
                   {user && user?.email ? (
                     <CheckoutLoggedIn
-                      addresses={address?.items ?? []}
+                      addresses={[]}
                       goBack={() => setCurrentStep('delivery')}
-                      handleAddressChange={handleAddressChange}
+                      handleAddressChange={() => {}}
                       selectedAddress={selectedAddress!}
                       currentStep={currentStep}
                       onAddAddressClick={() => setShowAddressPopup(true)}

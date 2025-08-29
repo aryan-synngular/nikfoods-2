@@ -12,6 +12,8 @@ interface CartSummaryProps {
   tax?: number
   buttonTitle: string
   loading?: { itemId: string; change: number }
+  disabled?: boolean
+  disabledMessage?: string
 }
 
 export function CartSummary({
@@ -21,6 +23,8 @@ export function CartSummary({
   deliveryFee = 2.99,
   tax = 0,
   loading = { itemId: '', change: 0 },
+  disabled = false,
+  disabledMessage = '',
 }: CartSummaryProps) {
   const { isMobile, isMobileWeb } = useScreen()
   const { cartTotalAmount } = useStore()
@@ -152,7 +156,7 @@ export function CartSummary({
           onCheckout()
         }}
         style={{
-          backgroundColor: '#FF9F0D',
+          backgroundColor: disabled ? '#CCCCCC' : '#FF9F0D',
           borderRadius: 8,
           height: (isMobile || isMobileWeb)?44:40,
           marginTop: 6,
@@ -169,10 +173,24 @@ export function CartSummary({
             <Spinner color="white" />
           )
         }
-        disabled={loading?.itemId !== '' || loading.change !== 0}
+        disabled={loading?.itemId !== '' || loading.change !== 0 || disabled}
       >
         {buttonTitle}
       </Button>
+
+      {/* Disabled message */}
+      {disabled && disabledMessage && (
+        <Text
+          style={{
+            fontSize: 16,
+            color: '#f55344',
+            textAlign: 'center',
+            marginTop: 4,
+          }}
+        >
+          {disabledMessage}
+        </Text>
+      )}
 
       {/* Credit card acceptance text */}
       <Text

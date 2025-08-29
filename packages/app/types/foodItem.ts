@@ -13,6 +13,9 @@ export interface IFoodItem {
   public_id: string
   createdAt: string
   updatedAt: string
+  isEcoFriendlyContainer?: boolean
+  hasSpiceLevel?: boolean
+  portions?: string[]
 }
 
 export interface IFoodItemsResponse {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { YStack, XStack, Input, Text, Switch, Button, Spinner, TextArea, Label } from 'tamagui'
+import { YStack, XStack, Input, Text, Switch, Button, Spinner, TextArea, Label, ScrollView } from 'tamagui'
 import { MultiSelect } from 'app/components/ui/MultiSelect'
 import { clientEnv } from 'data/env/client'
 import UploadImageButton from './UploadButton'
@@ -32,6 +32,9 @@ export default function EditFoodItemForm({
     url: initialData?.url || '',
     public_id: initialData?.public_id ?? '',
     isImageUpdated: false,
+    isEcoFriendlyContainer: initialData?.isEcoFriendlyContainer ?? false,
+    hasSpiceLevel: initialData?.hasSpiceLevel ?? false,
+    portions: initialData?.portions || [],
   })
 
   const [file, setFile] = useState<File | null>(null)
@@ -49,6 +52,33 @@ export default function EditFoodItemForm({
     if (form.category.length == 0) err += 'Atleast 1 category is required.\n '
     setErrors(err)
     return !err
+  }
+
+  const addPortion = () => {
+    // Only add new portion if the last one is not empty
+    if (form.portions.length === 0 || form.portions[form.portions.length - 1].trim() !== '') {
+      setForm(prev => ({
+        ...prev,
+        portions: [...prev.portions, '']
+      }))
+    }
+  }
+
+  const updatePortion = (index: number, value: string) => {
+    const newPortions = [...form.portions]
+    newPortions[index] = value
+    setForm(prev => ({
+      ...prev,
+      portions: newPortions
+    }))
+  }
+
+  const removePortion = (index: number) => {
+    const newPortions = form.portions.filter((_, i) => i !== index)
+    setForm(prev => ({
+      ...prev,
+      portions: newPortions
+    }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -115,8 +145,9 @@ export default function EditFoodItemForm({
     setForm((prev) => ({ ...prev, category: value as any }))
   }
   return (
-    <form onSubmit={handleSubmit} style={{ width: 500 }}>
-      <YStack style={{ gap: 12 }}>
+    <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{ width: 500, maxHeight: 600 }}>
+      <form onSubmit={handleSubmit}>
+        <YStack style={{ gap: 12 }}>
         <Text style={{ fontWeight: '700', fontSize: 20, marginBottom: 8 }}>
           {initialData?._id ? 'Edit' : 'Add'} Food Item
         </Text>
@@ -172,8 +203,6 @@ export default function EditFoodItemForm({
         <XStack gap={'$10'}>
           <XStack items={'center'} gap={4} mt={'$4'}>
             <Text>{form.veg ? 'Veg:' : 'Non-Veg:'}</Text>
-            {/* <Switch style={{ backgroundColor: form.veg ? '#5FD068' : '#FF7675' }} /> */}
-
             <Switch
               size="$4"
               checked={form.veg}
@@ -185,7 +214,6 @@ export default function EditFoodItemForm({
           </XStack>
           <XStack items={'center'} gap={4} mt={'$4'}>
             <Text>{form.available ? 'Available:' : 'Unavailable:'}</Text>
-
             <Switch
               size="$4"
               checked={form.available}
@@ -196,6 +224,68 @@ export default function EditFoodItemForm({
             </Switch>
           </XStack>
         </XStack>
+        
+        {/* New Fields */}
+        <XStack gap={'$10'}>
+          <XStack items={'center'} gap={4} mt={'$4'}>
+            <Text>{form.isEcoFriendlyContainer ? 'Eco-Friendly Container: Yes' : 'Eco-Friendly Container: No'}</Text>
+            <Switch
+              size="$4"
+              checked={form.isEcoFriendlyContainer}
+              onCheckedChange={(isEcoFriendlyContainer) => setForm((f) => ({ ...f, isEcoFriendlyContainer }))}
+              bg={form.isEcoFriendlyContainer ? '#4caf50' : 'red'}
+            >
+              <Switch.Thumb animation="quick" bg={form.isEcoFriendlyContainer ? 'white' : '#f5f5f5'} />
+            </Switch>
+          </XStack>
+          <XStack items={'center'} gap={4} mt={'$4'}>
+            <Text>{form.hasSpiceLevel ? 'Spice Level: Yes' : 'Spice Level: No'}</Text>
+            <Switch
+              size="$4"
+              checked={form.hasSpiceLevel}
+              onCheckedChange={(hasSpiceLevel) => setForm((f) => ({ ...f, hasSpiceLevel }))}
+              bg={form.hasSpiceLevel ? '#4caf50' : 'red'}
+            >
+              <Switch.Thumb animation="quick" bg={form.hasSpiceLevel ? 'white' : '#f5f5f5'} />
+            </Switch>
+          </XStack>
+        </XStack>
+
+        {/* Portions Section */}
+        <YStack>
+          <Label>Portions Available</Label>
+          <YStack gap={8}>
+            {form.portions.map((portion, index) => (
+              <XStack key={index} gap={8} ai="center">
+                <Input
+                  placeholder="e.g., 100g, 200g, 1 plate"
+                  value={portion}
+                  onChangeText={(value) => updatePortion(index, value)}
+                  style={{ borderColor: '#4F8CFF', backgroundColor: '#F6FAFF', flex: 1 }}
+                />
+                <Button
+                  type="button"
+                  size="$3"
+                  theme="red"
+                  onPress={() => removePortion(index)}
+                  style={{ backgroundColor: '#ff4444', color: 'white' }}
+                >
+                  Remove
+                </Button>
+              </XStack>
+            ))}
+            <Button
+              type="button"
+              size="$3"
+              theme="accent"
+              onPress={addPortion}
+              style={{ backgroundColor: '#4F8CFF', color: 'white', alignSelf: 'flex-start' }}
+            >
+              Add Portion
+            </Button>
+          </YStack>
+        </YStack>
+
         <YStack mt={'$4'}>
           <UploadImageButton
             handleSetFile={(file) => {
@@ -225,5 +315,6 @@ export default function EditFoodItemForm({
         </XStack>
       </YStack>
     </form>
+    </ScrollView>
   )
 }

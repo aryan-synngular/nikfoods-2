@@ -7,6 +7,7 @@ import { CartItemSkeleton } from '../loaders/CartItemSkeleton'
 import { useEffect, useState } from 'react'
 import { useScreen } from 'app/hook/useScreen'
 import { Info } from '@tamagui/lucide-icons'
+import { calculateCartClubbing, DeliveryMessage } from '../utils/cartLogic'
 
 interface CartDaySectionProps {
   day: string
@@ -37,9 +38,7 @@ export function CartDaySection({
 }: CartDaySectionProps) {
   console.log(items)
   console.log(isItemLoading)
-  const [deliveryDay, setDeliveryDay] = useState<string>('') // client-only
-  const [isSameDay, setIsSameDay] = useState<boolean>(false)
-  const [shouldShowDeliveryInfo, setShouldShowDeliveryInfo] = useState<boolean>(false)
+  const [deliveryMessage, setDeliveryMessage] = useState<DeliveryMessage | null>(null)
   const { isMobile, isMobileWeb } = useScreen()
   
   // Day total
@@ -48,48 +47,24 @@ export function CartDaySection({
     0
   )
 
-  // Check if day total is less than minimum cart value
-  const isBelowMinCartValue = minCartValue > 0 && dayTotal < minCartValue
-  const shortfall = minCartValue - dayTotal
-
-  // Calculate delivery day based on minimum cart value logic
-  const calculateDeliveryDay = () => {
-    if (minCartValue === 0) return null
-
-    // Check if current day meets minimum cart value
-    if (dayTotal >= minCartValue) {
-      return new Date(date).toLocaleDateString('en-US', { weekday: 'long' })
-    }
-
-    // Look for future days that meet the minimum cart value
-    for (let i = currentDayIndex + 1; i < allCartDays.length; i++) {
-      const futureDay = allCartDays[i]
-      const futureDayTotal = futureDay.items.reduce(
-        (sum, item) => sum + Number(item?.food?.price) * Number(item.quantity),
-        0
-      )
+  // Calculate delivery message using the new cart clubbing logic
+  useEffect(() => {
+    if (minCartValue > 0 && allCartDays.length > 0) {
+      const cartDaysData = allCartDays.map((cartDay, index) => ({
+        day: cartDay.day,
+        date: cartDay.date,
+        items: cartDay.items,
+        dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * Number(item.quantity), 0)
+      }))
       
-      if (futureDayTotal >= minCartValue) {
-        return new Date(futureDay.date).toLocaleDateString('en-US', { weekday: 'long' })
+      const clubbingResult = calculateCartClubbing(cartDaysData, minCartValue)
+      const dayMessage = clubbingResult.deliveryMessages.find(msg => msg.day === day)
+      
+      if (dayMessage) {
+        setDeliveryMessage(dayMessage)
       }
     }
-
-    // If no future days meet the minimum, don't show delivery info
-    return null
-  }
-
-  // Set delivery day on client after mount
-  useEffect(() => {
-    if (date) {
-      const calculatedDeliveryDay = calculateDeliveryDay()
-      setDeliveryDay(calculatedDeliveryDay || '')
-      setShouldShowDeliveryInfo(!!calculatedDeliveryDay)
-      
-      // Check if it's same day delivery
-      const currentDayName = new Date(date).toLocaleDateString('en-US', { weekday: 'long' })
-      setIsSameDay(calculatedDeliveryDay === currentDayName)
-    }
-  }, [date, day, minCartValue, allCartDays, currentDayIndex, dayTotal])
+  }, [day, minCartValue, allCartDays, dayTotal])
 
   return (
     <YStack
@@ -128,10 +103,10 @@ export function CartDaySection({
           </Text>
         </YStack>
 
-        {shouldShowDeliveryInfo && deliveryDay && (
+        {deliveryMessage && deliveryMessage.color === 'green' && (
           <View
             style={{
-              backgroundColor: isSameDay ? '#e8f5e8' : '#fff4e4',
+              backgroundColor: '#e8f5e8',
               padding: isMobile || isMobileWeb ? 4 : 8,
               borderRadius: isMobile || isMobileWeb ? 4 : 8,
               flexDirection: 'row',
@@ -144,9 +119,53 @@ export function CartDaySection({
             <Text
               fontSize={isMobile || isMobileWeb ? '$2' : '$3'}
               fontWeight="500"
-              color={isSameDay ? '#2d5a2d' : '#f55344'}
+              color="#2d5a2d"
             >
-              {isSameDay ? 'Same day delivery' : `Delivery on ${deliveryDay}`}
+              Same day delivery
+            </Text>
+          </View>
+        )}
+        {deliveryMessage && deliveryMessage.isClubbed && deliveryMessage.color === 'orange' && (
+          <View
+            style={{
+              backgroundColor: '#fff4e4',
+              padding: isMobile || isMobileWeb ? 4 : 8,
+              borderRadius: isMobile || isMobileWeb ? 4 : 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              flexShrink: 1,
+              marginTop: 8,
+            }}
+          >
+            <Text
+              fontSize={isMobile || isMobileWeb ? '$2' : '$3'}
+              fontWeight="500"
+              color="#ff9500"
+            >
+              Delivery on {deliveryMessage.deliveryDay}
+            </Text>
+          </View>
+        )}
+        {deliveryMessage && deliveryMessage.isClubbed && deliveryMessage.color === 'red' && (
+          <View
+            style={{
+              backgroundColor: '#fff4e4',
+              padding: isMobile || isMobileWeb ? 4 : 8,
+              borderRadius: isMobile || isMobileWeb ? 4 : 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              flexShrink: 1,
+              marginTop: 8,
+            }}
+          >
+            <Text
+              fontSize={isMobile || isMobileWeb ? '$2' : '$3'}
+              fontWeight="500"
+              color="#f55344"
+            >
+              Delivery on {deliveryMessage.deliveryDay}
             </Text>
           </View>
         )}
@@ -198,14 +217,15 @@ export function CartDaySection({
           style={{
             fontSize: isMobile || isMobileWeb ? 18 : 20,
             fontWeight: '700',
-            color: isBelowMinCartValue ? '#f55344' : '#000000',
+            color: deliveryMessage?.color === 'red' ? '#f55344' : 
+                   deliveryMessage?.color === 'orange' ? '#ff9500' : '#000000',
           }}
         >
           ${dayTotal?.toFixed(2)}
         </Text>
       </XStack>
       
-      {isBelowMinCartValue && (
+      {deliveryMessage && (deliveryMessage.color === 'red' || deliveryMessage.color === 'orange') && (
         <XStack
           style={{
             paddingHorizontal: isMobile || isMobileWeb ? 8 : 24,
@@ -224,7 +244,7 @@ export function CartDaySection({
               width: 20,
               height: 20,
               borderRadius: 10,
-              backgroundColor: '#f55344',
+              backgroundColor: deliveryMessage.color === 'orange' ? '#ff9500' : '#f55344',
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -235,11 +255,11 @@ export function CartDaySection({
             style={{
               fontSize: isMobile || isMobileWeb ? 12 : 16,
               fontWeight: '500',
-              color: '#f55344',
+              color: deliveryMessage.color === 'orange' ? '#ff9500' : '#f55344',
               flex: 1,
             }}
           >
-            You're ${shortfall.toFixed(2)} short for same-day delivery — add more or get your order on the next delivery.
+            {deliveryMessage.message}
           </Text>
         </XStack>
       )}

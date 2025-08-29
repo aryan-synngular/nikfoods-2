@@ -9,7 +9,7 @@ import { SavingsBanner } from './SavingsBanner'
 import { AddMoreButton } from './AddMoreButton'
 import { DessertDeals } from './DessertDeals'
 import { AppHeader } from '../Header'
-import { apiGetCart, apiUpdateCartItemQuantity } from 'app/services/CartService'
+import { apiGetCart, apiUpdateCartItemQuantity, apiUpdateCartAddress } from 'app/services/CartService'
 import { useLink } from 'solito/navigation'
 import { ICart, ICartResponse } from 'app/types/cart'
 import { useToast } from '../useToast'
@@ -25,6 +25,7 @@ import { IAddress } from 'app/types/user'
 import { IListResponse, IResponse } from 'app/types/common'
 import { apiGetAllAddress } from 'app/services/UserService'
 import Selectable from '../Selectable'
+import { calculateCartClubbing, getCheckoutMessage } from '../utils/cartLogic'
 
 interface CartItemData {
   id: string
@@ -271,10 +272,21 @@ export function CartPage({
       setIsLoading(false)
     }
   }, [])
-
+  
   useEffect(() => {
     getCartData()
   }, [getCartData])
+  
+  const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
+  // Separate effect to handle setting selected address when cart loads
+  useEffect(() => {
+    if (cart?.selectedAddress && address?.items) {
+      const savedAddress = address.items.find(addr => addr._id === cart?.selectedAddress._id)
+      if (savedAddress) {
+        setSelectedAddress(savedAddress)
+      }
+    }
+  }, [cart?.selectedAddress, address?.items])
 
   const totalAmount = useMemo(() => {
     if (!cart?.days || cart.days.length === 0) return 0
@@ -322,16 +334,40 @@ export function CartPage({
   }
 
   const handleCheckout = () => {
-    console.log('Helo')
+    if (!cart?.days || !selectedAddress) return
+    
+    const cartDaysData = cart.days.map((cartDay) => ({
+      day: cartDay.day,
+      date: cartDay.date,
+      items: cartDay.items,
+      dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * item.quantity, 0)
+    }))
+    
+    const clubbingResult = calculateCartClubbing(cartDaysData, selectedAddress.minCartValue || 0)
+    
+    if (!clubbingResult.canCheckout) {
+      showMessage(getCheckoutMessage(cartDaysData, selectedAddress.minCartValue || 0), 'error')
+      return
+    }
+    
+    console.log('Proceeding to checkout')
     checkOutLink.onPress()
   }
   const onAddMoreItems = () => {
     homeLink.onPress()
   }
 
-  const [address, setAddress] = useState<IListResponse<IAddress> | null>(null)
-  const handleAddressChange = (val) => {
-    setSelectedAddress(address?.items.find((addr) => addr._id == val)!)
+  const handleAddressChange = async (val) => {
+    const selectedAddr = address?.items.find((addr) => addr._id == val)!
+    setSelectedAddress(selectedAddr)
+    
+    try {
+      await apiUpdateCartAddress({ addressId: val })
+      showMessage('Address updated successfully', 'success')
+    } catch (error) {
+      console.log('Error updating cart address:', error)
+      showMessage('Failed to update address', 'error')
+    }
   }
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null)
 
@@ -339,7 +375,9 @@ export function CartPage({
     try {
       const data = await apiGetAllAddress<IResponse<IListResponse<IAddress>>>()
       setAddress(data?.data)
-      if (data?.data?.items.length > 0) {
+      
+      // Set the first address as default if no address is selected yet
+      if (data?.data?.items.length > 0 && !selectedAddress) {
         setSelectedAddress(data?.data?.items[0])
       }
     } catch (error) {
@@ -347,7 +385,7 @@ export function CartPage({
       showMessage('Error loading addresses', 'error')
     } finally {
     }
-  }, [])
+  }, [selectedAddress])
   return (
     <YStack
       justify={!isMobile ? 'center' : 'unset'}
@@ -551,6 +589,25 @@ export function CartPage({
                             subtotal={totalAmount}
                             onCheckout={handleCheckout}
                             loading={loading}
+                            disabled={!cart?.days || !selectedAddress ? false : (() => {
+                              const cartDaysData = cart.days.map((cartDay) => ({
+                                day: cartDay.day,
+                                date: cartDay.date,
+                                items: cartDay.items,
+                                dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * item.quantity, 0)
+                              }))
+                              const clubbingResult = calculateCartClubbing(cartDaysData, selectedAddress.minCartValue || 0)
+                              return !clubbingResult.canCheckout
+                            })()}
+                            disabledMessage={!cart?.days || !selectedAddress ? '' : (() => {
+                              const cartDaysData = cart.days.map((cartDay) => ({
+                                day: cartDay.day,
+                                date: cartDay.date,
+                                items: cartDay.items,
+                                dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * item.quantity, 0)
+                              }))
+                              return getCheckoutMessage(cartDaysData, selectedAddress.minCartValue || 0)
+                            })()}
                           />
                         )}
                       </YStack>
@@ -623,6 +680,25 @@ export function CartPage({
                         subtotal={totalAmount}
                         onCheckout={handleCheckout}
                         loading={loading}
+                        disabled={!cart?.days || !selectedAddress ? false : (() => {
+                          const cartDaysData = cart.days.map((cartDay) => ({
+                            day: cartDay.day,
+                            date: cartDay.date,
+                            items: cartDay.items,
+                            dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * item.quantity, 0)
+                          }))
+                          const clubbingResult = calculateCartClubbing(cartDaysData, selectedAddress.minCartValue || 0)
+                          return !clubbingResult.canCheckout
+                        })()}
+                        disabledMessage={!cart?.days || !selectedAddress ? '' : (() => {
+                          const cartDaysData = cart.days.map((cartDay) => ({
+                            day: cartDay.day,
+                            date: cartDay.date,
+                            items: cartDay.items,
+                            dayTotal: cartDay.items.reduce((sum, item) => sum + Number(item?.food?.price) * item.quantity, 0)
+                          }))
+                          return getCheckoutMessage(cartDaysData, selectedAddress.minCartValue || 0)
+                        })()}
                       />
                     )}
                   </YStack>

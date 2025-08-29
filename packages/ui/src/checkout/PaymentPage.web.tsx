@@ -4,7 +4,7 @@ import { useStore } from 'app/src/store/useStore'
 import { apiCreateSecureOrder, apiCheckPaymentStatus } from 'app/services/OrderService'
 import { apiClearCart } from 'app/services/CartService'
 import { useToast } from '../useToast'
-import { MapPin, Plus, CreditCard as CreditCardIcon, Smartphone } from '@tamagui/lucide-icons'
+import { MapPin, Plus, CreditCard as CreditCardIcon, Smartphone, Info } from '@tamagui/lucide-icons'
 import {
   CardElement,
   Elements,
@@ -441,30 +441,66 @@ export default function PaymentPageWeb(props: any) {
     null
   )
   const [completedOrderId, setCompletedOrderId] = useState<string | null>(null)
+  const [deliveryMessages, setDeliveryMessages] = useState<string[]>([])
+  const [rearrangedCart, setRearrangedCart] = useState<any>(null)
+  const [canCheckout, setCanCheckout] = useState<boolean>(true)
+  const [checkoutError, setCheckoutError] = useState<string>('')
   const stripePromise = useMemo(
     () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''),
     []
   )
   useEffect(() => {
     async function initPaymentIntent() {
-      const orderResponse = await apiCreateSecureOrder({
-        deliveryAddress: selectedAddress._id,
-        currency: 'usd',
-      })
-      console.log(orderResponse)
-      if (!orderResponse?.success || !orderResponse?.data?.clientSecret) {
-        throw new Error(orderResponse?.error || 'Failed to create order')
+      try {
+        const orderResponse = await apiCreateSecureOrder({
+          deliveryAddress: selectedAddress._id,
+          currency: 'usd',
+        })
+        console.log(orderResponse)
+        if (!orderResponse?.success) {
+          // Check if it's a minimum order value error
+          if (orderResponse?.canCheckout === false) {
+            setCanCheckout(false)
+            setCheckoutError(orderResponse?.error || 'Minimum order value not met')
+            if (orderResponse?.deliveryMessages) {
+              setDeliveryMessages(orderResponse.deliveryMessages)
+            }
+            return // Don't throw error, just return
+          }
+          
+          // For other errors, throw as usual
+          const errorMessage = orderResponse?.error || 'Failed to create order'
+          showMessag(errorMessage, 'error')
+          throw new Error(errorMessage)
+        }
+        
+        // If we reach here, order was created successfully
+        setCanCheckout(true)
+        setCheckoutError('')
+        setCompletedOrderId(orderResponse.data.orderId)
+        setClientSecret(orderResponse.data.clientSecret) // keep in state
+        setTotalAmount(orderResponse.data.totalAmount)
+        
+        // Set delivery messages if they exist
+        if (orderResponse?.deliveryMessages && orderResponse.deliveryMessages.length > 0) {
+          setDeliveryMessages(orderResponse.deliveryMessages)
+        }
+        
+        // Set rearranged cart if it exists
+        if (orderResponse?.data?.rearrangedCart) {
+          setRearrangedCart(orderResponse.data.rearrangedCart)
+        }
+      } catch (error) {
+        console.error('Error creating order:', error)
       }
-      setCompletedOrderId(orderResponse.data.orderId)
-      setClientSecret(orderResponse.data.clientSecret) // keep in state
-      setTotalAmount(orderResponse.data.totalAmount)
     }
     initPaymentIntent()
   }, [selectedAddress])
 
   const orderCalculations = useMemo(() => {
-    if (!cart?.days) return { subtotal: 0, platformFee: 1.0, deliveryFee: 10.0, taxes: 0, total: 0 }
-    const subtotal = cart.days.reduce(
+    const cartToUse = rearrangedCart || cart
+    if (!cartToUse?.days) return { subtotal: 0, platformFee: 1.0, deliveryFee: 10.0, taxes: 0, total: 0 }
+    const subtotal = cartToUse.days.reduce(
       (acc, day) => acc + day.items.reduce((ia, it) => ia + it.food.price * it.quantity, 0),
       0
     )
@@ -474,7 +510,7 @@ export default function PaymentPageWeb(props: any) {
     const taxes = subtotal * 0.1
     const total = subtotal + platformFee + deliveryFee - discountAmount + taxes
     return { subtotal, platformFee, deliveryFee, discountAmount, taxes, total }
-  }, [cart])
+  }, [cart, rearrangedCart])
 
   return (
     <>
@@ -513,6 +549,12 @@ export default function PaymentPageWeb(props: any) {
         <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="600" mb="$3">
           Order Summary
         </Text>
+        
+        {deliveryMessages.length > 0 && (
+          <Text fontSize="$2" color="#ff9500" mb="$2" fontStyle="italic">
+            Note: Some items have been moved to different delivery days to meet minimum order requirements.
+          </Text>
+        )}
 
         <OrderSummaryRow>
           <Text fontSize={isMobile ? '$3' : '$4'}>Delivery to:</Text>
@@ -531,25 +573,56 @@ export default function PaymentPageWeb(props: any) {
             : 'Address details'}
         </Text>
 
+        {/* Delivery Messages */}
+        {/* {deliveryMessages.length > 0 && (
+          <YStack space="$2" mb="$3" p="$3" backgroundColor="#fff4e4" borderRadius={8}>
+            <XStack alignItems="center" gap="$2">
+              <Info size={16} color="#ff9500" />
+              <Text fontSize="$3" fontWeight="600" color="#ff9500">
+                Delivery Information
+              </Text>
+            </XStack>
+            {deliveryMessages.map((message, index) => (
+              <Text key={index} fontSize="$2" color="#ff9500" pl="$6">
+                {message}
+              </Text>
+            ))}
+          </YStack>
+        )} */}
+
         {/* Cart Items Summary */}
         <YStack space="$2" mb="$3">
-          {cart?.days?.map(
+          {(rearrangedCart?.days || cart?.days)?.map(
             (day) =>
               day.items.length > 0 && (
                 <YStack key={day._id} space="$1">
                   <Text fontSize="$3" fontWeight="600" color="#FF6B00">
                     {day.day} ({new Date(day.date).toLocaleDateString()})
                   </Text>
-                  {day.items.map((item) => (
-                    <XStack key={item._id} justify="space-between" pl="$2">
-                      <Text fontSize="$3" color="#666">
-                        {item.quantity}x {item.food.name}
-                      </Text>
-                      <Text fontSize="$3" color="#666">
-                        ${(item.food.price * item.quantity).toFixed(2)}
-                      </Text>
-                    </XStack>
-                  ))}
+                  {(() => {
+                    // Group items by food ID to combine quantities
+                    const groupedItems = new Map()
+                    day.items.forEach((item) => {
+                      const foodId = item.food._id
+                      if (groupedItems.has(foodId)) {
+                        const existing = groupedItems.get(foodId)
+                        existing.quantity += item.quantity
+                      } else {
+                        groupedItems.set(foodId, { ...item })
+                      }
+                    })
+                    
+                    return Array.from(groupedItems.values()).map((item) => (
+                      <XStack key={item._id} justify="space-between" pl="$2">
+                        <Text fontSize="$3" color="#666">
+                          {item.quantity}x {item.food.name}
+                        </Text>
+                        <Text fontSize="$3" color="#666">
+                          ${(item.food.price * item.quantity).toFixed(2)}
+                        </Text>
+                      </XStack>
+                    ))
+                  })()}
                 </YStack>
               )
           )}
@@ -559,7 +632,7 @@ export default function PaymentPageWeb(props: any) {
         <YStack space="$1" pt="$2" borderTopWidth={1} borderTopColor="#EDEDED">
           <XStack justify="space-between">
             <Text fontSize="$3">Subtotal:</Text>
-            <Text fontSize="$3">${orderCalculations?.subtotal?.toFixed(2)}</Text>
+            <Text fontSize="$3">${orderCalculations.subtotal.toFixed(2)}</Text>
           </XStack>
           <XStack justify="space-between">
             <Text fontSize="$3">Platform Fee:</Text>
@@ -586,13 +659,41 @@ export default function PaymentPageWeb(props: any) {
               Final Total:
             </Text>
             <Text fontSize={isMobile ? '$4' : '$5'} fontWeight="bold" color="#FF6B00">
-              ${cartTotalAmount + 31 - 10 + 1}
+              ${orderCalculations.total.toFixed(2)}
             </Text>
           </XStack>
         </YStack>
       </PaymentCard>
 
-      {clientSecret && (
+      {!canCheckout ? (
+        // Show error message when checkout is not allowed
+        <YStack space="$4" p="$4" backgroundColor="#fef2f2" borderRadius={8} borderWidth={1} borderColor="#fecaca">
+          <XStack alignItems="center" gap="$2">
+            <Text fontSize="$4" fontWeight="600" color="#dc2626">
+              Order Cannot Be Completed
+            </Text>
+          </XStack>
+          <Text fontSize="$3" color="#dc2626">
+            {checkoutError}
+          </Text>
+          {deliveryMessages.length > 0 && (
+            <YStack space="$2">
+              <Text fontSize="$3" fontWeight="600" color="#dc2626">
+                Delivery Information:
+              </Text>
+              {deliveryMessages.map((message, index) => (
+                <Text key={index} fontSize="$2" color="#dc2626" pl="$2">
+                  • {message}
+                </Text>
+              ))}
+            </YStack>
+          )}
+          <Text fontSize="$3" color="#dc2626" fontStyle="italic">
+            Please add more items to your cart to meet the minimum order requirement.
+          </Text>
+        </YStack>
+      ) : clientSecret ? (
+        // Show payment methods when checkout is allowed
         <Elements stripe={stripePromise} options={{ clientSecret: clientSecret }}>
           <PaymentFormInner
             orderCalculations={orderCalculations}
@@ -604,6 +705,13 @@ export default function PaymentPageWeb(props: any) {
             totalAmount={totalAmount}
           />
         </Elements>
+      ) : (
+        // Show loading state
+        <YStack space="$4" p="$4" alignItems="center">
+          <Text fontSize="$3" color="#6b7280">
+            Preparing payment...
+          </Text>
+        </YStack>
       )}
 
       {/* Payment Status Popup */}
